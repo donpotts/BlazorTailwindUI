@@ -159,6 +159,26 @@ The centralized [`FormCatalogService`](Services/FormCatalogService.cs) provides 
 
 ---
 
+## 🎬 1080p Video Masterclass & Interactive Tour
+
+Blazor Tailwind UI includes a full 1080p masterclass coaching video (`wwwroot/videos/demo-video.mp4`, 2m 52s) directly embedded in the showcase and playable offline:
+
+| Chapter | Time | Title | Key Architectural Highlights |
+|---|---|---|---|
+| **0** | `0:00` | **Intro & Architecture** | .NET 11 WebAssembly, 137 native controls, zero runtime CDNs |
+| **1** | `0:15` | **Adaptive Generative UI (AGUI)** | Dynamic UI synthesis, dual-plane tool dispatching, real-time latency meters |
+| **2** | `0:33` | **Smart Components Suite** | Smart Paste entity extractor, ghost text autocomplete, semantic search |
+| **3** | `0:52` | **100 Web Dev Forms Library** | Dynamic JSON/C# schema engine across 10 functional domains |
+| **4** | `1:08` | **Enterprise Business Operations** | Flagship Annual Plan, P&L waterfalls, Employee Awards, Party RSVP |
+| **5** | `1:26` | **Developer Studio Suite** | Multi-pane Dock Manager, formula Spreadsheet, Org Chart, Markdown editor |
+| **6** | `1:41` | **Financial Intelligence** | Candlestick charting with MA20 & volume, Treemaps, OLAP Pivot Grids |
+| **7** | `1:55` | **Vector Icon & Emoji Studio** | 100+ SVG paths, emoji shortcodes, outline/solid toggles, Razor generator |
+| **8** | `2:09` | **DataGrid & SVG Charts** | Sub-millisecond sorting, per-column filters, mobile cards, 60fps SVG charts |
+| **9** | `2:23` | **Barcodes & Signatures** | QR generator, Code 128 barcodes, camera scanner, Bezier signature pad |
+| **10** | `2:36` | **Open Source Release** | Light/dark mode verification, zero prohibited brand names, MIT license |
+
+---
+
 ## 🚀 Quick Start Guide
 
 ### Prerequisites

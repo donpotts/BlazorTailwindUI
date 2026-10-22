@@ -92,7 +92,102 @@ External JS charting libraries (Chart.js, Highcharts, ApexCharts) add 300KB–1M
 
 ---
 
-## 5. Summary Checklist for Production Readiness
+## 5. HyperFrames 1080p Video Masterclass Syllabus
+
+The included interactive training video (`wwwroot/videos/demo-video.mp4`, 2m 52s) features 11 synchronized chapters with voice narration and chapter seeking:
+
+| # | Start Time | Chapter Title | Badge | Key Architectural Concepts Covered |
+|---|------------|---------------|-------|-----------------------------------|
+| 0 | `0:00` (0.0s) | Intro & Architecture | `.NET 11 WASM` | Zero-CDN standalone architecture, 137 native controls, mobile-first design. |
+| 1 | `0:15` (15.5s) | Adaptive Generative UI (AGUI) | `AGUI Engine` | Dynamic widget synthesis, dual-plane tool dispatching, real-time latency monitoring. |
+| 2 | `0:33` (33.3s) | Smart Components Suite | `Smart Controls` | Smart Paste with entity extraction, ghost text autocomplete, semantic search & filters. |
+| 3 | `0:52` (52.1s) | 100 Web Dev Forms Library | `100 Forms` | Dynamic schema form engine, 10 functional domains, one-click C# code generation. |
+| 4 | `1:08` (68.4s) | Flagship Business Operations | `Enterprise Ops` | Company Plan sliders, P&L statement waterfalls, Employee Awards, Party RSVP. |
+| 5 | `1:26` (86.2s) | Developer Studio Suite | `Developer IDE` | Multi-pane Dock Manager, formula Spreadsheet, Org Chart, Markdown & HTML editor. |
+| 6 | `1:41` (101.2s) | Financial Intelligence | `Market Intel` | Candlestick charting with MA20 & volume, Squarified Treemaps, OLAP Pivot Grids. |
+| 7 | `1:55` (115.1s) | Vector Icon & Emoji Studio | `Vector Studio` | 100+ SVG paths, emoji shortcodes, outline/solid toggles, Razor generator. |
+| 8 | `2:09` (128.8s) | Enterprise DataGrid & SVG Charts | `Enterprise Data` | Sub-millisecond sorting, per-column filters, mobile cards, 60fps SVG charts. |
+| 9 | `2:23` (142.9s) | Barcodes & Signatures | `Hardware Interop` | QR generator, Code 128 barcodes, camera scanner, Bezier signature pad. |
+| 10 | `2:36` (156.0s) | Production Ready & Open Source | `MIT Open Source` | Light/dark mode verification, zero prohibited brand names, MIT license. |
+
+---
+
+## 6. Adaptive Generative UI (AGUI) & Dual-Plane Tool Calling
+
+### Architecture Overview
+Blazor Tailwind UI provides an **Adaptive Generative UI (AGUI)** engine that parses dynamic declarative schemas into interactive Blazor components at runtime:
+- **`TwAguiCanvas`**: Parses an `AguiWidgetSchema` and renders live interactive cards, metric counters, form controls, charts, and action buttons.
+- **`TwAguiStudio`**: Provides a split-pane developer workbench with natural language prompt execution, live latency traces, and Razor markup export.
+- **Dual-Plane Execution**:
+  - **Frontend WASM Tools** (`ToolSource.FrontendWasm`): Execute in-memory on the client WebAssembly thread (e.g., UI theme toggling, confetti bursts, client-side notifications, form model hydration) with sub-millisecond execution times (<5ms).
+  - **Backend API Tools** (`ToolSource.BackendApi`): Execute against cloud infrastructure endpoints (e.g., quota checks, financial tickers, security audits, database queries) with realistic network latency telemetry.
+
+### Registering Custom Tools
+```csharp
+// Register in Dependency Injection via AgenticToolRegistry:
+var registry = new AgenticToolRegistry();
+
+registry.RegisterTool(new AgentToolDefinition
+{
+    Name = "custom_inventory_lookup",
+    Description = "Look up warehouse inventory count for a given SKU",
+    Category = "Operations",
+    Source = ToolSource.BackendApi,
+    Parameters = new()
+    {
+        new("sku", "string", "Product SKU code", IsRequired: true)
+    },
+    Executor = async (args) =>
+    {
+        var sku = args.GetValueOrDefault("sku")?.ToString() ?? "";
+        return new Dictionary<string, object>
+        {
+            ["sku"] = sku,
+            ["in_stock"] = 1420,
+            ["warehouse"] = "US-West-Primary"
+        };
+    }
+});
+```
+
+---
+
+## 7. Smart Components Suite
+
+The library includes four drop-in AI-enhanced smart components:
+
+1. **`TwSmartPasteButton`**:
+   - Analyzes pasted clipboard text or receipts and extracts structured entities (names, emails, amounts, dates, line items) into strongly-typed form models.
+   - Displays confidence scores for each extracted field before writing to the model.
+2. **`TwSmartTextArea`**:
+   - Provides predictive ghost-text completion (`Tab` to accept).
+   - Instant tone re-writing (*Executive, Technical, Concise, Friendly*).
+3. **`TwSmartSearch`**:
+   - Semantic vector search bar with cosine similarity ranking.
+4. **`TwSmartFilter`**:
+   - Translates natural language queries (e.g., *"Show active enterprise accounts with ARR over $50k"*) into strongly-typed DataGrid filter predicates.
+
+---
+
+## 8. 100 Most Used Web Dev Forms Library
+
+The `FormCatalogService` provides 100 production-ready form schemas grouped into 10 industry domains:
+1. **Authentication & Identity** (Login, MFA, Passkey, OAuth Consent...)
+2. **Billing & Subscriptions** (Checkout, Tier Upgrade, Payment Methods...)
+3. **Customer Support** (Ticket submission, Feedback, RMA, Knowledgebase...)
+4. **Human Resources** (Job Application, Time-Off, Performance Review...)
+5. **Healthcare & Medical** (Patient Intake, HIPAA Consent, Telehealth...)
+6. **Finance & Banking** (Loan Application, Wire Transfer, Tax Exemption...)
+7. **Legal & Compliance** (GDPR Data Request, NDA, IP Assignment...)
+8. **Real Estate** (Lease Agreement, Maintenance Request, Property Valuation...)
+9. **Event Management** (Conference Registration, RSVP, Speaker Proposal...)
+10. **Operations & Logistics** (Work Order, Shipping Manifest, Safety Audit...)
+
+Every form includes schema definition, validation rules, live preview, and one-click copyable C# Blazor code.
+
+---
+
+## 9. Summary Checklist for Production Readiness
 
 - [x] All touch targets >= 44px.
 - [x] Safe-area insets configured on mobile bars.
@@ -100,3 +195,5 @@ External JS charting libraries (Chart.js, Highcharts, ApexCharts) add 300KB–1M
 - [x] Local Tailwind CLI compiled and minified (`npm run build:css`).
 - [x] Zero commercial third-party brand dependencies.
 - [x] Dark mode verified with zero white flashes on page reload.
+- [x] Full 1080p HyperFrames Masterclass Video (172s, 11 chapters) embedded and seekable.
+- [x] Over 137 native Blazor components verified and documented.
