@@ -470,7 +470,6 @@
     public async Task HandleFormSubmit()
     {
         _isSubmitting = true;
-        StateHasChanged();
         await Task.Delay(200); // UI feedback
 
         var isValid = Validate();
@@ -490,7 +489,6 @@
             await OnSubmit.InvokeAsync(result);
         }
         _isSubmitting = false;
-        StateHasChanged();
     }
 
     public Dictionary<string, object?> GetValues() => new(_values);
@@ -519,7 +517,6 @@
         _isSubmitted = false;
         _submissionMessage = null;
         InitializeDefaults();
-        StateHasChanged();
     }
 
     public async Task SubmitAsync()

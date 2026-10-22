@@ -75,8 +75,13 @@
     {
         if (firstRender)
         {
-            _dotNetRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("blazorImageCompare.init", _containerRef, _dotNetRef, Position);
+            try
+            {
+                _dotNetRef = DotNetObjectReference.Create(this);
+                await JS.InvokeVoidAsync("blazorImageCompare.init", _containerRef, _dotNetRef, Position);
+            }
+            catch (Exception)
+            { }
         }
     }
 
@@ -117,7 +122,12 @@
         }
 
         Position = newPos;
-        await JS.InvokeVoidAsync("blazorImageCompare.setPosition", _containerRef, Position);
+        try
+        {
+            await JS.InvokeVoidAsync("blazorImageCompare.setPosition", _containerRef, Position);
+        }
+        catch (Exception)
+        { }
         if (PositionChanged.HasDelegate)
         {
             await PositionChanged.InvokeAsync(Position);

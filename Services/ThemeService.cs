@@ -26,42 +26,53 @@ public sealed class ThemeService : IAsyncDisposable
     {
         if (_initialized) return;
 
-        _dotNetRef = DotNetObjectReference.Create(this);
-        var state = await _jsRuntime.InvokeAsync<ThemeInitState>("blazorTheme.init", _dotNetRef);
+        try
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+            var state = await _jsRuntime.InvokeAsync<ThemeInitState>("blazorTheme.init", _dotNetRef);
 
-        CurrentMode = state.Mode?.ToLowerInvariant() switch
-        {
-            "light" => ThemeMode.Light,
-            "dark" => ThemeMode.Dark,
-            _ => ThemeMode.System
-        };
-
-        CustomHex = state.CustomHex;
-        if (!string.IsNullOrEmpty(state.CustomHex))
-        {
-            // Custom hex active
-            CurrentAccent = AccentTheme.Indigo;
-        }
-        else
-        {
-            CurrentAccent = state.Accent?.ToLowerInvariant() switch
+            CurrentMode = state.Mode?.ToLowerInvariant() switch
             {
-                "emerald" => AccentTheme.Emerald,
-                "rose" => AccentTheme.Rose,
-                "amber" => AccentTheme.Amber,
-                "violet" => AccentTheme.Violet,
-                "sky" => AccentTheme.Sky,
-                "cyan" => AccentTheme.Cyan,
-                "teal" => AccentTheme.Teal,
-                "fuchsia" => AccentTheme.Fuchsia,
-                "pink" => AccentTheme.Pink,
-                "orange" => AccentTheme.Orange,
-                "slate" => AccentTheme.Slate,
-                _ => AccentTheme.Indigo
+                "light" => ThemeMode.Light,
+                "dark" => ThemeMode.Dark,
+                _ => ThemeMode.System
             };
+
+            CustomHex = state.CustomHex;
+            if (!string.IsNullOrEmpty(state.CustomHex))
+            {
+                // Custom hex active
+                CurrentAccent = AccentTheme.Indigo;
+            }
+            else
+            {
+                CurrentAccent = state.Accent?.ToLowerInvariant() switch
+                {
+                    "emerald" => AccentTheme.Emerald,
+                    "rose" => AccentTheme.Rose,
+                    "amber" => AccentTheme.Amber,
+                    "violet" => AccentTheme.Violet,
+                    "sky" => AccentTheme.Sky,
+                    "cyan" => AccentTheme.Cyan,
+                    "teal" => AccentTheme.Teal,
+                    "fuchsia" => AccentTheme.Fuchsia,
+                    "pink" => AccentTheme.Pink,
+                    "orange" => AccentTheme.Orange,
+                    "slate" => AccentTheme.Slate,
+                    _ => AccentTheme.Indigo
+                };
+            }
+
+            IsDarkEffective = state.IsDark;
+        }
+        catch (Exception)
+        {
+            // Prerender or unmounted fallback
+            CurrentMode = ThemeMode.System;
+            CurrentAccent = AccentTheme.Indigo;
+            IsDarkEffective = false;
         }
 
-        IsDarkEffective = state.IsDark;
         _initialized = true;
         NotifyStateChanged();
     }
@@ -70,7 +81,14 @@ public sealed class ThemeService : IAsyncDisposable
     {
         CurrentMode = mode;
         var modeStr = mode.ToString().ToLowerInvariant();
-        IsDarkEffective = await _jsRuntime.InvokeAsync<bool>("blazorTheme.setMode", modeStr);
+        try
+        {
+            IsDarkEffective = await _jsRuntime.InvokeAsync<bool>("blazorTheme.setMode", modeStr);
+        }
+        catch (Exception)
+        {
+            IsDarkEffective = mode == ThemeMode.Dark;
+        }
         NotifyStateChanged();
     }
 
@@ -90,7 +108,14 @@ public sealed class ThemeService : IAsyncDisposable
         CurrentAccent = accent;
         CustomHex = null;
         var accentStr = accent.ToString().ToLowerInvariant();
-        await _jsRuntime.InvokeVoidAsync("blazorTheme.setAccent", accentStr);
+        try
+        {
+            await _jsRuntime.InvokeVoidAsync("blazorTheme.setAccent", accentStr);
+        }
+        catch (Exception)
+        {
+            // Interop fallback
+        }
         NotifyStateChanged();
     }
 
@@ -98,7 +123,14 @@ public sealed class ThemeService : IAsyncDisposable
     {
         if (string.IsNullOrWhiteSpace(hex)) return;
         CustomHex = hex;
-        await _jsRuntime.InvokeVoidAsync("blazorTheme.setCustomAccent", hex);
+        try
+        {
+            await _jsRuntime.InvokeVoidAsync("blazorTheme.setCustomAccent", hex);
+        }
+        catch (Exception)
+        {
+            // Interop fallback
+        }
         NotifyStateChanged();
     }
 

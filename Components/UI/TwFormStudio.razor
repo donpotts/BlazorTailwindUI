@@ -292,7 +292,14 @@
     {
         if (_selectedSchema != null)
         {
-            await JS.InvokeVoidAsync("navigator.clipboard.writeText", GenerateRazorCode(_selectedSchema));
+            try
+            {
+                await JS.InvokeVoidAsync("navigator.clipboard.writeText", GenerateRazorCode(_selectedSchema));
+            }
+            catch (Exception)
+            {
+                // Clipboard fallback
+            }
         }
     }
 }

@@ -235,20 +235,20 @@
     private AguiWidgetSchema? _currentWidget;
     private string _smartTextValue = "Our distributed stream processing pipeline reduced cluster memory allocation by 45 percent.";
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        LoadScenario("cloud");
+        await LoadScenario("cloud");
     }
 
-    private void HandlePromptKeyDown(KeyboardEventArgs e)
+    private async Task HandlePromptKeyDown(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
-            ExecuteAgenticPrompt();
+            await ExecuteAgenticPrompt();
         }
     }
 
-    private void LoadScenario(string key)
+    private async Task LoadScenario(string key)
     {
         switch (key)
         {
@@ -268,13 +268,12 @@
                 _promptInput = "Trigger frontend celebration tool call with 120 canvas physics confetti particles";
                 break;
         }
-        ExecuteAgenticPrompt();
+        await ExecuteAgenticPrompt();
     }
 
-    private async void ExecuteAgenticPrompt()
+    private async Task ExecuteAgenticPrompt()
     {
         _isGenerating = true;
-        StateHasChanged();
 
         var prompt = _promptInput.ToLowerInvariant();
         var trace = new AgenticExecutionTrace
@@ -429,7 +428,6 @@
         _currentExecution = trace;
 
         _isGenerating = false;
-        StateHasChanged();
     }
 
     private void HandleAguiAction(AguiActionItem action)
@@ -440,14 +438,14 @@
         }
         else if (action.Id == "more_confetti")
         {
-            LoadScenario("party");
+            _ = LoadScenario("party");
         }
     }
 
-    private void HandleSmartSearchSubmit(string query)
+    private async Task HandleSmartSearchSubmit(string query)
     {
         _promptInput = query;
-        ExecuteAgenticPrompt();
+        await ExecuteAgenticPrompt();
     }
 
     private void HandleSmartFilterChange(Dictionary<string, string> chips)
@@ -462,7 +460,14 @@
 
     private async Task CopyCSharpSnippet()
     {
-        await JS.InvokeVoidAsync("navigator.clipboard.writeText", GetCSharpSnippet());
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", GetCSharpSnippet());
+        }
+        catch (Exception)
+        {
+            // Clipboard fallback
+        }
         Toast.Show("Code Copied", "C# .NET 11 tool calling snippet copied to clipboard.", SemanticVariant.Success);
     }
 

@@ -251,7 +251,6 @@
     {
         IsOpen = false;
         await IsOpenChanged.InvokeAsync(false);
-        StateHasChanged();
     }
 
     public async ValueTask DisposeAsync()
