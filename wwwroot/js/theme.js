@@ -949,22 +949,53 @@ window.blazorCelebration = {
                 }
             });
         } else if (style === 'emojis' || style === 'reactions') {
-            const emojis = opts.emojis || ['❤️', '🔥', '🚀', '🎉', '⭐', '🏆', '💎', '👏'];
+            const emojis = opts.emojis || ['❤️', '🔥', '🚀', '🎉', '⭐', '🏆', '💎', '👏', '🥳', '✨'];
+            const fontSizes = [22, 26, 30, 34];
+            const staggerDuration = Math.min(80, Math.max(35, Math.floor(count * 0.45)));
+
             for (let i = 0; i < count; i++) {
+                const size = fontSizes[Math.floor(Math.random() * fontSizes.length)];
+
+                // If custom origin is specified and not dead center, cluster around origin, else distribute smoothly across width
+                const spreadCenter = (opts.x !== undefined && (opts.x < 0.4 || opts.x > 0.6))
+                    ? startX + (Math.random() - 0.5) * Math.min(width * 0.4, 300)
+                    : width * (0.12 + Math.random() * 0.76);
+
+                // Start near bottom or from startY if set lower down
+                const spawnY = (opts.y && opts.y > 0.65)
+                    ? startY + (Math.random() - 0.5) * 40
+                    : height * 0.94 + Math.random() * 35;
+
+                // Gentle upward buoyant velocity (-1.5 to -3.2 px/frame)
+                const vy = -(1.5 + Math.random() * 1.7);
+
+                // True harmonic sway parameters
+                const swayAmp = 14 + Math.random() * 22;
+                const swayFreq = 0.025 + Math.random() * 0.022;
+                const phase = Math.random() * Math.PI * 2;
+                const driftX = (Math.random() - 0.5) * 0.35;
+
+                // Stagger spawn delay across the batch for smooth flowing stream
+                const delay = Math.floor((i / count) * staggerDuration) + Math.floor(Math.random() * 6);
+
                 particles.push({
                     type: 'emoji',
                     emoji: emojis[Math.floor(Math.random() * emojis.length)],
-                    x: width * (0.15 + Math.random() * 0.7),
-                    y: height * 0.95 + Math.random() * 40,
-                    vx: (Math.random() - 0.5) * 1.5,
-                    vy: -(2.5 + Math.random() * 4.5),
-                    size: 22 + Math.random() * 14,
-                    swayOffset: Math.random() * Math.PI * 2,
-                    swaySpeed: 0.04 + Math.random() * 0.04,
-                    swayWidth: 20 + Math.random() * 30,
+                    baseX: spreadCenter,
+                    x: spreadCenter,
+                    y: spawnY,
+                    vy: vy,
+                    driftX: driftX,
+                    swayAmp: swayAmp,
+                    swayFreq: swayFreq,
+                    phase: phase,
+                    size: size,
+                    font: `${size}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`,
                     opacity: 1,
-                    decay: 0.009 + Math.random() * 0.012,
-                    scale: 0.4
+                    lifeOpacity: 1,
+                    decay: 0.005 + Math.random() * 0.006,
+                    scale: 0.25,
+                    delay: delay
                 });
             }
         } else if (style === 'coins') {
@@ -1082,18 +1113,40 @@ window.blazorCelebration = {
                     ctx.fill();
                     ctx.restore();
                 } else if (p.type === 'emoji') {
-                    p.x += Math.sin(tick * p.swaySpeed + p.swayOffset) * 1.5;
+                    p.phase += p.swayFreq;
+                    p.baseX += p.driftX;
+                    p.x = p.baseX + Math.sin(p.phase) * p.swayAmp;
                     p.y += p.vy;
-                    p.opacity -= p.decay;
-                    if (p.scale < 1.0) p.scale += 0.08;
 
-                    ctx.save();
-                    ctx.globalAlpha = Math.max(0, p.opacity);
-                    ctx.font = `${Math.round(p.size * p.scale)}px sans-serif`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(p.emoji, p.x, p.y);
-                    ctx.restore();
+                    // Smooth pop-in scale
+                    if (p.scale < 1.0) {
+                        p.scale = Math.min(1.0, p.scale + 0.05);
+                    }
+
+                    // Natural decay & graceful ceiling fade
+                    p.lifeOpacity -= p.decay;
+                    let currentAlpha = p.lifeOpacity;
+
+                    // Fade out as it nears the top 22% of canvas
+                    if (p.y < height * 0.22) {
+                        const topFade = Math.max(0, p.y / (height * 0.22));
+                        currentAlpha = Math.min(currentAlpha, topFade);
+                    }
+                    p.opacity = currentAlpha;
+
+                    if (p.opacity > 0 && p.y > -50) {
+                        ctx.save();
+                        ctx.globalAlpha = Math.max(0, Math.min(1, p.opacity));
+                        ctx.translate(p.x, p.y);
+                        if (p.scale < 0.98) {
+                            ctx.scale(p.scale, p.scale);
+                        }
+                        ctx.font = p.font;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(p.emoji, 0, 0);
+                        ctx.restore();
+                    }
                 } else if (p.type === 'coin') {
                     p.x += p.vx;
                     p.y += p.vy;
