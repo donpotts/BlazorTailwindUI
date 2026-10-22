@@ -30,8 +30,9 @@ public class ComponentCatalogService
             Parameters = new List<ComponentParameterDoc>
             {
                 new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes."),
-                new ComponentParameterDoc("Prizes", "List<PrizeWedge>", "Default 8 wedges", "List of prize wedges with titles, emojis, colors, and descriptions."),
-                new ComponentParameterDoc("OnPrizeWon", "EventCallback<PrizeWedge>", "null", "Fired upon completion of deceleration on the winning wedge.")
+                new ComponentParameterDoc("Title", "string", "\"Spin to Win!\"", "Component header title."),
+                new ComponentParameterDoc("Prizes", "List<PrizeItem>", "Default 8 wedges", "List of prize wedges with titles, emojis, colors, and descriptions (inspired by MyWheel)."),
+                new ComponentParameterDoc("OnPrizeWon", "EventCallback<PrizeItem>", "null", "Fired upon completion of deceleration on the winning wedge.")
             }
         },
         new ComponentDocItem
