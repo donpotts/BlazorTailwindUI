@@ -235,9 +235,25 @@ Open your browser and navigate to `http://localhost:5128` (or the URL printed to
 
 ## 📚 Complete Documentation Suite
 
+- **[docs/ROADMAP.md](docs/ROADMAP.md)**: Official product roadmap, component blueprints, and upcoming milestone deliverables.
 - **[docs/COMPONENT_CATALOG.md](docs/COMPONENT_CATALOG.md)**: Exhaustive API specifications, parameter tables, defaults, and Razor markup examples for all **137 components**.
 - **[docs/DEVELOPER_COACHING.md](docs/DEVELOPER_COACHING.md)**: Mobile-first architectural best practices, 44px minimum tap targets, zero-FOUC theme synchronization, and WCAG AA compliance.
 - **[docs/HELP_AND_GUIDE.md](docs/HELP_AND_GUIDE.md)**: Keyboard shortcuts reference (`Ctrl+K` Command Palette), global recipes, and troubleshooting FAQ.
+
+---
+
+## 🗺️ Product Roadmap & Upcoming Innovations
+
+Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md)**:
+
+| Milestone | Feature Pillar | Target Component(s) | Architectural Focus |
+|:---:|---|---|---|
+| **v1.1.0** | **Media Recorder / Player** | `TwMediaRecorder`, `TwVoiceRecorder`, `TwScreenCapture` | Native browser webcam/microphone recording via MediaRecorder API, live audio visualizer, screen capture with PiP. |
+| **v1.1.0** | **Multi-Factor Auth (MFA) Methods** | `TwMfaAuthSuite`, `TwTotpSetup`, `TwOtpInput`, `TwPasskeyAuth` | TOTP authenticator QR codes, auto-advancing 6-digit OTP PIN boxes, FIDO2/WebAuthn Passkeys, and backup emergency recovery codes. |
+| **v1.2.0** | **ScrollCraft Object Animation to Content** | `TwScrollCraft`, `TwScrollTrack`, `TwScrollSection` | Scroll-driven parallax, path morphing, and pinned illustration scrubbers linked to viewport intersection. |
+| **v1.2.0** | **Celebration Animations Editor** | `TwCelebrationEditor`, `TwParticleCanvas` | Visual sandbox for designing confetti bursts, custom particle shapes, velocity/spread physics sliders, and Razor code export. |
+| **v1.3.0** | **Celebration Randomizer (Morale Giveaways)** | `TwPrizeWheel`, `TwPrizeBox`, `TwGiveawayCard` | Spinning prize wheel, lucky draw cards, and loot box unlockers for team morale, all-hands town halls, and company parties. |
+| **v1.3.0** | **Rewards Center for Common Offerings** | `TwRewardsCenter`, `TwRewardCard`, `TwRedemptionModal` | Employee rewards portal: gift cards, branded company swag, floating PTO passes, learning stipends, and spot bonus redemption. |
 
 ---
 
