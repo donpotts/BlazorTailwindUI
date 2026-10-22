@@ -3130,3 +3130,144 @@ Fixed container managing reactive floating toast alert notifications.
 
 ---
 
+## 🚀 Roadmap Innovations & Morale Suite (v1.1.0 Quick Wins)
+
+### `TwPrizeWheel`
+
+**Location:** [`Components/UI/TwPrizeWheel.razor`](../Components/UI/TwPrizeWheel.razor)
+
+Interactive SVG spinning fortune wheel designed for agile team sprint retrospectives, all-hands town halls, and team morale prize giveaways. Features cubic-bezier deceleration physics, audio tick sound effects, confetti particle bursts, and customizable prize sectors.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Prizes` | `List<TwPrizeWheel.PrizeItem>?` | `Default 8 Prizes` | Sectors with titles, emojis, colors, and descriptions. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `OnPrizeWon` | `EventCallback<TwPrizeWheel.PrizeItem>` | `null` | Fired when the wheel finishes spinning and lands on a slice. |
+
+#### Razor Usage Example
+
+```razor
+<TwPrizeWheel OnPrizeWon="HandlePrizeWon" />
+
+@code {
+    private void HandlePrizeWon(TwPrizeWheel.PrizeItem prize)
+    {
+        Console.WriteLine($"Winner! {prize.Emoji} {prize.Title}");
+    }
+}
+```
+
+---
+
+### `TwCelebrationEditor`
+
+**Location:** [`Components/UI/TwCelebrationEditor.razor`](../Components/UI/TwCelebrationEditor.razor)
+
+Visual particle physics calibration sandbox. Lets developers and designers adjust confetti count, blast velocity, spread angle, gravity decay, and particle shapes (ribbons, sparkles, stars, balloons, coins) live in HTML5 Canvas, with 1-click Razor markup and C# trigger code export.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwCelebrationEditor />
+```
+
+---
+
+### `TwRewardsCenter`
+
+**Location:** [`Components/UI/TwRewardsCenter.razor`](../Components/UI/TwRewardsCenter.razor)
+
+Employee perks & recognition marketplace. Displays points wallet balance, multi-category filtering (All, Tech, Food, Wellness, Time Off, Learning), instant search, and a digital voucher modal with verification codes and barcode display upon redemption.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `InitialBalance` | `int` | `1250` | Initial employee points balance. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `OnVoucherRedeemed` | `EventCallback<TwRewardsCenter.RewardOffer>` | `null` | Event callback triggered when an employee claims an award. |
+
+#### Razor Usage Example
+
+```razor
+<TwRewardsCenter InitialBalance="1500" OnVoucherRedeemed="HandleRedeem" />
+```
+
+---
+
+### `TwMfaAuthSuite`
+
+**Location:** [`Components/UI/TwMfaAuthSuite.razor`](../Components/UI/TwMfaAuthSuite.razor)
+
+Enterprise-grade Zero-Trust Multi-Factor Authentication enrollment and verification suite. Supports:
+1. **TOTP Authenticator Apps**: Dynamic vector QR code generation, secret key manual entry, and auto-focus 6-digit verification code.
+2. **SMS / Email OTP**: One-time passcode dispatch simulation with resend cooldown timer.
+3. **Passkeys / FIDO2**: Biometric WebAuthn (Touch ID, Windows Hello, YubiKey) enrollment flow.
+4. **Emergency Recovery Codes**: 8 single-use cryptographically strong backup codes with copy-to-clipboard and text download.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `UserEmail` | `string` | `"alex.chen@enterprise.io"` | Target user identity displayed in enrollment QR codes. |
+| `Issuer` | `string` | `"Enterprise Cloud"` | Service name displayed inside authenticator apps. |
+| `SecretKey` | `string` | `"JBSWY3DPEHPK3PXP"` | Base32 TOTP secret key seed. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwMfaAuthSuite UserEmail="dev@company.com" Issuer="Acme Platform" />
+```
+
+---
+
+### `TwMediaRecorder`
+
+**Location:** [`Components/UI/TwMediaRecorder.razor`](../Components/UI/TwMediaRecorder.razor)
+
+Native browser media recording studio with real-time SVG frequency waveform visualizer and VU meters. Supports voice memo audio recording and camera video standups with live timer, pause/resume, playback review, and file download exporter.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwMediaRecorder />
+```
+
+---
+
+### `TwScrollCraft`
+
+**Location:** [`Components/UI/TwScrollCraft.razor`](../Components/UI/TwScrollCraft.razor)
+
+Viewport-driven object animation scrubber with multi-layer ambient parallax depth, focal transformations, and kinetic scrub tracks. Links graphic state and scale smoothly to step progress without heavy external JavaScript animation libraries.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Interactive Lifecycle Scrubber"` | Component header title. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwScrollCraft Title="Agentic AI Execution Lifecycle" />
+```
+
+---
+

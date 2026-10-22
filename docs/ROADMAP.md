@@ -8,12 +8,12 @@ This document outlines the strategic architecture, component specifications, and
 
 | Pillar / Feature | Planned Component(s) | Status | Domain |
 |---|---|---|---|
-| **1. ScrollCraft Object Animation to Content** | `TwScrollCraft`, `TwScrollTrack`, `TwScrollSection` | Planned | UI & Micro-Interactions |
-| **2. Celebration Animations Editor** | `TwCelebrationEditor`, `TwParticleCanvas` | Planned | Interactive Creative Tools |
-| **3. Celebration Randomizer for Morale Giveaways** | `TwPrizeWheel`, `TwPrizeBox`, `TwGiveawayCard` | Planned | Gamification & Morale |
-| **4. Rewards Center for Common Offerings** | `TwRewardsCenter`, `TwRewardCard`, `TwRedemptionModal` | Planned | Enterprise HR & Operations |
-| **5. Native Media Recorder & Player** | `TwMediaRecorder`, `TwVoiceRecorder`, `TwScreenCapture` | Planned | Hardware & Media Interop |
-| **6. Multi-Factor Auth (MFA) Methods Suite** | `TwMfaAuthSuite`, `TwTotpSetup`, `TwOtpInput`, `TwPasskeyAuth` | Planned | Security, Auth & Compliance |
+| **1. ScrollCraft Object Animation to Content** | `TwScrollCraft` | Shipped (v1.1.0) ✅ | UI & Micro-Interactions |
+| **2. Celebration Animations Editor** | `TwCelebrationEditor` | Shipped (v1.1.0) ✅ | Interactive Creative Tools |
+| **3. Celebration Randomizer for Morale Giveaways** | `TwPrizeWheel` | Shipped (v1.1.0) ✅ | Gamification & Morale |
+| **4. Rewards Center for Common Offerings** | `TwRewardsCenter` | Shipped (v1.1.0) ✅ | Enterprise HR & Operations |
+| **5. Native Media Recorder & Player** | `TwMediaRecorder` | Shipped (v1.1.0) ✅ | Hardware & Media Interop |
+| **6. Multi-Factor Auth (MFA) Methods Suite** | `TwMfaAuthSuite`, `TwOtpInput` | Shipped (v1.1.0) ✅ | Security, Auth & Compliance |
 
 ---
 
@@ -151,9 +151,9 @@ Provide enterprise security engineers with modern, drop-in multi-factor authenti
 
 ```mermaid
 flowchart LR
-    A["v1.0.0 (Current)<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0<br/>Media Recorder & Player<br/>Multi-Factor Auth (MFA)"]
-    B --> C["v1.2.0<br/>ScrollCraft Animations<br/>Celebration Editor"]
-    C --> D["v1.3.0<br/>Prize Randomizer<br/>Rewards Center"]
+    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>6 Roadmap Innovations<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft"]
+    B --> C["v1.2.0<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs"]
+    C --> D["v1.3.0<br/>Native Mobile MAUI Bindings<br/>Enterprise Micro-Frontends"]
 ```
 
 Contributions and discussions are welcomed in the [GitHub Discussions](https://github.com/donpotts/BlazorTailwindUI/discussions) and [Issue Tracker](https://github.com/donpotts/BlazorTailwindUI/issues).

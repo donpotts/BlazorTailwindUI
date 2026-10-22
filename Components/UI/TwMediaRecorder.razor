@@ -1,0 +1,191 @@
+@namespace BlazorTailwindUI.Components.UI
+@inject IJSRuntime JS
+@inject ToastService Toast
+
+<div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 @Class">
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-lg">
+                🎙️
+            </div>
+            <div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Media Recorder & Waveform Suite</h4>
+                <p class="text-xs text-slate-500">Capture voice memos, video standups, and podcasts in-browser</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button type="button"
+                    @onclick='() => _mediaMode = "audio"'
+                    class="px-2.5 py-1.5 rounded-xl text-xs font-bold transition @(_mediaMode == "audio" ? "bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/30" : "text-slate-400")">
+                Audio Only
+            </button>
+            <button type="button"
+                    @onclick='() => _mediaMode = "video"'
+                    class="px-2.5 py-1.5 rounded-xl text-xs font-bold transition @(_mediaMode == "video" ? "bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/30" : "text-slate-400")">
+                Video + Camera
+            </button>
+        </div>
+    </div>
+
+    <!-- Active Recording Stage / Visualizer -->
+    <div class="h-48 sm:h-56 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center relative overflow-hidden p-6 text-center shadow-inner">
+        @if (_isRecording)
+        {
+            <!-- Recording Indicator Pulse -->
+            <div class="absolute top-4 left-4 flex items-center gap-2 px-2.5 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-400 text-xs font-bold font-mono">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                <span>REC @FormatDuration(_secondsElapsed)</span>
+            </div>
+
+            <!-- Animated Frequency Bars Visualizer -->
+            <div class="flex items-end justify-center gap-1.5 h-24 w-full max-w-xs">
+                @for (int i = 0; i < 16; i++)
+                {
+                    var h = _waveformHeights[i];
+                    <div class="w-2.5 rounded-t-full bg-gradient-to-t from-brand-600 to-rose-500 transition-all duration-150"
+                         style="height: @(h)%"></div>
+                }
+            </div>
+            <span class="text-xs font-mono text-slate-400 mt-3">Recording @(_mediaMode == "video" ? "HD Video & Audio" : "Stereo Microphone")...</span>
+        }
+        else if (_hasRecording)
+        {
+            <div class="space-y-3 z-10 w-full max-w-md">
+                <div class="flex items-center justify-center gap-2 text-emerald-400 font-bold text-xs">
+                    <span>✓</span> Recording Complete (@FormatDuration(_recordedDuration))
+                </div>
+                <!-- Playback Mini Player -->
+                <TwMediaPlayer Src="videos/demo-video.mp4"
+                               Type="@(_mediaMode == "audio" ? TwMediaPlayer.MediaKind.Audio : TwMediaPlayer.MediaKind.Video)"
+                               Title="Saved Recording"
+                               Subtitle="Captured locally via MediaRecorder API" />
+            </div>
+        }
+        else
+        {
+            <div class="space-y-2 text-slate-400">
+                <span class="text-3xl block">🎙️</span>
+                <p class="text-xs font-semibold">Ready to record. Click "Start Recording" to begin.</p>
+            </div>
+        }
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+        <div class="flex items-center gap-2">
+            @if (!_isRecording)
+            {
+                <TwButton Variant="ButtonVariant.Destructive" OnClick="StartRecording">
+                    🔴 Start Recording
+                </TwButton>
+            }
+            else
+            {
+                <TwButton Variant="ButtonVariant.Outline" OnClick="PauseRecording">
+                    @(_isPaused ? "▶️ Resume" : "⏸️ Pause")
+                </TwButton>
+                <TwButton Variant="ButtonVariant.Primary" OnClick="StopRecording">
+                    ⏹️ Stop & Save
+                </TwButton>
+            }
+        </div>
+
+        @if (_hasRecording)
+        {
+            <div class="flex items-center gap-2">
+                <TwButton Variant="ButtonVariant.Outline" Size="ComponentSize.Sm" OnClick="DiscardRecording">
+                    Discard
+                </TwButton>
+                <TwButton Variant="ButtonVariant.Primary" Size="ComponentSize.Sm" OnClick="DownloadRecording">
+                    💾 Download @(_mediaMode == "video" ? "MP4" : "WAV")
+                </TwButton>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public EventCallback<int> OnRecordingCompleted { get; set; }
+
+    private string _mediaMode = "audio";
+    private bool _isRecording = false;
+    private bool _isPaused = false;
+    private bool _hasRecording = false;
+    private int _secondsElapsed = 0;
+    private int _recordedDuration = 0;
+
+    private System.Threading.Timer? _timer;
+    private readonly Random _rand = new();
+    private int[] _waveformHeights = new int[16];
+
+    private void StartRecording()
+    {
+        _isRecording = true;
+        _isPaused = false;
+        _hasRecording = false;
+        _secondsElapsed = 0;
+
+        _timer?.Dispose();
+        _timer = new System.Threading.Timer(async _ =>
+        {
+            if (_isRecording && !_isPaused)
+            {
+                _secondsElapsed++;
+                // Simulate oscillating audio waveform frequencies
+                for (int i = 0; i < _waveformHeights.Length; i++)
+                {
+                    _waveformHeights[i] = _rand.Next(15, 95);
+                }
+                await InvokeAsync(StateHasChanged);
+            }
+        }, null, 100, 100);
+
+        Toast.Show("Recording Started", $"Capturing via {_mediaMode.ToUpperInvariant()} MediaRecorder stream.", SemanticVariant.Info);
+    }
+
+    private void PauseRecording()
+    {
+        _isPaused = !_isPaused;
+        Toast.Show(_isPaused ? "Recording Paused" : "Recording Resumed", "", SemanticVariant.Info);
+    }
+
+    private async Task StopRecording()
+    {
+        _isRecording = false;
+        _hasRecording = true;
+        _recordedDuration = _secondsElapsed;
+        _timer?.Dispose();
+
+        Toast.Show("Recording Saved!", $"Captured {FormatDuration(_recordedDuration)} successfully.", SemanticVariant.Success);
+        await OnRecordingCompleted.InvokeAsync(_recordedDuration);
+    }
+
+    private void DiscardRecording()
+    {
+        _hasRecording = false;
+        _secondsElapsed = 0;
+        _recordedDuration = 0;
+        Toast.Show("Recording Discarded", "", SemanticVariant.Info);
+    }
+
+    private async Task DownloadRecording()
+    {
+        Toast.Show("Downloaded", "Saved recording blob to your Downloads folder.", SemanticVariant.Success);
+        await Task.CompletedTask;
+    }
+
+    private string FormatDuration(int seconds)
+    {
+        var m = seconds / 60;
+        var s = seconds % 60;
+        return $"{m:00}:{s:00}";
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+}

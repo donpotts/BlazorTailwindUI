@@ -1,0 +1,168 @@
+@namespace BlazorTailwindUI.Components.UI
+@inject IJSRuntime JS
+@inject ToastService Toast
+
+<div class="flex flex-col items-center space-y-6 @Class">
+    <TwConfetti @ref="_confettiRef" />
+
+    <!-- Game Header -->
+    <div class="text-center space-y-1">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs">
+            <span>🎉</span> Team Morale & Giveaway Prize Wheel
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">Spin to Win!</h3>
+        <p class="text-xs sm:text-sm text-slate-500 max-w-md">Spin the celebration wheel for sprint retrospectives, all-hands town halls, and team morale boosts.</p>
+    </div>
+
+    <!-- Wheel Assembly Container -->
+    <div class="relative w-72 h-72 sm:w-84 sm:h-84 select-none flex items-center justify-center">
+        <!-- Top Pointer Needle -->
+        <div class="absolute -top-3 z-30 flex flex-col items-center filter drop-shadow-md">
+            <svg class="w-8 h-8 text-rose-500" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+            <div class="w-1.5 h-1.5 bg-rose-600 rounded-full"></div>
+        </div>
+
+        <!-- Outer Bezel Ring with Decorative Lights -->
+        <div class="absolute inset-0 rounded-full border-8 border-slate-800 dark:border-slate-700 bg-slate-900 shadow-2xl overflow-hidden flex items-center justify-center">
+            <!-- Rotating Wheel SVG -->
+            <svg viewBox="0 0 400 400"
+                 class="w-full h-full transition-transform duration-[4500ms] ease-[cubic-bezier(0.15,0.9,0.2,1.0)]"
+                 style="transform: rotate(@(_currentRotation)deg);">
+                @for (int i = 0; i < Prizes.Count; i++)
+                {
+                    var p = Prizes[i];
+                    var startAngle = i * _sliceAngle;
+                    var endAngle = (i + 1) * _sliceAngle;
+                    var midAngle = startAngle + (_sliceAngle / 2.0);
+
+                    var pathD = GetSlicePath(200, 200, 195, startAngle, endAngle);
+                    var textPos = GetTextCoordinates(200, 200, 130, midAngle);
+
+                    <path d="@pathD" fill="@p.Color" stroke="#1e293b" stroke-width="2" />
+
+                    <!-- Prize Text & Emoji Label -->
+                    <g transform="translate(@textPos.X, @textPos.Y) rotate(@(midAngle + 90))">
+                        <text text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-weight="900" font-size="13" font-family="system-ui, sans-serif">
+                            @p.Emoji @p.Title
+                        </text>
+                    </g>
+                }
+            </svg>
+        </div>
+
+        <!-- Center Hub Spin Button -->
+        <button type="button"
+                @onclick="SpinWheel"
+                disabled="@_isSpinning"
+                class="absolute z-20 w-20 h-20 rounded-full bg-slate-900 text-white font-black text-xs tracking-wider uppercase border-4 border-amber-400 shadow-xl flex flex-col items-center justify-center hover:scale-105 active:scale-95 transition disabled:opacity-50 disabled:cursor-not-allowed">
+            <span class="text-amber-400 text-sm">SPIN</span>
+            <span class="text-[9px] text-slate-400">NOW</span>
+        </button>
+    </div>
+
+    <!-- Controls & Winner Banner -->
+    <div class="flex flex-col items-center space-y-3">
+        <TwButton Variant="ButtonVariant.Primary" Size="ComponentSize.Lg" OnClick="SpinWheel" Disabled="@_isSpinning">
+            @(_isSpinning ? "Spinning..." : "🎲 Spin Wheel!")
+        </TwButton>
+
+        @if (_winningPrize != null && !_isSpinning)
+        {
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 via-brand-500/20 to-emerald-500/20 border-2 border-amber-500/40 text-center animate-bounce shadow-lg space-y-1">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 block">🏆 WINNER! 🏆</span>
+                <p class="text-lg font-black text-slate-900 dark:text-white">
+                    @_winningPrize.Emoji @_winningPrize.Title
+                </p>
+                <p class="text-xs text-slate-600 dark:text-slate-300">@_winningPrize.Description</p>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public EventCallback<PrizeWedge> OnPrizeWon { get; set; }
+
+    private TwConfetti? _confettiRef;
+    private bool _isSpinning = false;
+    private double _currentRotation = 0;
+    private PrizeWedge? _winningPrize;
+    private readonly Random _rand = new();
+
+    public record PrizeWedge(string Title, string Emoji, string Color, string Description);
+
+    [Parameter]
+    public List<PrizeWedge> Prizes { get; set; } = new()
+    {
+        new("$25 Coffee Gift Card", "☕", "#6366f1", "Redeemable at Starbucks, Peet's, or local cafe"),
+        new("Company Swag Hoodie", "👕", "#10b981", "Ultra-soft heavyweight team embroidered hoodie"),
+        new("Extra Friday Half-Day", "🏖️", "#f59e0b", "Log off at 1:00 PM this Friday with team blessings"),
+        new("Lunch on the Team Lead", "🍕", "#ef4444", "Team Lead orders your favorite meal delivered"),
+        new("Noise-Cancelling Gear", "🎧", "#8b5cf6", "$50 peripheral allowance for desktop audio"),
+        new("Desk Plant & Terrarium", "🌱", "#06b6d4", "Live succulent desktop garden delivered to your desk"),
+        new("VIP Parking / Swag Bag", "🚗", "#ec4899", "Reserved front parking spot + mystery goodie bag"),
+        new("Recognition Trophy Badge", "🏆", "#f97316", "Golden wall-of-fame spot award certificate")
+    };
+
+    private double _sliceAngle => 360.0 / Math.Max(1, Prizes.Count);
+
+    private async Task SpinWheel()
+    {
+        if (_isSpinning) return;
+        _isSpinning = true;
+        _winningPrize = null;
+
+        // Choose random winning index
+        var targetIndex = _rand.Next(0, Prizes.Count);
+
+        // Calculate rotation needed:
+        // Top pointer is at 270 degrees in SVG coordinate space (top)
+        // Each slice center is at index * sliceAngle + (sliceAngle / 2)
+        var sliceMid = (targetIndex * _sliceAngle) + (_sliceAngle / 2.0);
+        var extraSpins = _rand.Next(5, 8) * 360; // 5 to 7 full rotations
+
+        // Angle needed to bring sliceMid to top pointer (270deg):
+        var targetAngle = 270.0 - sliceMid;
+        if (targetAngle < 0) targetAngle += 360.0;
+
+        _currentRotation += extraSpins + (targetAngle - (_currentRotation % 360));
+        if (_currentRotation < 0) _currentRotation += 360;
+
+        // Wait 4.5s for CSS transition
+        await Task.Delay(4600);
+
+        _winningPrize = Prizes[targetIndex];
+        _isSpinning = false;
+
+        // Celebrate!
+        if (_confettiRef != null)
+        {
+            await _confettiRef.FireAsync(0.5, 0.4, 150);
+        }
+        Toast.Show("🎉 WINNER!", $"Claimed: {_winningPrize.Title}", SemanticVariant.Success);
+        await OnPrizeWon.InvokeAsync(_winningPrize);
+    }
+
+    private string GetSlicePath(double cx, double cy, double r, double startAngleDeg, double endAngleDeg)
+    {
+        var startRad = startAngleDeg * Math.PI / 180.0;
+        var endRad = endAngleDeg * Math.PI / 180.0;
+
+        var x1 = cx + r * Math.Cos(startRad);
+        var y1 = cy + r * Math.Sin(startRad);
+        var x2 = cx + r * Math.Cos(endRad);
+        var y2 = cy + r * Math.Sin(endRad);
+
+        var largeArc = (endAngleDeg - startAngleDeg) > 180 ? 1 : 0;
+
+        return $"M {cx} {cy} L {x1:F2} {y1:F2} A {r} {r} 0 {largeArc} 1 {x2:F2} {y2:F2} Z";
+    }
+
+    private (double X, double Y) GetTextCoordinates(double cx, double cy, double r, double angleDeg)
+    {
+        var rad = angleDeg * Math.PI / 180.0;
+        return (cx + r * Math.Cos(rad), cy + r * Math.Sin(rad));
+    }
+}

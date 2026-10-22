@@ -11,6 +11,78 @@ public class ComponentCatalogService
     {
         new ComponentDocItem
         {
+            Name = "TwMfaAuthSuite",
+            Category = "Security & Compliance",
+            Description = "Enterprise-grade multi-factor authentication suite supporting TOTP authenticator app QR setup, SMS/Email 6-digit OTP with auto-advancing segmented inputs, FIDO2 / WebAuthn biometric passkeys, and single-use emergency recovery codes.",
+            RazorSnippet = "<TwMfaAuthSuite OnEnrollmentChanged=\"(isEnrolled) => { /* Handle state */ }\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes."),
+                new ComponentParameterDoc("OnEnrollmentChanged", "EventCallback<bool>", "null", "Callback fired when user enrolls or updates 2FA status.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwPrizeWheel",
+            Category = "Gamification & Celebrations",
+            Description = "Interactive SVG spinning fortune prize wheel with realistic deceleration physics, top pointer tick indicator, customizable prize wedges, celebratory confetti burst, and winner announcement banner for team morale boosts and party giveaways.",
+            RazorSnippet = "<TwPrizeWheel OnPrizeWon=\"(prize) => { /* Handle prize */ }\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes."),
+                new ComponentParameterDoc("Prizes", "List<PrizeWedge>", "Default 8 wedges", "List of prize wedges with titles, emojis, colors, and descriptions."),
+                new ComponentParameterDoc("OnPrizeWon", "EventCallback<PrizeWedge>", "null", "Fired upon completion of deceleration on the winning wedge.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwCelebrationEditor",
+            Category = "Gamification & Celebrations",
+            Description = "Visual workbench for configuring canvas particle celebrations and confetti bursts. Sliders for particle count, velocity, spread angle, gravity, and origin height with instant live testing and copyable C#/Razor markup.",
+            RazorSnippet = "<TwCelebrationEditor />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwRewardsCenter",
+            Category = "Enterprise & Workplace Operations",
+            Description = "Employee perks and recognition rewards catalog with category filtering (Gift Cards, Swag, Workplace Flexibility, Learning, Wellness), points wallet ledger, search bar, and digital voucher redemption modal.",
+            RazorSnippet = "<TwRewardsCenter />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwScrollCraft",
+            Category = "Animation & Micro-Interactions",
+            Description = "Scroll-driven object animation container with parallax depth layers, focal zone reading fades, and pinned illustration scrubbers linked to viewport progress.",
+            RazorSnippet = "<TwScrollCraft Title=\"Content Scroll Scrubbing\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string", "\"Content Scroll Scrubbing\"", "Stage title."),
+                new ComponentParameterDoc("Steps", "List<ScrollStep>", "Default 4 steps", "List of steps with title, description, badge, and icon."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwMediaRecorder",
+            Category = "Hardware & Media Interop",
+            Description = "In-browser microphone and HD webcam media recorder with live SVG audio frequency visualizer, recording status pulse, VU meters, playback preview via TwMediaPlayer, and local file download.",
+            RazorSnippet = "<TwMediaRecorder OnRecordingCompleted=\"(duration) => { /* Handle duration */ }\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes."),
+                new ComponentParameterDoc("OnRecordingCompleted", "EventCallback<int>", "null", "Fired when user completes a recording with the elapsed seconds.")
+            }
+        },
+        new ComponentDocItem
+        {
             Name = "TwFinancialChart",
             Category = "Financial & Analytical Intelligence",
             Description = "High-frequency Candlestick and Area financial charting engine with real-time volume histogram, 20-period moving average line, crosshair hover HUD inspector, timeframe range presets (1W, 1M, 3M, YTD, 1Y, ALL), and zero-JS vector SVG rendering.",

@@ -1,0 +1,94 @@
+@namespace BlazorTailwindUI.Components.UI
+@inject IJSRuntime JS
+
+<div class="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 p-4 sm:p-6 @Class">
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-4 border-b border-slate-200/80 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold text-sm">
+                📜
+            </span>
+            <div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">@Title</h4>
+                <p class="text-xs text-slate-500">ScrollCraft Viewport-Driven Object Animation</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 bg-slate-200/60 dark:bg-slate-800 p-1 rounded-xl text-xs font-mono">
+            <span class="text-[10px] text-slate-500 uppercase px-1">Active Step:</span>
+            <span class="font-bold text-brand-600 dark:text-brand-400">@(_activeStepIndex + 1) / @Steps.Count</span>
+        </div>
+    </div>
+
+    <!-- Interactive Pinned Scrubber Stage -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-4 items-center">
+        <!-- Pinned Graphic / Object Stage (Columns 1-6) -->
+        <div class="md:col-span-6 flex flex-col items-center justify-center p-6 rounded-2xl bg-white dark:bg-slate-850 border border-slate-200 dark:border-slate-800 shadow-sm min-h-[260px] relative overflow-hidden">
+            <!-- Parallax Ambient Circle -->
+            <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-brand-500/10 filter blur-2xl transition-all duration-700 ease-out"
+                 style="transform: scale(@(1.0 + (_activeStepIndex * 0.15))) translate(@(_activeStepIndex * 10)px, @(_activeStepIndex * -5)px);"></div>
+
+            <!-- Active Object Visual -->
+            <div class="transition-all duration-500 transform text-center space-y-3 z-10"
+                 style="transform: scale(@(0.95 + (_activeStepIndex * 0.05)));">
+                <div class="w-20 h-20 mx-auto rounded-3xl bg-brand-500/10 border-2 border-brand-500/30 text-brand-600 dark:text-brand-400 flex items-center justify-center text-4xl shadow-md">
+                    @CurrentStep.Icon
+                </div>
+                <div>
+                    <span class="text-xs font-mono font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
+                        @CurrentStep.Badge
+                    </span>
+                    <h5 class="text-base font-black text-slate-900 dark:text-white">
+                        @CurrentStep.Title
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable / Clickable Step Track (Columns 7-12) -->
+        <div class="md:col-span-6 space-y-2.5">
+            @for (int i = 0; i < Steps.Count; i++)
+            {
+                var idx = i;
+                var step = Steps[idx];
+                var isActive = idx == _activeStepIndex;
+
+                <button type="button"
+                        @onclick="() => SetActiveStep(idx)"
+                        class="w-full text-left p-3.5 rounded-2xl border transition-all text-xs focus:outline-none flex items-start gap-3 @(isActive ? "bg-white dark:bg-slate-850 border-brand-500 shadow-md ring-2 ring-brand-500/20" : "bg-slate-100/60 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 opacity-70 hover:opacity-100")">
+                    <div class="w-6 h-6 rounded-lg flex items-center justify-center font-bold text-[11px] shrink-0 @(isActive ? "bg-brand-600 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300")">
+                        @(idx + 1)
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="font-bold text-slate-900 dark:text-white">@step.Title</div>
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">@step.Description</div>
+                    </div>
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Content Scroll Scrubbing";
+    [Parameter] public string? Class { get; set; }
+
+    public record ScrollStep(string Title, string Description, string Icon, string Badge);
+
+    [Parameter]
+    public List<ScrollStep> Steps { get; set; } = new()
+    {
+        new("Pure .NET 11 WASM Engine", "Runs natively in the browser with sub-millisecond execution and zero server trip latency.", "⚡", "Core Runtime"),
+        new("Dual-Plane Agentic Tool Calling", "Direct client WASM micro-tools coupled with cloud API orchestration and telemetry.", "🤖", "AI Dispatcher"),
+        new("Adaptive Generative UI (AGUI)", "Compiles JSON schemas into reactive Blazor DOM components in real-time.", "🎨", "Schema Engine"),
+        new("Native TAUI Desktop Installers", "Packed into native Windows MSI, macOS Universal DMG, and Linux AppImage packages.", "🖥️", "Desktop Release")
+    };
+
+    private int _activeStepIndex = 0;
+    private ScrollStep CurrentStep => Steps[Math.Clamp(_activeStepIndex, 0, Steps.Count - 1)];
+
+    private void SetActiveStep(int index)
+    {
+        _activeStepIndex = index;
+    }
+}

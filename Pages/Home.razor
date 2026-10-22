@@ -33,6 +33,7 @@
         <button type="button" @onclick='() => _activeTab = "overlays"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "overlays" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Overlays</button>
         <button type="button" @onclick='() => _activeTab = "training"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "training" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Coaching & Video 🎓</button>
         <button type="button" @onclick='() => _activeTab = "qrbarcode"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "qrbarcode" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">QR, Barcode & Signature ✍️</button>
+        <button type="button" @onclick='() => _activeTab = "innovations"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "innovations" ? "bg-slate-100 dark:bg-slate-800 text-amber-600 dark:text-amber-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Innovations 🎁</button>
         <button type="button" @onclick='() => _activeTab = "docs"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "docs" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Docs & Coach 📖</button>
         <button type="button" @onclick='() => _activeTab = "more"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "more" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">More UI</button>
     </TopNavContent>
@@ -177,6 +178,19 @@
                 </span>
             </button>
 
+            <button type="button" @onclick='() => _activeTab = "innovations"'
+                    class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition @(_activeTab == "innovations" ? "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800")">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                    </svg>
+                    <span>Innovations & Culture 🎁</span>
+                </div>
+                <span class="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                    6 NEW
+                </span>
+            </button>
+
             <button type="button" @onclick='() => _activeTab = "docs"'
                     class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition @(_activeTab == "docs" ? "bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 font-semibold" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800")">
                 <div class="flex items-center gap-3">
@@ -252,6 +266,12 @@
                 class="w-12 h-12 flex items-center justify-center rounded-xl transition @(_activeTab == "overlays" ? "bg-brand-50 dark:bg-brand-500/15 text-brand-600 dark:text-brand-400" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2" />
+            </svg>
+        </button>
+        <button type="button" @onclick='() => _activeTab = "innovations"' title="Innovations & Quick Wins"
+                class="w-12 h-12 flex items-center justify-center rounded-xl transition @(_activeTab == "innovations" ? "bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400" : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800")">
+            <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
             </svg>
         </button>
         <button type="button" @onclick='() => _activeTab = "docs"' title="Docs, Settings & Developer Coach"
@@ -793,7 +813,7 @@
                                         <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-500/15 text-brand-600 dark:text-brand-400 border border-brand-500/20">
                                             Award-Winning Enterprise Architecture
                                         </span>
-                                        <span class="text-xs font-mono text-slate-500">DevExpress & Modern UI Inspired</span>
+                                        <span class="text-xs font-mono text-slate-500">Enterprise & Modern UI Architecture</span>
                                     </div>
                                     <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
                                         Enterprise Ribbon, Code Studio & Advanced Forms
@@ -812,7 +832,7 @@
                                 </div>
                             </div>
 
-                            <!-- 1. DevExpress Enterprise Ribbon Navigation -->
+                            <!-- 1. Enterprise Ribbon Navigation -->
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
@@ -1022,7 +1042,7 @@
                                 </div>
                             </div>
 
-                            <!-- 5. Enterprise Resizable Splitter (DevExpress DxSplitter inspired) -->
+                            <!-- 5. Enterprise Resizable Splitter Layout -->
                             <div class="space-y-3">
                                 <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
                                     <span>🪟</span>
@@ -3164,6 +3184,99 @@
                         </div>
                     </div>
                 }
+                else if (_activeTab == "innovations")
+                {
+                    <div class="space-y-10">
+                        <!-- Hero Header -->
+                        <div class="p-6 rounded-3xl bg-gradient-to-r from-amber-500/10 via-pink-500/10 to-indigo-500/10 border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-2">
+                                    <TwBadge Variant="SemanticVariant.Warning" ShowDot="true">Roadmap Quick Wins</TwBadge>
+                                    <TwBadge Variant="SemanticVariant.Primary">Gamification & Morale</TwBadge>
+                                    <TwBadge Variant="SemanticVariant.Success">Zero-Trust Security</TwBadge>
+                                    <TwBadge Variant="SemanticVariant.Info">Native Media & Animation</TwBadge>
+                                </div>
+                                <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
+                                    Innovations, Morale & Modern Experience Suite
+                                </h2>
+                                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-3xl">
+                                    Six production-ready, interactive capabilities built with pure Blazor and Tailwind CSS:
+                                    Team Morale Prize Wheel, Particle Celebration Editor, Employee Rewards Center, Zero-Trust MFA Suite, Audio/Video Media Recorder, and ScrollCraft Object Animation.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Section 1: Team Morale, Celebrations & Rewards -->
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400 font-bold">1</span>
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Team Morale & Gamified Recognition</h3>
+                                    <p class="text-xs text-slate-500">Boost team engagement with interactive prize giveaways and customized celebration particle effects.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                                <TwCard Title="Morale Prize Wheel" Subtitle="Interactive SVG spinning wheel with deceleration physics and victory burst">
+                                    <TwPrizeWheel />
+                                </TwCard>
+
+                                <TwCard Title="Celebration Particle Studio" Subtitle="Physics sandbox to calibrate confetti, sparkles, stars, balloons, and coin bursts">
+                                    <TwCelebrationEditor />
+                                </TwCard>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Employee Rewards Center -->
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold">2</span>
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Company Perks & Rewards Catalog</h3>
+                                    <p class="text-xs text-slate-500">Employee morale rewards center with real-time balance tracker, multi-category filters, and 1-click digital voucher redemption.</p>
+                                </div>
+                            </div>
+
+                            <TwRewardsCenter InitialBalance="1450" />
+                        </div>
+
+                        <!-- Section 3: Multi-Factor Authentication Suite (MFA) -->
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">3</span>
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Zero-Trust Multi-Factor Authentication (MFA)</h3>
+                                    <p class="text-xs text-slate-500">Enterprise security enrollment covering TOTP Authenticator apps with QR code, SMS/Email OTP, Passkeys biometrics, and Emergency Recovery Codes.</p>
+                                </div>
+                            </div>
+
+                            <div class="max-w-4xl mx-auto">
+                                <TwMfaAuthSuite />
+                            </div>
+                        </div>
+
+                        <!-- Section 4: Native Media Recording & ScrollCraft Animation -->
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-600 dark:text-rose-400 font-bold">4</span>
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Media Capture & Scroll-Driven Animation</h3>
+                                    <p class="text-xs text-slate-500">In-browser audio/video recording with live VU meter waveform and ScrollCraft kinetic focal scrubbing.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                                <TwCard Title="Audio & Video Media Studio" Subtitle="Microphone & camera recording, live waveform visualizer, and instant media player">
+                                    <TwMediaRecorder />
+                                </TwCard>
+
+                                <TwCard Title="ScrollCraft Animation Scrubber" Subtitle="Multi-layer parallax depth, focal transformations, and kinetic scrub timeline">
+                                    <TwScrollCraft />
+                                </TwCard>
+                            </div>
+                        </div>
+                    </div>
+                }
                 else if (_activeTab == "docs")
                 {
                     <TwDocsExplorer />
@@ -3449,6 +3562,12 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSmartFilter", Subtitle = "Natural language query to structured DataGrid filter chips", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSmartPasteButton", Subtitle = "Entity extraction button mapping unstructured text into form fields", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSmartTextArea", Subtitle = "AI autocomplete ghost text, tone switcher & clarity enhancer", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwPrizeWheel", Subtitle = "Interactive team morale prize wheel with deceleration physics & confetti", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwCelebrationEditor", Subtitle = "Particle physics celebration sandbox with emoji shapes & C# exporter", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwRewardsCenter", Subtitle = "Company perks wallet, reward catalog & 1-click digital voucher redemption", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMfaAuthSuite", Subtitle = "Zero-Trust MFA suite with TOTP QR codes, SMS OTP, Passkeys & recovery codes", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMediaRecorder", Subtitle = "Browser audio/video media recorder with live waveform visualizer", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwScrollCraft", Subtitle = "ScrollCraft object animation scrubber with parallax focal effects", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
     }
 
     private void HandleSelectPricingTier(PricingTier tier)
@@ -3892,7 +4011,7 @@
         Toast.Show("Success", "Settings saved successfully", SemanticVariant.Success);
     }
 
-    // === DevExpress-Inspired Enterprise Suite & Form State ===
+    // === Enterprise Suite & Form State ===
     private string _lastRibbonAction = "";
     private bool _showFloatingDock = false;
     private string _activeDockId = "home";
@@ -3902,14 +4021,14 @@
     private string _demoSubdomain = "enterprise";
     private string _demoPrice = "49.00";
     private double _demoRadialVal = 84;
-    private List<string> _demoTags = new() { "TailwindCSS", "BlazorWASM", "EnterpriseUI", "DevExpressStyle" };
+    private List<string> _demoTags = new() { "TailwindCSS", "BlazorWASM", "EnterpriseUI", "DesignSystem" };
     private List<string> _activePillFilters = new() { "all", "active" };
 
     private readonly List<TwCombobox.ComboboxItem> _comboboxOptions = new()
     {
         new TwCombobox.ComboboxItem("blazor", "Blazor WebAssembly (.NET 11 RC)", "WebAssembly", "⚡"),
         new TwCombobox.ComboboxItem("tailwind", "Tailwind CSS v3.4+ Standalone", "Styling", "🎨"),
-        new TwCombobox.ComboboxItem("devexpress", "DevExpress Enterprise UX Patterns", "Architecture", "🏆"),
+        new TwCombobox.ComboboxItem("enterprise_patterns", "Enterprise UX Architecture Patterns", "Architecture", "🏆"),
         new TwCombobox.ComboboxItem("playwright", "Playwright Automated Testing", "QA Testing", "🎭"),
         new TwCombobox.ComboboxItem("fastapi", "High-Performance REST Backend", "Backend", "🚀")
     };
