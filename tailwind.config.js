@@ -2,7 +2,14 @@
 module.exports = {
   darkMode: 'class',
   content: [
-    './**/*.{razor,html,cshtml,cs}'
+    './Components/**/*.{razor,html,cshtml,cs}',
+    './Layout/**/*.{razor,html,cshtml,cs}',
+    './Pages/**/*.{razor,html,cshtml,cs}',
+    './Services/**/*.{razor,html,cshtml,cs}',
+    './Models/**/*.{razor,html,cshtml,cs}',
+    './App.razor',
+    './_Imports.razor',
+    './wwwroot/index.html'
   ],
   theme: {
     extend: {

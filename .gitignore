@@ -32,3 +32,8 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+
+## Dist & Release Artifacts
+dist/
+release-packages/
+src-tauri/target/

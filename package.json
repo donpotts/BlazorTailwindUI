@@ -5,9 +5,13 @@
   "description": "Mobile-first Blazor WASM reusable component library with Tailwind CSS and Light/Dark/System theme support",
   "scripts": {
     "build:css": "tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/app.min.css --minify",
-    "watch:css": "tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/app.min.css --watch"
+    "watch:css": "tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/app.min.css --watch",
+    "build:dist": "npm run build:css && dotnet publish -c Release -o dist",
+    "tauri": "tauri",
+    "tauri:build": "tauri build"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.12.4",
     "tailwindcss": "^3.4.19"
   },
   "dependencies": {

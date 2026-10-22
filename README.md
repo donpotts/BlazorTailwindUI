@@ -179,6 +179,33 @@ Blazor Tailwind UI includes a full 1080p masterclass coaching video (`wwwroot/vi
 
 ---
 
+## 🖥️ TAUI Cross-Platform Desktop Installers
+
+Blazor Tailwind UI ships with native desktop packaging powered by **TAUI (Tauri v2)** and .NET 11 WebAssembly, giving you full native window management, offline operation, and native installers:
+
+| Operating System | Package Type | Artifact Name | Description |
+|---|---|---|---|
+| **Windows** | **NSIS Setup (.exe)** | `BlazorTailwindUI-1.0.0-x64-Setup.exe` | Standard Windows executable wizard installer (~20 MB) |
+| **Windows** | **Windows Installer (.msi)** | `BlazorTailwindUI-1.0.0-x64-en-US.msi` | Enterprise WiX MSI package for silent / GPO rollout (~21 MB) |
+| **macOS** | **Apple Disk Image (.dmg)** | `BlazorTailwindUI-1.0.0-universal.dmg` | Drag-and-drop macOS Universal Binary (Apple Silicon + Intel) |
+| **Linux** | **Debian Package (.deb)** | `blazor-tailwind-ui_1.0.0_amd64.deb` | Ubuntu / Debian package with desktop launcher entry |
+| **Linux** | **AppImage (.AppImage)** | `BlazorTailwindUI-1.0.0-x86_64.AppImage` | Single-file zero-install portable Linux executable |
+| **Cross-Platform** | **Web Demo (.zip)** | `BlazorTailwindUI-WebDemo-v1.0.0.zip` | Standalone offline web demo with 1-click `start-demo` scripts |
+
+### Build Desktop Installers Locally
+```bash
+# 1. Install TAUI CLI & dependencies
+npm install
+
+# 2. Build production assets & publish WASM
+npm run build:dist
+
+# 3. Build native desktop installer for current OS
+npm run tauri:build
+```
+
+---
+
 ## 🚀 Quick Start Guide
 
 ### Prerequisites
