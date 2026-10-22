@@ -8,8 +8,19 @@
 @code {
     private ElementReference _canvasRef;
 
+    public enum CelebrationStyle
+    {
+        Confetti,
+        Fireworks,
+        Emojis,
+        Coins,
+        Stars,
+        Streamers
+    }
+
     [Parameter] public bool FullScreen { get; set; } = false;
     [Parameter] public bool AutoFire { get; set; } = false;
+    [Parameter] public CelebrationStyle Style { get; set; } = CelebrationStyle.Confetti;
     [Parameter] public int ParticleCount { get; set; } = 85;
     [Parameter] public string? Class { get; set; }
 
@@ -17,16 +28,48 @@
     {
         if (firstRender && AutoFire)
         {
-            await FireAsync(0.5, 0.4, ParticleCount);
+            await FireStyleAsync(Style, 0.5, 0.4, ParticleCount);
         }
     }
 
     public async Task FireAsync(double originX = 0.5, double originY = 0.5, int? count = null)
     {
+        await FireStyleAsync(Style, originX, originY, count);
+    }
+
+    public async Task FireStyleAsync(CelebrationStyle style, double originX = 0.5, double originY = 0.5, int? count = null)
+    {
+        var styleName = style switch
+        {
+            CelebrationStyle.Fireworks => "fireworks",
+            CelebrationStyle.Emojis => "emojis",
+            CelebrationStyle.Coins => "coins",
+            CelebrationStyle.Stars => "stars",
+            CelebrationStyle.Streamers => "streamers",
+            _ => "confetti"
+        };
+
         try
         {
-            await JS.InvokeVoidAsync("blazorConfetti.fire", _canvasRef, new
+            await JS.InvokeVoidAsync("blazorCelebration.fire", _canvasRef, new
             {
+                style = styleName,
+                count = count ?? ParticleCount,
+                x = originX,
+                y = originY
+            });
+        }
+        catch
+        { }
+    }
+
+    public async Task FireCustomAsync(string styleName, double originX = 0.5, double originY = 0.5, int? count = null)
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("blazorCelebration.fire", _canvasRef, new
+            {
+                style = styleName,
                 count = count ?? ParticleCount,
                 x = originX,
                 y = originY

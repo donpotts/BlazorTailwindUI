@@ -854,88 +854,340 @@ window.blazorImageCompare = {
 };
 
 /* ==========================================================================
-   Celebration Confetti Burst (Canvas Physics)
+   Multi-Style Celebration & Particle Physics Engine
+   Supports: confetti, fireworks, emojis, coins, stars, streamers
    ========================================================================== */
-window.blazorConfetti = {
+window.blazorCelebration = {
     fire: function (canvasEl, opts) {
         if (!canvasEl) return;
         const ctx = canvasEl.getContext('2d');
         if (!ctx) return;
 
         opts = opts || {};
-        const count = opts.count || 80;
+        const style = (opts.style || 'confetti').toLowerCase();
+        const count = opts.count || 90;
         const originX = opts.x !== undefined ? opts.x : 0.5;
         const originY = opts.y !== undefined ? opts.y : 0.5;
         const colors = opts.colors || [
             '#6366f1', '#4f46e5', '#10b981', '#f59e0b',
-            '#ef4444', '#ec4899', '#8b5cf6', '#06b6d4'
+            '#ef4444', '#ec4899', '#8b5cf6', '#06b6d4', '#eab308'
         ];
 
-        // Resize canvas to match display size
+        // Resize canvas to match display size exactly
         const rect = canvasEl.getBoundingClientRect();
-        canvasEl.width = rect.width * (window.devicePixelRatio || 1);
-        canvasEl.height = rect.height * (window.devicePixelRatio || 1);
-        ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+        const dpr = window.devicePixelRatio || 1;
+        canvasEl.width = rect.width * dpr;
+        canvasEl.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
 
-        const startX = rect.width * originX;
-        const startY = rect.height * originY;
+        const width = rect.width;
+        const height = rect.height;
+        const startX = width * originX;
+        const startY = height * originY;
 
         const particles = [];
-        for (let i = 0; i < count; i++) {
-            const angle = (Math.PI * 2 * (i / count)) + ((Math.random() - 0.5) * 0.8);
-            const speed = 4 + Math.random() * 8;
-            particles.push({
-                x: startX,
-                y: startY,
-                vx: Math.cos(angle) * speed * (0.8 + Math.random() * 0.6),
-                vy: Math.sin(angle) * speed * 1.2 - 3,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                size: 5 + Math.random() * 6,
-                rotation: Math.random() * 360,
-                rotationSpeed: (Math.random() - 0.5) * 12,
-                opacity: 1,
-                decay: 0.012 + Math.random() * 0.016,
-                shape: Math.random() > 0.4 ? 'rect' : 'circle'
+
+        // Helper to draw a 5-pointed star
+        function drawStar(c, cx, cy, spikes, outerRadius, innerRadius) {
+            let rot = (Math.PI / 2) * 3;
+            let x = cx;
+            let y = cy;
+            const step = Math.PI / spikes;
+
+            c.beginPath();
+            c.moveTo(cx, cy - outerRadius);
+            for (let i = 0; i < spikes; i++) {
+                x = cx + Math.cos(rot) * outerRadius;
+                y = cy + Math.sin(rot) * outerRadius;
+                c.lineTo(x, y);
+                rot += step;
+
+                x = cx + Math.cos(rot) * innerRadius;
+                y = cy + Math.sin(rot) * innerRadius;
+                c.lineTo(x, y);
+                rot += step;
+            }
+            c.lineTo(cx, cy - outerRadius);
+            c.closePath();
+            c.fill();
+        }
+
+        if (style === 'fireworks') {
+            // Multiple explosion burst centers
+            const bursts = [
+                { x: width * 0.5, y: height * 0.35, delay: 0 },
+                { x: width * 0.28, y: height * 0.42, delay: 12 },
+                { x: width * 0.72, y: height * 0.38, delay: 18 }
+            ];
+
+            bursts.forEach(burst => {
+                const burstColor = colors[Math.floor(Math.random() * colors.length)];
+                const burstCount = Math.floor(count / bursts.length);
+                for (let i = 0; i < burstCount; i++) {
+                    const angle = (Math.PI * 2 * (i / burstCount)) + ((Math.random() - 0.5) * 0.2);
+                    const speed = 3.5 + Math.random() * 8.5;
+                    particles.push({
+                        type: 'firework',
+                        x: burst.x,
+                        y: burst.y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        color: Math.random() > 0.3 ? burstColor : '#ffffff',
+                        size: 2.5 + Math.random() * 3.5,
+                        opacity: 1,
+                        decay: 0.014 + Math.random() * 0.016,
+                        delay: burst.delay,
+                        trail: []
+                    });
+                }
             });
+        } else if (style === 'emojis' || style === 'reactions') {
+            const emojis = opts.emojis || ['❤️', '🔥', '🚀', '🎉', '⭐', '🏆', '💎', '👏'];
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    type: 'emoji',
+                    emoji: emojis[Math.floor(Math.random() * emojis.length)],
+                    x: width * (0.15 + Math.random() * 0.7),
+                    y: height * 0.95 + Math.random() * 40,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    vy: -(2.5 + Math.random() * 4.5),
+                    size: 22 + Math.random() * 14,
+                    swayOffset: Math.random() * Math.PI * 2,
+                    swaySpeed: 0.04 + Math.random() * 0.04,
+                    swayWidth: 20 + Math.random() * 30,
+                    opacity: 1,
+                    decay: 0.009 + Math.random() * 0.012,
+                    scale: 0.4
+                });
+            }
+        } else if (style === 'coins') {
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    type: 'coin',
+                    x: width * (0.1 + Math.random() * 0.8),
+                    y: -20 - (Math.random() * height * 0.6),
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: 2 + Math.random() * 5,
+                    size: 16 + Math.random() * 10,
+                    flipAngle: Math.random() * Math.PI * 2,
+                    flipSpeed: 0.08 + Math.random() * 0.14,
+                    bounces: 0,
+                    maxBounces: 2 + Math.floor(Math.random() * 2),
+                    floorY: height * (0.85 + Math.random() * 0.1),
+                    opacity: 1,
+                    decay: 0.006 + Math.random() * 0.008
+                });
+            }
+        } else if (style === 'stars') {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 4 + Math.random() * 10;
+                particles.push({
+                    type: 'star',
+                    x: startX,
+                    y: startY,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 2,
+                    color: Math.random() > 0.4 ? '#fbbf24' : (Math.random() > 0.5 ? '#f59e0b' : '#ffffff'),
+                    size: 6 + Math.random() * 7,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 10,
+                    opacity: 1,
+                    decay: 0.013 + Math.random() * 0.015
+                });
+            }
+        } else if (style === 'streamers') {
+            for (let i = 0; i < Math.min(count, 45); i++) {
+                particles.push({
+                    type: 'streamer',
+                    x: width * (0.05 + Math.random() * 0.9),
+                    y: -40 - Math.random() * 100,
+                    vy: 2.2 + Math.random() * 3.2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    width: 6 + Math.random() * 5,
+                    length: 40 + Math.random() * 40,
+                    waveAngle: Math.random() * Math.PI * 2,
+                    waveSpeed: 0.06 + Math.random() * 0.06,
+                    opacity: 1,
+                    decay: 0.007 + Math.random() * 0.008
+                });
+            }
+        } else {
+            // Default: Confetti Cannons (dual-angled burst with 3D fluttering ribbons)
+            for (let i = 0; i < count; i++) {
+                const fromLeft = Math.random() > 0.5;
+                const angle = fromLeft
+                    ? (-Math.PI * 0.25) + ((Math.random() - 0.5) * 0.8)
+                    : (-Math.PI * 0.75) + ((Math.random() - 0.5) * 0.8);
+                const speed = 7 + Math.random() * 14;
+
+                particles.push({
+                    type: 'confetti',
+                    x: fromLeft ? width * 0.1 : width * 0.9,
+                    y: height * 0.9,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: 7 + Math.random() * 8,
+                    rotX: Math.random() * Math.PI,
+                    rotY: Math.random() * Math.PI,
+                    rotSpeedX: (Math.random() - 0.5) * 0.15,
+                    rotSpeedY: (Math.random() - 0.5) * 0.15,
+                    opacity: 1,
+                    decay: 0.01 + Math.random() * 0.014
+                });
+            }
         }
 
         let animationFrameId;
+        let tick = 0;
+
         const animate = () => {
-            ctx.clearRect(0, 0, rect.width, rect.height);
+            ctx.clearRect(0, 0, width, height);
             let active = false;
+            tick++;
 
             for (let i = 0; i < particles.length; i++) {
                 const p = particles[i];
+
+                if (p.delay && p.delay > 0) {
+                    p.delay--;
+                    active = true;
+                    continue;
+                }
+
                 if (p.opacity <= 0) continue;
                 active = true;
 
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.22; // gravity
-                p.vx *= 0.98; // air resistance
-                p.rotation += p.rotationSpeed;
-                p.opacity -= p.decay;
+                if (p.type === 'firework') {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.12; // gentle spark gravity
+                    p.vx *= 0.96; // drag
+                    p.vy *= 0.96;
+                    p.opacity -= p.decay;
 
-                ctx.save();
-                ctx.globalAlpha = Math.max(0, p.opacity);
-                ctx.translate(p.x, p.y);
-                ctx.rotate((p.rotation * Math.PI) / 180);
-                ctx.fillStyle = p.color;
-
-                if (p.shape === 'rect') {
-                    ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
-                } else {
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, p.opacity);
+                    ctx.fillStyle = p.color;
                     ctx.beginPath();
-                    ctx.arc(0, 0, p.size / 3, 0, Math.PI * 2);
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     ctx.fill();
+                    ctx.restore();
+                } else if (p.type === 'emoji') {
+                    p.x += Math.sin(tick * p.swaySpeed + p.swayOffset) * 1.5;
+                    p.y += p.vy;
+                    p.opacity -= p.decay;
+                    if (p.scale < 1.0) p.scale += 0.08;
+
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, p.opacity);
+                    ctx.font = `${Math.round(p.size * p.scale)}px sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(p.emoji, p.x, p.y);
+                    ctx.restore();
+                } else if (p.type === 'coin') {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.35; // coin gravity
+                    p.flipAngle += p.flipSpeed;
+
+                    if (p.y >= p.floorY && p.bounces < p.maxBounces) {
+                        p.vy = -p.vy * 0.55;
+                        p.vx *= 0.75;
+                        p.bounces++;
+                    } else if (p.bounces >= p.maxBounces) {
+                        p.opacity -= p.decay * 3;
+                    }
+
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, p.opacity);
+                    ctx.translate(p.x, p.y);
+                    const scaleX = Math.cos(p.flipAngle);
+                    ctx.scale(scaleX, 1);
+
+                    // Outer gold rim
+                    ctx.fillStyle = '#fbbf24';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Inner coin surface
+                    ctx.fillStyle = '#f59e0b';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size * 0.8, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Currency star/dollar imprint
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = `bold ${Math.round(p.size * 0.9)}px sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('$', 0, 0);
+
+                    ctx.restore();
+                } else if (p.type === 'star') {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.18;
+                    p.vx *= 0.97;
+                    p.rotation += p.rotationSpeed;
+                    p.opacity -= p.decay;
+
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, p.opacity);
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    drawStar(ctx, 0, 0, 5, p.size, p.size * 0.45);
+                    ctx.restore();
+                } else if (p.type === 'streamer') {
+                    p.y += p.vy;
+                    p.waveAngle += p.waveSpeed;
+                    p.opacity -= p.decay;
+
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, p.opacity);
+                    ctx.strokeStyle = p.color;
+                    ctx.lineWidth = p.width;
+                    ctx.lineCap = 'round';
+
+                    ctx.beginPath();
+                    const segments = 6;
+                    const segLen = p.length / segments;
+                    for (let s = 0; s < segments; s++) {
+                        const sy = p.y + s * segLen;
+                        const sx = p.x + Math.sin(p.waveAngle + s * 0.8) * 18;
+                        if (s === 0) ctx.moveTo(sx, sy);
+                        else ctx.lineTo(sx, sy);
+                    }
+                    ctx.stroke();
+                    ctx.restore();
+                } else {
+                    // Confetti cannon particle
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.28; // gravity
+                    p.vx *= 0.98; // air drag
+                    p.rotX += p.rotSpeedX;
+                    p.rotY += p.rotSpeedY;
+                    p.opacity -= p.decay;
+
+                    ctx.save();
+                    ctx.globalAlpha = Math.max(0, p.opacity);
+                    ctx.translate(p.x, p.y);
+                    ctx.scale(Math.cos(p.rotX), Math.sin(p.rotY));
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.7);
+                    ctx.restore();
                 }
-                ctx.restore();
             }
 
             if (active) {
                 animationFrameId = requestAnimationFrame(animate);
             } else {
-                ctx.clearRect(0, 0, rect.width, rect.height);
+                ctx.clearRect(0, 0, width, height);
                 cancelAnimationFrame(animationFrameId);
             }
         };
@@ -943,6 +1195,8 @@ window.blazorConfetti = {
         animate();
     }
 };
+
+window.blazorConfetti = window.blazorCelebration;
 
 /* ==========================================================================
    Clipboard Helper

@@ -6,6 +6,21 @@
 <div class="flex flex-col space-y-6 @Class">
     <TwConfetti @ref="_confettiRef" />
 
+    <!-- Rich Victory Celebration Modal (Beyond plain toasts!) -->
+    <TwCelebrationModal @bind-IsOpen="_showCelebrationModal"
+                        Title="Wheel Victory!"
+                        Subtitle="The wheel landed on your winning slice! Claim your reward below:"
+                        BadgeEmoji="@(_winningPrize?.Emoji ?? "🏆")"
+                        RewardTitle="@_winningPrize?.Title"
+                        RewardEmoji="@_winningPrize?.Emoji"
+                        RewardDescription="Prize recorded in morale rewards ledger."
+                        PrimaryActionText="Claim Winning Prize"
+                        SecondaryActionText="Spin Again"
+                        Style="TwConfetti.CelebrationStyle.Fireworks"
+                        ParticleCount="180"
+                        OnPrimaryAction="ClaimPrizeFromModal"
+                        OnSecondaryAction="SpinAgainFromModal" />
+
     <!-- Header -->
     <div class="text-center space-y-1">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs">
@@ -166,6 +181,7 @@
     };
 
     private TwConfetti? _confettiRef;
+    private bool _showCelebrationModal = false;
     private bool _isSpinning = false;
     private double _currentRotation = 0;
     private double _targetRotation = 0;
@@ -250,6 +266,7 @@
         _winningPrize = Prizes[selectedIndex];
         _isSpinning = false;
         _selectionMessage = $"🎉 You got: {_winningPrize.Emoji} {_winningPrize.Title}! 🎉";
+        _showCelebrationModal = true;
 
         try
         {
@@ -260,7 +277,7 @@
 
         if (_confettiRef != null)
         {
-            await _confettiRef.FireAsync(0.5, 0.4, 160);
+            await _confettiRef.FireStyleAsync(TwConfetti.CelebrationStyle.Fireworks, 0.5, 0.4, 160);
         }
 
         Toast.Show("🎉 WINNER!", $"Claimed: {_winningPrize.Emoji} {_winningPrize.Title}", SemanticVariant.Success);
@@ -285,6 +302,7 @@
             _winningPrize = Prizes[selectedIndex];
             _isSpinning = false;
             _selectionMessage = $"🛑 Stopped! You got: {_winningPrize.Emoji} {_winningPrize.Title}! 🎉";
+            _showCelebrationModal = true;
 
             try
             {
@@ -294,7 +312,7 @@
 
             if (_confettiRef != null)
             {
-                await _confettiRef.FireAsync(0.5, 0.4, 180);
+                await _confettiRef.FireStyleAsync(TwConfetti.CelebrationStyle.Coins, 0.5, 0.4, 180);
             }
 
             Toast.Show("🛑 Manual Stop!", $"Landed on: {_winningPrize.Emoji} {_winningPrize.Title}", SemanticVariant.Warning);
@@ -305,6 +323,18 @@
             _isSpinning = false;
             _selectionMessage = "Wheel stopped";
         }
+    }
+
+    private void ClaimPrizeFromModal()
+    {
+        _showCelebrationModal = false;
+        Toast.Show("Prize Claimed!", $"Enjoy your {_winningPrize?.Emoji} {_winningPrize?.Title}!", SemanticVariant.Success);
+    }
+
+    private async Task SpinAgainFromModal()
+    {
+        _showCelebrationModal = false;
+        await SpinWheel();
     }
 
     private string GetWedgePath(double centerX, double centerY, double radius, double startAngle, double endAngle)
