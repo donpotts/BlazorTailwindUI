@@ -1,0 +1,300 @@
+@namespace BlazorTailwindUI.Components.UI
+@using BlazorTailwindUI.Services
+@inject ToastService Toast
+
+<div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl overflow-hidden max-w-5xl mx-auto @CustomClass">
+    <!-- Header Banner -->
+    <div class="p-6 sm:p-10 bg-gradient-to-br from-fuchsia-950 via-slate-900 to-purple-900 text-white relative overflow-hidden border-b border-fuchsia-500/20">
+        <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-fuchsia-500/15 blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-3 max-w-2xl">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30 text-xs font-semibold">
+                        <span>🎉</span>
+                        <span>Company Celebration & Event Hub</span>
+                    </span>
+                    <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-white/10 text-white">
+                        @Model.PartyTheme
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                    Corporate Party & Celebration Planner
+                </h1>
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Coordinate venue logistics, track employee RSVPs, configure catering and entertainment menus, and manage dietary accommodations seamlessly.
+                </p>
+            </div>
+
+            <!-- View Mode Switcher -->
+            <div class="flex items-center bg-white/10 backdrop-blur-md p-1.5 rounded-2xl border border-white/10 shrink-0 self-start md:self-center">
+                <button type="button" @onclick='() => _activeView = "planner"'
+                        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition @(_activeView == "planner" ? "bg-white text-slate-900 shadow-sm" : "text-slate-300 hover:text-white")">
+                    🎪 Event Planner
+                </button>
+                <button type="button" @onclick='() => _activeView = "rsvp"'
+                        class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition @(_activeView == "rsvp" ? "bg-white text-slate-900 shadow-sm" : "text-slate-300 hover:text-white")">
+                    💌 Guest RSVP
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @if (_activeView == "planner")
+    {
+        <!-- PLANNER VIEW -->
+        <div class="p-6 sm:p-10 space-y-8 animate-fadeIn">
+            <!-- 1. Party Overview & Logistics -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+                    <span class="text-base">📅</span>
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white">1. Event Logistics & Venue Selection</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Event Name</label>
+                        <input type="text" @bind="Model.EventName" required
+                               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20" />
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Venue Style</label>
+                        <select @bind="Model.VenueStyle" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none">
+                            <option value="Skyline Rooftop Terrace">Skyline Rooftop Terrace (Max 350)</option>
+                            <option value="Grand Crystal Ballroom">Grand Crystal Ballroom (Max 600)</option>
+                            <option value="Coastal Beach Club">Coastal Beach Club & Pavilion (Max 250)</option>
+                            <option value="Modern Tech Campus Lounge">Modern Tech Campus Lounge (Max 400)</option>
+                            <option value="Mountain Retreat Lodge">Mountain Retreat Lodge (Max 200)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Target Date & Time</label>
+                        <input type="text" @bind="Model.EventDateTime" placeholder="e.g. Dec 18, 2026 · 6:30 PM - 11:30 PM"
+                               class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Entertainment & Experiences -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">
+                    <span class="text-base">🎵</span>
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white">2. Entertainment, Drinks & Activities</h2>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    @foreach (var act in _availableActivities)
+                    {
+                        var isChecked = Model.SelectedActivities.Contains(act.Key);
+                        <button type="button" @onclick="() => ToggleActivity(act.Key)"
+                                class="p-3.5 rounded-2xl border text-left transition flex items-center justify-between gap-2 @(isChecked ? "border-fuchsia-500 bg-fuchsia-50/50 dark:bg-fuchsia-950/30 text-fuchsia-900 dark:text-fuchsia-200 ring-2 ring-fuchsia-500/20 font-bold" : "border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-850 text-slate-700 dark:text-slate-300")">
+                            <div class="flex items-center gap-2 truncate">
+                                <span>@act.Value</span>
+                                <span class="text-xs truncate">@act.Key</span>
+                            </div>
+                            <span class="text-xs font-mono">@(isChecked ? "✓" : "+")</span>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- 3. Budget Management Widget -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">💵</span>
+                        <h2 class="text-base font-bold text-slate-900 dark:text-white">3. Celebration Budget Allocation</h2>
+                    </div>
+                    <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                        Total Allocated: $@Model.TotalBudget.ToString("N0") USD
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <span class="text-[10px] font-mono uppercase text-slate-400 block mb-1">Venue & Security</span>
+                        <span class="text-sm font-mono font-bold text-slate-900 dark:text-white">$@((Model.TotalBudget * 0.35).ToString("N0")) (35%)</span>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <span class="text-[10px] font-mono uppercase text-slate-400 block mb-1">Catering & Open Bar</span>
+                        <span class="text-sm font-mono font-bold text-slate-900 dark:text-white">$@((Model.TotalBudget * 0.45).ToString("N0")) (45%)</span>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <span class="text-[10px] font-mono uppercase text-slate-400 block mb-1">DJ & Entertainment</span>
+                        <span class="text-sm font-mono font-bold text-slate-900 dark:text-white">$@((Model.TotalBudget * 0.12).ToString("N0")) (12%)</span>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <span class="text-[10px] font-mono uppercase text-slate-400 block mb-1">Swag & Photography</span>
+                        <span class="text-sm font-mono font-bold text-slate-900 dark:text-white">$@((Model.TotalBudget * 0.08).ToString("N0")) (8%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <span class="text-xs text-slate-500 font-mono">RSVP Status: 184 Attending / 12 Plus-Ones</span>
+                <button type="button" @onclick="PublishInvites"
+                        class="px-5 py-2.5 rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-bold text-xs sm:text-sm transition shadow-md shadow-fuchsia-500/20 flex items-center gap-2">
+                    <span>Dispatch All Invitations</span>
+                    <span>✉️</span>
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- GUEST RSVP VIEW -->
+        <div class="p-6 sm:p-10 space-y-6 animate-fadeIn">
+            <div class="p-4 rounded-2xl bg-fuchsia-50 dark:bg-fuchsia-950/40 border border-fuchsia-200 dark:border-fuchsia-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🥂</span>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-white">You're Invited: @Model.EventName</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">@Model.EventDateTime at @Model.VenueStyle</p>
+                    </div>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+                    RSVP Open
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Your Full Name</label>
+                    <input type="text" @bind="Rsvp.EmployeeName" placeholder="e.g. Liam Wilson"
+                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none" />
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">RSVP Decision</label>
+                    <select @bind="Rsvp.AttendanceDecision" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none">
+                        <option value="Attending In-Person">Attending In-Person 🎉</option>
+                        <option value="Attending Virtually">Attending Virtually via Livestream 💻</option>
+                        <option value="Regretfully Decline">Regretfully Decline 😢</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Plus-One -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="space-y-0.5">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white">Bringing a Plus-One Guest?</span>
+                        <p class="text-[11px] text-slate-500">Each employee is welcome to bring a partner or spouse.</p>
+                    </div>
+                    <input type="checkbox" @bind="Rsvp.BringingPlusOne" class="w-5 h-5 rounded text-fuchsia-600 focus:ring-fuchsia-500 cursor-pointer" />
+                </div>
+
+                @if (Rsvp.BringingPlusOne)
+                {
+                    <input type="text" @bind="Rsvp.PlusOneName" placeholder="Guest Full Name..."
+                           class="w-full px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none" />
+                }
+            </div>
+
+            <!-- Dietary Requirements -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Dietary Preferences & Allergies</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    @foreach (var diet in new[] { "Vegetarian", "Vegan", "Gluten-Free", "Halal", "Kosher", "Nut Allergy", "Dairy-Free" })
+                    {
+                        var isDiet = Rsvp.DietaryNeeds.Contains(diet);
+                        <button type="button" @onclick="() => ToggleDiet(diet)"
+                                class="p-2 rounded-xl border text-xs font-medium transition text-left flex items-center justify-between @(isDiet ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-bold" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400")">
+                            <span>@diet</span>
+                            <span>@(isDiet ? "✓" : "")</span>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Song Request -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Song Request for DJ Playlist 🎵</label>
+                <input type="text" @bind="Rsvp.SongRequest" placeholder="e.g. Daft Punk - One More Time"
+                       class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none" />
+            </div>
+
+            <!-- Submit RSVP -->
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+                <button type="button" @onclick="SubmitRsvp"
+                        class="px-6 py-2.5 rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-bold text-xs sm:text-sm transition shadow-md shadow-fuchsia-500/20">
+                    Confirm RSVP Response
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public PartyModel Model { get; set; } = new();
+    [Parameter] public GuestRsvpModel Rsvp { get; set; } = new();
+    [Parameter] public EventCallback<PartyModel> OnPartySaved { get; set; }
+    [Parameter] public EventCallback<GuestRsvpModel> OnRsvpSubmitted { get; set; }
+    [Parameter] public string CustomClass { get; set; } = "";
+
+    private string _activeView = "planner"; // planner | rsvp
+
+    public class PartyModel
+    {
+        public string EventName { get; set; } = "Annual Enterprise Gala & High-Performance Celebration";
+        public string PartyTheme { get; set; } = "Cyberpunk Neo-Tokyo Glam";
+        public string VenueStyle { get; set; } = "Skyline Rooftop Terrace";
+        public string EventDateTime { get; set; } = "Friday, Dec 18, 2026 · 6:30 PM - Midnight";
+        public double TotalBudget { get; set; } = 85000.0;
+        public List<string> SelectedActivities { get; set; } = new() { "Live 80s Synth Band", "Open Cocktail Bar", "360 Video Booth", "Executive Awards" };
+    }
+
+    public class GuestRsvpModel
+    {
+        public string EmployeeName { get; set; } = "Sophia Chen";
+        public string AttendanceDecision { get; set; } = "Attending In-Person";
+        public bool BringingPlusOne { get; set; } = true;
+        public string PlusOneName { get; set; } = "Alex Vance";
+        public List<string> DietaryNeeds { get; set; } = new() { "Vegetarian", "Gluten-Free" };
+        public string SongRequest { get; set; } = "Earth, Wind & Fire - September";
+    }
+
+    private readonly Dictionary<string, string> _availableActivities = new()
+    {
+        ["Live 80s Synth Band"] = "🎸",
+        ["Open Cocktail Bar"] = "🍸",
+        ["360 Video Booth"] = "📸",
+        ["Executive Awards"] = "🏆",
+        ["Casino Royale Lounge"] = "🎲",
+        ["VR Arcade Zone"] = "🥽",
+        ["Gourmet Food Trucks"] = "🌮",
+        ["Midnight Dessert Station"] = "🍰"
+    };
+
+    private void ToggleActivity(string act)
+    {
+        if (Model.SelectedActivities.Contains(act))
+            Model.SelectedActivities.Remove(act);
+        else
+            Model.SelectedActivities.Add(act);
+    }
+
+    private void ToggleDiet(string diet)
+    {
+        if (Rsvp.DietaryNeeds.Contains(diet))
+            Rsvp.DietaryNeeds.Remove(diet);
+        else
+            Rsvp.DietaryNeeds.Add(diet);
+    }
+
+    private void PublishInvites()
+    {
+        Toast.Show("Invitations Dispatched!", $"Sent calendar invites for {Model.EventName} to 240 team members.", SemanticVariant.Success);
+    }
+
+    private async Task SubmitRsvp()
+    {
+        Toast.Show("RSVP Confirmed!", $"Thank you {Rsvp.EmployeeName}! Decision: {Rsvp.AttendanceDecision} (Plus-One: {(Rsvp.BringingPlusOne ? "Yes" : "No")}).", SemanticVariant.Success);
+        if (OnRsvpSubmitted.HasDelegate)
+        {
+            await OnRsvpSubmitted.InvokeAsync(Rsvp);
+        }
+    }
+}

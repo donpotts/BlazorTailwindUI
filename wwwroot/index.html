@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="indigo">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <title>BlazorTailwindUI — Mobile-First Component System</title>
+    <base href="/" />
+
+    <!-- Prevent Flash of Unstyled Content (FOUC) on initial load -->
+    <script>
+        (function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryTheme = urlParams.get('theme');
+            const queryAccent = urlParams.get('accent');
+            const mode = queryTheme || localStorage.getItem('btui-theme-mode') || 'system';
+            const accent = queryAccent || localStorage.getItem('btui-theme-accent') || 'indigo';
+            const customHex = localStorage.getItem('btui-theme-custom-hex');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (mode === 'dark' || (mode === 'system' && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            if (accent === 'custom' && customHex) {
+                let clean = customHex.replace('#', '').trim();
+                if (clean.length === 3) clean = clean.split('').map(c => c + c).join('');
+                if (clean.length === 6) {
+                    const num = parseInt(clean, 16);
+                    const r = (num >> 16) & 255, g = (num >> 8) & 255, b = num & 255;
+                    const mw = (v, f) => Math.round(v * (1 - f) + 255 * f);
+                    const mb = (v, f) => Math.round(v * f);
+                    const root = document.documentElement;
+                    root.style.setProperty('--color-brand-50', `${mw(r, 0.92)} ${mw(g, 0.92)} ${mw(b, 0.92)}`);
+                    root.style.setProperty('--color-brand-100', `${mw(r, 0.82)} ${mw(g, 0.82)} ${mw(b, 0.82)}`);
+                    root.style.setProperty('--color-brand-500', `${r} ${g} ${b}`);
+                    root.style.setProperty('--color-brand-600', `${mb(r, 0.85)} ${mb(g, 0.85)} ${mb(b, 0.85)}`);
+                    root.style.setProperty('--color-brand-700', `${mb(r, 0.72)} ${mb(g, 0.72)} ${mb(b, 0.72)}`);
+                    root.setAttribute('data-accent', 'custom');
+                    return;
+                }
+            }
+            document.documentElement.setAttribute('data-accent', accent);
+        })();
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon.png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="stylesheet" href="css/app.min.css" />
+    <link rel="stylesheet" href="BlazorTailwindUI.styles.css" />
+</head>
+
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased min-h-screen">
+    <div id="app">
+        <div class="flex flex-col items-center justify-center min-h-screen gap-3 p-4">
+            <div class="h-10 w-10 rounded-full border-4 border-slate-300 dark:border-slate-700 border-t-indigo-600 animate-spin"></div>
+            <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Loading BlazorTailwindUI...</p>
+        </div>
+    </div>
+
+    <script src="js/zxing.min.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

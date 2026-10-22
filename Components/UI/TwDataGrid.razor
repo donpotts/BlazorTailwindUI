@@ -1,0 +1,642 @@
+@namespace BlazorTailwindUI.Components.UI
+@typeparam TItem
+
+<div class="w-full space-y-3.5 @Class">
+    <!-- Hidden Declarative Column Collector -->
+    <CascadingValue Value="this" IsFixed="true">
+        @Columns
+    </CascadingValue>
+
+    <!-- Top Grid Toolbar: Search, Column Filter Toggle, Batch Actions & Page Size -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <!-- Global Search & Filter Toggle -->
+        <div class="flex items-center gap-2 flex-1 max-w-md">
+            @if (ShowGlobalSearch)
+            {
+                <div class="relative flex-1">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </span>
+                    <input type="text"
+                           value="@_searchQuery"
+                           @oninput="HandleGlobalSearchInput"
+                           placeholder="@SearchPlaceholder"
+                           class="w-full pl-9 pr-8 py-2 rounded-xl text-xs sm:text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition" />
+                    @if (!string.IsNullOrEmpty(_searchQuery))
+                    {
+                        <button type="button"
+                                @onclick="ClearGlobalSearch"
+                                class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                            ✕
+                        </button>
+                    }
+                </div>
+            }
+
+            @if (AllowColumnFiltering)
+            {
+                <button type="button"
+                        @onclick="ToggleColumnFilters"
+                        class="p-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-colors focus:outline-none 
+                               @(_showColumnFilters ? "bg-brand-50 dark:bg-brand-950/40 border-brand-500 text-brand-600 dark:text-brand-400" : "bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800")"
+                        title="Toggle per-column filters">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    </svg>
+                    <span class="hidden sm:inline">Filters</span>
+                    @if (ActiveFilterCount > 0)
+                    {
+                        <span class="w-4 h-4 rounded-full bg-brand-600 text-white text-[10px] flex items-center justify-center font-bold">
+                            @ActiveFilterCount
+                        </span>
+                    }
+                </button>
+            }
+
+            @if (HasAnyActiveFilter)
+            {
+                <button type="button"
+                        @onclick="ResetAllFilters"
+                        class="text-xs text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 font-medium underline px-1">
+                    Reset
+                </button>
+            }
+        </div>
+
+        <!-- Active Batch Actions Toolbar (Visible when rows are selected) -->
+        @if (Selectable && _selectedItems.Count > 0)
+        {
+            <div class="flex items-center gap-2 p-1.5 px-3 rounded-xl bg-brand-50 dark:bg-brand-950/40 border border-brand-500/30 text-brand-700 dark:text-brand-300 text-xs font-semibold animate-fade-in shadow-xs">
+                <span>@_selectedItems.Count selected</span>
+                <div class="h-3.5 w-px bg-brand-300 dark:bg-brand-700 mx-1"></div>
+                @if (BatchActionsTemplate is not null)
+                {
+                    @BatchActionsTemplate(_selectedItems.ToList())
+                }
+                <button type="button" 
+                        @onclick="DeselectAll"
+                        class="text-[11px] underline hover:text-brand-900 dark:hover:text-white ml-1">
+                    Clear
+                </button>
+            </div>
+        }
+
+        <!-- Results Counter & Page Size Selector -->
+        <div class="flex items-center gap-3 text-xs text-slate-500 self-end sm:self-auto shrink-0">
+            <span>Showing @(TotalFilteredCount == 0 ? 0 : Math.Min((CurrentPage - 1) * PageSize + 1, TotalFilteredCount)) - @Math.Min(CurrentPage * PageSize, TotalFilteredCount) of @TotalFilteredCount</span>
+
+            @if (ShowPageSizeSelector)
+            {
+                <div class="flex items-center gap-1.5">
+                    <span class="hidden sm:inline">Rows:</span>
+                    <select value="@PageSize" 
+                            @onchange="HandlePageSizeChange"
+                            class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-xs focus:outline-none">
+                        @foreach (var size in PageSizeOptions)
+                        {
+                            <option value="@size">@size</option>
+                        }
+                    </select>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Desktop / Tablet Table View (hidden on mobile, visible on md+) -->
+    <div class="hidden md:block overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+                <thead class="bg-slate-50/90 dark:bg-slate-950/70 text-xs uppercase font-bold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-800 select-none">
+                    <!-- Column Header Row with Sort Indicators -->
+                    <tr>
+                        @if (Selectable)
+                        {
+                            <th class="w-10 px-4 py-3.5 text-center">
+                                <input type="checkbox"
+                                       checked="@IsAllCurrentPageSelected"
+                                       @onchange="ToggleSelectAllCurrentPage"
+                                       class="rounded text-brand-600 focus:ring-brand-500 cursor-pointer" />
+                            </th>
+                        }
+
+                        @foreach (var col in _columns)
+                        {
+                            var isSorted = _sortColumn == col;
+                            <th class="px-5 py-3.5 @(col.Sortable ? "cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/60 transition" : "") @col.HeaderClass"
+                                style="@col.BuildWidthStyle()"
+                                @onclick="() => HandleSort(col)">
+                                <div class="flex items-center gap-1.5 @GetAlignClass(col.Align)">
+                                    @if (col.HeaderTemplate is not null)
+                                    {
+                                        @col.HeaderTemplate
+                                    }
+                                    else
+                                    {
+                                        <span class="truncate">@col.Title</span>
+                                    }
+
+                                    @if (col.Sortable)
+                                    {
+                                        <span class="text-xs transition-colors shrink-0 @(isSorted ? "text-brand-600 dark:text-brand-400 font-bold" : "text-slate-300 dark:text-slate-600")">
+                                            @(isSorted ? (_sortAscending ? "▲" : "▼") : "↕")
+                                        </span>
+                                    }
+                                </div>
+                            </th>
+                        }
+
+                        @if (ActionsTemplate is not null)
+                        {
+                            <th class="px-5 py-3.5 text-right w-44">
+                                @ActionsTitle
+                            </th>
+                        }
+                    </tr>
+
+                    <!-- Optional Per-Column Filter Row -->
+                    @if (AllowColumnFiltering && _showColumnFilters)
+                    {
+                        <tr class="bg-slate-100/60 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 lowercase font-normal">
+                            @if (Selectable)
+                            {
+                                <th class="w-10 px-4 py-2"></th>
+                            }
+
+                            @foreach (var col in _columns)
+                            {
+                                <th class="px-3 py-2" style="@col.BuildWidthStyle()">
+                                    @if (col.Filterable)
+                                    {
+                                        @if (col.FilterTemplate is not null)
+                                        {
+                                            @col.FilterTemplate
+                                        }
+                                        else
+                                        {
+                                            <div class="relative">
+                                                <input type="text"
+                                                       value="@col.CurrentFilterValue"
+                                                       @oninput="e => HandleColumnFilterInput(col, e)"
+                                                       placeholder="@(col.FilterPlaceholder ?? $"Filter {col.Title}...")"
+                                                       class="w-full px-2.5 py-1 text-xs rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-500 font-normal" />
+                                                @if (!string.IsNullOrEmpty(col.CurrentFilterValue))
+                                                {
+                                                    <button type="button"
+                                                            @onclick="() => ClearColumnFilter(col)"
+                                                            class="absolute inset-y-0 right-0 pr-1.5 flex items-center text-slate-400 hover:text-slate-600">
+                                                        ✕
+                                                    </button>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </th>
+                            }
+
+                            @if (ActionsTemplate is not null)
+                            {
+                                <th class="px-5 py-2 text-right">
+                                    @if (ActiveFilterCount > 0)
+                                    {
+                                        <button type="button"
+                                                @onclick="ResetColumnFilters"
+                                                class="text-[11px] text-slate-500 hover:text-rose-600 font-medium underline">
+                                            Clear Filters
+                                        </button>
+                                    }
+                                </th>
+                            }
+                        </tr>
+                    }
+                </thead>
+
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80">
+                    @if (CurrentPageItems.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="100" class="py-12 text-center text-slate-400">
+                                <div class="flex flex-col items-center justify-center gap-2">
+                                    <svg class="w-8 h-8 text-slate-300 dark:text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                    <p>@EmptyText</p>
+                                    @if (HasAnyActiveFilter)
+                                    {
+                                        <button type="button" @onclick="ResetAllFilters" class="text-xs text-brand-600 dark:text-brand-400 font-semibold underline mt-1">
+                                            Reset search & filters
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in CurrentPageItems)
+                        {
+                            var isSelected = _selectedItems.Contains(item);
+                            <tr class="transition-colors hover:bg-slate-50/70 dark:hover:bg-slate-800/40 @(isSelected ? "bg-brand-50/40 dark:bg-brand-950/25" : "")">
+                                @if (Selectable)
+                                {
+                                    <td class="w-10 px-4 py-3.5 text-center">
+                                        <input type="checkbox"
+                                               checked="@isSelected"
+                                               @onchange="() => ToggleItemSelection(item)"
+                                               class="rounded text-brand-600 focus:ring-brand-500 cursor-pointer" />
+                                    </td>
+                                }
+
+                                @foreach (var col in _columns)
+                                {
+                                    <td class="px-5 py-3.5 @GetAlignClass(col.Align) @col.CellClass" style="@col.BuildWidthStyle()">
+                                        @if (col.CellTemplate is not null)
+                                        {
+                                            @col.CellTemplate(item)
+                                        }
+                                        else if (col.Property is not null)
+                                        {
+                                            @col.Property(item)
+                                        }
+                                    </td>
+                                }
+
+                                @if (ActionsTemplate is not null)
+                                {
+                                    <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                                        <div class="inline-flex items-center gap-1.5 justify-end">
+                                            @ActionsTemplate(item)
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Mobile Stacked Card View (visible on mobile, hidden on md+) -->
+    <div class="grid grid-cols-1 gap-3 md:hidden">
+        @if (CurrentPageItems.Count == 0)
+        {
+            <div class="p-8 text-center text-sm text-slate-400 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+                <p>@EmptyText</p>
+                @if (HasAnyActiveFilter)
+                {
+                    <button type="button" @onclick="ResetAllFilters" class="text-xs text-brand-600 font-semibold underline mt-2">
+                        Reset filters
+                    </button>
+                }
+            </div>
+        }
+        else
+        {
+            @foreach (var item in CurrentPageItems)
+            {
+                var isSelected = _selectedItems.Contains(item);
+                <div class="p-4 rounded-2xl border transition-all bg-white dark:bg-slate-900 shadow-sm @(isSelected ? "border-brand-500 ring-2 ring-brand-500/20" : "border-slate-200 dark:border-slate-800")">
+                    @if (MobileCardTemplate is not null)
+                    {
+                        @MobileCardTemplate(item)
+                    }
+                    else
+                    {
+                        <!-- Default Mobile Stacked Layout -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
+                                @if (Selectable)
+                                {
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox"
+                                               checked="@isSelected"
+                                               @onchange="() => ToggleItemSelection(item)"
+                                               class="rounded text-brand-600 focus:ring-brand-500 cursor-pointer" />
+                                        <span class="text-xs font-bold text-slate-800 dark:text-slate-200">Select</span>
+                                    </div>
+                                }
+
+                                @if (_columns.Count > 0)
+                                {
+                                    var firstCol = _columns[0];
+                                    <div class="font-bold text-sm text-slate-900 dark:text-white truncate">
+                                        @if (firstCol.CellTemplate is not null)
+                                        {
+                                            @firstCol.CellTemplate(item)
+                                        }
+                                        else if (firstCol.Property is not null)
+                                        {
+                                            @firstCol.Property(item)
+                                        }
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Remaining Columns as Key-Value Pairs -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                @foreach (var col in _columns.Skip(1))
+                                {
+                                    <div>
+                                        <span class="text-slate-400 uppercase font-semibold text-[10px] block">@col.Title</span>
+                                        <div class="text-slate-800 dark:text-slate-200 font-medium mt-0.5">
+                                            @if (col.CellTemplate is not null)
+                                            {
+                                                @col.CellTemplate(item)
+                                            }
+                                            else if (col.Property is not null)
+                                            {
+                                                @col.Property(item)
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Record Actions Footer on Mobile -->
+                    @if (ActionsTemplate is not null)
+                    {
+                        <div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-2">
+                            @ActionsTemplate(item)
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Pagination Controls -->
+    @if (ShowPagination && TotalPages > 1)
+    {
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+            <span class="text-xs text-slate-500">
+                Page @CurrentPage of @TotalPages
+            </span>
+
+            <div class="flex items-center gap-1">
+                <button type="button"
+                        disabled="@(CurrentPage <= 1)"
+                        @onclick="() => SetPage(CurrentPage - 1)"
+                        class="px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    Previous
+                </button>
+
+                @for (int i = 1; i <= TotalPages; i++)
+                {
+                    var p = i;
+                    if (TotalPages <= 7 || p == 1 || p == TotalPages || Math.Abs(p - CurrentPage) <= 1)
+                    {
+                        <button type="button"
+                                @onclick="() => SetPage(p)"
+                                class="w-8 h-8 rounded-xl text-xs font-bold transition-all focus:outline-none @(p == CurrentPage ? "bg-brand-600 text-white shadow-sm shadow-brand-500/30" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800")">
+                            @p
+                        </button>
+                    }
+                    else if (p == 2 || p == TotalPages - 1)
+                    {
+                        <span class="w-6 text-center text-slate-400 text-xs select-none">...</span>
+                    }
+                }
+
+                <button type="button"
+                        disabled="@(CurrentPage >= TotalPages)"
+                        @onclick="() => SetPage(CurrentPage + 1)"
+                        class="px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                    Next
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
+    [Parameter] public RenderFragment? Columns { get; set; }
+    [Parameter] public RenderFragment<TItem>? ActionsTemplate { get; set; }
+    [Parameter] public RenderFragment<TItem>? MobileCardTemplate { get; set; }
+    [Parameter] public RenderFragment<IReadOnlyList<TItem>>? BatchActionsTemplate { get; set; }
+    [Parameter] public string ActionsTitle { get; set; } = "Actions";
+    [Parameter] public string EmptyText { get; set; } = "No records found matching your criteria.";
+    [Parameter] public bool Selectable { get; set; }
+    [Parameter] public bool ShowGlobalSearch { get; set; } = true;
+    [Parameter] public string SearchPlaceholder { get; set; } = "Search all records...";
+    [Parameter] public Func<TItem, string, bool>? SearchPredicate { get; set; }
+    [Parameter] public bool AllowColumnFiltering { get; set; } = true;
+    [Parameter] public bool ShowPagination { get; set; } = true;
+    [Parameter] public int PageSize { get; set; } = 5;
+    [Parameter] public int[] PageSizeOptions { get; set; } = new[] { 5, 10, 20, 50 };
+    [Parameter] public bool ShowPageSizeSelector { get; set; } = true;
+    [Parameter] public int CurrentPage { get; set; } = 1;
+    [Parameter] public EventCallback<int> CurrentPageChanged { get; set; }
+    [Parameter] public EventCallback<IReadOnlyList<TItem>> SelectionChanged { get; set; }
+    [Parameter] public string? Class { get; set; }
+
+    private readonly List<TwDataGridColumn<TItem>> _columns = new();
+    private readonly HashSet<TItem> _selectedItems = new();
+    private TwDataGridColumn<TItem>? _sortColumn;
+    private bool _sortAscending = true;
+    private string _searchQuery = "";
+    private bool _showColumnFilters = true;
+
+    public void AddColumn(TwDataGridColumn<TItem> column)
+    {
+        if (!_columns.Contains(column))
+        {
+            _columns.Add(column);
+            StateHasChanged();
+        }
+    }
+
+    public void RemoveColumn(TwDataGridColumn<TItem> column)
+    {
+        _columns.Remove(column);
+        StateHasChanged();
+    }
+
+    private int ActiveFilterCount => _columns.Count(c => !string.IsNullOrWhiteSpace(c.CurrentFilterValue));
+    private bool HasAnyActiveFilter => !string.IsNullOrWhiteSpace(_searchQuery) || ActiveFilterCount > 0;
+
+    private IEnumerable<TItem> FilteredItems
+    {
+        get
+        {
+            var data = Items ?? Enumerable.Empty<TItem>();
+
+            // 1. Global search filter
+            if (!string.IsNullOrWhiteSpace(_searchQuery))
+            {
+                if (SearchPredicate is not null)
+                {
+                    data = data.Where(x => SearchPredicate(x, _searchQuery));
+                }
+                else
+                {
+                    var q = _searchQuery.Trim().ToLowerInvariant();
+                    data = data.Where(item =>
+                    {
+                        foreach (var col in _columns)
+                        {
+                            var val = (col.Property?.Invoke(item) ?? col.SortBy?.Invoke(item))?.ToString();
+                            if (val != null && val.ToLowerInvariant().Contains(q)) return true;
+                        }
+                        return false;
+                    });
+                }
+            }
+
+            // 2. Per-column filters
+            foreach (var col in _columns)
+            {
+                if (!string.IsNullOrWhiteSpace(col.CurrentFilterValue))
+                {
+                    var colFilter = col.CurrentFilterValue.Trim().ToLowerInvariant();
+                    data = data.Where(item =>
+                    {
+                        var val = (col.Property?.Invoke(item) ?? col.SortBy?.Invoke(item))?.ToString();
+                        return val != null && val.ToLowerInvariant().Contains(colFilter);
+                    });
+                }
+            }
+
+            // 3. Sorting
+            if (_sortColumn is not null)
+            {
+                Func<TItem, object?> keySelector = _sortColumn.SortBy ?? _sortColumn.Property ?? (_ => null);
+                data = _sortAscending 
+                    ? data.OrderBy(keySelector) 
+                    : data.OrderByDescending(keySelector);
+            }
+
+            return data;
+        }
+    }
+
+    private int TotalFilteredCount => FilteredItems.Count();
+    private int TotalPages => Math.Max(1, (int)Math.Ceiling((double)TotalFilteredCount / PageSize));
+
+    private List<TItem> CurrentPageItems => FilteredItems
+        .Skip((CurrentPage - 1) * PageSize)
+        .Take(PageSize)
+        .ToList();
+
+    private bool IsAllCurrentPageSelected => CurrentPageItems.Count > 0 && CurrentPageItems.All(i => _selectedItems.Contains(i));
+
+    private void HandleSort(TwDataGridColumn<TItem> col)
+    {
+        if (!col.Sortable) return;
+
+        if (_sortColumn == col)
+        {
+            if (_sortAscending)
+            {
+                _sortAscending = false;
+            }
+            else
+            {
+                _sortColumn = null;
+                _sortAscending = true;
+            }
+        }
+        else
+        {
+            _sortColumn = col;
+            _sortAscending = true;
+        }
+    }
+
+    private void HandleGlobalSearchInput(ChangeEventArgs e)
+    {
+        _searchQuery = e.Value?.ToString() ?? "";
+        CurrentPage = 1;
+    }
+
+    private void ClearGlobalSearch()
+    {
+        _searchQuery = "";
+        CurrentPage = 1;
+    }
+
+    private void HandleColumnFilterInput(TwDataGridColumn<TItem> col, ChangeEventArgs e)
+    {
+        col.CurrentFilterValue = e.Value?.ToString() ?? "";
+        CurrentPage = 1;
+    }
+
+    private void ClearColumnFilter(TwDataGridColumn<TItem> col)
+    {
+        col.CurrentFilterValue = "";
+        CurrentPage = 1;
+    }
+
+    private void ToggleColumnFilters()
+    {
+        _showColumnFilters = !_showColumnFilters;
+    }
+
+    private void ResetColumnFilters()
+    {
+        foreach (var col in _columns)
+        {
+            col.CurrentFilterValue = "";
+        }
+        CurrentPage = 1;
+    }
+
+    private void ResetAllFilters()
+    {
+        _searchQuery = "";
+        ResetColumnFilters();
+    }
+
+    private void HandlePageSizeChange(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var size))
+        {
+            PageSize = size;
+            CurrentPage = 1;
+        }
+    }
+
+    private async Task SetPage(int page)
+    {
+        CurrentPage = Math.Clamp(page, 1, TotalPages);
+        await CurrentPageChanged.InvokeAsync(CurrentPage);
+    }
+
+    private async Task ToggleItemSelection(TItem item)
+    {
+        if (_selectedItems.Contains(item))
+            _selectedItems.Remove(item);
+        else
+            _selectedItems.Add(item);
+
+        await SelectionChanged.InvokeAsync(_selectedItems.ToList());
+    }
+
+    private async Task ToggleSelectAllCurrentPage(ChangeEventArgs e)
+    {
+        bool isChecked = (bool)(e.Value ?? false);
+        foreach (var item in CurrentPageItems)
+        {
+            if (isChecked) _selectedItems.Add(item);
+            else _selectedItems.Remove(item);
+        }
+        await SelectionChanged.InvokeAsync(_selectedItems.ToList());
+    }
+
+    private async Task DeselectAll()
+    {
+        _selectedItems.Clear();
+        await SelectionChanged.InvokeAsync(_selectedItems.ToList());
+    }
+
+    private static string GetAlignClass(string align) => align.ToLowerInvariant() switch
+    {
+        "center" => "justify-center text-center",
+        "right" => "justify-end text-right",
+        _ => "justify-start text-left"
+    };
+}

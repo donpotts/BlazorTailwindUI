@@ -1,0 +1,38 @@
+@namespace BlazorTailwindUI.Components.UI
+@inject IJSRuntime JS
+
+<canvas @ref="_canvasRef"
+        class="@(FullScreen ? "fixed inset-0 pointer-events-none z-50 w-full h-full" : "absolute inset-0 pointer-events-none z-20 w-full h-full") @Class">
+</canvas>
+
+@code {
+    private ElementReference _canvasRef;
+
+    [Parameter] public bool FullScreen { get; set; } = false;
+    [Parameter] public bool AutoFire { get; set; } = false;
+    [Parameter] public int ParticleCount { get; set; } = 85;
+    [Parameter] public string? Class { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AutoFire)
+        {
+            await FireAsync(0.5, 0.4, ParticleCount);
+        }
+    }
+
+    public async Task FireAsync(double originX = 0.5, double originY = 0.5, int? count = null)
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("blazorConfetti.fire", _canvasRef, new
+            {
+                count = count ?? ParticleCount,
+                x = originX,
+                y = originY
+            });
+        }
+        catch
+        { }
+    }
+}

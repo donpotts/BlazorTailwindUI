@@ -1,0 +1,137 @@
+@namespace BlazorTailwindUI.Components.UI
+@using BlazorTailwindUI.Models
+@using BlazorTailwindUI.Services
+@inject ToastService Toast
+
+<div class="relative rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl overflow-hidden @Class">
+    @if (Schema != null)
+    {
+        <!-- Header Banner with Accent Gradient -->
+        <div class="p-5 sm:p-6 @GetHeaderGradientClass() border-b border-slate-200/50 dark:border-slate-800/80 flex items-start justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-2xl shadow-inner shrink-0 text-white">
+                    @Schema.Icon
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white border border-white/20">
+                            @Schema.WidgetType
+                        </span>
+                        @foreach (var tag in Schema.Tags)
+                        {
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/10 text-white/90">
+                                #@tag
+                            </span>
+                        }
+                    </div>
+                    <h3 class="text-xl font-black text-white tracking-tight mt-1">@Schema.Title</h3>
+                    <p class="text-xs text-white/80 mt-0.5">@Schema.Subtitle</p>
+                </div>
+            </div>
+
+            <div class="shrink-0 flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-xl bg-black/20 text-white font-mono text-xs border border-white/10">
+                    ID: @Schema.Id
+                </span>
+            </div>
+        </div>
+
+        <!-- Body: Metrics & Dynamic Properties -->
+        <div class="p-6 space-y-6">
+            @if (Schema.Metrics.Count > 0)
+            {
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    @foreach (var m in Schema.Metrics)
+                    {
+                        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 shadow-xs">
+                            <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 block truncate">@m.Label</span>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <span class="text-xl font-black text-slate-900 dark:text-white font-mono">@m.Value</span>
+                                @if (!string.IsNullOrEmpty(m.Delta))
+                                {
+                                    <span class="text-xs font-bold @(m.IsPositive ? "text-emerald-500" : "text-rose-500")">
+                                        @m.Delta
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            @* Dynamic Properties / Key-Value Grid *@
+            @if (Schema.Properties.Count > 0)
+            {
+                <div class="space-y-2">
+                    <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Synthesized Runtime Properties:</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        @foreach (var prop in Schema.Properties)
+                        {
+                            <div class="p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 flex items-center justify-between">
+                                <span class="font-bold text-slate-600 dark:text-slate-400 capitalize">@prop.Key.Replace("_", " "):</span>
+                                <span class="font-mono text-slate-900 dark:text-white font-medium">@prop.Value</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Dynamic Actions -->
+            @if (Schema.Actions.Count > 0)
+            {
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-end gap-2">
+                    @foreach (var act in Schema.Actions)
+                    {
+                        <button type="button"
+                                @onclick="() => TriggerAction(act)"
+                                class="px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 @GetActionButtonClass(act.Variant)">
+                            @if (!string.IsNullOrEmpty(act.Icon))
+                            {
+                                <span>@act.Icon</span>
+                            }
+                            <span>@act.Label</span>
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="p-8 text-center text-slate-400">
+            <span class="text-3xl mb-2 block">✨</span>
+            <p class="text-sm">No AGUI schema generated yet. Enter a prompt above to synthesize an interface.</p>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public AguiWidgetSchema? Schema { get; set; }
+    [Parameter] public EventCallback<AguiActionItem> OnActionTriggered { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+
+    private async Task TriggerAction(AguiActionItem action)
+    {
+        Toast.Show("Action Executed", $"Triggered AGUI tool action '{action.Label}' ({action.Id})", SemanticVariant.Primary);
+        await OnActionTriggered.InvokeAsync(action);
+    }
+
+    private string GetHeaderGradientClass() => Schema?.AccentColor switch
+    {
+        "emerald" => "bg-gradient-to-r from-emerald-600 to-teal-700",
+        "purple" => "bg-gradient-to-r from-purple-600 to-indigo-700",
+        "amber" => "bg-gradient-to-r from-amber-600 to-orange-700",
+        "rose" => "bg-gradient-to-r from-rose-600 to-pink-700",
+        "cyan" => "bg-gradient-to-r from-cyan-600 to-blue-700",
+        _ => "bg-gradient-to-r from-blue-600 to-indigo-800"
+    };
+
+    private string GetActionButtonClass(string variant) => variant switch
+    {
+        "primary" => "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/20",
+        "success" => "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-500/20",
+        "danger" => "bg-rose-600 hover:bg-rose-500 text-white shadow-rose-500/20",
+        "outline" => "border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800",
+        _ => "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200"
+    };
+}
