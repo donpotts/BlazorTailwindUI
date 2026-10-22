@@ -77,6 +77,7 @@
                 <!-- Action Controls (Beyond plain toast: real engagement buttons!) -->
                 <div class="flex flex-col sm:flex-row gap-3 pt-2">
                     <button type="button"
+                            id="btn-celebration-primary"
                             @onclick="HandlePrimary"
                             class="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-amber-500/25 transition flex items-center justify-center gap-2">
                         <span>🎁</span>
@@ -86,6 +87,7 @@
                     @if (!string.IsNullOrEmpty(SecondaryActionText))
                     {
                         <button type="button"
+                                id="btn-celebration-secondary"
                                 @onclick="HandleSecondary"
                                 class="py-3 px-4 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs sm:text-sm border border-slate-200/80 dark:border-slate-700 transition">
                             @SecondaryActionText
@@ -148,13 +150,13 @@
 
     private async Task HandlePrimary()
     {
-        await OnPrimaryAction.InvokeAsync();
         await HandleClose();
+        await OnPrimaryAction.InvokeAsync();
     }
 
     private async Task HandleSecondary()
     {
-        await OnSecondaryAction.InvokeAsync();
         await HandleClose();
+        await OnSecondaryAction.InvokeAsync();
     }
 }

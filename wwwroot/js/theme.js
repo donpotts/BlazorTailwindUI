@@ -6,6 +6,13 @@ window.blazorTheme = {
     mediaQuery: null,
     mediaListener: null,
 
+    scrollToElement: function (id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    },
+
     hexToRgb: function (hex) {
         let clean = hex.replace('#', '').trim();
         if (clean.length === 3) {

@@ -10,25 +10,55 @@ let audioContext = null;
 let isAudioInitialized = false;
 
 window.initWheelRotation = (initialRotation = 0) => {
-    currentWheelRotation = initialRotation;
+    currentWheelRotation = initialRotation % 360;
+    if (currentWheelRotation < 0) currentWheelRotation += 360;
+
+    const wheel = document.getElementById('wheel');
+    if (wheel) {
+        wheel.classList.remove('spinning');
+        wheel.style.animation = 'none';
+        void wheel.offsetWidth;
+        wheel.style.transform = `rotate(${currentWheelRotation}deg)`;
+        wheel.style.setProperty('--start-rotation', currentWheelRotation + 'deg');
+        wheel.style.setProperty('--spin-rotation', currentWheelRotation + 'deg');
+        wheel.style.setProperty('--spin-duration', '0ms');
+    }
 };
 
 window.setWheelRotation = (rotation, duration = 5000) => {
     const wheel = document.getElementById('wheel');
-    if (wheel) {
-        wheelStartRotation = currentWheelRotation;
-        wheelTargetRotation = rotation;
-        wheelAnimationDuration = duration;
-        wheelAnimationStart = Date.now();
+    if (!wheel) return;
 
-        wheel.style.setProperty('--start-rotation', wheelStartRotation + 'deg');
-        wheel.style.setProperty('--spin-rotation', rotation + 'deg');
-        wheel.style.setProperty('--spin-duration', duration + 'ms');
-
-        startWheelAnimation();
-        initAudioContext();
-        startTickingSound(duration);
+    if (wheelAnimationId) {
+        cancelAnimationFrame(wheelAnimationId);
+        wheelAnimationId = null;
     }
+    stopTicking();
+
+    wheelStartRotation = currentWheelRotation % 360;
+    if (wheelStartRotation < 0) wheelStartRotation += 360;
+    wheelTargetRotation = rotation;
+    wheelAnimationDuration = duration;
+    wheelAnimationStart = Date.now();
+
+    // 1. Detach old animation & force browser reflow so new animation restarts 100% reliably
+    wheel.classList.remove('spinning');
+    wheel.style.animation = 'none';
+    void wheel.offsetWidth;
+
+    // 2. Set updated CSS custom properties for start and destination
+    wheel.style.setProperty('--start-rotation', wheelStartRotation + 'deg');
+    wheel.style.setProperty('--spin-rotation', rotation + 'deg');
+    wheel.style.setProperty('--spin-duration', duration + 'ms');
+
+    // 3. Clear inline animation override and attach spinning class
+    wheel.style.animation = '';
+    wheel.classList.add('spinning');
+
+    // 4. Start RAF position tracker & audio
+    startWheelAnimation();
+    initAudioContext();
+    startTickingSound(duration);
 };
 
 function startWheelAnimation() {
@@ -43,7 +73,8 @@ function startWheelAnimation() {
         if (progress < 1) {
             wheelAnimationId = requestAnimationFrame(updateRotation);
         } else {
-            currentWheelRotation = wheelTargetRotation;
+            currentWheelRotation = wheelTargetRotation % 360;
+            if (currentWheelRotation < 0) currentWheelRotation += 360;
             wheelAnimationId = null;
         }
     }
@@ -67,29 +98,78 @@ function cubicBezier(t, x1, y1, x2, y2) {
     return ((ax * t + bx) * t + cx) * t + ay * t * t * t + by * t * t + cy * t;
 }
 
-window.stopWheelSpin = () => {
+window.completeWheelSpin = (finalRotation) => {
+    if (wheelAnimationId) {
+        cancelAnimationFrame(wheelAnimationId);
+        wheelAnimationId = null;
+    }
+    stopTicking();
+
+    let norm = (finalRotation !== undefined ? finalRotation : currentWheelRotation) % 360;
+    if (norm < 0) norm += 360;
+    currentWheelRotation = norm;
+
     const wheel = document.getElementById('wheel');
     if (wheel) {
-        if (wheelAnimationId) {
-            cancelAnimationFrame(wheelAnimationId);
-            wheelAnimationId = null;
-        }
-
-        let stoppedRotation = currentWheelRotation % 360;
-        if (stoppedRotation < 0) {
-            stoppedRotation += 360;
-        }
-
         wheel.classList.remove('spinning');
-        wheel.style.transform = `rotate(${stoppedRotation}deg)`;
-        wheel.style.setProperty('--spin-duration', '0ms');
-        wheel.style.setProperty('--spin-rotation', stoppedRotation + 'deg');
         wheel.style.animation = 'none';
-
-        currentWheelRotation = stoppedRotation;
-        stopTicking();
-        return stoppedRotation;
+        void wheel.offsetWidth;
+        wheel.style.transform = `rotate(${norm}deg)`;
+        wheel.style.setProperty('--start-rotation', norm + 'deg');
+        wheel.style.setProperty('--spin-rotation', norm + 'deg');
+        wheel.style.setProperty('--spin-duration', '0ms');
     }
+};
+
+window.stopWheelSpin = () => {
+    if (wheelAnimationId) {
+        cancelAnimationFrame(wheelAnimationId);
+        wheelAnimationId = null;
+    }
+    stopTicking();
+
+    let stoppedRotation = currentWheelRotation % 360;
+    if (stoppedRotation < 0) {
+        stoppedRotation += 360;
+    }
+
+    const wheel = document.getElementById('wheel');
+    if (wheel) {
+        wheel.classList.remove('spinning');
+        wheel.style.animation = 'none';
+        void wheel.offsetWidth;
+        wheel.style.transform = `rotate(${stoppedRotation}deg)`;
+        wheel.style.setProperty('--start-rotation', stoppedRotation + 'deg');
+        wheel.style.setProperty('--spin-rotation', stoppedRotation + 'deg');
+        wheel.style.setProperty('--spin-duration', '0ms');
+    }
+
+    currentWheelRotation = stoppedRotation;
+    return stoppedRotation;
+};
+
+window.resetWheel = () => {
+    if (wheelAnimationId) {
+        cancelAnimationFrame(wheelAnimationId);
+        wheelAnimationId = null;
+    }
+    stopTicking();
+
+    currentWheelRotation = 0;
+    wheelStartRotation = 0;
+    wheelTargetRotation = 0;
+
+    const wheel = document.getElementById('wheel');
+    if (wheel) {
+        wheel.classList.remove('spinning');
+        wheel.style.animation = 'none';
+        void wheel.offsetWidth;
+        wheel.style.transform = 'rotate(0deg)';
+        wheel.style.setProperty('--start-rotation', '0deg');
+        wheel.style.setProperty('--spin-rotation', '0deg');
+        wheel.style.setProperty('--spin-duration', '0ms');
+    }
+
     return 0;
 };
 

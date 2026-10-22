@@ -145,11 +145,17 @@
 
 @code {
     [Parameter] public string? Class { get; set; }
+    [Parameter] public int InitialBalance { get; set; } = 3250;
 
     private TwConfetti? _confettiRef;
     private int _walletPoints = 3250;
     private string _selectedCategory = "All";
     private string _searchQuery = "";
+
+    protected override void OnInitialized()
+    {
+        _walletPoints = InitialBalance;
+    }
 
     private RewardItem? _selectedReward;
     private bool _voucherClaimed = false;

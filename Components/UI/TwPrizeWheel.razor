@@ -83,21 +83,34 @@
 
             <!-- Controls & Spin Status -->
             <div class="flex flex-col items-center space-y-3 mt-6 w-full max-w-sm">
-                <div class="flex items-center gap-3 w-full justify-center">
-                    <TwButton Variant="ButtonVariant.Primary"
+                <div class="flex flex-wrap items-center gap-2.5 w-full justify-center">
+                    <TwButton id="btn-spin-wheel"
+                              Variant="ButtonVariant.Primary"
                               Size="ComponentSize.Lg"
                               OnClick="SpinWheel"
                               Disabled="@_isSpinning"
-                              Class="w-full sm:w-auto shadow-md">
+                              Class="flex-1 shadow-md">
                         @(_isSpinning ? "🎡 Spinning (Click STOP)..." : "🎲 Spin Wheel (5s)!")
                     </TwButton>
+
+                    <button type="button"
+                            id="btn-reset-wheel"
+                            @onclick="ResetWheel"
+                            disabled="@_isSpinning"
+                            title="Reset wheel to initial 0° state"
+                            class="px-3.5 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-40 text-slate-700 dark:text-slate-200 font-bold text-xs transition border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-1.5">
+                        <span>↺</span>
+                        <span>Reset</span>
+                    </button>
 
                     @if (_isSpinning)
                     {
                         <button type="button"
+                                id="btn-stop-wheel"
                                 @onclick="StopWheelIfSpinning"
-                                class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs tracking-wider uppercase shadow-md transition animate-pulse">
-                            🛑 STOP NOW
+                                class="px-4 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs tracking-wider uppercase shadow-md transition animate-pulse flex items-center gap-1.5">
+                            <span>🛑</span>
+                            <span>STOP</span>
                         </button>
                     }
                 </div>
@@ -220,6 +233,7 @@
         _isSpinning = true;
         _winningPrize = null;
         _selectionMessage = "🎡 Spinning... (Click center STOP to halt anytime!)";
+        await InvokeAsync(StateHasChanged);
 
         try
         {
@@ -270,7 +284,7 @@
 
         try
         {
-            await JS.InvokeVoidAsync("initWheelRotation", _currentRotation);
+            await JS.InvokeVoidAsync("completeWheelSpin", _currentRotation);
             await JS.InvokeVoidAsync("playWheelSound", "select");
         }
         catch {}
@@ -325,6 +339,26 @@
         }
     }
 
+    public async Task ResetWheel()
+    {
+        _spinCancellation?.Cancel();
+        _isSpinning = false;
+        _winningPrize = null;
+        _currentRotation = 0;
+        _targetRotation = 0;
+        _selectionMessage = "Wheel reset to starting position (0°). Ready to spin!";
+        _showCelebrationModal = false;
+
+        try
+        {
+            await JS.InvokeVoidAsync("resetWheel");
+        }
+        catch {}
+
+        Toast.Show("Wheel Reset", "Returned to 0° start position.", SemanticVariant.Info);
+        await InvokeAsync(StateHasChanged);
+    }
+
     private void ClaimPrizeFromModal()
     {
         _showCelebrationModal = false;
@@ -333,7 +367,7 @@
 
     private async Task SpinAgainFromModal()
     {
-        _showCelebrationModal = false;
+        await Task.Delay(60);
         await SpinWheel();
     }
 

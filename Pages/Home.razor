@@ -3200,11 +3200,20 @@
                                     Innovations, Morale & Modern Experience Suite
                                 </h2>
                                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-3xl">
-                                    Six production-ready, interactive capabilities built with pure Blazor and Tailwind CSS:
-                                    Team Morale Prize Wheel, Particle Celebration Editor, Employee Rewards Center, Zero-Trust MFA Suite, Audio/Video Media Recorder, and ScrollCraft Object Animation.
+                                    Production-ready, interactive capabilities built with pure Blazor and Tailwind CSS:
+                                    Company-Wide Birthday Notifications & Role-Themed Celebrations, Team Morale Prize Wheel, Particle Celebration Editor, Employee Rewards Center, Zero-Trust MFA Suite, Audio/Video Media Recorder, and ScrollCraft Object Animation.
                                 </p>
                             </div>
                         </div>
+
+                        <!-- Company-Wide Birthday Notification Banner -->
+                        <TwBirthdayBanner @bind-IsOpen="_showCompanyBirthdayBanner"
+                                          CelebrantName="Sarah Jenkins"
+                                          CelebrantRole="Staff Cloud & DevOps Architect"
+                                          CelebrantAvatarEmoji="👩‍💻"
+                                          CelebrantTenure="4 Years at Company"
+                                          RoleCheerMessage="Keeping our multi-region Kubernetes clusters at 99.999% uptime with zero downtime deploys!"
+                                          OnOpenCard="ScrollToBirthdayCard" />
 
                         <!-- Section 1: Team Morale, Celebrations & Rewards -->
                         <div class="space-y-6">
@@ -3222,6 +3231,12 @@
 
                             <TwCard Title="Celebration Particle Studio" Subtitle="Physics sandbox to calibrate confetti, sparkles, stars, balloons, and coin bursts">
                                 <TwCelebrationEditor />
+                            </TwCard>
+
+                            <TwCard Title="Role-Themed Birthday Celebration & Peer Signing Wall" Subtitle="Interactive birthday card tailored to employee roles with live particle unwrap, custom inside jokes, and digital signing book">
+                                <div id="birthday-card-section">
+                                    <TwBirthdayCard />
+                                </div>
                             </TwCard>
                         </div>
 
@@ -3384,6 +3399,16 @@
 
     private LayoutVariant _activeLayout = LayoutVariant.Sidebar;
     private string _activeTab = "components";
+    private bool _showCompanyBirthdayBanner = true;
+
+    private async Task ScrollToBirthdayCard()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("blazorTheme.scrollToElement", "birthday-card-section");
+        }
+        catch {}
+    }
 
     protected override void OnParametersSet()
     {
@@ -3562,6 +3587,8 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSmartTextArea", Subtitle = "AI autocomplete ghost text, tone switcher & clarity enhancer", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwPrizeWheel", Subtitle = "Interactive team morale prize wheel with deceleration physics & confetti", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwCelebrationEditor", Subtitle = "Particle physics celebration sandbox with emoji shapes & C# exporter", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwBirthdayBanner", Subtitle = "Company-wide birthday alert banner with quick reaction emojis & celebrations", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwBirthdayCard", Subtitle = "Role-tailored interactive birthday card with inside jokes, particle reveals & peer signing wall", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwRewardsCenter", Subtitle = "Company perks wallet, reward catalog & 1-click digital voucher redemption", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMfaAuthSuite", Subtitle = "Zero-Trust MFA suite with TOTP QR codes, SMS OTP, Passkeys & recovery codes", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMediaRecorder", Subtitle = "Browser audio/video media recorder with live waveform visualizer", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
