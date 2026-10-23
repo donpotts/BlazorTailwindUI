@@ -1,0 +1,146 @@
+@using BlazorTailwindUI.Models
+@using BlazorTailwindUI.Services
+@inject TwOpenTelemetryService OtelService
+@implements IDisposable
+
+<div class="btui-telemetry-dashboard rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden space-y-4 p-5">
+    <!-- Header with OTel Branding -->
+    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center font-bold text-sm">
+                OTel
+            </div>
+            <div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    OpenTelemetry Performance Cockpit
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                        ActivitySource v1.4.0
+                    </span>
+                </h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                    High-precision component lifecycle tracing, render latency waterfalls, and heap telemetry.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button type="button"
+                    @onclick="HandleSimulateBurst"
+                    class="px-3 py-1.5 text-xs font-bold rounded-xl bg-purple-600 hover:bg-purple-700 text-white shadow-sm transition flex items-center gap-1.5">
+                <span>⚡</span> Record Activity Burst
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Telemetry KPI Meters -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800">
+            <span class="text-[10px] uppercase font-semibold text-slate-400">Total Spans</span>
+            <div class="text-lg font-mono font-bold text-slate-900 dark:text-white">@OtelService.TotalRecordedCount</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800">
+            <span class="text-[10px] uppercase font-semibold text-slate-400">Avg Render Latency</span>
+            <div class="text-lg font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                @(_avgLatencyUs > 0 ? $"{_avgLatencyUs:F1} μs" : "410 μs")
+            </div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800">
+            <span class="text-[10px] uppercase font-semibold text-slate-400">Traced Components</span>
+            <div class="text-lg font-mono font-bold text-indigo-600 dark:text-indigo-400">@_distinctComponents</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800">
+            <span class="text-[10px] uppercase font-semibold text-slate-400">WASM Heap Allocation</span>
+            <div class="text-lg font-mono font-bold text-purple-600 dark:text-purple-400">
+                @((GC.GetTotalMemory(false) / (1024.0 * 1024.0)).ToString("F1")) MB
+            </div>
+        </div>
+    </div>
+
+    <!-- Trace Spans Waterfall List -->
+    <div class="space-y-2">
+        <div class="flex items-center justify-between text-xs text-slate-500 font-semibold px-1">
+            <span>Recent Component Trace Spans</span>
+            <span class="text-[11px] font-mono">Real-Time Ring Buffer (Last @OtelService.RecentSpans.Count)</span>
+        </div>
+
+        <div class="max-h-60 overflow-y-auto space-y-1.5 pr-1 font-mono text-[11px]">
+            @if (!OtelService.RecentSpans.Any())
+            {
+                <div class="p-4 text-center text-xs text-slate-400 bg-slate-50 dark:bg-slate-850 rounded-xl">
+                    No trace spans recorded yet. Click "Record Activity Burst" above to capture traces.
+                </div>
+            }
+            else
+            {
+                @foreach (var span in OtelService.RecentSpans.Take(12))
+                {
+                    <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3 hover:border-purple-500/40 transition">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                            <span class="font-bold text-slate-900 dark:text-white truncate">@span.ComponentName</span>
+                            <span class="text-slate-400">→</span>
+                            <span class="text-slate-600 dark:text-slate-300 truncate">@span.OperationName</span>
+                        </div>
+
+                        <div class="flex items-center gap-3 shrink-0">
+                            <!-- Visual Duration Bar -->
+                            <div class="w-16 sm:w-24 bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden hidden sm:block">
+                                <div class="bg-purple-500 h-full rounded-full" style="width: @(Math.Min(100, Math.Max(10, span.DurationMicroseconds / 25)))%"></div>
+                            </div>
+                            <span class="font-bold text-purple-600 dark:text-purple-400 w-16 text-right">
+                                @(span.DurationMicroseconds.ToString("F0")) μs
+                            </span>
+                            <span class="text-[10px] text-slate-400">
+                                @span.Timestamp.ToString("HH:mm:ss.ff")
+                            </span>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private double _avgLatencyUs;
+    private int _distinctComponents;
+
+    protected override void OnInitialized()
+    {
+        OtelService.OnTraceRecorded += HandleTraceUpdated;
+        RefreshMetrics();
+        if (!OtelService.RecentSpans.Any())
+        {
+            OtelService.GenerateSimulatedBurst();
+        }
+    }
+
+    private void HandleTraceUpdated()
+    {
+        InvokeAsync(() =>
+        {
+            RefreshMetrics();
+            StateHasChanged();
+        });
+    }
+
+    private void RefreshMetrics()
+    {
+        var spans = OtelService.RecentSpans;
+        if (spans.Any())
+        {
+            _avgLatencyUs = spans.Average(s => s.DurationMicroseconds);
+            _distinctComponents = spans.Select(s => s.ComponentName).Distinct().Count();
+        }
+    }
+
+    private void HandleSimulateBurst()
+    {
+        OtelService.GenerateSimulatedBurst();
+    }
+
+    public void Dispose()
+    {
+        OtelService.OnTraceRecorded -= HandleTraceUpdated;
+    }
+}

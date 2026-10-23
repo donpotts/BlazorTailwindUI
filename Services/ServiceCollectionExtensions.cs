@@ -19,6 +19,10 @@ public static class BlazorTailwindUIServiceExtensions
         services.AddSingleton<OcrEngineService>();
         services.AddSingleton<TwHydrationService>();
         services.AddSingleton<FullstackAgenticBridge>();
+        services.AddSingleton<TwDonutCacheService>();
+        services.AddSingleton<TwZstandardService>();
+        services.AddSingleton<TwPostQuantumService>();
+        services.AddSingleton<TwOpenTelemetryService>();
 
         return services;
     }

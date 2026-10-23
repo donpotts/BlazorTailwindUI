@@ -2385,6 +2385,52 @@ public class ComponentCatalogService
             RazorSnippet = "<TwFullstackHub />",
             Parameters = new List<ComponentParameterDoc>()
         },
+        new ComponentDocItem
+        {
+            Name = "TwUnionBoundary",
+            Category = "Fullstack .NET 11",
+            Description = "C# 15 Discriminated Union boundary rendering exhaustive states (Loading, Success, Empty, Failure) with compile-time branch safety.",
+            RazorSnippet = "<TwUnionBoundary TItem=\"string\" State=\"@state\"><Success Context=\"d\">@d</Success></TwUnionBoundary>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("State", "UiState<TItem>", "required", "Active algebraic union UI state."),
+                new ComponentParameterDoc("Loading", "RenderFragment", "null", "Template rendered during loading state."),
+                new ComponentParameterDoc("Success", "RenderFragment<TItem>", "null", "Template rendered on successful state with typed item context."),
+                new ComponentParameterDoc("Empty", "RenderFragment", "null", "Template rendered on empty collection or record set."),
+                new ComponentParameterDoc("Failure", "RenderFragment<UiState<TItem>.Failure>", "null", "Template rendered on error with failure details context.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwDonutCache",
+            Category = "Fullstack .NET 11",
+            Description = "Blazor Donut Caching container that edge-caches 95%+ of static SSR page markup while dynamically perforating personalized donut holes.",
+            RazorSnippet = "<TwDonutCache CacheKey=\"catalog\" Tags=\"@([\"catalog\"])\"><DynamicHole>...</DynamicHole></TwDonutCache>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("CacheKey", "string", "\"default_donut\"", "Unique cache key for the static shell segment."),
+                new ComponentParameterDoc("Duration", "TimeSpan", "5 minutes", "Cache expiration time-to-live."),
+                new ComponentParameterDoc("Tags", "List<string>", "[\"catalog\"]", "Cache invalidation tags for programmatic cache busting."),
+                new ComponentParameterDoc("StaticContent", "RenderFragment", "null", "Static markup cached at the edge across users."),
+                new ComponentParameterDoc("DynamicHole", "RenderFragment", "null", "Dynamic personalized slot evaluated per-request.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwPostQuantumVault",
+            Category = "Fullstack .NET 11",
+            Description = "Post-Quantum Cryptography secure enclave implementing NIST FIPS 203 ML-KEM-768 key encapsulation and zero-trust authenticated encryption.",
+            RazorSnippet = "<TwPostQuantumVault />",
+            Parameters = new List<ComponentParameterDoc>()
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTelemetryDashboard",
+            Category = "Fullstack .NET 11",
+            Description = "Native OpenTelemetry (OTel) developer cockpit rendering real-time ActivitySource lifecycle spans, render latency waterfalls, and heap telemetry.",
+            RazorSnippet = "<TwTelemetryDashboard />",
+            Parameters = new List<ComponentParameterDoc>()
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

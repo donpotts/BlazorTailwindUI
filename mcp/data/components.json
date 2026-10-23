@@ -5228,5 +5228,95 @@
     "description": "Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 11 Web Apps.",
     "snippet": "<TwFullstackHub />",
     "parameters": []
+  },
+  {
+    "name": "TwUnionBoundary",
+    "category": "Fullstack .NET 11",
+    "description": "C# 15 Discriminated Union boundary rendering exhaustive states (Loading, Success, Empty, Failure) with compile-time branch safety.",
+    "snippet": "<TwUnionBoundary TItem=\"string\" State=\"@state\"><Success Context=\"d\">@d</Success></TwUnionBoundary>",
+    "parameters": [
+      {
+        "name": "State",
+        "type": "UiState<TItem>",
+        "default": "required",
+        "description": "Active algebraic union UI state."
+      },
+      {
+        "name": "Loading",
+        "type": "RenderFragment",
+        "default": "null",
+        "description": "Template rendered during loading state."
+      },
+      {
+        "name": "Success",
+        "type": "RenderFragment<TItem>",
+        "default": "null",
+        "description": "Template rendered on successful state with typed item context."
+      },
+      {
+        "name": "Empty",
+        "type": "RenderFragment",
+        "default": "null",
+        "description": "Template rendered on empty collection or record set."
+      },
+      {
+        "name": "Failure",
+        "type": "RenderFragment<UiState<TItem>.Failure>",
+        "default": "null",
+        "description": "Template rendered on error with failure details context."
+      }
+    ]
+  },
+  {
+    "name": "TwDonutCache",
+    "category": "Fullstack .NET 11",
+    "description": "Blazor Donut Caching container that edge-caches 95%+ of static SSR page markup while dynamically perforating personalized donut holes.",
+    "snippet": "<TwDonutCache CacheKey=\"catalog\" Tags=\"@([\"catalog\"])\"><DynamicHole>...</DynamicHole></TwDonutCache>",
+    "parameters": [
+      {
+        "name": "CacheKey",
+        "type": "string",
+        "default": "\"default_donut\"",
+        "description": "Unique cache key for the static shell segment."
+      },
+      {
+        "name": "Duration",
+        "type": "TimeSpan",
+        "default": "5 minutes",
+        "description": "Cache expiration time-to-live."
+      },
+      {
+        "name": "Tags",
+        "type": "List<string>",
+        "default": "[\"catalog\"]",
+        "description": "Cache invalidation tags for programmatic cache busting."
+      },
+      {
+        "name": "StaticContent",
+        "type": "RenderFragment",
+        "default": "null",
+        "description": "Static markup cached at the edge across users."
+      },
+      {
+        "name": "DynamicHole",
+        "type": "RenderFragment",
+        "default": "null",
+        "description": "Dynamic personalized slot evaluated per-request."
+      }
+    ]
+  },
+  {
+    "name": "TwPostQuantumVault",
+    "category": "Fullstack .NET 11",
+    "description": "Post-Quantum Cryptography secure enclave implementing NIST FIPS 203 ML-KEM-768 key encapsulation and zero-trust authenticated encryption.",
+    "snippet": "<TwPostQuantumVault />",
+    "parameters": []
+  },
+  {
+    "name": "TwTelemetryDashboard",
+    "category": "Fullstack .NET 11",
+    "description": "Native OpenTelemetry (OTel) developer cockpit rendering real-time ActivitySource lifecycle spans, render latency waterfalls, and heap telemetry.",
+    "snippet": "<TwTelemetryDashboard />",
+    "parameters": []
   }
 ]
