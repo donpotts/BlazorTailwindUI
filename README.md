@@ -398,6 +398,47 @@ Blazor Tailwind UI includes a full 1080p masterclass coaching video (`wwwroot/vi
 
 ---
 
+## 🔌 Developer Model Context Protocol (MCP) Server (`@donpo/blazor-tailwind-mcp`)
+
+Blazor Tailwind UI provides an official, zero-dependency **Model Context Protocol (MCP)** server enabling AI coding assistants (Cursor, Claude Desktop, Antigravity, VS Code Copilot, and Windsurf) to directly query the component library, inspect typed C# APIs, scaffold Razor code, validate ANSI X9.27 MICR checks, and lint UI markup in real time.
+
+### Quick Start with `npx` or `node`
+```bash
+# Run via NPX
+npx @donpo/blazor-tailwind-mcp
+
+# Or run directly from local clone
+node mcp/server.js
+```
+
+### IDE Configuration (Claude Desktop, Cursor, Antigravity)
+Add the following to your `claude_desktop_config.json` or `.cursor/mcp.json`:
+```json
+{
+  "mcpServers": {
+    "blazor-tailwind": {
+      "command": "node",
+      "args": ["./mcp/server.js"]
+    }
+  }
+}
+```
+
+### 7 Developer Tools Included
+1. **`blazortw_search_components`**: Query 146+ components by natural language intent (e.g. *"financial candlestick chart"*, *"check reader with MICR"*, *"celebration confetti"*).
+2. **`blazortw_get_component_api`**: Retrieve typed C# parameters, types, default values, and event callbacks.
+3. **`blazortw_scaffold_component`**: Generate copy-pasteable Razor markup with full sample data and `@code` block.
+4. **`blazortw_list_forms`**: List the 100 enterprise form schemas grouped across 10 functional domains.
+5. **`blazortw_get_form_schema`**: Fetch the complete JSON schema with typed field definitions and validation rules.
+6. **`blazortw_validate_micr`**: Parse ANSI X9.27 MICR lines and calculate Federal Reserve Mod-10 ABA routing checksums.
+7. **`blazortw_audit_razor`**: Lint Razor markup for 44px mobile touch targets, dark-mode support, and brand neutrality.
+
+### 3 MCP Resources & 2 Prompts
+- **Resources**: `blazortw://components/catalog`, `blazortw://forms/100-standard`, `blazortw://design/guidelines`
+- **Prompts**: `scaffold-enterprise-page`, `synthesize-agui-agent`
+
+---
+
 ## 🖥️ TAUI Cross-Platform Desktop Installers
 
 Blazor Tailwind UI ships with native desktop packaging powered by **TAUI (Tauri v2)** and .NET 11 WebAssembly, giving you full native window management, offline operation, and native installers:
@@ -409,7 +450,7 @@ Blazor Tailwind UI ships with native desktop packaging powered by **TAUI (Tauri 
 | **macOS** | **Apple Disk Image (.dmg)** | `BlazorTailwindUI-1.0.0-universal.dmg` | Drag-and-drop macOS Universal Binary (Apple Silicon + Intel) |
 | **Linux** | **Debian Package (.deb)** | `blazor-tailwind-ui_1.0.0_amd64.deb` | Ubuntu / Debian package with desktop launcher entry |
 | **Linux** | **AppImage (.AppImage)** | `BlazorTailwindUI-1.0.0-x86_64.AppImage` | Single-file zero-install portable Linux executable |
-| **Cross-Platform** | **Web Demo (.zip)** | `BlazorTailwindUI-WebDemo-v1.0.0.zip` | Standalone offline web demo with 1-click `start-demo` scripts |
+| **Cross-Platform** | **Web Demo (.zip)** | `BlazorTailwindUI-WebDemo-v1.2.0.zip` | Standalone offline web demo with 1-click `start-demo` scripts |
 
 ### Build Desktop Installers Locally
 ```bash
@@ -528,7 +569,7 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.1.0** | **Native Media Recorder** | `TwMediaRecorder` | **Shipped ✅** | Browser microphone/camera recording with live SVG frequency visualizer, timer, and file export. |
 | **v1.1.0** | **ScrollCraft Animation Scrubber** | `TwScrollCraft` | **Shipped ✅** | Zero-dependency scroll-driven object animation with multi-layer parallax depth and focal scrubbers. |
 | **v1.1.0** | **Form / PDF OCR & Check 21 MICR Reader** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | **Shipped ✅** | Client-side WASM OCR for checks, drafts, invoices & W-9 forms. Decodes ANSI X9.27 E-13B MICR with Mod-10 ABA routing validation and Markdown editor insertion. |
-| **v1.2.0** | **Developer MCP Server** | `blazor-tailwind-mcp` | **In Progress 🚀** | Official Model Context Protocol (MCP) server for Cursor, Claude Desktop, Antigravity & VS Code to search 147+ components, inspect typed APIs, generate AG-UI forms & validate MICR. |
+| **v1.2.0** | **Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | **Shipped ✅** | Official Model Context Protocol (MCP) server for Cursor, Claude Desktop, Antigravity & VS Code to search 147+ components, inspect typed APIs, generate AG-UI forms & validate MICR. |
 | **v1.2.0** | **Advanced 3D WebGL Canvas** | `TwThreeCanvas`, `TwModelViewer` | Planned | Hardware-accelerated 3D object rendering, lighting presets, and model inspection. |
 | **v1.3.0** | **Native Mobile MAUI Bindings** | `TwMobileBridge`, `TwHaptics` | Planned | First-class .NET MAUI mobile shell wrapper with native biometric and haptic feedback triggers. |
 

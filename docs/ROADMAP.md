@@ -16,6 +16,8 @@ This document outlines the strategic architecture, component specifications, and
 | **6. Multi-Factor Auth (MFA) Methods Suite** | `TwMfaAuthSuite`, `TwOtpInput` | Shipped (v1.1.0) ✅ | Security, Auth & Compliance |
 | **7. AG-UI Form Engine & HITL Workbenches** | `TwAguiFormCanvas`, `AguiFormSchema` | Shipped (v1.1.0) ✅ | Agentic AI & Generative UI |
 | **8. PWA 1-Click App Installer** | `TwPwaInstallButton`, `TwPwaService` | Shipped (v1.1.0) ✅ | Client WebAssembly & Mobile |
+| **9. Form / PDF OCR & Check 21 MICR Engine** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | Shipped (v1.2.0) ✅ | Client WebAssembly & FinTech |
+| **10. Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | Shipped (v1.2.0) ✅ | Developer Tooling & Agentic AI |
 
 ---
 
@@ -209,10 +211,10 @@ Provide client-side WebAssembly optical character recognition (OCR) and financia
 
 ---
 
-## 10. 🔌 Developer Model Context Protocol (MCP) Server (`blazor-tailwind-mcp`)
+## 10. 🔌 Developer Model Context Protocol (MCP) Server (`@donpo/blazor-tailwind-mcp`) — Shipped (v1.2.0) ✅
 
 ### Objective
-Provide an official, zero-friction **Model Context Protocol (MCP)** server for AI-assisted developer environments (Cursor, Claude Desktop, Antigravity, VS Code Copilot, and Windsurf). Enables developer coding assistants to query the 147+ component library, inspect typed parameter schemas, generate validated AG-UI form JSON, and lint Razor markup in real time.
+Provide an official, zero-friction **Model Context Protocol (MCP)** server for AI-assisted developer environments (Cursor, Claude Desktop, Antigravity, VS Code Copilot, and Windsurf). Enables developer coding assistants to query the 147+ component library, inspect typed parameter schemas, generate validated AG-UI form JSON, validate ANSI X9.27 MICR lines, and lint Razor markup in real time.
 
 ### Key Architectural Specifications
 - **Packaging & Transports**:
@@ -250,9 +252,9 @@ Provide an official, zero-friction **Model Context Protocol (MCP)** server for A
 
 ```mermaid
 flowchart LR
-    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA<br/>Check 21 MICR & Form/PDF OCR"]
-    B --> C["v1.2.0 (In Progress 🚀)<br/>Developer MCP Server (blazor-tailwind-mcp)<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs"]
-    C --> D["v1.3.0<br/>Native Mobile MAUI Bindings<br/>Enterprise Micro-Frontends"]
+    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAURI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA"]
+    B --> C["v1.2.0 (Shipped ✅)<br/>Developer MCP Server (@donpo/blazor-tailwind-mcp)<br/>Check 21 MICR & Form/PDF OCR<br/>Zero-Dependency Architecture"]
+    C --> D["v1.3.0 (Planned 🚀)<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs<br/>Native Mobile MAUI Bindings"]
 ```
 
 Contributions and discussions are welcomed in the [GitHub Discussions](https://github.com/donpotts/BlazorTailwindUI/discussions) and [Issue Tracker](https://github.com/donpotts/BlazorTailwindUI/issues).
