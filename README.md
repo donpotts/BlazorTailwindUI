@@ -10,9 +10,9 @@
 </p>
 
 <p align="center">
-  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-11.0_RC_WASM-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 11 WASM" /></a>
+  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-11.0_Full--Stack_Ready-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 11 Full-Stack Ready" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v3.4" /></a>
-  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-147+_Production_Ready-3B82F6?style=for-the-badge" alt="147+ Components" /></a>
+  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-150+_Production_Ready-3B82F6?style=for-the-badge" alt="150+ Components" /></a>
   <a href="#-progressive-web-app-pwa--1-click-desktopmobile-installation"><img src="https://img.shields.io/badge/PWA-Installable_WASM-059669?style=for-the-badge" alt="PWA Installable" /></a>
   <a href="#-100-most-used-forms-standard-library"><img src="https://img.shields.io/badge/Forms_Catalog-100_Standard_Schemas-10B981?style=for-the-badge" alt="100 Forms" /></a>
   <a href="#-adaptive-generative-ui-agui--agentic-tool-calling"><img src="https://img.shields.io/badge/AGUI-Agentic_Tool_Calling-8B5CF6?style=for-the-badge" alt="AGUI & Tool Calling" /></a>
@@ -27,7 +27,7 @@
 
 **BlazorTailwindUI** is an enterprise-grade component library, dynamic form engine, and **Adaptive Generative UI (AGUI)** workbench for Blazor WebAssembly. Built with modern C# and client-side WebAssembly SIMD performance, it pairs with a standalone, local Tailwind CSS compiler to deliver:
 
-1. **147+ Production-Ready Components** across 18 structured categories.
+1. **150+ Production-Ready Components** across 19 structured categories.
 2. **Adaptive Generative UI (AGUI)**: Prompt-to-UI synthesis compiling natural language user intent into live, reactive interface trees.
 3. **Dual-Plane Agentic Tool Calling (.NET 11)**: First-class client-side WebAssembly tools (`FrontendWasm`) and backend endpoints (`BackendApi`) with real-time latency monitoring and execution tracing.
 4. **Smart Components Drop-in Suite**: Drop-in controls including `TwSmartPasteButton`, `TwSmartTextArea`, `TwSmartSearch`, and `TwSmartFilter`.
@@ -63,13 +63,22 @@
     - Client-side WebAssembly optical recognition for paper checks, bank drafts, invoices, and W-9 tax forms.
     - ANSI X9.27 E-13B magnetic clear band decoding with Mod-10 ABA routing checksum verification.
     - Direct table ingestion in `TwMarkdownEditor` and entity extraction in `TwSmartOcrButton`.
-11. **Developer Model Context Protocol (MCP) Server (`blazor-tailwind-mcp`)**:
+11. **Developer Model Context Protocol (MCP) Server (`@donpo/blazor-tailwind-mcp`)**:
     - Standardized MCP server for Cursor, Claude Desktop, Antigravity, and VS Code Copilot.
     - Exposes natural language component discovery, typed C# parameter specs, AG-UI form JSON synthesizers, and MICR check digit validators.
+12. **.NET 11 Full-Stack Universal Architecture & Streaming Pipeline**:
+    - Zero-flicker SSR hydration cache (`TwHydrationService` + `TwHydratedView`) eliminating redundant database queries.
+    - High-throughput streaming DataGrid (`TwStreamingGrid`) consuming native `IAsyncEnumerable<T>` server streams with real-time arrival animations and 1M row capacity.
+    - Dual-mode enterprise form engine (`TwFullstackForm`) supporting Static SSR Enhanced Form POST and Interactive Auto Client RPC.
+    - Official 1-click CLI template (`dotnet new blazortw -n MyEnterpriseApp --render-mode auto`).
 
 ---
 
 ## 📸 Visual Showcase
+
+<p align="center">
+  <img src="docs/images/fullstack-hub-verified.png" alt=".NET 11 Full-Stack Blazor Enterprise Hub" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
+</p>
 
 | 1-Click PWA App Installer in Header | Standalone Desktop/Mobile PWA Guide |
 |:---:|:---:|
@@ -569,9 +578,10 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.1.0** | **Native Media Recorder** | `TwMediaRecorder` | **Shipped ✅** | Browser microphone/camera recording with live SVG frequency visualizer, timer, and file export. |
 | **v1.1.0** | **ScrollCraft Animation Scrubber** | `TwScrollCraft` | **Shipped ✅** | Zero-dependency scroll-driven object animation with multi-layer parallax depth and focal scrubbers. |
 | **v1.1.0** | **Form / PDF OCR & Check 21 MICR Reader** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | **Shipped ✅** | Client-side WASM OCR for checks, drafts, invoices & W-9 forms. Decodes ANSI X9.27 E-13B MICR with Mod-10 ABA routing validation and Markdown editor insertion. |
-| **v1.2.0** | **Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | **Shipped ✅** | Official Model Context Protocol (MCP) server for Cursor, Claude Desktop, Antigravity & VS Code to search 147+ components, inspect typed APIs, generate AG-UI forms & validate MICR. |
-| **v1.2.0** | **Advanced 3D WebGL Canvas** | `TwThreeCanvas`, `TwModelViewer` | Planned | Hardware-accelerated 3D object rendering, lighting presets, and model inspection. |
-| **v1.3.0** | **Native Mobile MAUI Bindings** | `TwMobileBridge`, `TwHaptics` | Planned | First-class .NET MAUI mobile shell wrapper with native biometric and haptic feedback triggers. |
+| **v1.2.0** | **Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | **Shipped ✅** | Official Model Context Protocol (MCP) server for Cursor, Claude Desktop, Antigravity & VS Code to search 150+ components, inspect typed APIs, generate AG-UI forms & validate MICR. |
+| **v1.3.0** | **.NET 11 Full-Stack Universal Architecture** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | **Shipped ✅** | Unified Blazor render modes, zero-flicker SSR hydration cache, high-throughput IAsyncEnumerable streaming DataGrid with 1M row capacity, and dotnet new blazortw CLI scaffolder. |
+| **v1.4.0** | **Advanced 3D WebGL Canvas** | `TwThreeCanvas`, `TwModelViewer` | Planned | Hardware-accelerated 3D object rendering, lighting presets, and model inspection. |
+| **v1.4.0** | **Native Mobile MAUI Bindings** | `TwMobileBridge`, `TwHaptics` | Planned | First-class .NET MAUI mobile shell wrapper with native biometric and haptic feedback triggers. |
 
 ---
 

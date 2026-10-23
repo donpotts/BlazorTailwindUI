@@ -2334,6 +2334,57 @@ public class ComponentCatalogService
                 new ComponentParameterDoc("OnCheckScanned", "EventCallback<CheckDraftOcrResult>", "null", "Fired when a paper check or bank draft is scanned.")
             }
         },
+        new ComponentDocItem
+        {
+            Name = "TwStreamingGrid",
+            Category = "Fullstack .NET 11",
+            Description = "High-throughput streaming DataGrid consuming IAsyncEnumerable<TItem> server streams with real-time row pulse animations and 1M row virtualization.",
+            RazorSnippet = "<TwStreamingGrid Title=\"Real-time Telemetry\" MaxBufferCapacity=\"5000\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string", "\"High-Throughput Streaming Engine (IAsyncEnumerable)\"", "Grid title in header toolbar."),
+                new ComponentParameterDoc("Subtitle", "string", "\"Real-time telemetry pipeline consuming asynchronous server streams...\"", "Toolbar subtitle."),
+                new ComponentParameterDoc("MaxBufferCapacity", "int", "5000", "Maximum items kept in memory before circular eviction."),
+                new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwHydratedView",
+            Category = "Fullstack .NET 11",
+            Description = "Universal zero-flicker SSR hydration container eliminating duplicate database queries and visual layout shift between prerender and client hydration.",
+            RazorSnippet = "<TwHydratedView IsRestored=\"@_isRestored\" IsLoading=\"@_loading\"><p>Hydrated Content</p></TwHydratedView>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("ChildContent", "RenderFragment", "null", "The hydrated content to render."),
+                new ComponentParameterDoc("SkeletonTemplate", "RenderFragment", "null", "Custom skeleton placeholder to show during initial async load."),
+                new ComponentParameterDoc("IsLoading", "bool", "false", "Whether the component is actively fetching initial state."),
+                new ComponentParameterDoc("IsRestored", "bool", "false", "Whether the component state was restored from SSR prerender cache."),
+                new ComponentParameterDoc("ShowHydrationBadge", "bool", "true", "Displays subtle SSR/Hydrated badge indicator in top right."),
+                new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFullstackForm",
+            Category = "Fullstack .NET 11",
+            Description = "Dual-mode enterprise form engine supporting Static SSR Enhanced Form POST (zero JS) and Interactive Auto Client RPC seamlessly.",
+            RazorSnippet = "<TwFullstackForm Title=\"Universal Fullstack Form\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string", "\"Universal Fullstack Form Engine\"", "Form card title."),
+                new ComponentParameterDoc("Subtitle", "string", "\"Dual-mode form handling supporting Static SSR and Interactive Auto...\"", "Form card subtitle."),
+                new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFullstackHub",
+            Category = "Fullstack .NET 11",
+            Description = "Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 11 Web Apps.",
+            RazorSnippet = "<TwFullstackHub />",
+            Parameters = new List<ComponentParameterDoc>()
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

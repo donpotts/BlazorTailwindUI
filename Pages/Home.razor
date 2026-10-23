@@ -27,6 +27,7 @@
         <button type="button" @onclick='() => _activeTab = "components"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "components" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Components</button>
         <button type="button" @onclick='() => _activeTab = "gridcards"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "gridcards" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Grids & Cards</button>
         <button type="button" @onclick='() => _activeTab = "enterprise"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "enterprise" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Enterprise Suite ✨</button>
+        <button type="button" @onclick='() => _activeTab = "fullstack"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "fullstack" ? "bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">.NET 11 Full-Stack ⚡</button>
         <button type="button" @onclick='() => _activeTab = "forms"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "forms" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Task Forms 📋</button>
         <button type="button" @onclick='() => _activeTab = "aichat"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "aichat" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Smart & AGUI 🤖</button>
         <button type="button" @onclick='() => _activeTab = "datatable"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "datatable" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Data Table</button>
@@ -137,6 +138,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
                 <span>Grids & Cards</span>
+            </button>
+
+            <button type="button" @onclick='() => _activeTab = "fullstack"'
+                    class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition @(_activeTab == "fullstack" ? "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold" : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800")">
+                <div class="flex items-center gap-3">
+                    <span class="text-base">⚡</span>
+                    <span>.NET 11 Full-Stack</span>
+                </div>
+                <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">NEW</span>
             </button>
 
             <button type="button" @onclick='() => _activeTab = "aichat"'
@@ -3315,6 +3325,10 @@
                 {
                     <TwDocsExplorer />
                 }
+                else if (_activeTab == "fullstack")
+                {
+                    <TwFullstackHub />
+                }
                 
             </TwTabs>
         </TwContainer>
@@ -3529,6 +3543,7 @@
         _commandPaletteItems.Clear();
 
         // Navigation
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = ".NET 11 Full-Stack Hub", Subtitle = "Zero-Flicker Hydration, IAsyncEnumerable Streaming, Interactive Auto", Category = "Navigation", ShortcutKey = "U", Action = () => { _activeTab = "fullstack"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Tailwind Showcase", Subtitle = "Asymmetrical Bento Grid, Pricing Matrix, Avatar Stacks", Category = "Navigation", ShortcutKey = "S", Action = () => { _activeTab = "showcase"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Core Components", Subtitle = "Buttons, Badges, Inputs, Switches, Alerts", Category = "Navigation", ShortcutKey = "C", Action = () => { _activeTab = "components"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Enterprise Suite", Subtitle = "Native SVG Charts, Gauges, Timeline, File Upload, Tree", Category = "Navigation", ShortcutKey = "E", Action = () => { _activeTab = "enterprise"; StateHasChanged(); } });
@@ -3619,6 +3634,9 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMicrCheckReader", Subtitle = "Check 21 paper check & draft reader with ANSI X9.27 E-13B MICR decoding & ABA check digit validation", Category = "Components", Action = () => { _activeTab = "qrbarcode"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwDocumentOcrStudio", Subtitle = "Form & PDF OCR studio for checks, drafts, invoices, and W-9 tax documents", Category = "Components", Action = () => { _activeTab = "qrbarcode"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSmartOcrButton", Subtitle = "Smart component button for 1-click OCR & MICR extraction into forms and editors", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwStreamingGrid", Subtitle = "High-throughput IAsyncEnumerable streaming DataGrid with real-time row pulse and 1M row capacity", Category = "Components", Action = () => { _activeTab = "fullstack"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwHydratedView", Subtitle = "Zero-flicker SSR hydration container eliminating duplicate database queries", Category = "Components", Action = () => { _activeTab = "fullstack"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwFullstackForm", Subtitle = "Dual-mode form supporting Static SSR Enhanced POST and Interactive Auto Client RPC", Category = "Components", Action = () => { _activeTab = "fullstack"; StateHasChanged(); } });
     }
 
     private void HandleSelectPricingTier(PricingTier tier)

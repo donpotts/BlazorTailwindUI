@@ -5119,5 +5119,114 @@
         "description": "Fired when a paper check or bank draft is scanned."
       }
     ]
+  },
+  {
+    "name": "TwStreamingGrid",
+    "category": "Fullstack .NET 11",
+    "description": "High-throughput streaming DataGrid consuming IAsyncEnumerable server streams with real-time row pulse animations and 1M row virtualization.",
+    "snippet": "<TwStreamingGrid Title=\"Real-time Telemetry\" MaxBufferCapacity=\"5000\" />",
+    "parameters": [
+      {
+        "name": "Title",
+        "type": "string",
+        "default": "\"High-Throughput Streaming Engine (IAsyncEnumerable)\"",
+        "description": "Grid title in header toolbar."
+      },
+      {
+        "name": "Subtitle",
+        "type": "string",
+        "default": "\"Real-time telemetry pipeline consuming asynchronous server streams...\"",
+        "description": "Toolbar subtitle."
+      },
+      {
+        "name": "MaxBufferCapacity",
+        "type": "int",
+        "default": "5000",
+        "description": "Maximum items kept in memory before circular eviction."
+      },
+      {
+        "name": "Class",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Optional CSS classes."
+      }
+    ]
+  },
+  {
+    "name": "TwHydratedView",
+    "category": "Fullstack .NET 11",
+    "description": "Universal zero-flicker SSR hydration container eliminating duplicate database queries and visual layout shift between prerender and client hydration.",
+    "snippet": "<TwHydratedView IsRestored=\"@_isRestored\" IsLoading=\"@_loading\"><p>Hydrated Content</p></TwHydratedView>",
+    "parameters": [
+      {
+        "name": "ChildContent",
+        "type": "RenderFragment",
+        "default": "null",
+        "description": "The hydrated content to render."
+      },
+      {
+        "name": "SkeletonTemplate",
+        "type": "RenderFragment",
+        "default": "null",
+        "description": "Custom skeleton placeholder to show during initial async load."
+      },
+      {
+        "name": "IsLoading",
+        "type": "bool",
+        "default": "false",
+        "description": "Whether the component is actively fetching initial state."
+      },
+      {
+        "name": "IsRestored",
+        "type": "bool",
+        "default": "false",
+        "description": "Whether the component state was restored from SSR prerender cache."
+      },
+      {
+        "name": "ShowHydrationBadge",
+        "type": "bool",
+        "default": "true",
+        "description": "Displays subtle SSR/Hydrated badge indicator in top right."
+      },
+      {
+        "name": "Class",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Optional CSS classes."
+      }
+    ]
+  },
+  {
+    "name": "TwFullstackForm",
+    "category": "Fullstack .NET 11",
+    "description": "Dual-mode enterprise form engine supporting Static SSR Enhanced Form POST (zero JS) and Interactive Auto Client RPC seamlessly.",
+    "snippet": "<TwFullstackForm Title=\"Universal Fullstack Form\" />",
+    "parameters": [
+      {
+        "name": "Title",
+        "type": "string",
+        "default": "\"Universal Fullstack Form Engine\"",
+        "description": "Form card title."
+      },
+      {
+        "name": "Subtitle",
+        "type": "string",
+        "default": "\"Dual-mode form handling supporting Static SSR and Interactive Auto...\"",
+        "description": "Form card subtitle."
+      },
+      {
+        "name": "Class",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Optional CSS classes."
+      }
+    ]
+  },
+  {
+    "name": "TwFullstackHub",
+    "category": "Fullstack .NET 11",
+    "description": "Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 11 Web Apps.",
+    "snippet": "<TwFullstackHub />",
+    "parameters": []
   }
 ]

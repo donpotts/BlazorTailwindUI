@@ -276,7 +276,7 @@ rl.on('line', (line) => {
           },
           serverInfo: {
             name: 'blazor-tailwind-mcp',
-            version: '1.2.0'
+            version: '1.3.0'
           }
         });
         break;
@@ -345,6 +345,24 @@ function handleToolCall(id, toolName, args) {
           // Exact or strong name match
           if (nameLower === q) score += 100;
           else if (nameLower.includes(q)) score += 50;
+
+          // Compact match (e.g. "streaming grid" -> "twstreaminggrid")
+          const qCompact = q.replace(/[\s\-_]+/g, '');
+          if (qCompact.length > 2 && nameLower.includes(qCompact)) score += 60;
+
+          // Token-level matching across name, description, and category
+          const tokens = q.split(/[\s\-_]+/).filter(t => t.length > 1);
+          if (tokens.length > 0) {
+            let matchedTokens = 0;
+            for (const t of tokens) {
+              if (nameLower.includes(t)) { score += 35; matchedTokens++; }
+              else if (descLower.includes(t)) { score += 15; matchedTokens++; }
+              else if (catLower.includes(t)) { score += 5; matchedTokens++; }
+            }
+            if (matchedTokens === tokens.length && tokens.length > 1) {
+              score += 30; // Bonus for full query token coverage
+            }
+          }
 
           // Word boundary or token match in name
           if (nameLower.startsWith(q)) score += 30;
