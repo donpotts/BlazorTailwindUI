@@ -74,6 +74,7 @@
             <span>📖</span>
             <span class="hidden sm:inline">Docs & Help</span>
         </button>
+        <TwPwaInstallButton />
         <TwThemeSelector Alignment="right" />
         
         <TwDropdown Alignment="right">
@@ -3594,6 +3595,7 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMfaAuthSuite", Subtitle = "Zero-Trust MFA suite with TOTP QR codes, SMS OTP, Passkeys & recovery codes", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMediaRecorder", Subtitle = "Browser audio/video media recorder with live waveform visualizer", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwScrollCraft", Subtitle = "ScrollCraft object animation scrubber with parallax focal effects", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwPwaInstallButton", Subtitle = "1-Click Progressive Web App (PWA) installer for desktop and mobile", Category = "Components", Action = () => { _activeTab = "showcase"; StateHasChanged(); } });
     }
 
     private void HandleSelectPricingTier(PricingTier tier)

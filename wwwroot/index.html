@@ -48,6 +48,13 @@
     <link rel="icon" type="image/png" sizes="64x64" href="favicon.png" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="BlazorTwUI" />
+    <meta name="application-name" content="BlazorTwUI" />
+    <meta name="theme-color" content="#4f46e5" />
     <link rel="stylesheet" href="css/app.min.css" />
     <link rel="stylesheet" href="BlazorTailwindUI.styles.css" />
 </head>
@@ -62,9 +69,19 @@
 
     <script src="js/zxing.min.js"></script>
     <script src="js/sound_fx.js"></script>
+    <script src="js/pwa.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/wheel.js"></script>
     <script src="js/media_recorder.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').catch(err => {
+                    console.warn('[PWA] ServiceWorker registration failed:', err);
+                });
+            });
+        }
+    </script>
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 

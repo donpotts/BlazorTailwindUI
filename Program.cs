@@ -11,6 +11,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddScoped<ToastService>();
 builder.Services.AddScoped<TwSoundService>();
+builder.Services.AddScoped<TwPwaService>();
 builder.Services.AddSingleton<ComponentCatalogService>();
 builder.Services.AddSingleton<FormCatalogService>();
 builder.Services.AddSingleton<AgenticToolRegistry>();

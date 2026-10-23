@@ -12,7 +12,8 @@
 <p align="center">
   <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-11.0_RC_WASM-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 11 WASM" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v3.4" /></a>
-  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-146+_Production_Ready-3B82F6?style=for-the-badge" alt="146+ Components" /></a>
+  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-147+_Production_Ready-3B82F6?style=for-the-badge" alt="147+ Components" /></a>
+  <a href="#-progressive-web-app-pwa--1-click-desktopmobile-installation"><img src="https://img.shields.io/badge/PWA-Installable_WASM-059669?style=for-the-badge" alt="PWA Installable" /></a>
   <a href="#-100-most-used-forms-standard-library"><img src="https://img.shields.io/badge/Forms_Catalog-100_Standard_Schemas-10B981?style=for-the-badge" alt="100 Forms" /></a>
   <a href="#-adaptive-generative-ui-agui--agentic-tool-calling"><img src="https://img.shields.io/badge/AGUI-Agentic_Tool_Calling-8B5CF6?style=for-the-badge" alt="AGUI & Tool Calling" /></a>
   <a href="#-celebration-animations-studio--freely-distributable-procedural-sound-fx"><img src="https://img.shields.io/badge/Sound_FX-Procedural_Web_Audio-EC4899?style=for-the-badge" alt="Procedural Sound FX" /></a>
@@ -25,7 +26,7 @@
 
 **BlazorTailwindUI** is an enterprise-grade component library, dynamic form engine, and **Adaptive Generative UI (AGUI)** workbench for Blazor WebAssembly. Built with modern C# and client-side WebAssembly SIMD performance, it pairs with a standalone, local Tailwind CSS compiler to deliver:
 
-1. **146+ Production-Ready Components** across 18 structured categories.
+1. **147+ Production-Ready Components** across 18 structured categories.
 2. **Adaptive Generative UI (AGUI)**: Prompt-to-UI synthesis compiling natural language user intent into live, reactive interface trees.
 3. **Dual-Plane Agentic Tool Calling (.NET 11)**: First-class client-side WebAssembly tools (`FrontendWasm`) and backend endpoints (`BackendApi`) with real-time latency monitoring and execution tracing.
 4. **Smart Components Drop-in Suite**: Drop-in controls including `TwSmartPasteButton`, `TwSmartTextArea`, `TwSmartSearch`, and `TwSmartFilter`.
@@ -62,6 +63,10 @@
 
 ## 📸 Visual Showcase
 
+| 1-Click PWA App Installer in Header | Standalone Desktop/Mobile PWA Guide |
+|:---:|:---:|
+| <img src="docs/images/pwa-install-button-header.png" width="450" /> | <img src="docs/images/pwa-install-guide-modal.png" width="450" /> |
+
 | AG-UI Cloud Provisioning Form (HITL Gate) | Ingested PDF Procurement Form (Two-Way Diff) |
 |:---:|:---:|
 | <img src="docs/images/agui-form-cloud-provisioning.png" width="450" /> | <img src="docs/images/agui-form-procurement-ingest.png" width="450" /> |
@@ -97,6 +102,22 @@
 | Zero-Trust Multi-Factor Authentication (MFA) | In-Browser Media Capture & ScrollCraft |
 |:---:|:---:|
 | <img src="docs/images/innovations-mfa-suite.png" width="450" /> | <img src="docs/images/innovations-media-scrollcraft.png" width="450" /> |
+
+---
+
+## 📲 Progressive Web App (PWA) & 1-Click Desktop/Mobile Installation (`TwPwaInstallButton`)
+
+Because **BlazorTailwindUI** is built on pure client-side WebAssembly, the entire demo application is **fully installable as a native standalone Progressive Web App (PWA)** on Windows, macOS, Linux, iOS, and Android:
+
+- **`TwPwaInstallButton`**: Automatically integrates into your header or navigation bar, detecting if the app can be installed or is already running in standalone mode.
+- **Zero Browser Chrome Clutter**: Launches in its own independent desktop window or full-screen mobile app frame with zero browser address bar distractions.
+- **Offline Resilience (`service-worker.js`)**: Pre-caches the WebAssembly runtime, Tailwind stylesheets, local procedural sound synthesizers, and icons for instant offline launch.
+- **Cross-Platform Install Guide**: Includes an interactive modal with step-by-step guidance for Chromium browsers (`beforeinstallprompt` 1-click install) and iOS Safari (*"Share ➔ Add to Home Screen ⊞"*).
+
+```razor
+// Drop into any header, navbar or top banner
+<TwPwaInstallButton />
+```
 
 ---
 
@@ -376,7 +397,7 @@ Open your browser and navigate to `http://localhost:5128` (or the URL printed to
 ## 📚 Complete Documentation Suite
 
 - **[docs/ROADMAP.md](docs/ROADMAP.md)**: Official product roadmap, component blueprints, and upcoming milestone deliverables.
-- **[docs/COMPONENT_CATALOG.md](docs/COMPONENT_CATALOG.md)**: Exhaustive API specifications, parameter tables, defaults, and Razor markup examples for all **146+ components**.
+- **[docs/COMPONENT_CATALOG.md](docs/COMPONENT_CATALOG.md)**: Exhaustive API specifications, parameter tables, defaults, and Razor markup examples for all **147+ components**.
 - **[docs/DEVELOPER_COACHING.md](docs/DEVELOPER_COACHING.md)**: Mobile-first architectural best practices, 44px minimum tap targets, zero-FOUC theme synchronization, and WCAG AA compliance.
 - **[docs/HELP_AND_GUIDE.md](docs/HELP_AND_GUIDE.md)**: Keyboard shortcuts reference (`Ctrl+K` Command Palette), global recipes, and troubleshooting FAQ.
 
@@ -388,6 +409,7 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 
 | Milestone | Feature Pillar | Target Component(s) | Status | Architectural Focus |
 |:---:|---|---|:---:|---|
+| **v1.1.0** | **PWA 1-Click App Installer** | `TwPwaInstallButton`, `TwPwaService` | **Shipped ✅** | Standalone installable WASM PWA with Service Worker offline caching, beforeinstallprompt interop, and cross-platform installation modal. |
 | **v1.1.0** | **AG-UI Adaptive Form Engine & HITL Gate** | `TwAguiFormCanvas`, `AguiFormSchema` | **Shipped ✅** | Runtime form compilation from agent schemas, conditional dependency branching, confidence badges, two-way diff inspector, and HITL sign-off resolution. |
 | **v1.1.0** | **Morale Prize Wheel** | `TwPrizeWheel` | **Shipped ✅** | Interactive team prize wheel with SVG radial text wrap, manual brake, synchronous reflow reset, and Web Audio flapper clicks. |
 | **v1.1.0** | **Celebration Animations Studio** | `TwCelebrationEditor`, `TwConfetti`, `TwCelebrationModal` | **Shipped ✅** | Particle physics sandbox with 6 styles, continuous harmonic sinusoidal physics, 0.2x–5.0x speed multiplier, and true body-portal fullscreen. |

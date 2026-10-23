@@ -15,6 +15,7 @@ This document outlines the strategic architecture, component specifications, and
 | **5. Native Media Recorder & Player** | `TwMediaRecorder` | Shipped (v1.1.0) ✅ | Hardware & Media Interop |
 | **6. Multi-Factor Auth (MFA) Methods Suite** | `TwMfaAuthSuite`, `TwOtpInput` | Shipped (v1.1.0) ✅ | Security, Auth & Compliance |
 | **7. AG-UI Form Engine & HITL Workbenches** | `TwAguiFormCanvas`, `AguiFormSchema` | Shipped (v1.1.0) ✅ | Agentic AI & Generative UI |
+| **8. PWA 1-Click App Installer** | `TwPwaInstallButton`, `TwPwaService` | Shipped (v1.1.0) ✅ | Client WebAssembly & Mobile |
 
 ---
 
@@ -169,11 +170,28 @@ Eliminate the tedious "Chat Wall" ping-pong by allowing AI agents to synthesize 
 
 ---
 
+## 8. 📲 Progressive Web App (PWA) 1-Click App Installer
+
+### Objective
+Allow users and enterprise stakeholders to install the entire Blazor WebAssembly demo as a standalone native desktop or mobile application directly from their browser with zero URL bar clutter and offline caching.
+
+### Key Architectural Specifications
+- **`manifest.webmanifest`**: Declares standalone display mode, orientation, background color, theme color, and high-resolution icons (SVG, 192px PNG, 512px maskable PNG).
+- **`service-worker.js`**: Pre-caches the WebAssembly runtime, Tailwind stylesheets, Web Audio sound synthesizers, and icons for fast offline startup.
+- **`TwPwaInstallButton`**: Reactive Blazor button component listening to `beforeinstallprompt` and `appinstalled` events via `TwPwaService`.
+- **Cross-Platform Modal**: Explains 1-click install for Chrome/Edge and step-by-step guidance for iOS Safari (*"Share ➔ Add to Home Screen"*).
+
+```razor
+<TwPwaInstallButton />
+```
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid
 flowchart LR
-    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>7 Roadmap Innovations<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Adaptive Form Engine"]
+    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>8 Roadmap Innovations<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA Installable"]
     B --> C["v1.2.0<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs"]
     C --> D["v1.3.0<br/>Native Mobile MAUI Bindings<br/>Enterprise Micro-Frontends"]
 ```

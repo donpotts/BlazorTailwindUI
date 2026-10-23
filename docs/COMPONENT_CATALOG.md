@@ -2992,6 +2992,26 @@ Adaptive Generative UI (AG-UI) form engine compiling dynamic fields (inputs, tex
 
 ---
 
+### `TwPwaInstallButton`
+
+**Location:** [`Components/UI/TwPwaInstallButton.razor`](../Components/UI/TwPwaInstallButton.razor)
+
+Progressive Web App (PWA) 1-click install button and standalone status indicator. Automatically captures the browser's `beforeinstallprompt` event and opens an interactive cross-platform guide modal for browsers without native prompt support (like iOS Safari).
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwPwaInstallButton />
+```
+
+---
+
 ## Showcase & Micro-Interactions
 
 ### `TwMarquee`
