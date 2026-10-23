@@ -158,6 +158,40 @@
                 </div>
             </div>
 
+            <!-- 3. Freely Distributable Procedural Sound FX Controls -->
+            <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                        <span>@(_enableSound ? "🔊" : "🔇")</span> Procedural Sound FX
+                    </span>
+                    <button type="button"
+                            @onclick="ToggleSound"
+                            class="text-[11px] font-bold px-2 py-0.5 rounded-lg border transition @(_enableSound ? "bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400" : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500")">
+                        @(_enableSound ? "Sound ON" : "Muted")
+                    </button>
+                </div>
+
+                @if (_enableSound)
+                {
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[11px] font-bold">
+                            <span class="text-slate-500 dark:text-slate-400">FX Volume</span>
+                            <span class="font-mono text-brand-600 dark:text-brand-400">@((int)(_soundVolume * 100))%</span>
+                        </div>
+                        <input type="range" min="0.1" max="1.0" step="0.05" @bind="_soundVolume" @bind:event="oninput" @bind:after="UpdateVolume" class="w-full accent-emerald-500" />
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-[10px] text-slate-400">100% Royalty-Free Web Audio Synthesis</span>
+                        <button type="button"
+                                @onclick="PreviewSound"
+                                class="text-[11px] font-semibold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
+                            <span>▶️</span> Test FX Sound
+                        </button>
+                    </div>
+                }
+            </div>
+
             <!-- Preset Palettes -->
             <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                 <span class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Quick Calibration Presets</span>
@@ -274,6 +308,45 @@
     private double _originX = 0.5;
     private double _originY = 0.5;
     private double _speedMultiplier = 2.0;
+    private bool _enableSound = true;
+    private double _soundVolume = 0.75;
+
+    private async Task ToggleSound()
+    {
+        _enableSound = !_enableSound;
+        try
+        {
+            await JS.InvokeVoidAsync("blazorSoundFx.setMuted", !_enableSound);
+        }
+        catch { }
+    }
+
+    private async Task UpdateVolume()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("blazorSoundFx.setVolume", _soundVolume);
+        }
+        catch { }
+    }
+
+    private async Task PreviewSound()
+    {
+        try
+        {
+            var styleName = _selectedStyle switch
+            {
+                TwConfetti.CelebrationStyle.Fireworks => "fireworks",
+                TwConfetti.CelebrationStyle.Emojis => "emojis",
+                TwConfetti.CelebrationStyle.Coins => "coins",
+                TwConfetti.CelebrationStyle.Stars => "stars",
+                TwConfetti.CelebrationStyle.Streamers => "streamers",
+                _ => "confetti"
+            };
+            await JS.InvokeVoidAsync("blazorSoundFx.play", styleName, _soundVolume);
+        }
+        catch { }
+    }
 
     private async Task SelectStyle(TwConfetti.CelebrationStyle style)
     {
@@ -285,7 +358,7 @@
     {
         if (_stageConfettiRef != null)
         {
-            await _stageConfettiRef.FireStyleAsync(_selectedStyle, _originX, _originY, _particleCount, _speedMultiplier);
+            await _stageConfettiRef.FireStyleAsync(_selectedStyle, _originX, _originY, _particleCount, _speedMultiplier, _enableSound, _soundVolume);
         }
     }
 
@@ -293,7 +366,7 @@
     {
         if (_fullConfettiRef != null)
         {
-            await _fullConfettiRef.FireStyleAsync(_selectedStyle, _originX, _originY, _particleCount, _speedMultiplier);
+            await _fullConfettiRef.FireStyleAsync(_selectedStyle, _originX, _originY, _particleCount, _speedMultiplier, _enableSound, _soundVolume);
         }
     }
 
@@ -362,13 +435,15 @@ private async Task OnGoalCompleted()
 {{
     if (_confetti != null)
     {{
-        // Fire {_selectedStyle} with custom density and coordinates
+        // Fire {_selectedStyle} with custom density, speed and procedural sound
         await _confetti.FireStyleAsync(
             TwConfetti.CelebrationStyle.{_selectedStyle},
             originX: {_originX:F2},
             originY: {_originY:F2},
             count: {_particleCount},
-            speed: {_speedMultiplier:F1}
+            speed: {_speedMultiplier:F1},
+            sound: {_enableSound.ToString().ToLowerInvariant()},
+            soundVolume: {_soundVolume:F2}
         );
     }}
 }}",
@@ -394,7 +469,9 @@ private async Task OnGoalCompleted()
             FullScreen=""false""
             Style=""TwConfetti.CelebrationStyle.{_selectedStyle}""
             ParticleCount=""{_particleCount}""
-            Speed=""{_speedMultiplier:F1}"" />
+            Speed=""{_speedMultiplier:F1}""
+            EnableSound=""{_enableSound.ToString().ToLowerInvariant()}""
+            SoundVolume=""{_soundVolume:F2}"" />
 
 <!-- 2. Or trigger directly on button click -->
 <TwButton OnClick=""TriggerCelebration"">

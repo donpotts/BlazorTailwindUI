@@ -881,6 +881,12 @@ window.blazorCelebration = {
         const originX = opts.x !== undefined ? opts.x : 0.5;
         const originY = opts.y !== undefined ? opts.y : 0.5;
         const speed = typeof opts.speed === 'number' && opts.speed > 0 ? opts.speed : 1.0;
+
+        // Play matched procedural Sound FX (freely distributable Web Audio synthesis)
+        if (opts.sound !== false && window.blazorSoundFx) {
+            window.blazorSoundFx.play(style, typeof opts.soundVolume === 'number' ? opts.soundVolume : 1.0);
+        }
+
         const colors = opts.colors || [
             '#6366f1', '#4f46e5', '#10b981', '#f59e0b',
             '#ef4444', '#ec4899', '#8b5cf6', '#06b6d4', '#eab308'
