@@ -183,6 +183,44 @@
                 <div class="space-y-1.5 pt-2">
                     <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">2. TwSmartFilter (Natural Query to Filter Predicates):</span>
                     <TwSmartFilter OnFilterChanged="HandleSmartFilterChange" />
+
+                    <!-- Live Filtered Cluster Instances Table (Real-time Filter Execution) -->
+                    <div class="mt-2 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full @(_activeFilterChips.Count > 0 ? "bg-purple-500 animate-pulse" : "bg-slate-400")"></span>
+                                <span>Live Filtered Cluster Nodes:</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">
+                                @FilteredInstances.Count of @_allInstances.Count Matching
+                            </span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-[11px] text-left">
+                                <thead class="text-slate-400 font-mono border-b border-slate-200 dark:border-slate-700">
+                                    <tr>
+                                        <th class="py-1">Node Identifier</th>
+                                        <th>Region</th>
+                                        <th>Workload Role</th>
+                                        <th>Tier</th>
+                                        <th>CPU</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800 font-mono">
+                                    @foreach (var inst in FilteredInstances)
+                                    {
+                                        <tr>
+                                            <td class="py-1 font-bold text-slate-900 dark:text-white">@inst.Id</td>
+                                            <td class="text-slate-500">@inst.Region</td>
+                                            <td class="text-slate-700 dark:text-slate-300">@inst.Role</td>
+                                            <td><span class="px-1.5 py-0.2 rounded text-[9px] font-bold @(inst.Status == "Active" ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300" : "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300")">@inst.Status</span></td>
+                                            <td class="font-bold text-slate-800 dark:text-slate-200">@inst.CpuPercent%</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 3. TwSmartTextArea with SmartPaste -->
@@ -192,6 +230,32 @@
                         <TwSmartPasteButton OnApplied="HandleSmartPasteApplied" />
                     </div>
                     <TwSmartTextArea @bind-Value="_smartTextValue" Rows="3" />
+
+                    <!-- Live Populated Fields Form Card (Populated by SmartPaste) -->
+                    @if (_extractedFormFields.Count > 0)
+                    {
+                        <div class="mt-2 p-3.5 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800 space-y-2 animate-zoom-in">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                                    <span>✨</span>
+                                    <span>Smart Paste Bound Fields:</span>
+                                </span>
+                                <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400">@_extractedFormFields.Count Fields Populated</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                @foreach (var field in _extractedFormFields)
+                                {
+                                    <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-800/80">
+                                        <span class="text-[10px] text-slate-400 uppercase font-mono block">@field.Key.Replace("_", " "):</span>
+                                        <input type="text"
+                                               value="@field.Value"
+                                               @oninput='(e) => _extractedFormFields[field.Key] = e.Value?.ToString() ?? ""'
+                                               class="w-full bg-transparent font-bold text-slate-900 dark:text-white text-xs focus:outline-none" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -555,15 +619,60 @@
         await Task.CompletedTask;
     }
 
-    private void HandleAguiAction(AguiActionItem action)
+    private async Task HandleAguiAction(AguiActionItem action)
     {
+        if (_currentExecution != null)
+        {
+            _currentExecution.ToolCalls.Add(new ToolCallExecution
+            {
+                ToolName = $"agent_exec_{action.Id}",
+                DisplayName = $"Executed Action: {action.Label}",
+                Source = ToolSource.FrontendWasm,
+                LatencyMs = 0.6,
+                Arguments = new() { ["actionId"] = action.Id, ["label"] = action.Label },
+                Result = new { status = "Success", executedAt = DateTime.UtcNow }
+            });
+            _currentExecution.ReasoningSummary = $"Coordinated frontend WASM execution for '{action.Label}'. Live state and metrics updated.";
+        }
+
         if (action.Id == "reset_theme")
         {
-            _ = Theme.SetAccentAsync(AccentTheme.Indigo);
+            await Theme.SetAccentAsync(AccentTheme.Indigo);
         }
         else if (action.Id == "more_confetti")
         {
-            _ = LoadScenario("party");
+            await LoadScenario("party");
+        }
+        else if (action.Id == "scale_up")
+        {
+            if (_currentWidget != null)
+            {
+                var vcpu = _currentWidget.Metrics.FirstOrDefault(m => m.Label.Contains("vCPU"));
+                if (vcpu != null) vcpu.Value = "46 / 64 Cores";
+                var pods = _currentWidget.Metrics.FirstOrDefault(m => m.Label.Contains("Pods"));
+                if (pods != null) pods.Value = "118 Running";
+                _currentWidget.Properties["cluster_nodes"] = "8 Worker Nodes (+2 Scaled)";
+                _currentWidget.Properties["auto_scale_status"] = "Auto-Scaled +2 Nodes (Active)";
+                _currentWidget.Properties["last_heartbeat"] = DateTime.UtcNow.ToString("HH:mm:ss UTC");
+            }
+            await Sound.PlayAsync(TwSoundEffect.Coins);
+        }
+        else if (action.Id == "drain_nodes")
+        {
+            if (_currentWidget != null)
+            {
+                var vcpu = _currentWidget.Metrics.FirstOrDefault(m => m.Label.Contains("vCPU"));
+                if (vcpu != null) vcpu.Value = "32 / 48 Cores";
+                var pods = _currentWidget.Metrics.FirstOrDefault(m => m.Label.Contains("Pods"));
+                if (pods != null) pods.Value = "72 Running";
+                _currentWidget.Properties["auto_scale_status"] = "Node worker-06 drained and retired.";
+                _currentWidget.Properties["last_heartbeat"] = DateTime.UtcNow.ToString("HH:mm:ss UTC");
+            }
+            await Sound.PlayAsync(TwSoundEffect.FloatingReactions);
+        }
+        else if (action.Id == "trade_buy")
+        {
+            await Sound.PlayAsync(TwSoundEffect.Coins);
         }
     }
 
@@ -575,12 +684,54 @@
 
     private void HandleSmartFilterChange(Dictionary<string, string> chips)
     {
-        Toast.Show("Smart Filter Predicates", $"Received {chips.Count} structured filters from natural query.", SemanticVariant.Info);
+        _activeFilterChips = new Dictionary<string, string>(chips);
     }
 
     private void HandleSmartPasteApplied(Dictionary<string, string> mappings)
     {
-        Toast.Show("Smart Paste Bound", $"Mapped {mappings.Count} fields into active model.", SemanticVariant.Success);
+        _extractedFormFields = new Dictionary<string, string>(mappings);
+    }
+
+    public class CloudInstanceRow
+    {
+        public string Id { get; set; } = "";
+        public string Region { get; set; } = "";
+        public string Role { get; set; } = "";
+        public string Status { get; set; } = "";
+        public int CpuPercent { get; set; }
+    }
+
+    private List<CloudInstanceRow> _allInstances = new()
+    {
+        new() { Id = "k8s-us-east-01", Region = "us-east-1", Role = "Database Master", Status = "Active", CpuPercent = 74 },
+        new() { Id = "k8s-us-east-02", Region = "us-east-1", Role = "API Gateway", Status = "Active", CpuPercent = 58 },
+        new() { Id = "k8s-us-west-01", Region = "us-west-2", Role = "Worker Pool", Status = "Staging", CpuPercent = 32 },
+        new() { Id = "k8s-eu-west-01", Region = "eu-west-1", Role = "Observability", Status = "Active", CpuPercent = 61 },
+        new() { Id = "k8s-us-east-03", Region = "us-east-1", Role = "Cache Sentinel", Status = "Active", CpuPercent = 19 }
+    };
+
+    private Dictionary<string, string> _activeFilterChips = new();
+    private Dictionary<string, string> _extractedFormFields = new();
+
+    private List<CloudInstanceRow> FilteredInstances
+    {
+        get
+        {
+            if (_activeFilterChips.Count == 0) return _allInstances;
+            return _allInstances.Where(inst =>
+            {
+                foreach (var chip in _activeFilterChips)
+                {
+                    var val = chip.Value.ToLowerInvariant();
+                    var match = inst.Id.ToLowerInvariant().Contains(val) ||
+                                inst.Region.ToLowerInvariant().Contains(val) ||
+                                inst.Role.ToLowerInvariant().Contains(val) ||
+                                inst.Status.ToLowerInvariant().Contains(val);
+                    if (!match) return false;
+                }
+                return true;
+            }).ToList();
+        }
     }
 
     private async Task CopyCSharpSnippet()

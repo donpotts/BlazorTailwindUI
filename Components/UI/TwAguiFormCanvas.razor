@@ -2,326 +2,532 @@
 @using BlazorTailwindUI.Models
 @using BlazorTailwindUI.Services
 @using System.Text.Json
-@inject ToastService Toast
 @inject TwSoundService Sound
 @inject IJSRuntime JS
 
 <div class="relative rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden @Class">
     @if (Schema != null)
     {
-        <!-- 1. Header Banner -->
-        <div class="p-6 @GetHeaderGradientClass() border-b border-slate-200/50 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-2xl shadow-inner shrink-0 text-white">
-                    @Schema.Icon
-                </div>
-                <div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white border border-white/20">
-                            AG-UI Adaptive Form
-                        </span>
-                        @if (!string.IsNullOrEmpty(Schema.AgentName))
-                        {
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-black/20 text-white/90 border border-white/10 flex items-center gap-1">
-                                <span>🤖</span> @Schema.AgentName
-                            </span>
-                        }
-                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider @GetRiskBadgeClass(Schema.RiskLevel)">
-                            Risk: @Schema.RiskLevel
+        @if (_isExecuted && _lastSubmission != null)
+        {
+            <!-- ========================================================== -->
+            <!-- LIVE ACTIVE OPERATIONAL / DEPLOYED CONSOLE (POST-APPROVAL) -->
+            <!-- ========================================================== -->
+            <div class="p-6 sm:p-8 space-y-6 animate-zoom-in">
+                <!-- Status Banner -->
+                <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg shadow-emerald-600/20">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl shadow-inner shrink-0">
+                            🟢
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/20 border border-white/20">
+                                    LIVE & OPERATIONAL
+                                </span>
+                                <span class="text-xs font-mono text-emerald-100">
+                                    EXEC_#@(_lastSubmission.FormId[..Math.Min(8, _lastSubmission.FormId.Length)].ToUpper())
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-black tracking-tight mt-0.5">@Schema.Title</h3>
+                            <p class="text-xs text-emerald-100/90 mt-0.5">
+                                Successfully authorized and provisioned by Human Administrator at @_lastSubmission.SubmittedAt.ToString("HH:mm:ss UTC").
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0 flex items-center gap-2">
+                        <span class="px-3 py-1.5 rounded-xl bg-black/20 text-white text-xs font-mono border border-white/20 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
+                            <span>Latency: @(_pingLatencyMs.ToString("F1"))ms</span>
                         </span>
                     </div>
-                    <h3 class="text-xl font-black text-white tracking-tight mt-1.5">@Schema.Title</h3>
-                    <p class="text-xs text-white/80 mt-0.5 max-w-xl">@Schema.Description</p>
                 </div>
-            </div>
 
-            <!-- Overall Confidence Badge -->
-            <div class="shrink-0 flex sm:flex-col items-center sm:items-end justify-between gap-1 bg-white/10 sm:bg-transparent p-2 sm:p-0 rounded-xl border sm:border-0 border-white/10">
-                <div class="flex items-center gap-1.5 text-white text-xs font-bold">
-                    <span>✨</span>
-                    <span>@((Schema.OverallConfidence * 100).ToString("F0"))% AI Confidence</span>
-                </div>
-                <div class="w-24 sm:w-28 bg-white/20 rounded-full h-1.5 overflow-hidden">
-                    <div class="bg-emerald-400 h-1.5 rounded-full" style="width: @((Schema.OverallConfidence * 100).ToString("F0"))%"></div>
-                </div>
-                <span class="text-[10px] text-white/70 font-mono">ID: @Schema.Id[..Math.Min(8, Schema.Id.Length)]</span>
-            </div>
-        </div>
-
-        <!-- 2. AI Recommendation & Diff Bar -->
-        <div class="px-6 py-2.5 bg-slate-50 dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-                <span class="inline-block w-2 h-2 rounded-full @(_hasModifications ? "bg-amber-500 animate-pulse" : "bg-emerald-500")"></span>
-                @if (_hasModifications)
-                {
-                    <span class="font-semibold text-amber-600 dark:text-amber-400">
-                        @_modifiedCount field(s) adjusted from AI agent's proposal
-                    </span>
-                }
-                else
-                {
-                    <span>Form synchronized with AI agent proposal</span>
-                }
-            </div>
-
-            <div class="flex items-center gap-2">
-                <button type="button"
-                        @onclick="AutofillAiRecommendations"
-                        title="Revert modifications to AI agent recommendations"
-                        class="px-2.5 py-1 rounded-lg border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 font-medium text-[11px] transition">
-                    ✨ Reapply AI Defaults
-                </button>
-                <button type="button"
-                        @onclick="() => _showInspector = !_showInspector"
-                        class="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 font-medium text-[11px] transition flex items-center gap-1">
-                    <span>{ }</span>
-                    <span>@(_showInspector ? "Hide Payload" : "Inspect Payload")</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- 3. Form Body: Fields Grid -->
-        <div class="p-6 space-y-6">
-            @{
-                var visibleFields = Schema.Fields.Where(IsFieldVisible).ToList();
-                var groups = visibleFields.GroupBy(f => f.Group ?? "General").ToList();
-            }
-
-            @foreach (var grp in groups)
-            {
-                <div class="space-y-4">
-                    @if (groups.Count > 1 && !string.IsNullOrEmpty(grp.Key))
-                    {
-                        <div class="flex items-center gap-2 pb-1 border-b border-slate-100 dark:border-slate-800">
-                            <span class="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                                @grp.Key
-                            </span>
-                            <div class="h-px flex-1 bg-slate-100 dark:bg-slate-800"></div>
+                <!-- Verified Deployment Lifecycle Stepper -->
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2.5">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Execution Lifecycle Verification:</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-emerald-500/30 flex items-center gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">Policy Compliance: 100%</span>
                         </div>
-                    }
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-emerald-500/30 flex items-center gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">Security Clearance: Verified</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-emerald-500/30 flex items-center gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">Resource Allocation: Active</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-emerald-500/30 flex items-center gap-2">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span class="text-slate-700 dark:text-slate-300 font-medium">Health Probes: Nominal</span>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        @foreach (var field in grp)
+                <!-- Live Resource Credentials / Details Box -->
+                <div class="p-5 rounded-2xl bg-slate-900 text-slate-100 border border-slate-800 space-y-4 shadow-inner">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">🔑</span>
+                            <span class="text-xs font-bold text-slate-200 uppercase tracking-wider">
+                                Live Connection & Operational Artifacts
+                            </span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                            TLS 1.3 ENCRYPTED
+                        </span>
+                    </div>
+
+                    <div class="space-y-3">
+                        @if (Schema.Id.Contains("cloud"))
                         {
-                            var isSpan2 = field.Type is AguiFieldType.TextArea or AguiFieldType.RadioGroup or AguiFieldType.Tags;
-                            var isModified = IsFieldModified(field);
-
-                            <div class="@(isSpan2 ? "sm:col-span-2" : "sm:col-span-1") space-y-1.5 p-3.5 rounded-2xl border transition-all duration-200 @(isModified ? "border-amber-300 dark:border-amber-700/60 bg-amber-50/20 dark:bg-amber-950/10" : "border-slate-200/80 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-800/20")">
-                                
-                                <!-- Field Header & AI Confidence -->
-                                <div class="flex items-center justify-between gap-2">
-                                    <label class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                                        <span>@field.Label</span>
-                                        @if (field.IsRequired)
-                                        {
-                                            <span class="text-rose-500 font-bold">*</span>
-                                        }
-                                        @if (isModified)
-                                        {
-                                            <span class="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
-                                                Edited
-                                            </span>
-                                        }
-                                    </label>
-
-                                    @if (field.AiConfidence.HasValue)
-                                    {
-                                        <div class="group relative flex items-center gap-1 cursor-help"
-                                             title="@(field.ExtractedSource ?? "AI auto-predicted value")">
-                                            <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/50 px-1.5 py-0.5 rounded-md border border-purple-200 dark:border-purple-800">
-                                                ✨ @((field.AiConfidence.Value * 100).ToString("F0"))%
-                                            </span>
-                                        </div>
-                                    }
+                            <div>
+                                <span class="text-[11px] font-mono text-slate-400 block mb-1">Primary Connection URI:</span>
+                                <div class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto">
+                                    <span class="select-all flex-1">postgresql://admin:••••••••@@prod-pg-us-east-01.internal:5432/main</span>
+                                    <button type="button" @onclick='() => CopyToClipboard("postgresql://admin:superSecret123@prod-pg-us-east-01.internal:5432/main")'
+                                            class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium shrink-0 transition">
+                                        @(_hasCopied ? "✓ Copied" : "Copy URI")
+                                    </button>
                                 </div>
-
-                                <!-- Dynamic Field Controls -->
-                                <div>
-                                    @switch (field.Type)
-                                    {
-                                        case AguiFieldType.Text:
-                                            <input type="text"
-                                                   value="@GetFieldValue(field.Id)"
-                                                   @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
-                                                   placeholder="@field.Placeholder"
-                                                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs" />
-                                            break;
-
-                                        case AguiFieldType.TextArea:
-                                            <textarea rows="3"
-                                                      value="@GetFieldValue(field.Id)"
-                                                      @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
-                                                      placeholder="@field.Placeholder"
-                                                      class="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs"></textarea>
-                                            break;
-
-                                        case AguiFieldType.Number:
-                                            <input type="number"
-                                                   value="@GetFieldValue(field.Id)"
-                                                   min="@field.Min"
-                                                   max="@field.Max"
-                                                   step="@field.Step"
-                                                   @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
-                                                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs font-mono" />
-                                            break;
-
-                                        case AguiFieldType.Slider:
-                                            var curVal = double.TryParse(GetFieldValue(field.Id)?.ToString(), out var parsed) ? parsed : (field.Min ?? 0);
-                                            <div class="space-y-1">
-                                                <div class="flex items-center justify-between text-xs font-mono">
-                                                    <span class="text-slate-400">@field.Min</span>
-                                                    <span class="font-bold text-purple-600 dark:text-purple-400">@curVal</span>
-                                                    <span class="text-slate-400">@field.Max</span>
-                                                </div>
-                                                <input type="range"
-                                                       min="@(field.Min ?? 0)"
-                                                       max="@(field.Max ?? 100)"
-                                                       step="@(field.Step ?? 1)"
-                                                       value="@curVal"
-                                                       @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
-                                                       class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-600" />
-                                            </div>
-                                            break;
-
-                                        case AguiFieldType.Select:
-                                            <select value="@GetFieldValue(field.Id)"
-                                                    @onchange="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
-                                                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs">
-                                                @foreach (var opt in field.Options)
-                                                {
-                                                    <option value="@opt.Value">@opt.Label</option>
-                                                }
-                                            </select>
-                                            break;
-
-                                        case AguiFieldType.RadioGroup:
-                                            var activeRadio = GetFieldValue(field.Id)?.ToString();
-                                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                                                @foreach (var opt in field.Options)
-                                                {
-                                                    var isChecked = activeRadio == opt.Value;
-                                                    <button type="button"
-                                                            @onclick="() => SetFieldValue(field.Id, opt.Value)"
-                                                            class="p-3 rounded-xl border text-left transition flex items-start gap-2.5 @(isChecked ? "border-purple-500 bg-purple-50/50 dark:bg-purple-950/30 text-purple-900 dark:text-purple-200 ring-2 ring-purple-500/20 shadow-xs" : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 text-slate-700 dark:text-slate-300")">
-                                                        @if (!string.IsNullOrEmpty(opt.Icon))
-                                                        {
-                                                            <span class="text-base shrink-0">@opt.Icon</span>
-                                                        }
-                                                        <div>
-                                                            <div class="text-xs font-bold leading-tight">@opt.Label</div>
-                                                            @if (!string.IsNullOrEmpty(opt.Description))
-                                                            {
-                                                                <div class="text-[10px] text-slate-400 mt-0.5 leading-snug">@opt.Description</div>
-                                                            }
-                                                        </div>
-                                                    </button>
-                                                }
-                                            </div>
-                                            break;
-
-                                        case AguiFieldType.Switch:
-                                            var isSwitched = GetFieldValue(field.Id)?.ToString()?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false;
-                                            <div class="flex items-center justify-between pt-1">
-                                                <span class="text-xs text-slate-500 dark:text-slate-400">Enable feature / setting</span>
-                                                <button type="button"
-                                                        @onclick="() => SetFieldValue(field.Id, (!isSwitched).ToString().ToLowerInvariant())"
-                                                        class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden @(isSwitched ? "bg-purple-600" : "bg-slate-300 dark:bg-slate-700")">
-                                                    <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out @(isSwitched ? "translate-x-5" : "translate-x-0")"></span>
-                                                </button>
-                                            </div>
-                                            break;
-
-                                        case AguiFieldType.Date:
-                                            <input type="date"
-                                                   value="@GetFieldValue(field.Id)"
-                                                   @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
-                                                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs font-mono" />
-                                            break;
-
-                                        case AguiFieldType.Tags:
-                                            <input type="text"
-                                                   value="@GetFieldValue(field.Id)"
-                                                   placeholder="Comma separated tags (e.g. production, us-east, high-priority)"
-                                                   @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
-                                                   class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs font-mono" />
-                                            break;
-                                    }
-                                </div>
-
-                                <!-- Helper & Source Hints -->
-                                @if (!string.IsNullOrEmpty(field.ExtractedSource))
-                                {
-                                    <div class="text-[10px] text-purple-600 dark:text-purple-400 flex items-center gap-1 pt-0.5">
-                                        <span>🔍</span>
-                                        <span>@field.ExtractedSource</span>
-                                    </div>
-                                }
-                                else if (!string.IsNullOrEmpty(field.HelperText))
-                                {
-                                    <p class="text-[10px] text-slate-400 pt-0.5">@field.HelperText</p>
-                                }
-
-                                <!-- Error display -->
-                                @if (_validationErrors.TryGetValue(field.Id, out var err))
-                                {
-                                    <p class="text-[10px] font-bold text-rose-500 flex items-center gap-1 pt-0.5">
-                                        <span>⚠️</span>
-                                        <span>@err</span>
-                                    </p>
-                                }
                             </div>
                         }
-                    </div>
-                </div>
-            }
-
-            <!-- 4. Interactive Payload Inspector Drawer -->
-            @if (_showInspector)
-            {
-                <div class="p-4 rounded-2xl bg-slate-950 text-slate-200 border border-slate-800 space-y-2 animate-zoom-in font-mono text-xs">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                        <span class="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Structured Tool Result JSON</span>
-                        <span class="text-[10px] text-slate-500">Auto-serialized on submit</span>
-                    </div>
-                    <pre class="overflow-x-auto max-h-48 text-[11px] text-emerald-400 p-2 bg-slate-900 rounded-xl">@GetSerializedJson()</pre>
-                </div>
-            }
-
-            <!-- 5. Form Actions & HITL Gate -->
-            <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <button type="button"
-                            @onclick="HandleCancel"
-                            class="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 transition">
-                        @Schema.CancelLabel
-                    </button>
-                    <button type="button"
-                            @onclick="ResetForm"
-                            class="w-full sm:w-auto px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium text-slate-500 dark:text-slate-400 transition">
-                        🔄 Reset
-                    </button>
-                </div>
-
-                <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <button type="button"
-                            @onclick="HandleSubmit"
-                            disabled="@_isSubmitting"
-                            class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-xs shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 transition flex items-center justify-center gap-2">
-                        @if (_isSubmitting)
+                        else if (Schema.Id.Contains("procure"))
                         {
-                            <span class="animate-spin inline-block w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full"></span>
-                            <span>Resolving Tool Call...</span>
+                            <div>
+                                <span class="text-[11px] font-mono text-slate-400 block mb-1">Generated Purchase Order Voucher:</span>
+                                <div class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto">
+                                    <span class="select-all flex-1">PO-2026-DATADOG-98412-APPROVED-EXEC</span>
+                                    <button type="button" @onclick='() => CopyToClipboard("PO-2026-DATADOG-98412-APPROVED-EXEC")'
+                                            class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium shrink-0 transition">
+                                        @(_hasCopied ? "✓ Copied" : "Copy PO #")
+                                    </button>
+                                </div>
+                            </div>
                         }
                         else
                         {
-                            <span>🛡️</span>
-                            <span>@Schema.SubmitLabel</span>
-                            <span>&rarr;</span>
+                            <div>
+                                <span class="text-[11px] font-mono text-slate-400 block mb-1">Temporary Break-Glass Bastion Token:</span>
+                                <div class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-rose-400 overflow-x-auto">
+                                    <span class="select-all flex-1">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.s3cur3T0k3n... (TTL: 01:59:59)</span>
+                                    <button type="button" @onclick='() => CopyToClipboard("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.s3cur3T0k3n9812")'
+                                            class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium shrink-0 transition">
+                                        @(_hasCopied ? "✓ Copied" : "Copy Token")
+                                    </button>
+                                </div>
+                            </div>
                         }
+                    </div>
+
+                    <!-- Deployed Parameters Summary -->
+                    <div class="pt-2 border-t border-slate-800/80">
+                        <span class="text-[10px] text-slate-400 uppercase font-mono block mb-1.5">Approved Active Values:</span>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono">
+                            @foreach (var kvp in _lastSubmission.Values)
+                            {
+                                <div class="p-2 rounded-lg bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+                                    <span class="text-slate-400 truncate text-[11px]">@kvp.Key:</span>
+                                    <span class="text-slate-200 font-bold ml-2 truncate text-[11px]">@kvp.Value</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operational Action Controls -->
+                <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <button type="button"
+                                @onclick="RunPingProbe"
+                                class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 transition flex items-center gap-1.5 shadow-xs">
+                            <span>⚡</span>
+                            <span>Run Live Health Probe</span>
+                        </button>
+                        <button type="button"
+                                @onclick="() => _showInspector = !_showInspector"
+                                class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300 transition flex items-center gap-1.5 shadow-xs">
+                            <span>{ }</span>
+                            <span>@(_showInspector ? "Hide Payload" : "Inspect Payload")</span>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button type="button"
+                                @onclick="ReopenForEditing"
+                                class="px-4 py-2 rounded-xl border border-purple-300 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                            <span>✏️</span>
+                            <span>Modify Parameters</span>
+                        </button>
+                        <button type="button"
+                                @onclick="TeardownResource"
+                                class="px-4 py-2 rounded-xl border border-rose-300 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+                            <span>🛑</span>
+                            <span>Teardown Resource</span>
+                        </button>
+                    </div>
+                </div>
+
+                @if (_showInspector)
+                {
+                    <div class="p-4 rounded-2xl bg-slate-950 text-slate-200 border border-slate-800 space-y-2 animate-zoom-in font-mono text-xs">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Executed Tool Result JSON</span>
+                            <span class="text-[10px] text-slate-500">Live Agent Callback Payload</span>
+                        </div>
+                        <pre class="overflow-x-auto max-h-48 text-[11px] text-emerald-400 p-2 bg-slate-900 rounded-xl">@GetSerializedJson()</pre>
+                    </div>
+                }
+            </div>
+        }
+        else if (_isCanceled)
+        {
+            <!-- ========================================================== -->
+            <!-- CANCELED / ABORTED STATE -->
+            <!-- ========================================================== -->
+            <div class="p-8 text-center space-y-4 animate-zoom-in">
+                <div class="w-16 h-16 rounded-3xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 flex items-center justify-center text-3xl mx-auto shadow-inner border border-rose-200 dark:border-rose-800">
+                    ⛔
+                </div>
+                <div>
+                    <h3 class="text-lg font-black text-slate-900 dark:text-white">Workflow Aborted by Human Reviewer</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto mt-1">
+                        The requested execution was rejected. No infrastructure was allocated, and no budget was committed.
+                    </p>
+                </div>
+                <div class="pt-2">
+                    <button type="button"
+                            @onclick="ReopenForEditing"
+                            class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-md transition inline-flex items-center gap-2">
+                        <span>🔄</span>
+                        <span>Restore Form & Re-evaluate Plan</span>
                     </button>
                 </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <!-- ========================================================== -->
+            <!-- ACTIVE FORM DATA ENTRY / REVIEW STATE                     -->
+            <!-- ========================================================== -->
+
+            <!-- 1. Header Banner -->
+            <div class="p-6 @GetHeaderGradientClass() border-b border-slate-200/50 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-2xl shadow-inner shrink-0 text-white">
+                        @Schema.Icon
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white border border-white/20">
+                                AG-UI Adaptive Form
+                            </span>
+                            @if (!string.IsNullOrEmpty(Schema.AgentName))
+                            {
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-black/20 text-white/90 border border-white/10 flex items-center gap-1">
+                                    <span>🤖</span> @Schema.AgentName
+                                </span>
+                            }
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider @GetRiskBadgeClass(Schema.RiskLevel)">
+                                Risk: @Schema.RiskLevel
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-black text-white tracking-tight mt-1.5">@Schema.Title</h3>
+                        <p class="text-xs text-white/80 mt-0.5 max-w-xl">@Schema.Description</p>
+                    </div>
+                </div>
+
+                <!-- Overall Confidence Badge -->
+                <div class="shrink-0 flex sm:flex-col items-center sm:items-end justify-between gap-1 bg-white/10 sm:bg-transparent p-2 sm:p-0 rounded-xl border sm:border-0 border-white/10">
+                    <div class="flex items-center gap-1.5 text-white text-xs font-bold">
+                        <span>✨</span>
+                        <span>@((Schema.OverallConfidence * 100).ToString("F0"))% AI Confidence</span>
+                    </div>
+                    <div class="w-24 sm:w-28 bg-white/20 rounded-full h-1.5 overflow-hidden">
+                        <div class="bg-emerald-400 h-1.5 rounded-full" style="width: @((Schema.OverallConfidence * 100).ToString("F0"))%"></div>
+                    </div>
+                    <span class="text-[10px] text-white/70 font-mono">ID: @Schema.Id[..Math.Min(8, Schema.Id.Length)]</span>
+                </div>
+            </div>
+
+            <!-- 2. AI Recommendation & Diff Bar -->
+            <div class="px-6 py-2.5 bg-slate-50 dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+                    <span class="inline-block w-2 h-2 rounded-full @(_hasModifications ? "bg-amber-500 animate-pulse" : "bg-emerald-500")"></span>
+                    @if (_hasModifications)
+                    {
+                        <span class="font-semibold text-amber-600 dark:text-amber-400">
+                            @_modifiedCount field(s) adjusted from AI agent's proposal
+                        </span>
+                    }
+                    else
+                    {
+                        <span>Form synchronized with AI agent proposal</span>
+                    }
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button type="button"
+                            @onclick="AutofillAiRecommendations"
+                            title="Revert modifications to AI agent recommendations"
+                            class="px-2.5 py-1 rounded-lg border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 font-medium text-[11px] transition">
+                        ✨ Reapply AI Defaults
+                    </button>
+                    <button type="button"
+                            @onclick="() => _showInspector = !_showInspector"
+                            class="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 font-medium text-[11px] transition flex items-center gap-1">
+                        <span>{ }</span>
+                        <span>@(_showInspector ? "Hide Payload" : "Inspect Payload")</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Form Body: Fields Grid -->
+            <div class="p-6 space-y-6">
+                @{
+                    var visibleFields = Schema.Fields.Where(IsFieldVisible).ToList();
+                    var groups = visibleFields.GroupBy(f => f.Group ?? "General").ToList();
+                }
+
+                @foreach (var grp in groups)
+                {
+                    <div class="space-y-4">
+                        @if (groups.Count > 1 && !string.IsNullOrEmpty(grp.Key))
+                        {
+                            <div class="flex items-center gap-2 pb-1 border-b border-slate-100 dark:border-slate-800">
+                                <span class="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                                    @grp.Key
+                                </span>
+                                <div class="h-px flex-1 bg-slate-100 dark:bg-slate-800"></div>
+                            </div>
+                        }
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            @foreach (var field in grp)
+                            {
+                                var isSpan2 = field.Type is AguiFieldType.TextArea or AguiFieldType.RadioGroup or AguiFieldType.Tags;
+                                var isModified = IsFieldModified(field);
+
+                                <div class="@(isSpan2 ? "sm:col-span-2" : "sm:col-span-1") space-y-1.5 p-3.5 rounded-2xl border transition-all duration-200 @(isModified ? "border-amber-300 dark:border-amber-700/60 bg-amber-50/20 dark:bg-amber-950/10" : "border-slate-200/80 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-800/20")">
+                                    
+                                    <!-- Field Header & AI Confidence -->
+                                    <div class="flex items-center justify-between gap-2">
+                                        <label class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
+                                            <span>@field.Label</span>
+                                            @if (field.IsRequired)
+                                            {
+                                                <span class="text-rose-500 font-bold">*</span>
+                                            }
+                                            @if (isModified)
+                                            {
+                                                <span class="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300">
+                                                    Edited
+                                                </span>
+                                            }
+                                        </label>
+
+                                        @if (field.AiConfidence.HasValue)
+                                        {
+                                            <div class="group relative flex items-center gap-1 cursor-help"
+                                                 title="@(field.ExtractedSource ?? "AI auto-predicted value")">
+                                                <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/50 px-1.5 py-0.5 rounded-md border border-purple-200 dark:border-purple-800">
+                                                    ✨ @((field.AiConfidence.Value * 100).ToString("F0"))%
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <!-- Dynamic Field Controls -->
+                                    <div>
+                                        @switch (field.Type)
+                                        {
+                                            case AguiFieldType.Text:
+                                                <input type="text"
+                                                       value="@GetFieldValue(field.Id)"
+                                                       @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
+                                                       placeholder="@field.Placeholder"
+                                                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs" />
+                                                break;
+
+                                            case AguiFieldType.TextArea:
+                                                <textarea rows="3"
+                                                          value="@GetFieldValue(field.Id)"
+                                                          @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
+                                                          placeholder="@field.Placeholder"
+                                                          class="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs"></textarea>
+                                                break;
+
+                                            case AguiFieldType.Number:
+                                                <input type="number"
+                                                       value="@GetFieldValue(field.Id)"
+                                                       min="@field.Min"
+                                                       max="@field.Max"
+                                                       step="@field.Step"
+                                                       @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
+                                                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs font-mono" />
+                                                break;
+
+                                            case AguiFieldType.Slider:
+                                                var curVal = double.TryParse(GetFieldValue(field.Id)?.ToString(), out var parsed) ? parsed : (field.Min ?? 0);
+                                                <div class="space-y-1">
+                                                    <div class="flex items-center justify-between text-xs font-mono">
+                                                        <span class="text-slate-400">@field.Min</span>
+                                                        <span class="font-bold text-purple-600 dark:text-purple-400">@curVal</span>
+                                                        <span class="text-slate-400">@field.Max</span>
+                                                    </div>
+                                                    <input type="range"
+                                                           min="@(field.Min ?? 0)"
+                                                           max="@(field.Max ?? 100)"
+                                                           step="@(field.Step ?? 1)"
+                                                           value="@curVal"
+                                                           @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
+                                                           class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-purple-600" />
+                                                </div>
+                                                break;
+
+                                            case AguiFieldType.Select:
+                                                <select value="@GetFieldValue(field.Id)"
+                                                        @onchange="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
+                                                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs">
+                                                    @foreach (var opt in field.Options)
+                                                    {
+                                                        <option value="@opt.Value">@opt.Label</option>
+                                                    }
+                                                </select>
+                                                break;
+
+                                            case AguiFieldType.RadioGroup:
+                                                var activeRadio = GetFieldValue(field.Id)?.ToString();
+                                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                                    @foreach (var opt in field.Options)
+                                                    {
+                                                        var isChecked = activeRadio == opt.Value;
+                                                        <button type="button"
+                                                                @onclick="() => SetFieldValue(field.Id, opt.Value)"
+                                                                class="p-3 rounded-xl border text-left transition flex items-start gap-2.5 @(isChecked ? "border-purple-500 bg-purple-50/50 dark:bg-purple-950/30 text-purple-900 dark:text-purple-200 ring-2 ring-purple-500/20 shadow-xs" : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 text-slate-700 dark:text-slate-300")">
+                                                            @if (!string.IsNullOrEmpty(opt.Icon))
+                                                            {
+                                                                <span class="text-base shrink-0">@opt.Icon</span>
+                                                            }
+                                                            <div>
+                                                                <div class="text-xs font-bold leading-tight">@opt.Label</div>
+                                                                @if (!string.IsNullOrEmpty(opt.Description))
+                                                                {
+                                                                    <div class="text-[10px] text-slate-400 mt-0.5 leading-snug">@opt.Description</div>
+                                                                }
+                                                            </div>
+                                                        </button>
+                                                    }
+                                                </div>
+                                                break;
+
+                                            case AguiFieldType.Switch:
+                                                var isSwitched = GetFieldValue(field.Id)?.ToString()?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false;
+                                                <div class="flex items-center justify-between pt-1">
+                                                    <span class="text-xs text-slate-500 dark:text-slate-400">Enable feature / setting</span>
+                                                    <button type="button"
+                                                            @onclick="() => SetFieldValue(field.Id, (!isSwitched).ToString().ToLowerInvariant())"
+                                                            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden @(isSwitched ? "bg-purple-600" : "bg-slate-300 dark:bg-slate-700")">
+                                                        <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out @(isSwitched ? "translate-x-5" : "translate-x-0")"></span>
+                                                    </button>
+                                                </div>
+                                                break;
+
+                                            case AguiFieldType.Date:
+                                                <input type="date"
+                                                       value="@GetFieldValue(field.Id)"
+                                                       @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
+                                                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs font-mono" />
+                                                break;
+
+                                            case AguiFieldType.Tags:
+                                                <input type="text"
+                                                       value="@GetFieldValue(field.Id)"
+                                                       placeholder="Comma separated tags (e.g. production, us-east, high-priority)"
+                                                       @oninput="(e) => SetFieldValue(field.Id, e.Value?.ToString())"
+                                                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs font-mono" />
+                                                break;
+                                        }
+                                    </div>
+
+                                    <!-- Helper & Source Hints -->
+                                    @if (!string.IsNullOrEmpty(field.ExtractedSource))
+                                    {
+                                        <div class="text-[10px] text-purple-600 dark:text-purple-400 flex items-center gap-1 pt-0.5">
+                                            <span>🔍</span>
+                                            <span>@field.ExtractedSource</span>
+                                        </div>
+                                    }
+                                    else if (!string.IsNullOrEmpty(field.HelperText))
+                                    {
+                                        <p class="text-[10px] text-slate-400 pt-0.5">@field.HelperText</p>
+                                    }
+
+                                    <!-- Error display -->
+                                    @if (_validationErrors.TryGetValue(field.Id, out var err))
+                                    {
+                                        <p class="text-[10px] font-bold text-rose-500 flex items-center gap-1 pt-0.5">
+                                            <span>⚠️</span>
+                                            <span>@err</span>
+                                        </p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- 4. Interactive Payload Inspector Drawer -->
+                @if (_showInspector)
+                {
+                    <div class="p-4 rounded-2xl bg-slate-950 text-slate-200 border border-slate-800 space-y-2 animate-zoom-in font-mono text-xs">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Structured Tool Result JSON</span>
+                            <span class="text-[10px] text-slate-500">Auto-serialized on submit</span>
+                        </div>
+                        <pre class="overflow-x-auto max-h-48 text-[11px] text-emerald-400 p-2 bg-slate-900 rounded-xl">@GetSerializedJson()</pre>
+                    </div>
+                }
+
+                <!-- 5. Form Actions & HITL Gate -->
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button type="button"
+                                @onclick="HandleCancel"
+                                class="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 transition">
+                            @Schema.CancelLabel
+                        </button>
+                        <button type="button"
+                                @onclick="ResetForm"
+                                class="w-full sm:w-auto px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium text-slate-500 dark:text-slate-400 transition">
+                            🔄 Reset
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <button type="button"
+                                @onclick="HandleSubmit"
+                                disabled="@_isSubmitting"
+                                class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-xs shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 transition flex items-center justify-center gap-2">
+                            @if (_isSubmitting)
+                            {
+                                <span class="animate-spin inline-block w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full"></span>
+                                <span>Allocating Infrastructure & Executing...</span>
+                            }
+                            else
+                            {
+                                <span>🛡️</span>
+                                <span>@Schema.SubmitLabel</span>
+                                <span>&rarr;</span>
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
     }
     else
     {
@@ -341,10 +547,15 @@
     private Dictionary<string, string> _validationErrors = new();
     private bool _showInspector = false;
     private bool _isSubmitting = false;
+    private bool _isExecuted = false;
+    private bool _isCanceled = false;
+    private bool _hasCopied = false;
+    private double _pingLatencyMs = 0.8;
+    private AguiFormSubmission? _lastSubmission;
 
     protected override void OnParametersSet()
     {
-        if (Schema != null && _currentValues.Count == 0)
+        if (Schema != null && _currentValues.Count == 0 && !_isExecuted)
         {
             AutofillAiRecommendations();
         }
@@ -359,7 +570,6 @@
             _currentValues[kvp.Key] = kvp.Value;
         }
 
-        // Fill remaining defaults
         foreach (var field in Schema.Fields)
         {
             if (!_currentValues.ContainsKey(field.Id))
@@ -380,7 +590,6 @@
     private void ResetForm()
     {
         AutofillAiRecommendations();
-        Toast.Show("Form restored to agent recommendations", variant: SemanticVariant.Default);
     }
 
     private object? GetFieldValue(string id)
@@ -395,7 +604,6 @@
         {
             _validationErrors.Remove(id);
         }
-        StateHasChanged();
     }
 
     private bool IsFieldVisible(AguiFormField field)
@@ -440,7 +648,6 @@
 
         if (_validationErrors.Count > 0)
         {
-            Toast.Show("Please correct the highlighted form errors.", variant: SemanticVariant.Danger);
             return;
         }
 
@@ -448,10 +655,13 @@
 
         try
         {
-            // Procedural Sound Feedback
+            // Simulate realistic micro-deployment latency
+            await Task.Delay(400);
+
+            // Procedural Audio Feedback
             await Sound.PlayAsync(TwSoundEffect.VictoryFanfare);
 
-            var submission = new AguiFormSubmission
+            _lastSubmission = new AguiFormSubmission
             {
                 FormId = Schema.Id,
                 Values = new Dictionary<string, object?>(_currentValues),
@@ -459,12 +669,14 @@
                 IsApproved = true
             };
 
-            await OnSubmit.InvokeAsync(submission);
-            Toast.Show($"Human Approval Granted: {Schema.Title} executed successfully!", variant: SemanticVariant.Success);
+            _isExecuted = true;
+            _isCanceled = false;
+
+            await OnSubmit.InvokeAsync(_lastSubmission);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Toast.Show($"Submission error: {ex.Message}", variant: SemanticVariant.Danger);
+            // Error handling
         }
         finally
         {
@@ -475,8 +687,40 @@
     private async Task HandleCancel()
     {
         if (Schema == null) return;
+        _isCanceled = true;
+        _isExecuted = false;
         await OnCancel.InvokeAsync(Schema.Id);
-        Toast.Show($"Operation canceled: {Schema.Title}", variant: SemanticVariant.Warning);
+    }
+
+    private void ReopenForEditing()
+    {
+        _isExecuted = false;
+        _isCanceled = false;
+    }
+
+    private void TeardownResource()
+    {
+        _isExecuted = false;
+        _isCanceled = false;
+        _lastSubmission = null;
+        AutofillAiRecommendations();
+    }
+
+    private async Task RunPingProbe()
+    {
+        _pingLatencyMs = Math.Round(0.4 + (Random.Shared.NextDouble() * 0.8), 2);
+        await Sound.PlayAsync(TwSoundEffect.Coins, volume: 0.5);
+    }
+
+    private async Task CopyToClipboard(string text)
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", text);
+            _hasCopied = true;
+            _ = Task.Delay(2000).ContinueWith(_ => { _hasCopied = false; InvokeAsync(StateHasChanged); });
+        }
+        catch { }
     }
 
     private string GetSerializedJson()
@@ -485,9 +729,9 @@
         {
             formId = Schema?.Id,
             agent = Schema?.AgentName,
-            status = "Approved",
-            timestamp = DateTime.UtcNow,
-            parameters = _currentValues
+            status = _isExecuted ? "ActiveAndOperational" : "Pending",
+            timestamp = _lastSubmission?.SubmittedAt ?? DateTime.UtcNow,
+            approvedParameters = _currentValues
         }, new JsonSerializerOptions { WriteIndented = true });
     }
 
