@@ -2296,6 +2296,44 @@ public class ComponentCatalogService
                 new ComponentParameterDoc("Class", "string", "\"\"", "Configures component behavior or styling."),
             }
         },
+        new ComponentDocItem
+        {
+            Name = "TwMicrCheckReader",
+            Category = "Financial & OCR",
+            Description = "Check 21 paper check & draft reader with ANSI X9.27 E-13B MICR decoding, Mod-10 ABA routing checksum validation, and courtesy-to-legal amount cross-checking.",
+            RazorSnippet = "<TwMicrCheckReader OnCheckScanned=\"HandleCheck\" OnInsertMarkdown=\"HandleInsert\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes."),
+                new ComponentParameterDoc("OnCheckScanned", "EventCallback<CheckDraftOcrResult>", "null", "Callback fired when a check or draft is scanned."),
+                new ComponentParameterDoc("OnInsertMarkdown", "EventCallback<string>", "null", "Callback fired when Markdown ledger table is exported.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwDocumentOcrStudio",
+            Category = "Financial & OCR",
+            Description = "Full Form & PDF OCR Studio supporting paper checks, official bank drafts, commercial invoices, and IRS Form W-9 with spatial bounding boxes and Markdown table generation.",
+            RazorSnippet = "<TwDocumentOcrStudio OnMarkdownExtracted=\"HandleMarkdown\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes."),
+                new ComponentParameterDoc("OnMarkdownExtracted", "EventCallback<string>", "null", "Fired when extracted markdown report is copied or exported.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwSmartOcrButton",
+            Category = "Smart Components",
+            Description = "Drop-in Smart Component button that triggers instant client-side OCR for paper checks, invoices, and PDF forms.",
+            RazorSnippet = "<TwSmartOcrButton OnDocumentScanned=\"HandleDoc\" OnCheckScanned=\"HandleCheck\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes."),
+                new ComponentParameterDoc("OnDocumentScanned", "EventCallback<DocumentOcrResult>", "null", "Fired when a document is scanned and entities are extracted."),
+                new ComponentParameterDoc("OnCheckScanned", "EventCallback<CheckDraftOcrResult>", "null", "Fired when a paper check or bank draft is scanned.")
+            }
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

@@ -3316,3 +3316,71 @@ Viewport-driven object animation scrubber with multi-layer ambient parallax dept
 
 ---
 
+## Form / PDF OCR & Check MICR Detection
+
+### `TwMicrCheckReader`
+
+**Location:** [`Components/UI/TwMicrCheckReader.razor`](../Components/UI/TwMicrCheckReader.razor)
+
+Interactive Check 21 Remote Deposit Capture (RDC) paper check & bank draft reader with ANSI X9.27 / ISO 1004 E-13B magnetic ink clear band decoding, Mod-10 ABA routing checksum validation, and real-time courtesy-to-legal amount cross-checking.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string` | `""` | Additional Tailwind CSS classes. |
+| `OnCheckScanned` | `EventCallback<CheckDraftOcrResult>` | `null` | Fired when check OCR extraction completes. |
+| `OnInsertMarkdown` | `EventCallback<string>` | `null` | Fired when check ledger Markdown table is exported. |
+
+#### Razor Usage Example
+
+```razor
+<TwMicrCheckReader OnCheckScanned="HandleCheckScanned" OnInsertMarkdown="HandleInsertMarkdown" />
+```
+
+---
+
+### `TwDocumentOcrStudio`
+
+**Location:** [`Components/UI/TwDocumentOcrStudio.razor`](../Components/UI/TwDocumentOcrStudio.razor)
+
+Full-featured Form & PDF OCR Studio supporting paper checks, official bank drafts, commercial invoices, and IRS Form W-9 with real-time spatial bounding boxes, confidence badges, structured key-value extraction, and 1-click Markdown table generation.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string` | `""` | Additional Tailwind CSS classes. |
+| `OnMarkdownExtracted` | `EventCallback<string>` | `null` | Fired when the extracted Markdown table is copied or exported. |
+
+#### Razor Usage Example
+
+```razor
+<TwDocumentOcrStudio OnMarkdownExtracted="HandleMarkdownExtracted" />
+```
+
+---
+
+### `TwSmartOcrButton`
+
+**Location:** [`Components/UI/TwSmartOcrButton.razor`](../Components/UI/TwSmartOcrButton.razor)
+
+Drop-in Smart Component button that triggers instant client-side OCR for paper checks (MICR E-13B), commercial invoices, and tax forms, returning typed entity mappings directly into forms or editors.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string` | `""` | Additional Tailwind CSS classes. |
+| `OnDocumentScanned` | `EventCallback<DocumentOcrResult>` | `null` | Fired when a document is scanned and entities are extracted. |
+| `OnCheckScanned` | `EventCallback<CheckDraftOcrResult>` | `null` | Fired when a paper check or bank draft is scanned. |
+
+#### Razor Usage Example
+
+```razor
+<TwSmartOcrButton OnDocumentScanned="HandleDocumentScanned" OnCheckScanned="HandleCheckScanned" />
+```
+
+---
+
+

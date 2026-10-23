@@ -187,11 +187,33 @@ Allow users and enterprise stakeholders to install the entire Blazor WebAssembly
 
 ---
 
+## 9. 🏦 Form / PDF OCR & Check 21 MICR Detection Engine
+
+### Objective
+Provide client-side WebAssembly optical character recognition (OCR) and financial document intelligence for paper checks, bank drafts, invoices, and tax forms with ANSI X9.27 / ISO 1004 E-13B magnetic ink decoding and automated Federal Reserve routing checksum verification.
+
+### Key Architectural Specifications
+- **`TwMicrCheckReader`**: Interactive Check 21 Remote Deposit Capture (RDC) visual check canvas:
+  - **MICR E-13B Decoding**: Parses Transit (`⑆`), On-Us (`⑈`), Amount (`⑇`), and Dash (`⑉`) magnetic glyphs.
+  - **Federal Reserve Mod-10 ABA Checksum**: Real-time algorithm `[3(d1+d4+d7) + 7(d2+d5+d8) + 1(d3+d6+d9)] mod 10 == 0`.
+  - **Courtesy vs Legal Amount Verification**: Compares numeric box with written legal words to prevent deposit discrepancies.
+- **`TwDocumentOcrStudio`**: Multi-document studio with spatial bounding boxes for Invoices, Paper Checks, and IRS Form W-9.
+- **`TwSmartOcrButton`**: Drop-in Smart Component button mapping document entities directly into form inputs.
+- **`TwMarkdownEditor` Integration**: Dedicated `📄 OCR / MICR` toolbar drawer inserting Check 21 ledger and invoice Markdown tables at cursor.
+
+```razor
+<TwMicrCheckReader OnCheckScanned="HandleCheck" OnInsertMarkdown="HandleInsert" />
+<TwDocumentOcrStudio OnMarkdownExtracted="HandleMarkdown" />
+<TwSmartOcrButton OnDocumentScanned="HandleDoc" OnCheckScanned="HandleCheck" />
+```
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid
 flowchart LR
-    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>8 Roadmap Innovations<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA Installable"]
+    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA<br/>Check 21 MICR & Form/PDF OCR"]
     B --> C["v1.2.0<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs"]
     C --> D["v1.3.0<br/>Native Mobile MAUI Bindings<br/>Enterprise Micro-Frontends"]
 ```

@@ -47,6 +47,9 @@
                         <button type="button" @onclick='() => LoadPreset("candidate")' class="px-2.5 py-1 text-xs rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-medium transition">
                             👤 Candidate Bio
                         </button>
+                        <button type="button" @onclick='() => LoadPreset("check")' class="px-2.5 py-1 text-xs rounded-lg bg-emerald-100 dark:bg-emerald-950/60 hover:bg-emerald-200 dark:hover:bg-emerald-900 text-emerald-800 dark:text-emerald-300 font-medium transition border border-emerald-300 dark:border-emerald-800">
+                            🏦 Paper Check (MICR)
+                        </button>
                     </div>
                 </div>
 
@@ -167,6 +170,9 @@
             case "candidate":
                 _rawInput = "Marcus Brody — Staff Cloud Architect with 11 years experience in distributed systems, WebAssembly, and high-frequency stream processing. marcus.brody@gmail.com, (415) 882-9901, Austin TX. Desired Salary: $210,000.";
                 break;
+            case "check":
+                _rawInput = "CHECK #1042\nPAYER: Acme Enterprise Dynamics Inc.\nPAY TO: Jane Doe Development Consulting\nAMOUNT: $14,850.00\nDATE: October 24, 2026\nMEMO: Q3 Cloud Infrastructure Retainer\nMICR: ⑆121000358⑆ 0123456789⑈ 1042";
+                break;
         }
         ProcessText();
     }
@@ -240,6 +246,22 @@
             {
                 _mappings.Add(new SmartPasteMapping { FieldName = "job_title", ExtractedValue = roleMatch.Value.Trim(), Confidence = 0.91 });
             }
+        }
+
+        // 7. MICR E-13B check line extraction (ANSI X9.27)
+        var micrMatch = System.Text.RegularExpressions.Regex.Match(text, @"⑆(\d{9})⑆\s*(\d+)⑈\s*(\d+)");
+        if (micrMatch.Success)
+        {
+            _mappings.Add(new SmartPasteMapping { FieldName = "routing_number", ExtractedValue = micrMatch.Groups[1].Value, Confidence = 0.99 });
+            _mappings.Add(new SmartPasteMapping { FieldName = "account_number", ExtractedValue = micrMatch.Groups[2].Value, Confidence = 0.99 });
+            _mappings.Add(new SmartPasteMapping { FieldName = "check_number", ExtractedValue = micrMatch.Groups[3].Value, Confidence = 0.99 });
+        }
+
+        // 8. Payee extraction
+        var payeeMatch = System.Text.RegularExpressions.Regex.Match(text, @"(?i)PAY\s+TO(\s+THE\s+ORDER\s+OF)?:\s*([^\r\n]+)");
+        if (payeeMatch.Success)
+        {
+            _mappings.Add(new SmartPasteMapping { FieldName = "payee", ExtractedValue = payeeMatch.Groups[2].Value.Trim(), Confidence = 0.96 });
         }
     }
 

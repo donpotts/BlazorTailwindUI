@@ -67,6 +67,14 @@
 |:---:|:---:|
 | <img src="docs/images/pwa-install-button-header.png" width="450" /> | <img src="docs/images/pwa-install-guide-modal.png" width="450" /> |
 
+| Check 21 MICR Reader & Check/Draft OCR | Form & PDF Invoice OCR Studio |
+|:---:|:---:|
+| <img src="docs/images/ocr-micr-check-reader.png" width="450" /> | <img src="docs/images/ocr-document-invoice.png" width="450" /> |
+
+| Markdown Editor OCR / MICR Ingestion Drawer | Smart OCR & Check Entity Extraction Modal |
+|:---:|:---:|
+| <img src="docs/images/markdown-editor-ocr-drawer.png" width="450" /> | <img src="docs/images/smart-ocr-button-modal.png" width="450" /> |
+
 | AG-UI Cloud Provisioning Form (HITL Gate) | Ingested PDF Procurement Form (Two-Way Diff) |
 |:---:|:---:|
 | <img src="docs/images/agui-form-cloud-provisioning.png" width="450" /> | <img src="docs/images/agui-form-procurement-ingest.png" width="450" /> |
@@ -133,6 +141,32 @@ Because **BlazorTailwindUI** is built on pure client-side WebAssembly, the entir
 ```razor
 // Drop into any header, navbar or top banner
 <TwPwaInstallButton />
+```
+
+---
+
+## 🏦 Form / PDF OCR & Check 21 MICR Reader (`TwMicrCheckReader` & `TwDocumentOcrStudio`)
+
+Built for financial institutions, accounting systems, and enterprise back-offices, **BlazorTailwindUI** provides pure client-side WebAssembly optical character recognition (OCR) and Check 21 MICR decoding:
+
+- **ANSI X9.27 / ISO 1004 MICR E-13B Clear Band Decoding**: Automatically extracts the 9-digit Routing Transit Number (RTN), On-Us customer account number, and check sequence number from the bottom magnetic ink strip.
+- **Federal Reserve Modulus-10 ABA Checksum Algorithm**: Validates transit numbers using the weighted sum formula `(3*(d1+d4+d7) + 7*(d2+d5+d8) + 1*(d3+d6+d9)) % 10 == 0`, immediately flagging forged or transposed digits.
+- **Courtesy vs Legal Amount Integrity Check**: Cross-references the numeric courtesy amount box (`$14,850.00`) against the handwritten or printed legal words line (*"Fourteen thousand eight hundred fifty and 00/100 Dollars"*).
+- **Spatial Bounding Box Highlights**: Renders interactive hover boxes over payees, dates, signature lines, and MICR clear bands with real-time confidence chips.
+- **Integrated into Markdown/HTML Editor & Smart Components**:
+  - `TwMarkdownEditor`: Open the **`📄 OCR / MICR`** drawer to insert formatted Check 21 ledgers, invoices, or W-9 tax tables at the cursor with 1 click.
+  - `TwSmartOcrButton`: Drop into any form to extract and map document entities directly into C# form fields.
+  - `TwSmartPasteButton`: Paste or load raw check lines (`⑆121000358⑆ 0123456789⑈ 1042`) with automatic entity recognition.
+
+```razor
+// 1. Dedicated Paper Check & Draft Reader
+<TwMicrCheckReader OnCheckScanned="HandleCheckScanned" OnInsertMarkdown="HandleInsertMarkdown" />
+
+// 2. Full Multi-Document Form & PDF OCR Studio
+<TwDocumentOcrStudio OnMarkdownExtracted="HandleMarkdown" />
+
+// 3. Drop-in Smart OCR Button for Forms
+<TwSmartOcrButton OnCheckScanned="HandleCheck" OnDocumentScanned="HandleDoc" />
 ```
 
 ---
@@ -485,6 +519,7 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.1.0** | **Multi-Factor Auth (MFA) Suite** | `TwMfaAuthSuite`, `TwOtpInput` | **Shipped ✅** | NIST 800-63B Zero-Trust MFA: TOTP QR codes, SMS/Email OTP, Passkeys biometrics, and recovery codes. |
 | **v1.1.0** | **Native Media Recorder** | `TwMediaRecorder` | **Shipped ✅** | Browser microphone/camera recording with live SVG frequency visualizer, timer, and file export. |
 | **v1.1.0** | **ScrollCraft Animation Scrubber** | `TwScrollCraft` | **Shipped ✅** | Zero-dependency scroll-driven object animation with multi-layer parallax depth and focal scrubbers. |
+| **v1.1.0** | **Form / PDF OCR & Check 21 MICR Reader** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | **Shipped ✅** | Client-side WASM OCR for checks, drafts, invoices & W-9 forms. Decodes ANSI X9.27 E-13B MICR with Mod-10 ABA routing validation and Markdown editor insertion. |
 | **v1.2.0** | **Advanced 3D WebGL Canvas** | `TwThreeCanvas`, `TwModelViewer` | Planned | Hardware-accelerated 3D object rendering, lighting presets, and model inspection. |
 | **v1.3.0** | **Native Mobile MAUI Bindings** | `TwMobileBridge`, `TwHaptics` | Planned | First-class .NET MAUI mobile shell wrapper with native biometric and haptic feedback triggers. |
 

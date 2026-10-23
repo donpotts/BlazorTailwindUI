@@ -32,7 +32,7 @@
         <button type="button" @onclick='() => _activeTab = "datatable"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "datatable" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Data Table</button>
         <button type="button" @onclick='() => _activeTab = "overlays"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "overlays" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Overlays</button>
         <button type="button" @onclick='() => _activeTab = "training"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "training" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Coaching & Video 🎓</button>
-        <button type="button" @onclick='() => _activeTab = "qrbarcode"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "qrbarcode" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">QR, Barcode & Signature ✍️</button>
+        <button type="button" @onclick='() => _activeTab = "qrbarcode"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "qrbarcode" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Barcode, OCR & Checks 🏦</button>
         <button type="button" @onclick='() => _activeTab = "innovations"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "innovations" ? "bg-slate-100 dark:bg-slate-800 text-amber-600 dark:text-amber-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Innovations 🎁</button>
         <button type="button" @onclick='() => _activeTab = "docs"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "docs" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">Docs & Coach 📖</button>
         <button type="button" @onclick='() => _activeTab = "more"' class="px-3 py-1.5 rounded-lg text-sm font-medium @(_activeTab == "more" ? "bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">More UI</button>
@@ -3183,6 +3183,26 @@
                                             Height="240"
                                             ShowGuide="true" />
                         </div>
+
+                        <!-- Section 4: Check 21 MICR Reader & Form / PDF OCR Studio -->
+                        <div class="space-y-4 pt-8 border-t border-slate-200/80 dark:border-slate-800">
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <TwBadge Variant="SemanticVariant.Success" ShowDot="true">Form & PDF OCR Studio</TwBadge>
+                                    <TwBadge Variant="SemanticVariant.Primary">Check 21 & E-13B MICR</TwBadge>
+                                    <TwBadge Variant="SemanticVariant.Info">ABA Mod-10 Checksum</TwBadge>
+                                    <TwBadge Variant="SemanticVariant.Warning">100% Client WASM</TwBadge>
+                                </div>
+                                <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                                    Paper Check & Draft MICR Reader + Form/PDF OCR Studio
+                                </h3>
+                                <p class="text-xs text-slate-500">
+                                    Client-side optical character recognition for paper checks, official bank drafts, commercial invoices, and tax forms. Decodes ANSI X9.27 magnetic ink clear bands, validates Federal Reserve ABA routing checksums, and compares courtesy amounts to legal words in real-time.
+                                </p>
+                            </div>
+
+                            <TwDocumentOcrStudio />
+                        </div>
                     </div>
                 }
                 else if (_activeTab == "innovations")
@@ -3596,6 +3616,9 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMediaRecorder", Subtitle = "Browser audio/video media recorder with live waveform visualizer", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwScrollCraft", Subtitle = "ScrollCraft object animation scrubber with parallax focal effects", Category = "Components", Action = () => { _activeTab = "innovations"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwPwaInstallButton", Subtitle = "1-Click Progressive Web App (PWA) installer for desktop and mobile", Category = "Components", Action = () => { _activeTab = "showcase"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwMicrCheckReader", Subtitle = "Check 21 paper check & draft reader with ANSI X9.27 E-13B MICR decoding & ABA check digit validation", Category = "Components", Action = () => { _activeTab = "qrbarcode"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwDocumentOcrStudio", Subtitle = "Form & PDF OCR studio for checks, drafts, invoices, and W-9 tax documents", Category = "Components", Action = () => { _activeTab = "qrbarcode"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSmartOcrButton", Subtitle = "Smart component button for 1-click OCR & MICR extraction into forms and editors", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
     }
 
     private void HandleSelectPricingTier(PricingTier tier)

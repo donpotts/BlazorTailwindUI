@@ -49,6 +49,10 @@ public class TwSoundService
         { }
     }
 
+    public async ValueTask PlayPopAsync(double volume = 0.5) => await PlayAsync(TwSoundEffect.FloatingReactions, volume);
+
+    public async ValueTask PlayChimeAsync(double volume = 0.8) => await PlayAsync(TwSoundEffect.VictoryFanfare, volume);
+
     public async ValueTask SetMutedAsync(bool muted)
     {
         try

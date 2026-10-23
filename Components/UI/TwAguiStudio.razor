@@ -226,8 +226,11 @@
                 <!-- 3. TwSmartTextArea with SmartPaste -->
                 <div class="space-y-1.5 pt-2">
                     <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">3. TwSmartTextArea & TwSmartPaste:</span>
-                        <TwSmartPasteButton OnApplied="HandleSmartPasteApplied" />
+                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">3. TwSmartTextArea & Smart Ingestion:</span>
+                        <div class="flex items-center gap-1.5">
+                            <TwSmartPasteButton OnApplied="HandleSmartPasteApplied" />
+                            <TwSmartOcrButton OnDocumentScanned="HandleSmartDocScanned" OnCheckScanned="HandleSmartCheckScanned" />
+                        </div>
                     </div>
                     <TwSmartTextArea @bind-Value="_smartTextValue" Rows="3" />
 
@@ -690,6 +693,33 @@
     private void HandleSmartPasteApplied(Dictionary<string, string> mappings)
     {
         _extractedFormFields = new Dictionary<string, string>(mappings);
+    }
+
+    private void HandleSmartDocScanned(DocumentOcrResult doc)
+    {
+        var dict = new Dictionary<string, string>();
+        foreach (var f in doc.Fields)
+        {
+            dict[f.Key.ToLowerInvariant()] = f.Value;
+        }
+        _extractedFormFields = dict;
+        _smartTextValue = $"Extracted {doc.Title}: {doc.Fields.Count} entities identified with {(doc.ConfidenceScore * 100):F0}% confidence.";
+    }
+
+    private void HandleSmartCheckScanned(CheckDraftOcrResult check)
+    {
+        _extractedFormFields = new Dictionary<string, string>
+        {
+            ["routing_number"] = check.MicrData.TransitRoutingNumber,
+            ["account_number"] = check.MicrData.AccountNumber,
+            ["check_number"] = check.CheckNumber,
+            ["payer"] = check.PayerName,
+            ["payee"] = check.Payee,
+            ["amount"] = $"${check.CourtesyAmount:N2}",
+            ["memo"] = check.Memo,
+            ["bank"] = check.MicrData.BankName
+        };
+        _smartTextValue = $"Check #{check.CheckNumber} for ${check.CourtesyAmount:N2} payable to {check.Payee} from {check.PayerName} (MICR: {check.MicrData.RawMicrLine}).";
     }
 
     public class CloudInstanceRow
