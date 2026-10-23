@@ -19,6 +19,13 @@ This document outlines the strategic architecture, component specifications, and
 | **9. Form / PDF OCR & Check 21 MICR Engine** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | Shipped (v1.2.0) ✅ | Client WebAssembly & FinTech |
 | **10. Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | Shipped (v1.2.0) ✅ | Developer Tooling & Agentic AI |
 | **11. .NET 11 Full-Stack Universal Suite** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | Shipped (v1.3.0) ✅ | Full-Stack Blazor & Telemetry |
+| **12. C# 15 Discriminated Unions & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState` | Planned (v1.4.0) 🚀 | Language Modernization & State Safety |
+| **13. Donut Caching & ShortCircuit Edge Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Planned (v1.4.0) 🚀 | SSR Performance & Edge Caching |
+| **14. Native Zstandard Ultra-Fast Compression** | `TwZstdStreamService`, `TwZstdPayloadBridge` | Planned (v1.4.0) 🚀 | High-Throughput Data & Transport |
+| **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwHpkeEnclave` | Planned (v1.4.0) 🚀 | Zero-Trust & Post-Quantum Security |
+| **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Planned (v1.4.0) 🚀 | Observability & Performance HUD |
+| **17. .NET Aspire 11 Live App Host Orchestration** | `Aspire.Hosting.BlazorTailwindUI` | Planned (v1.5.0) 🌐 | Cloud-Native & Developer Velocity |
+| **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSIMDEngine` | Planned (v1.5.0) 🌐 | Runtime Performance & Vector SIMD |
 
 ---
 
@@ -270,6 +277,168 @@ Provide comprehensive, first-class full-stack development support for **.NET 11 
 
 ---
 
+## 12. 🛡️ C# 15 Discriminated Union Types & Closed Hierarchies (`TwUnionBoundary`, `Result<T, E>`)
+
+### Objective
+Leverage modern C# 15 language innovations—specifically **first-class Union Types** and **Closed Class Hierarchies** (`closed`)—to eliminate untyped nullable models, runtime exceptions, and sentinel flags in asynchronous Blazor component state machines.
+
+### Key Architectural Specifications
+- **`public union UiState<T>`**:
+  - Expresses UI states as closed algebraic data types with built-in compiler exhaustiveness checks:
+    ```csharp
+    public union UiState<T>(
+        Loading,
+        Success(T Data),
+        Empty,
+        Failure(string Message, Exception? Exception)
+    );
+    ```
+- **`TwUnionBoundary<TUnion>`**:
+  - Declarative Razor container mapping union cases to type-safe child templates. The C# 15 compiler validates that all cases are handled, preventing unhandled runtime branch regressions:
+    ```razor
+    <TwUnionBoundary State="@invoiceState">
+        <Loading>
+            <TwSkeletonCard Rows="5" />
+        </Loading>
+        <Success Context="invoice">
+            <TwInvoiceViewer Model="@invoice" />
+        </Success>
+        <Empty>
+            <TwEmptyState Title="No Invoices Found" ActionLabel="Create Invoice" />
+        </Empty>
+        <Failure Context="err">
+            <TwAlert Variant="AlertVariant.Danger" Message="@err.Message" />
+        </Failure>
+    </TwUnionBoundary>
+    ```
+- **Closed Component Prop Hierarchies (`closed`)**:
+  - Restricts direct inheritance of design-system base tokens and button variants, enforcing compile-time validation that only approved theme tokens are instantiated.
+
+---
+
+## 13. 🍩 Blazor Donut Caching & High-Performance `[ShortCircuit]` Edge Endpoints
+
+### Objective
+Harness the .NET 11 **CacheViewComponent** / Donut Caching engine for Static Server-Side Rendering (SSR) and streaming pipelines, enabling Blazor applications to edge-cache 95%+ of complex rendered markup while dynamically perforating and updating personalized "donut holes" (e.g. shopping cart badges, user greetings, live stock tickers) without rerendering static shells.
+
+### Key Architectural Specifications
+- **`TwDonutCache` & `TwCacheHole`**:
+  - Encloses static UI regions (navigation headers, enterprise data tables, documentation trees) with configurable cache profiles (duration, sliding expiration, tag-based cache eviction).
+  - Isolates dynamic slots (`<TwCacheHole Name="UserCart">`) evaluated on-demand per request.
+- **`[ShortCircuit]` Performance Endpoints**:
+  - Connects interactive components to lightweight ASP.NET Core `[ShortCircuit]` endpoints that bypass full middleware pipeline passes (authentication loops, logging chains, session parsing) for ultra-low-latency component micro-payload updates (< 1ms execution time).
+- **Tag-Based Cache Busting**:
+  - Exposes `TwCacheEvictionService` enabling one-click programmatic cache invalidation across distributed server nodes upon data mutation.
+
+```razor
+<TwDonutCache CacheKey="catalog_grid_page1" DurationSeconds="300" Tags="@(["catalog", "inventory"])">
+    <TwDataGrid Items="@staticProducts" />
+    
+    <TwCacheHole Id="user-pricing">
+        <TwDynamicPricingBadge ProductId="@selectedId" />
+    </TwCacheHole>
+</TwDonutCache>
+```
+
+---
+
+## 14. 🗜️ Ultra-Fast Native Zstandard Compression Pipeline (`TwZstdStreamService`)
+
+### Objective
+Incorporate native .NET 11 **ZstandardStream** support into Blazor Tailwind UI's transport layer, providing 2–7x faster compression and drastically faster decompression than traditional GZip or Brotli for high-density streaming DataGrids, SignalR state transfer, and offline IndexedDB snapshots.
+
+### Key Architectural Specifications
+- **`TwZstdStreamService`**:
+  - WebAssembly SIMD-accelerated Zstandard decompression engine running client-side.
+  - Server-side streaming compressor streaming `IAsyncEnumerable<T>` records directly to `TwStreamingGrid`.
+- **Bandwidth & CPU Optimization**:
+  - Delivers up to 70% reduction in transmitted bytes for large JSON schemas, Check 21 OCR coordinate batches, and AG-UI form submission trees.
+  - Near-zero client CPU overhead during decompression, ideal for battery-constrained mobile devices.
+- **Automatic Content Negotiation**:
+  - Transparently falls back to Brotli or GZip for legacy browser clients without client-side WebAssembly SIMD or Zstandard decoders.
+
+---
+
+## 15. 🔐 Post-Quantum Cryptography & ML-KEM Secure State Enclaves (`TwPostQuantumVault`, `TwHpkeEnclave`)
+
+### Objective
+Equip enterprise Blazor applications with quantum-resistant data protection utilizing .NET 11's newly introduced **ML-KEM (Module-Lattice-Based Key-Encapsulation Mechanism)** and **HPKE (Hybrid Public Key Encryption)** APIs, securing sensitive enterprise inputs (payroll bonuses, medical notes, Check 21 MICR tokens) against future "harvest now, decrypt later" attack vectors.
+
+### Key Architectural Specifications
+- **`TwPostQuantumVault`**:
+  - Client-side cryptographic enclave encrypting sensitive form fields before dispatching to backend storage or local IndexedDB persistence.
+  - Generates and negotiates ephemeral ML-KEM-768 key pairs between the Blazor client and server.
+- **`TwHpkeEnclave`**:
+  - One-click authenticated encryption for REST and SignalR payloads with zero third-party crypto dependencies.
+- **Enterprise Compliance Badges**:
+  - Visual security badges (`🛡️ Post-Quantum Protected (ML-KEM-768)`) displayed on sensitive AG-UI form surfaces.
+
+```razor
+<TwPostQuantumVault Algorithm="PqcAlgorithm.ML_KEM_768">
+    <TwAguiFormCanvas Schema="@sensitivePayrollSchema" OnSubmit="HandleSecureSubmission" />
+</TwPostQuantumVault>
+```
+
+---
+
+## 16. 📊 Native OpenTelemetry Component Tracing & Developer Cockpit (`TwTelemetryDashboard`, `TwActivityMeter`)
+
+### Objective
+Integrate first-class **OpenTelemetry (OTel)** metrics, activity tracing (`ActivitySource`), and diagnostic meters into every layer of Blazor Tailwind UI, providing deep visibility into component rendering cycles, hydration timings, streaming DataGrid throughput, and MCP server tool invocations.
+
+### Key Architectural Specifications
+- **Standardized OTel Instruments**:
+  - `blazortw.component.render_duration` (Histogram: duration of `BuildRenderTree` and lifecycle hooks in microseconds).
+  - `blazortw.hydration.cache_hit_ratio` (Counter: SSR cache hits vs cold roundtrips).
+  - `blazortw.streaming_grid.throughput` (Gauge: incoming rows/second).
+  - `blazortw.mcp.tool_execution` (Histogram: duration and success rate of MCP tools).
+- **`TwTelemetryDashboard`**:
+  - Slide-over developer HUD rendering real-time performance graphs, memory allocation trends, and OpenTelemetry trace spans directly inside development environments.
+  - Zero production footprint when disabled via preprocessor directives or configuration flags.
+
+---
+
+## 17. 🌐 .NET Aspire 11 Live App Host Orchestration (`Aspire.Hosting.BlazorTailwindUI`)
+
+### Objective
+Integrate Blazor Tailwind UI natively into the **.NET Aspire 11** cloud-native ecosystem with seamless `dotnet watch` live hot-reload across distributed multi-project solutions.
+
+### Key Architectural Specifications
+- **`Aspire.Hosting.BlazorTailwindUI` NuGet Package**:
+  - Single-line integration in Aspire `AppHost`:
+    ```csharp
+    var builder = DistributedApplication.CreateBuilder(args);
+    
+    var cache = builder.AddRedis("cache");
+    var api = builder.AddProject<Projects.EnterpriseApi>("api")
+                     .WithReference(cache);
+                     
+    builder.AddBlazorTailwindApp("frontend", api)
+           .WithMcpServer()
+           .WithDonutCaching();
+           
+    builder.Build().Run();
+    ```
+- **Unified Tooling**:
+  - Seamlessly connects the `@donpo/blazor-tailwind-mcp` developer server, distributed OpenTelemetry collectors, and client WebAssembly hot reload into the Aspire Developer Dashboard.
+
+---
+
+## 18. ⚡ Runtime-Native Async V2 & Hardware Acceleration Baselines
+
+### Objective
+Harness .NET 11's **Runtime-Native Async V2** model and modern hardware baseline enhancements (x86-64-v3, Arm64 LSE, and SVE2 math instructions) to unlock maximum throughput with zero state-machine heap allocations.
+
+### Key Architectural Specifications
+- **Runtime-Native Async V2 Integration**:
+  - Refactors core asynchronous event callbacks and JS interop pipelines to take advantage of native runtime-level async, eliminating legacy compiler-generated `<>c__DisplayClass` state-machine allocations.
+  - Cleaner asynchronous call stacks and accelerated NativeAOT compilation support.
+- **Hardware-Accelerated Vector Algorithms**:
+  - Leverages SVE2 and AVX2 SIMD intrinsics for real-time Check 21 MICR image cross-correlation, fast sorting in `TwDataGrid`, and instant client-side CSV parsing.
+  - Bounds check elimination and generic method devirtualization across high-density data collections.
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid
@@ -277,7 +446,8 @@ flowchart LR
     A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAURI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA"]
     B --> C["v1.2.0 (Shipped ✅)<br/>Developer MCP Server (@donpo/blazor-tailwind-mcp)<br/>Check 21 MICR & Form/PDF OCR"]
     C --> D["v1.3.0 (Shipped ✅)<br/>.NET 11 Full-Stack Universal Suite<br/>Zero-Flicker Hydration + TwStreamingGrid<br/>150 Native Controls + dotnet new blazortw"]
-    D --> E["v1.4.0 (Planned 🚀)<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs<br/>Native Mobile MAUI Bindings"]
+    D --> E["v1.4.0 (Planned 🚀)<br/>C# 15 Union State & Closed Hierarchies<br/>Donut Caching & [ShortCircuit] Edge<br/>Native Zstandard Compression<br/>Post-Quantum ML-KEM Vault<br/>Native OpenTelemetry Cockpit"]
+    E --> F["v1.5.0 (Planned 🌐)<br/>.NET Aspire 11 Live App Host<br/>Runtime-Native Async V2 & SVE2 SIMD<br/>Advanced 3D WebGL Canvas<br/>Native Mobile MAUI Bindings"]
 ```
 
 Contributions and discussions are welcomed in the [GitHub Discussions](https://github.com/donpotts/BlazorTailwindUI/discussions) and [Issue Tracker](https://github.com/donpotts/BlazorTailwindUI/issues).

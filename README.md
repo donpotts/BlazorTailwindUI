@@ -584,8 +584,14 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.1.0** | **Form / PDF OCR & Check 21 MICR Reader** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | **Shipped ✅** | Client-side WASM OCR for checks, drafts, invoices & W-9 forms. Decodes ANSI X9.27 E-13B MICR with Mod-10 ABA routing validation and Markdown editor insertion. |
 | **v1.2.0** | **Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | **Shipped ✅** | Official Model Context Protocol (MCP) server for Cursor, Claude Desktop, Antigravity & VS Code to search 150+ components, inspect typed APIs, generate AG-UI forms & validate MICR. |
 | **v1.3.0** | **.NET 11 Full-Stack Universal Architecture** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | **Shipped ✅** | Unified Blazor render modes, zero-flicker SSR hydration cache, high-throughput IAsyncEnumerable streaming DataGrid with 1M row capacity, and dotnet new blazortw CLI scaffolder. |
-| **v1.4.0** | **Advanced 3D WebGL Canvas** | `TwThreeCanvas`, `TwModelViewer` | Planned | Hardware-accelerated 3D object rendering, lighting presets, and model inspection. |
-| **v1.4.0** | **Native Mobile MAUI Bindings** | `TwMobileBridge`, `TwHaptics` | Planned | First-class .NET MAUI mobile shell wrapper with native biometric and haptic feedback triggers. |
+| **v1.4.0** | **C# 15 Union State & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState` | Planned 🚀 | Compiler-enforced exhaustiveness checking, type-safe error boundaries, and closed design-system token inheritance. |
+| **v1.4.0** | **Blazor Donut Caching & [ShortCircuit] Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Planned 🚀 | High-performance SSR partial rerendering, static shell edge caching, and sub-millisecond bypass endpoints. |
+| **v1.4.0** | **Native Zstandard Compression Pipeline** | `TwZstdStreamService`, `TwZstdPayloadBridge` | Planned 🚀 | Native ZstandardStream integration delivering 2-7x faster compression for SignalR batches, streaming grids & IndexedDB. |
+| **v1.4.0** | **Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwHpkeEnclave` | Planned 🚀 | Zero-trust quantum-resistant encryption for sensitive forms, payroll records & Check 21 MICR tokens. |
+| **v1.4.0** | **Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Planned 🚀 | Deep ActivitySource tracing, component render lifecycle metrics, and real-time developer HUD. |
+| **v1.5.0** | **.NET Aspire 11 Live App Host Orchestration** | `Aspire.Hosting.BlazorTailwindUI` | Planned 🌐 | 1-line Aspire app host wiring with dotnet watch multi-project hot reload, Redis caching, and MCP server tooling. |
+| **v1.5.0** | **Runtime-Native Async V2 & Hardware SIMD** | `TwVectorMath`, `TwSIMDEngine` | Planned 🌐 | Zero-allocation runtime async, SVE2 / AVX2 vector SIMD math, and bound-check eliminated data collections. |
+| **v1.5.0** | **Advanced 3D WebGL Canvas & MAUI Mobile** | `TwThreeCanvas`, `TwMobileBridge` | Planned 🌐 | Hardware-accelerated 3D object rendering, lighting presets, and native .NET MAUI mobile shell wrapper. |
 
 ---
 
