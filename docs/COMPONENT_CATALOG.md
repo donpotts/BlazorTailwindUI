@@ -2967,6 +2967,31 @@ Multi-phase thinking checklist component displaying animated progress indicators
 
 ---
 
+### `TwAguiFormCanvas`
+
+**Location:** [`Components/UI/TwAguiFormCanvas.razor`](../Components/UI/TwAguiFormCanvas.razor)
+
+Adaptive Generative UI (AG-UI) form engine compiling dynamic fields (inputs, textareas, sliders, toggles, selects, radio groups, date pickers) from an `AguiFormSchema` with real-time conditional branching, AI confidence chips, two-way diff tracking, and Human-in-the-Loop (HITL) approval gates.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Schema` | `AguiFormSchema?` | `null` | The synthesized AG-UI form definition containing fields, initial values, risk tier, and agent attribution. |
+| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
+| `OnSubmit` | `EventCallback<AguiFormSubmission>` | `null` | Event callback triggered when the human reviewer approves the form; delivers type-safe parameter payload. |
+| `OnCancel` | `EventCallback<string>` | `null` | Event callback triggered when the form is dismissed or rejected. |
+
+#### Razor Usage Example
+
+```razor
+<TwAguiFormCanvas Schema="@formSchema" 
+                  OnSubmit="HandleApproval" 
+                  OnCancel="HandleRejection" />
+```
+
+---
+
 ## Showcase & Micro-Interactions
 
 ### `TwMarquee`

@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-11.0_RC_WASM-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 11 WASM" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v3.4" /></a>
-  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-145+_Production_Ready-3B82F6?style=for-the-badge" alt="145+ Components" /></a>
+  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-146+_Production_Ready-3B82F6?style=for-the-badge" alt="146+ Components" /></a>
   <a href="#-100-most-used-forms-standard-library"><img src="https://img.shields.io/badge/Forms_Catalog-100_Standard_Schemas-10B981?style=for-the-badge" alt="100 Forms" /></a>
   <a href="#-adaptive-generative-ui-agui--agentic-tool-calling"><img src="https://img.shields.io/badge/AGUI-Agentic_Tool_Calling-8B5CF6?style=for-the-badge" alt="AGUI & Tool Calling" /></a>
   <a href="#-celebration-animations-studio--freely-distributable-procedural-sound-fx"><img src="https://img.shields.io/badge/Sound_FX-Procedural_Web_Audio-EC4899?style=for-the-badge" alt="Procedural Sound FX" /></a>
@@ -25,7 +25,7 @@
 
 **BlazorTailwindUI** is an enterprise-grade component library, dynamic form engine, and **Adaptive Generative UI (AGUI)** workbench for Blazor WebAssembly. Built with modern C# and client-side WebAssembly SIMD performance, it pairs with a standalone, local Tailwind CSS compiler to deliver:
 
-1. **145+ Production-Ready Components** across 18 structured categories.
+1. **146+ Production-Ready Components** across 18 structured categories.
 2. **Adaptive Generative UI (AGUI)**: Prompt-to-UI synthesis compiling natural language user intent into live, reactive interface trees.
 3. **Dual-Plane Agentic Tool Calling (.NET 11)**: First-class client-side WebAssembly tools (`FrontendWasm`) and backend endpoints (`BackendApi`) with real-time latency monitoring and execution tracing.
 4. **Smart Components Drop-in Suite**: Drop-in controls including `TwSmartPasteButton`, `TwSmartTextArea`, `TwSmartSearch`, and `TwSmartFilter`.
@@ -62,6 +62,14 @@
 
 ## 📸 Visual Showcase
 
+| AG-UI Cloud Provisioning Form (HITL Gate) | Ingested PDF Procurement Form (Two-Way Diff) |
+|:---:|:---:|
+| <img src="docs/images/agui-form-cloud-provisioning.png" width="450" /> | <img src="docs/images/agui-form-procurement-ingest.png" width="450" /> |
+
+| Zero-Trust Privilege Gate (Break-Glass) | Human Sign-Off Resolved (Fanfare Sound FX) |
+|:---:|:---:|
+| <img src="docs/images/agui-form-security-gate.png" width="450" /> | <img src="docs/images/agui-form-hitl-approval-resolved.png" width="450" /> |
+
 | AGUI & Tool Calling Workbench | 100-Form Standard Library Studio |
 |:---:|:---:|
 | <img src="docs/images/agui-studio-cloud-quota.png" width="450" /> | <img src="docs/images/form-studio-overview.png" width="450" /> |
@@ -89,6 +97,37 @@
 | Zero-Trust Multi-Factor Authentication (MFA) | In-Browser Media Capture & ScrollCraft |
 |:---:|:---:|
 | <img src="docs/images/innovations-mfa-suite.png" width="450" /> | <img src="docs/images/innovations-media-scrollcraft.png" width="450" /> |
+
+---
+
+## 🤖 Adaptive Generative UI (AG-UI) Form Engine & HITL Workbenches (`TwAguiFormCanvas`)
+
+Moving beyond static data grids and the conversational "Chat Wall" anti-pattern, **BlazorTailwindUI** provides runtime-synthesized adaptive forms and Human-in-the-Loop (HITL) review gates:
+
+- **Dynamic Field Compilation**: Automatically compiles native Blazor/Tailwind controls (inputs, textareas, sliders, toggles, selects, radio groups, date pickers) from an `AguiFormSchema` with zero compile-time boilerplate.
+- **Real-Time Conditional Branching**: Controls declare `DependsOnField` and `DependsOnValue` (e.g. toggling *Multi-AZ* dynamically unrolls replica count sliders and VPC subnet pickers).
+- **AI Confidence Badges & Source Citations**: Every auto-predicted field displays confidence chips (`✨ 98%`) with tooltips linking to the underlying citation (*"Extracted from Quote Header Page 1"*).
+- **Two-Way Diff Inspector**: Live interactive drawer comparing the user's manual adjustments against the AI agent's initial proposal, with 1-click `✨ Reapply AI Defaults`.
+- **Procedural Sound FX on Sign-Off**: Form approval plays synthesized fanfare chords via `TwSoundService`, packages type-safe JSON arguments into an `AguiFormSubmission`, and unblocks background agent execution.
+
+```razor
+// Synthesize Dynamic AG-UI Form Schema from Agent Execution
+var schema = new AguiFormSchema
+{
+    Title = "Provision HA Database Cluster",
+    AgentName = "DevOps Copilot",
+    RiskLevel = "Medium",
+    OverallConfidence = 0.96,
+    Fields = new()
+    {
+        new AguiFormField { Id = "ClusterName", Label = "Cluster Name", Type = AguiFieldType.Text, IsRequired = true },
+        new AguiFormField { Id = "EnableMultiAz", Label = "High Availability Multi-AZ", Type = AguiFieldType.Switch },
+        new AguiFormField { Id = "ReplicaCount", Label = "Read Replicas", Type = AguiFieldType.Slider, Min = 1, Max = 8, DependsOnField = "EnableMultiAz", DependsOnValue = "true" }
+    }
+};
+
+<TwAguiFormCanvas Schema="@schema" OnSubmit="HandleApproval" OnCancel="HandleRejection" />
+```
 
 ---
 
@@ -337,7 +376,7 @@ Open your browser and navigate to `http://localhost:5128` (or the URL printed to
 ## 📚 Complete Documentation Suite
 
 - **[docs/ROADMAP.md](docs/ROADMAP.md)**: Official product roadmap, component blueprints, and upcoming milestone deliverables.
-- **[docs/COMPONENT_CATALOG.md](docs/COMPONENT_CATALOG.md)**: Exhaustive API specifications, parameter tables, defaults, and Razor markup examples for all **145+ components**.
+- **[docs/COMPONENT_CATALOG.md](docs/COMPONENT_CATALOG.md)**: Exhaustive API specifications, parameter tables, defaults, and Razor markup examples for all **146+ components**.
 - **[docs/DEVELOPER_COACHING.md](docs/DEVELOPER_COACHING.md)**: Mobile-first architectural best practices, 44px minimum tap targets, zero-FOUC theme synchronization, and WCAG AA compliance.
 - **[docs/HELP_AND_GUIDE.md](docs/HELP_AND_GUIDE.md)**: Keyboard shortcuts reference (`Ctrl+K` Command Palette), global recipes, and troubleshooting FAQ.
 
@@ -349,6 +388,7 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 
 | Milestone | Feature Pillar | Target Component(s) | Status | Architectural Focus |
 |:---:|---|---|:---:|---|
+| **v1.1.0** | **AG-UI Adaptive Form Engine & HITL Gate** | `TwAguiFormCanvas`, `AguiFormSchema` | **Shipped ✅** | Runtime form compilation from agent schemas, conditional dependency branching, confidence badges, two-way diff inspector, and HITL sign-off resolution. |
 | **v1.1.0** | **Morale Prize Wheel** | `TwPrizeWheel` | **Shipped ✅** | Interactive team prize wheel with SVG radial text wrap, manual brake, synchronous reflow reset, and Web Audio flapper clicks. |
 | **v1.1.0** | **Celebration Animations Studio** | `TwCelebrationEditor`, `TwConfetti`, `TwCelebrationModal` | **Shipped ✅** | Particle physics sandbox with 6 styles, continuous harmonic sinusoidal physics, 0.2x–5.0x speed multiplier, and true body-portal fullscreen. |
 | **v1.1.0** | **Procedural Sound FX Engine** | `TwSoundService`, `sound_fx.js` | **Shipped ✅** | 100% royalty-free, zero-asset Web Audio API sound synthesizer with 8 sound profiles, volume sliders, and mute controls. |

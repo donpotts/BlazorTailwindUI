@@ -14,6 +14,7 @@ This document outlines the strategic architecture, component specifications, and
 | **4. Rewards Center for Common Offerings** | `TwRewardsCenter` | Shipped (v1.1.0) ✅ | Enterprise HR & Operations |
 | **5. Native Media Recorder & Player** | `TwMediaRecorder` | Shipped (v1.1.0) ✅ | Hardware & Media Interop |
 | **6. Multi-Factor Auth (MFA) Methods Suite** | `TwMfaAuthSuite`, `TwOtpInput` | Shipped (v1.1.0) ✅ | Security, Auth & Compliance |
+| **7. AG-UI Form Engine & HITL Workbenches** | `TwAguiFormCanvas`, `AguiFormSchema` | Shipped (v1.1.0) ✅ | Agentic AI & Generative UI |
 
 ---
 
@@ -147,11 +148,32 @@ Provide enterprise security engineers with modern, drop-in multi-factor authenti
 
 ---
 
+## 7. 🤖 Adaptive Generative UI (AG-UI) Form Engine & HITL Workbenches
+
+### Objective
+Eliminate the tedious "Chat Wall" ping-pong by allowing AI agents to synthesize runtime-adaptive, validated forms directly into the conversation or side-drawer, complete with human-in-the-loop (HITL) approval gates, confidence chips, and type-safe tool callbacks.
+
+### Key Architectural Specifications
+- **`TwAguiFormCanvas`**: High-performance, reactive form engine executing entirely in client WebAssembly.
+  - **Dynamic Field Compilation**: Synthesizes inputs, textareas, sliders, numeric steppers, switches, radio groups, date pickers, and tags on the fly from an `AguiFormSchema`.
+  - **Conditional Dependency Evaluation**: Fields dynamically appear or hide based on user selections (`DependsOnField`, `DependsOnValue`) without page reload.
+  - **Confidence Badges & Source Hints**: Fields pre-populated by AI display confidence ratings (`✨ 98%`) and hover tooltips showing source citations (*"Extracted from Quote Header Page 1"*).
+  - **Two-Way Diff Inspector**: Live JSON drawer tracking user deviations from agent proposals, with 1-click `✨ Reapply AI Defaults`.
+  - **Procedural Sound FX & HITL Resolution**: Submitting triggers procedural fanfare (`TwSoundService`), packaging structured parameters into an `AguiFormSubmission` to unblock agent workflows.
+
+```razor
+<TwAguiFormCanvas Schema="@schema" 
+                  OnSubmit="HandleApproval" 
+                  OnCancel="HandleRejection" />
+```
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid
 flowchart LR
-    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>6 Roadmap Innovations<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft"]
+    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>7 Roadmap Innovations<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Adaptive Form Engine"]
     B --> C["v1.2.0<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs"]
     C --> D["v1.3.0<br/>Native Mobile MAUI Bindings<br/>Enterprise Micro-Frontends"]
 ```

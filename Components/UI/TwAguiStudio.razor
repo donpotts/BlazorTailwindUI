@@ -5,6 +5,7 @@
 @inject AgenticToolRegistry ToolRegistry
 @inject ThemeService Theme
 @inject ToastService Toast
+@inject TwSoundService Sound
 @inject IJSRuntime JS
 
 <div class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-8 @Class">
@@ -12,13 +13,13 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
         <div>
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 mb-2">
-                <span>🤖</span> .NET 11 Adaptive Generative UI & Smart Agentic Tools
+                <span>🤖</span> .NET 11 Adaptive Generative UI (AG-UI) & HITL Studio
             </div>
             <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                AGUI & Smart Components Studio
+                AG-UI & Agentic Forms Studio
             </h2>
             <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-3xl">
-                Experience next-generation client-side generative UI synthesis, intelligent input components, and dual frontend (WASM) & backend (API) agentic tool calling in pure .NET 11.
+                Experience next-generation client-side generative UI synthesis: runtime adaptive forms, human-in-the-loop (HITL) approval gates, and dual frontend (WASM) & backend (API) agentic tool calling in pure .NET 11.
             </p>
         </div>
 
@@ -38,7 +39,7 @@
     <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
         <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                <span>🪄</span> Prompt-Driven Adaptive Generative UI (AGUI) Synthesis
+                <span>🪄</span> Prompt-Driven Adaptive Generative UI (AG-UI) Synthesis
             </span>
             <span class="text-[11px] font-mono text-slate-400">Agent Engine: .NET 11 WASM SIMD</span>
         </div>
@@ -51,7 +52,7 @@
                 <input type="text"
                        @bind="_promptInput"
                        @onkeydown="HandlePromptKeyDown"
-                       placeholder="Describe what UI to generate or which tools to coordinate..."
+                       placeholder="Describe a form to generate, e.g. 'Provision HA Postgres cluster with 3 replicas and SLA window'..."
                        class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-xs" />
             </div>
 
@@ -62,7 +63,7 @@
                 @if (_isGenerating)
                 {
                     <span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
-                    <span>Calling Tools & Synthesizing...</span>
+                    <span>Synthesizing AG-UI...</span>
                 }
                 else
                 {
@@ -74,50 +75,91 @@
 
         <!-- Preset Prompt Pills -->
         <div class="flex flex-wrap items-center gap-2 pt-1">
-            <span class="text-[11px] font-semibold text-slate-400">Agent Scenarios:</span>
+            <span class="text-[11px] font-semibold text-slate-400">Quick Scenarios:</span>
+            <button type="button" @onclick='() => LoadFormScenario("cloud")'
+                    class="px-3 py-1 text-xs rounded-lg border border-purple-300 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/40 hover:border-purple-500 text-purple-700 dark:text-purple-300 font-bold transition">
+                📋 HA Cloud Cluster Form (HITL)
+            </button>
+            <button type="button" @onclick='() => LoadFormScenario("procure")'
+                    class="px-3 py-1 text-xs rounded-lg border border-purple-300 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/40 hover:border-purple-500 text-purple-700 dark:text-purple-300 font-bold transition">
+                📑 Ingested PDF Procurement Form
+            </button>
+            <button type="button" @onclick='() => LoadFormScenario("security")'
+                    class="px-3 py-1 text-xs rounded-lg border border-purple-300 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/40 hover:border-purple-500 text-purple-700 dark:text-purple-300 font-bold transition">
+                🛡️ Zero-Trust Privilege Gate
+            </button>
             <button type="button" @onclick='() => LoadScenario("cloud")'
-                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-purple-500 text-slate-700 dark:text-slate-300 font-medium transition">
-                ☁️ Cloud Quota Monitor (Backend + WASM)
+                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-slate-400 text-slate-700 dark:text-slate-300 font-medium transition">
+                ☁️ Cloud Quota Widget
             </button>
             <button type="button" @onclick='() => LoadScenario("finance")'
-                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-purple-500 text-slate-700 dark:text-slate-300 font-medium transition">
-                📈 High-Freq Market Ticker (Backend + Chart)
-            </button>
-            <button type="button" @onclick='() => LoadScenario("security")'
-                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-purple-500 text-slate-700 dark:text-slate-300 font-medium transition">
-                🛡️ Zero-Trust Security Audit (Backend + Toast)
-            </button>
-            <button type="button" @onclick='() => LoadScenario("theme")'
-                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-purple-500 text-slate-700 dark:text-slate-300 font-medium transition">
-                🎨 Cyber Cyan Theme Flip (Frontend WASM)
+                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-slate-400 text-slate-700 dark:text-slate-300 font-medium transition">
+                📈 Market Depth Ticker
             </button>
             <button type="button" @onclick='() => LoadScenario("party")'
-                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-purple-500 text-slate-700 dark:text-slate-300 font-medium transition">
-                🎉 Celebration & Confetti (Frontend Canvas)
+                    class="px-3 py-1 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-slate-400 text-slate-700 dark:text-slate-300 font-medium transition">
+                🎉 Confetti Burst
             </button>
         </div>
     </div>
 
-    <!-- 2. Dual-Column Workbench: Live AGUI Canvas vs Tool Execution Trace -->
+    <!-- 2. Dual-Column Workbench: Live AG-UI Canvas vs Tool Execution Trace -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <!-- Live Synthesized AGUI Canvas (7 cols) -->
+        
+        <!-- Live Synthesized AG-UI Canvas (7 cols) -->
         <div class="lg:col-span-7 space-y-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                        Live Adaptive Generative UI (AGUI) Canvas
-                    </span>
+            
+            <!-- Canvas Mode Selector & Render Telemetry -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="inline-flex p-1 rounded-2xl bg-slate-200/80 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700">
+                    <button type="button" @onclick='() => _activeAguiTab = "forms"'
+                            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 @(_activeAguiTab == "forms" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400")">
+                        <span>📋</span>
+                        <span>AG-UI Adaptive Forms & HITL Gate</span>
+                    </button>
+                    <button type="button" @onclick='() => _activeAguiTab = "widgets"'
+                            class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 @(_activeAguiTab == "widgets" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400")">
+                        <span>📊</span>
+                        <span>Dashboard Widgets</span>
+                    </button>
                 </div>
+
                 @if (_currentExecution != null)
                 {
                     <span class="text-xs font-mono text-slate-400">
-                        Rendered in <strong class="text-emerald-500">@(_currentExecution.TotalExecutionMs)ms</strong>
+                        Synthesized in <strong class="text-emerald-500">@(_currentExecution.TotalExecutionMs)ms</strong>
                     </span>
                 }
             </div>
 
-            <TwAguiCanvas Schema="_currentWidget" OnActionTriggered="HandleAguiAction" />
+            @if (_activeAguiTab == "forms")
+            {
+                <!-- Form Scenario Switcher Pills -->
+                <div class="flex flex-wrap items-center gap-2 p-2 rounded-2xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200/60 dark:border-purple-800/40">
+                    <span class="text-[11px] font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1">
+                        <span>⚡</span> Preset Forms:
+                    </span>
+                    <button type="button" @onclick='() => LoadFormScenario("cloud")'
+                            class="px-2.5 py-1 text-xs rounded-xl font-bold transition border @(_selectedFormKey == "cloud" ? "bg-purple-600 text-white border-purple-600 shadow-xs" : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-purple-400")">
+                        ☁️ HA Cluster Provisioning
+                    </button>
+                    <button type="button" @onclick='() => LoadFormScenario("procure")'
+                            class="px-2.5 py-1 text-xs rounded-xl font-bold transition border @(_selectedFormKey == "procure" ? "bg-purple-600 text-white border-purple-600 shadow-xs" : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-purple-400")">
+                        📑 PDF Procurement Ingest
+                    </button>
+                    <button type="button" @onclick='() => LoadFormScenario("security")'
+                            class="px-2.5 py-1 text-xs rounded-xl font-bold transition border @(_selectedFormKey == "security" ? "bg-purple-600 text-white border-purple-600 shadow-xs" : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-purple-400")">
+                        🛡️ Zero-Trust Privilege Gate
+                    </button>
+                </div>
+
+                <!-- TwAguiFormCanvas Component -->
+                <TwAguiFormCanvas Schema="_activeFormSchema" OnSubmit="HandleFormSubmit" OnCancel="HandleFormCancel" />
+            }
+            else
+            {
+                <TwAguiCanvas Schema="_currentWidget" OnActionTriggered="HandleAguiAction" />
+            }
 
             <!-- Smart Components Live Interactive Suite -->
             <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
@@ -171,7 +213,7 @@
                     @if (_currentExecution != null && _currentExecution.ToolCalls.Count > 0)
                     {
                         <div class="p-2.5 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200/50 dark:border-purple-800/40 text-xs text-purple-900 dark:text-purple-200 space-y-1">
-                            <span class="font-bold block">Agent Reasoning:</span>
+                            <span class="font-bold block">Agent Reasoning & Coordination:</span>
                             <p class="text-[11px] leading-relaxed">@_currentExecution.ReasoningSummary</p>
                         </div>
 
@@ -211,12 +253,12 @@
                 </div>
             </div>
 
-            <!-- C# .NET 11 Tool Calling Code Snippet -->
+            <!-- C# .NET 11 AG-UI Tool Calling Code Snippet -->
             <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 space-y-3">
                 <div class="flex items-center justify-between text-xs">
-                    <span class="font-bold text-slate-800 dark:text-slate-200">C# .NET 11 Tool Calling Implementation:</span>
+                    <span class="font-bold text-slate-800 dark:text-slate-200">C# .NET 11 AG-UI Implementation:</span>
                     <button type="button" @onclick="CopyCSharpSnippet"
-                            class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-medium shadow-xs">
+                            class="px-2.5 py-1 rounded bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-medium shadow-xs">
                         Copy C#
                     </button>
                 </div>
@@ -229,15 +271,19 @@
 @code {
     [Parameter] public string Class { get; set; } = "";
 
-    private string _promptInput = "Query cloud cluster quota in us-east and render an executive resource monitor";
+    private string _promptInput = "Synthesize high-availability cloud database provisioning form with human sign-off";
     private bool _isGenerating = false;
+    private string _activeAguiTab = "forms"; // forms vs widgets
+    private string _selectedFormKey = "cloud";
     private AgenticExecutionTrace? _currentExecution;
     private AguiWidgetSchema? _currentWidget;
+    private AguiFormSchema? _activeFormSchema;
     private string _smartTextValue = "Our distributed stream processing pipeline reduced cluster memory allocation by 45 percent.";
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadScenario("cloud");
+        LoadFormScenario("cloud");
+        await Task.CompletedTask;
     }
 
     private async Task HandlePromptKeyDown(KeyboardEventArgs e)
@@ -248,8 +294,36 @@
         }
     }
 
+    private void LoadFormScenario(string key)
+    {
+        _selectedFormKey = key;
+        _activeAguiTab = "forms";
+
+        switch (key)
+        {
+            case "cloud":
+                _promptInput = "Synthesize high-availability cloud database provisioning form with human sign-off";
+                _activeFormSchema = CreateCloudProvisioningForm();
+                break;
+            case "procure":
+                _promptInput = "Ingest Datadog quote PDF and generate enterprise procurement approval form";
+                _activeFormSchema = CreateProcurementForm();
+                break;
+            case "security":
+                _promptInput = "Create zero-trust emergency bastion access request with MFA approval gate";
+                _activeFormSchema = CreateSecurityElevationForm();
+                break;
+        }
+
+        if (_activeFormSchema != null)
+        {
+            RecordFormTrace(_activeFormSchema);
+        }
+    }
+
     private async Task LoadScenario(string key)
     {
+        _activeAguiTab = "widgets";
         switch (key)
         {
             case "cloud":
@@ -274,23 +348,43 @@
     private async Task ExecuteAgenticPrompt()
     {
         _isGenerating = true;
-
         var prompt = _promptInput.ToLowerInvariant();
+
+        // If user prompt mentions form, provisioning, procurement, or approval, route to AG-UI Form synthesis
+        if (prompt.Contains("form") || prompt.Contains("provision") || prompt.Contains("procure") || prompt.Contains("bastion") || prompt.Contains("gate"))
+        {
+            if (prompt.Contains("procure") || prompt.Contains("pdf") || prompt.Contains("invoice") || prompt.Contains("datadog"))
+            {
+                LoadFormScenario("procure");
+            }
+            else if (prompt.Contains("security") || prompt.Contains("bastion") || prompt.Contains("access") || prompt.Contains("elevation"))
+            {
+                LoadFormScenario("security");
+            }
+            else
+            {
+                LoadFormScenario("cloud");
+            }
+
+            _isGenerating = false;
+            return;
+        }
+
+        // Otherwise handle widget synthesis
+        _activeAguiTab = "widgets";
         var trace = new AgenticExecutionTrace
         {
             Prompt = _promptInput,
-            ReasoningSummary = $"Identified user intent from prompt. Coordinating dual frontend WASM tools and backend API endpoints."
+            ReasoningSummary = "Identified user intent from prompt. Coordinating dual frontend WASM tools and backend API endpoints."
         };
 
         var totalSw = System.Diagnostics.Stopwatch.StartNew();
 
         if (prompt.Contains("cloud") || prompt.Contains("quota"))
         {
-            // 1. Backend Tool Call: sys_cloud_quota_check
             var backendCall = await ToolRegistry.ExecuteToolAsync("sys_cloud_quota_check", new() { ["region"] = "us-east-1", ["clusterId"] = "k8s-prod-primary" });
             trace.ToolCalls.Add(backendCall);
 
-            // 2. Frontend Tool Call: tw_render_widget
             var frontendCall = await ToolRegistry.ExecuteToolAsync("tw_render_widget", new() { ["widgetType"] = "metric", ["title"] = "Cloud Cluster Resource Sentinel", ["accentColor"] = "cyan" });
             trace.ToolCalls.Add(frontendCall);
 
@@ -359,48 +453,10 @@
                 }
             };
         }
-        else if (prompt.Contains("theme") || prompt.Contains("cyan"))
-        {
-            var frontendCall = await ToolRegistry.ExecuteToolAsync("tw_theme_switch", new() { ["mode"] = "dark", ["accent"] = "cyan" });
-            trace.ToolCalls.Add(frontendCall);
-
-            await Theme.SetModeAsync(ThemeMode.Dark);
-            await Theme.SetAccentAsync(AccentTheme.Cyan);
-
-            var toastCall = await ToolRegistry.ExecuteToolAsync("tw_toast_notify", new() { ["title"] = "Theme Updated", ["message"] = "Switched to Dark Mode with Cyber Cyan accent." });
-            trace.ToolCalls.Add(toastCall);
-
-            Toast.Show("WASM Tool Executed", "Switched to Dark Mode with Cyber Cyan accent via client tool call.", SemanticVariant.Primary);
-
-            _currentWidget = new AguiWidgetSchema
-            {
-                Id = "agui_theme_applied",
-                Title = "Cyber Cyan Palette Active",
-                Subtitle = "Client-side DOM tokens mutated in sub-millisecond WASM execution",
-                WidgetType = "alert",
-                Icon = "🎨",
-                AccentColor = "cyan",
-                Tags = new() { "ClientTool", "TailwindCSS", "Reactive" },
-                Properties = new()
-                {
-                    ["mode"] = "Dark Slate (950)",
-                    ["accent"] = "Cyan-500",
-                    ["contrast_ratio"] = "14.2:1 (WCAG AAA)"
-                },
-                Actions = new()
-                {
-                    new() { Id = "reset_theme", Label = "Revert to Default Indigo", Variant = "outline" }
-                }
-            };
-        }
         else
         {
-            // Default celebration / general
             var confettiCall = await ToolRegistry.ExecuteToolAsync("tw_confetti_burst", new() { ["count"] = 120 });
             trace.ToolCalls.Add(confettiCall);
-
-            var toastCall = await ToolRegistry.ExecuteToolAsync("tw_toast_notify", new() { ["title"] = "Celebration", ["message"] = "Canvas particle burst fired!" });
-            trace.ToolCalls.Add(toastCall);
 
             _currentWidget = new AguiWidgetSchema
             {
@@ -426,8 +482,77 @@
         totalSw.Stop();
         trace.TotalExecutionMs = Math.Round(totalSw.Elapsed.TotalMilliseconds, 1);
         _currentExecution = trace;
-
         _isGenerating = false;
+    }
+
+    private void RecordFormTrace(AguiFormSchema schema)
+    {
+        var trace = new AgenticExecutionTrace
+        {
+            Prompt = _promptInput,
+            ReasoningSummary = $"Agent '{schema.AgentName}' synthesized an AG-UI form schema with {schema.Fields.Count} dynamic fields ({schema.OverallConfidence * 100:F0}% confidence, Risk: {schema.RiskLevel}). Awaiting Human-in-the-Loop approval gate.",
+            TotalExecutionMs = 4.8
+        };
+
+        trace.ToolCalls.Add(new ToolCallExecution
+        {
+            ToolName = "sys_synthesize_agui_form",
+            DisplayName = $"Synthesize AG-UI Form ({schema.Title})",
+            Source = ToolSource.BackendApi,
+            LatencyMs = 3.2,
+            Arguments = new() { ["formId"] = schema.Id, ["risk"] = schema.RiskLevel, ["fieldCount"] = schema.Fields.Count },
+            Result = new { status = "SchemaGenerated", formId = schema.Id }
+        });
+
+        trace.ToolCalls.Add(new ToolCallExecution
+        {
+            ToolName = "tw_render_form_canvas",
+            DisplayName = "Render TwAguiFormCanvas with 2-Way Diff Binding",
+            Source = ToolSource.FrontendWasm,
+            LatencyMs = 1.6,
+            Arguments = new() { ["formId"] = schema.Id, ["renderedControls"] = schema.Fields.Select(f => f.Type.ToString()).ToList() },
+            Result = new { status = "Mounted", domNodes = schema.Fields.Count }
+        });
+
+        _currentExecution = trace;
+    }
+
+    private async Task HandleFormSubmit(AguiFormSubmission submission)
+    {
+        if (_currentExecution != null)
+        {
+            _currentExecution.ToolCalls.Add(new ToolCallExecution
+            {
+                ToolName = "human_approval_gate_resolve",
+                DisplayName = "Human-in-the-Loop (HITL) Sign-Off Granted",
+                Source = ToolSource.FrontendWasm,
+                LatencyMs = 0.8,
+                Arguments = new() { ["formId"] = submission.FormId, ["approved"] = true, ["fieldsModified"] = submission.Values.Count },
+                Result = new { status = "ActionExecuted", message = "Agent workflow unblocked and executed." }
+            });
+            _currentExecution.ReasoningSummary = $"Human reviewer approved '{_activeFormSchema?.Title}'. The autonomous agent resumed execution with verified parameters.";
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task HandleFormCancel(string formId)
+    {
+        if (_currentExecution != null)
+        {
+            _currentExecution.ToolCalls.Add(new ToolCallExecution
+            {
+                ToolName = "human_approval_gate_rejected",
+                DisplayName = "Human-in-the-Loop (HITL) Action Rejected",
+                Source = ToolSource.FrontendWasm,
+                LatencyMs = 0.5,
+                Arguments = new() { ["formId"] = formId, ["approved"] = false },
+                Result = new { status = "Aborted", message = "Workflow aborted by human reviewer." }
+            });
+            _currentExecution.ReasoningSummary = "Human reviewer rejected the proposed plan. Workflow aborted safely.";
+        }
+
+        await Task.CompletedTask;
     }
 
     private void HandleAguiAction(AguiActionItem action)
@@ -468,38 +593,347 @@
         {
             // Clipboard fallback
         }
-        Toast.Show("Code Copied", "C# .NET 11 tool calling snippet copied to clipboard.", SemanticVariant.Success);
+        Toast.Show("Code Copied", "C# .NET 11 AG-UI code snippet copied to clipboard.", SemanticVariant.Success);
     }
 
     private string GetCSharpSnippet()
     {
-        return @"// .NET 11 C# Agentic Tool Calling (Frontend WASM + Backend API)
-using BlazorTailwindUI.Services;
+        return @"// .NET 11 C# AG-UI (Adaptive Generative UI) Form Engine & HITL Gate
 using BlazorTailwindUI.Models;
+using BlazorTailwindUI.Components.UI;
 
-// 1. Inject Agentic Tool Registry
-@inject AgenticToolRegistry ToolRegistry
-@inject ThemeService Theme
+// 1. Synthesize Dynamic AG-UI Form Schema from Agent
+var schema = new AguiFormSchema
+{
+    Title = ""Provision HA Database Cluster"",
+    AgentName = ""DevOps Copilot"",
+    RiskLevel = ""Medium"",
+    OverallConfidence = 0.96,
+    Fields = new()
+    {
+        new AguiFormField { Id = ""ClusterName"", Label = ""Cluster Name"", Type = AguiFieldType.Text, IsRequired = true },
+        new AguiFormField { Id = ""EnableMultiAz"", Label = ""High Availability Multi-AZ"", Type = AguiFieldType.Switch },
+        new AguiFormField { Id = ""ReplicaCount"", Label = ""Read Replicas"", Type = AguiFieldType.Slider, Min = 1, Max = 10, DependsOnField = ""EnableMultiAz"", DependsOnValue = ""true"" },
+        new AguiFormField { Id = ""StorageGb"", Label = ""Storage (GB)"", Type = AguiFieldType.Number, Min = 50, Max = 5000 }
+    },
+    InitialValues = new() { [""ClusterName""] = ""prod-pg-us-east"", [""EnableMultiAz""] = ""true"", [""ReplicaCount""] = 3 }
+};
 
-@code {
-    // 2. Invoke Backend Tool (API Data Fetch)
-    var backendResult = await ToolRegistry.ExecuteToolAsync(
-        ""sys_cloud_quota_check"", 
-        new() { [""region""] = ""us-east-1"" }
-    );
+// 2. Render in Razor Markup with Structured Callback & Sound FX
+<TwAguiFormCanvas Schema=""@schema"" OnSubmit=""HandleApproval"" OnCancel=""HandleRejection"" />";
+    }
 
-    // 3. Invoke Frontend Tool (Client-Side WASM UI Mutation)
-    var frontendResult = await ToolRegistry.ExecuteToolAsync(
-        ""tw_theme_switch"", 
-        new() { [""mode""] = ""dark"", [""accent""] = ""cyan"" }
-    );
+    // Helper builders for rich AG-UI Form Scenarios
+    private AguiFormSchema CreateCloudProvisioningForm()
+    {
+        return new AguiFormSchema
+        {
+            Id = "form_cloud_provision_01",
+            Title = "Provision High-Availability Database Cluster",
+            Description = "Copilot synthesized provisioning plan based on Jira ticket #INFRA-9412 & enterprise SLA specifications.",
+            Icon = "☁️",
+            AgentName = "DevOps Copilot",
+            AccentColor = "purple",
+            RiskLevel = "Medium",
+            OverallConfidence = 0.96,
+            Fields = new()
+            {
+                new AguiFormField
+                {
+                    Id = "cluster_name",
+                    Label = "Cluster Identifier",
+                    Type = AguiFieldType.Text,
+                    IsRequired = true,
+                    AiConfidence = 0.99,
+                    ExtractedSource = "Auto-detected from Jira ticket #INFRA-9412",
+                    Group = "Cluster Configuration"
+                },
+                new AguiFormField
+                {
+                    Id = "environment",
+                    Label = "Target Environment",
+                    Type = AguiFieldType.Select,
+                    IsRequired = true,
+                    AiConfidence = 0.98,
+                    Options = new()
+                    {
+                        new() { Value = "production", Label = "Production (us-east-1)" },
+                        new() { Value = "staging", Label = "Staging (us-west-2)" },
+                        new() { Value = "dev", Label = "Development Sandbox" }
+                    },
+                    Group = "Cluster Configuration"
+                },
+                new AguiFormField
+                {
+                    Id = "engine_version",
+                    Label = "Database Engine",
+                    Type = AguiFieldType.RadioGroup,
+                    AiConfidence = 0.96,
+                    Options = new()
+                    {
+                        new() { Value = "pg16", Label = "PostgreSQL 16", Icon = "🐘", Description = "Enterprise Relational" },
+                        new() { Value = "my8", Label = "MySQL 8.4", Icon = "🐬", Description = "LTS Web Stack" },
+                        new() { Value = "redis7", Label = "Redis Enterprise", Icon = "⚡", Description = "In-Memory Caching" }
+                    },
+                    Group = "Cluster Configuration"
+                },
+                new AguiFormField
+                {
+                    Id = "multi_az",
+                    Label = "Multi-AZ Synchronous Replication",
+                    Type = AguiFieldType.Switch,
+                    AiConfidence = 0.95,
+                    ExtractedSource = "Mandated by Production Tier-1 SLA policy",
+                    Group = "High Availability & Scaling"
+                },
+                new AguiFormField
+                {
+                    Id = "replica_count",
+                    Label = "Read Replicas across Availability Zones",
+                    Type = AguiFieldType.Slider,
+                    Min = 1,
+                    Max = 8,
+                    Step = 1,
+                    AiConfidence = 0.94,
+                    DependsOnField = "multi_az",
+                    DependsOnValue = "true",
+                    Group = "High Availability & Scaling"
+                },
+                new AguiFormField
+                {
+                    Id = "storage_gb",
+                    Label = "Allocated NVMe Storage (GB)",
+                    Type = AguiFieldType.Number,
+                    Min = 100,
+                    Max = 5000,
+                    Step = 50,
+                    AiConfidence = 0.92,
+                    Group = "Storage & Backups"
+                },
+                new AguiFormField
+                {
+                    Id = "backup_retention",
+                    Label = "Automated Snapshot Retention (Days)",
+                    Type = AguiFieldType.Slider,
+                    Min = 7,
+                    Max = 90,
+                    Step = 1,
+                    AiConfidence = 0.97,
+                    Group = "Storage & Backups"
+                },
+                new AguiFormField
+                {
+                    Id = "admin_notes",
+                    Label = "DevOps Deployment Notes",
+                    Type = AguiFieldType.TextArea,
+                    Placeholder = "Provisioned with encrypted NVMe storage, VPC private peering, and automated failover.",
+                    Group = "Audit & Compliance"
+                }
+            },
+            InitialValues = new()
+            {
+                ["cluster_name"] = "prod-pg-us-east-01",
+                ["environment"] = "production",
+                ["engine_version"] = "pg16",
+                ["multi_az"] = "true",
+                ["replica_count"] = 3,
+                ["storage_gb"] = 500,
+                ["backup_retention"] = 30,
+                ["admin_notes"] = "SLA Target: 99.99% uptime. Automated failover time < 30 seconds."
+            }
+        };
+    }
 
-    // 4. Synthesize Adaptive Generative UI (AGUI) Widget
-    var widget = new AguiWidgetSchema {
-        Title = ""Cloud Resource Sentinel"",
-        WidgetType = ""metric"",
-        AccentColor = ""cyan""
-    };
-}";
+    private AguiFormSchema CreateProcurementForm()
+    {
+        return new AguiFormSchema
+        {
+            Id = "form_procurement_02",
+            Title = "Enterprise Software License Procurement",
+            Description = "Extracted from vendor PDF quote (Vendor: Datadog Systems Inc., Quote #Q-84912).",
+            Icon = "📑",
+            AgentName = "Finance & Legal Agent",
+            AccentColor = "emerald",
+            RiskLevel = "High",
+            OverallConfidence = 0.98,
+            Fields = new()
+            {
+                new AguiFormField
+                {
+                    Id = "vendor_name",
+                    Label = "Vendor Legal Entity",
+                    Type = AguiFieldType.Text,
+                    IsRequired = true,
+                    AiConfidence = 0.99,
+                    ExtractedSource = "Extracted from Quote Header Page 1",
+                    Group = "Vendor Details"
+                },
+                new AguiFormField
+                {
+                    Id = "quote_number",
+                    Label = "Quote Reference ID",
+                    Type = AguiFieldType.Text,
+                    IsRequired = true,
+                    AiConfidence = 0.99,
+                    ExtractedSource = "Extracted from Quote Metadata",
+                    Group = "Vendor Details"
+                },
+                new AguiFormField
+                {
+                    Id = "license_tier",
+                    Label = "Subscription Tier",
+                    Type = AguiFieldType.RadioGroup,
+                    AiConfidence = 0.97,
+                    Options = new()
+                    {
+                        new() { Value = "standard", Label = "Standard", Icon = "📦", Description = "Up to 50 hosts" },
+                        new() { Value = "pro", Label = "Professional", Icon = "🚀", Description = "APM + Tracing" },
+                        new() { Value = "enterprise", Label = "Enterprise", Icon = "🏛️", Description = "Unlimited Log Ingest & SAML" }
+                    },
+                    Group = "Contract Terms"
+                },
+                new AguiFormField
+                {
+                    Id = "total_annual_spend",
+                    Label = "Total Annual Contract Value ($ USD)",
+                    Type = AguiFieldType.Number,
+                    IsRequired = true,
+                    AiConfidence = 0.99,
+                    ExtractedSource = "Extracted from Grand Total on Page 2",
+                    Group = "Financial Terms"
+                },
+                new AguiFormField
+                {
+                    Id = "payment_terms",
+                    Label = "Payment Terms",
+                    Type = AguiFieldType.Select,
+                    AiConfidence = 0.95,
+                    Options = new()
+                    {
+                        new() { Value = "net30", Label = "Net-30 Invoice" },
+                        new() { Value = "net60", Label = "Net-60 Invoice" },
+                        new() { Value = "annual_prepay", Label = "Annual Upfront Prepay (5% Discount)" }
+                    },
+                    Group = "Financial Terms"
+                },
+                new AguiFormField
+                {
+                    Id = "requires_legal_review",
+                    Label = "Trigger Senior Legal Review (> $100k)",
+                    Type = AguiFieldType.Switch,
+                    AiConfidence = 0.94,
+                    ExtractedSource = "Automated procurement policy gate triggered",
+                    Group = "Approval & Governance"
+                },
+                new AguiFormField
+                {
+                    Id = "approver_notes",
+                    Label = "Department Justification",
+                    Type = AguiFieldType.TextArea,
+                    Placeholder = "Annual observability and APM renewal for infrastructure clusters.",
+                    Group = "Approval & Governance"
+                }
+            },
+            InitialValues = new()
+            {
+                ["vendor_name"] = "Datadog Systems Inc.",
+                ["quote_number"] = "Q-84912-REV3",
+                ["license_tier"] = "enterprise",
+                ["total_annual_spend"] = 124500,
+                ["payment_terms"] = "annual_prepay",
+                ["requires_legal_review"] = "true",
+                ["approver_notes"] = "Mission-critical observability infrastructure for production Kubernetes clusters."
+            }
+        };
+    }
+
+    private AguiFormSchema CreateSecurityElevationForm()
+    {
+        return new AguiFormSchema
+        {
+            Id = "form_security_03",
+            Title = "Production Bastion Zero-Trust Access Gate",
+            Description = "Temporary break-glass privilege elevation for emergency hotfix #HOT-381.",
+            Icon = "🛡️",
+            AgentName = "Security Sentinel",
+            AccentColor = "rose",
+            RiskLevel = "High",
+            OverallConfidence = 0.91,
+            Fields = new()
+            {
+                new AguiFormField
+                {
+                    Id = "target_host",
+                    Label = "Target Bastion / Host",
+                    Type = AguiFieldType.Text,
+                    IsRequired = true,
+                    AiConfidence = 0.99,
+                    ExtractedSource = "Resolved from incident telemetry #HOT-381",
+                    Group = "Access Details"
+                },
+                new AguiFormField
+                {
+                    Id = "privilege_role",
+                    Label = "Privilege Level Requested",
+                    Type = AguiFieldType.Select,
+                    IsRequired = true,
+                    AiConfidence = 0.92,
+                    Options = new()
+                    {
+                        new() { Value = "auditor", Label = "Read-Only Observability Auditor" },
+                        new() { Value = "operator", Label = "Service Restart Operator" },
+                        new() { Value = "root_admin", Label = "Root SuperAdmin (Full Access)" }
+                    },
+                    Group = "Access Details"
+                },
+                new AguiFormField
+                {
+                    Id = "duration_hours",
+                    Label = "Access Elevation TTL (Hours)",
+                    Type = AguiFieldType.Slider,
+                    Min = 1,
+                    Max = 8,
+                    Step = 1,
+                    AiConfidence = 0.90,
+                    Group = "Access Details"
+                },
+                new AguiFormField
+                {
+                    Id = "passkey_verified",
+                    Label = "FIDO2 WebAuthn Hardware Passkey Authenticated",
+                    Type = AguiFieldType.Switch,
+                    AiConfidence = 0.99,
+                    ExtractedSource = "Verified via client biometric authenticator",
+                    Group = "Zero-Trust Credentials"
+                },
+                new AguiFormField
+                {
+                    Id = "incident_ticket",
+                    Label = "Jira / PagerDuty Incident ID",
+                    Type = AguiFieldType.Text,
+                    IsRequired = true,
+                    AiConfidence = 0.95,
+                    Group = "Audit Log"
+                },
+                new AguiFormField
+                {
+                    Id = "emergency_justification",
+                    Label = "Break-Glass Justification",
+                    Type = AguiFieldType.TextArea,
+                    IsRequired = true,
+                    Placeholder = "Describe root cause and remediation actions to be performed...",
+                    Group = "Audit Log"
+                }
+            },
+            InitialValues = new()
+            {
+                ["target_host"] = "prod-bastion-us-east-01.internal",
+                ["privilege_role"] = "root_admin",
+                ["duration_hours"] = 2,
+                ["passkey_verified"] = "true",
+                ["incident_ticket"] = "INC-8942-BILLING-OUTAGE",
+                ["emergency_justification"] = "Emergency database connection pool thread dump and thread restart to resolve payment gateway degradation."
+            }
+        };
     }
 }
