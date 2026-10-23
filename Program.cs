@@ -8,12 +8,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddScoped<ThemeService>();
-builder.Services.AddScoped<ToastService>();
-builder.Services.AddScoped<TwSoundService>();
-builder.Services.AddScoped<TwPwaService>();
-builder.Services.AddSingleton<ComponentCatalogService>();
-builder.Services.AddSingleton<FormCatalogService>();
-builder.Services.AddSingleton<AgenticToolRegistry>();
+builder.Services.AddBlazorTailwindUI();
 
 await builder.Build().RunAsync();

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "BlazorTailwindUI",
+  "classifications": [ "Web", "Blazor", "WebAssembly", "TailwindCSS", "PWA" ],
+  "name": "Blazor Tailwind UI Enterprise Template",
+  "defaultName": "BlazorTailwindApp",
+  "identity": "BlazorTailwindUI.Template",
+  "shortName": "blazortw",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "BlazorTailwindUI",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "bin/**",
+            "obj/**",
+            ".git/**",
+            "node_modules/**",
+            "src-tauri/target/**"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -367,6 +367,56 @@ npm run tauri:build
 
 ---
 
+## 📦 Using in New Projects or as a .NET App Template
+
+### Option 1: 1-Click `dotnet new` Template (Fastest)
+You can scaffold complete new enterprise applications using the built-in `dotnet new` template:
+
+```bash
+# 1. Install the template directly from GitHub
+dotnet new install https://github.com/donpo/BlazorTailwindUI.git
+
+# 2. Instantiate a brand-new project with all 147+ components & PWA pre-configured
+dotnet new blazortw -n MyCompanyApp
+
+# 3. Run immediately
+cd MyCompanyApp
+dotnet run
+```
+
+### Option 2: Project Reference / Class Library (Existing Projects)
+To use the component system inside an existing Blazor solution:
+
+1. **Add Reference** in your `.csproj`:
+   ```xml
+   <ItemGroup>
+     <ProjectReference Include="..\BlazorTailwindUI\BlazorTailwindUI.csproj" />
+   </ItemGroup>
+   ```
+
+2. **Register Core Services** in `Program.cs`:
+   ```csharp
+   builder.Services.AddBlazorTailwindUI();
+   ```
+
+3. **Add Global Usings** in `_Imports.razor`:
+   ```razor
+   @using BlazorTailwindUI.Components.UI
+   @using BlazorTailwindUI.Components.Layout
+   @using BlazorTailwindUI.Services
+   @using BlazorTailwindUI.Models
+   ```
+
+4. **Include Stylesheets & Scripts** in your `App.razor` or `index.html`:
+   ```html
+   <link rel="stylesheet" href="_content/BlazorTailwindUI/css/app.min.css" />
+   <script src="_content/BlazorTailwindUI/js/sound_fx.js"></script>
+   <script src="_content/BlazorTailwindUI/js/theme.js"></script>
+   <script src="_content/BlazorTailwindUI/js/pwa.js"></script>
+   ```
+
+---
+
 ## 🚀 Quick Start Guide
 
 ### Prerequisites
