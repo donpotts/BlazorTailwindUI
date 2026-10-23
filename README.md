@@ -80,6 +80,10 @@
   <img src="docs/images/fullstack-hub-verified.png" alt=".NET 11 Full-Stack Blazor Enterprise Hub" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
 </p>
 
+| Enterprise Kanban Drag Handles (Desktop) | Mobile Touch Drag on iOS Safari & Android |
+|:---:|:---:|
+| <img src="docs/images/kanban-desktop-drag-handles.png" width="450" /> | <img src="docs/images/kanban-mobile-touch-ios.png" width="450" /> |
+
 | 1-Click PWA App Installer in Header | Standalone Desktop/Mobile PWA Guide |
 |:---:|:---:|
 | <img src="docs/images/pwa-install-button-header.png" width="450" /> | <img src="docs/images/pwa-install-guide-modal.png" width="450" /> |

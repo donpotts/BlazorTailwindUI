@@ -1,7 +1,12 @@
 @namespace BlazorTailwindUI.Components.UI
+@using BlazorTailwindUI.Services
+@using BlazorTailwindUI.Models
+@inject IJSRuntime JS
+@inject ToastService Toast
+@implements IAsyncDisposable
 
-<div class="space-y-4 @CustomClass">
-    <!-- Header with Stats -->
+<div @ref="_boardRef" class="btui-kanban-board space-y-4 @CustomClass">
+    <!-- Header with Stats & Mobile Hint -->
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
             <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
@@ -10,8 +15,13 @@
                 <span class="text-xs font-mono font-normal px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                     @(Columns.Sum(c => c.Cards.Count)) Tasks
                 </span>
+                <span class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                    <span>📱 iOS & Android Touch Drag Ready</span>
+                </span>
             </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Drag or navigate enterprise workflow tasks across progressive columns</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+                Drag cards via grip handles across lanes on desktop mouse or touch screens (iOS & Android).
+            </p>
         </div>
 
         <div class="flex items-center gap-2">
@@ -30,7 +40,7 @@
             var column = Columns[cIndex];
             var isWipOver = column.WipLimit.HasValue && column.Cards.Count > column.WipLimit.Value;
 
-            <div class="rounded-2xl bg-slate-50 dark:bg-slate-850/70 border border-slate-200 dark:border-slate-800 p-3.5 flex flex-col min-w-[270px]">
+            <div data-column-id="@column.Id" class="rounded-2xl bg-slate-50 dark:bg-slate-850/70 border border-slate-200 dark:border-slate-800 p-3.5 flex flex-col min-w-[270px] transition-all duration-200">
                 <!-- Column Header -->
                 <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200/80 dark:border-slate-800">
                     <div class="flex items-center gap-2">
@@ -48,19 +58,35 @@
                 <div class="space-y-3 flex-1 overflow-y-auto max-h-[520px] pr-0.5">
                     @if (column.Cards.Count == 0)
                     {
-                        <div class="py-8 text-center text-xs text-slate-400 dark:text-slate-500 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
-                            No tasks in this lane
+                        <div class="py-8 text-center text-xs text-slate-400 dark:text-slate-500 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl select-none">
+                            Drop cards here
                         </div>
                     }
 
                     @foreach (var card in column.Cards)
                     {
-                        <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 p-3.5 shadow-2xs hover:shadow-md hover:border-brand-500/40 transition-all space-y-2.5 group">
-                            <!-- Card Header: Priority & Category -->
+                        <div data-card-id="@card.Id" 
+                             draggable="true" 
+                             class="btui-kanban-card rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 p-3.5 shadow-2xs hover:shadow-md hover:border-brand-500/40 transition-all space-y-2.5 group cursor-default">
+                            <!-- Card Header: Drag Handle, Priority & ID -->
                             <div class="flex items-center justify-between text-[11px]">
-                                <span class="px-2 py-0.5 rounded-md font-semibold text-[10px] uppercase tracking-wider @GetPriorityBadgeClass(card.Priority)">
-                                    @card.Priority
-                                </span>
+                                <div class="flex items-center gap-1.5">
+                                    <!-- 6-Dot Touch & Mouse Drag Handle -->
+                                    <div class="btui-kanban-handle p-1 -ml-1 text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 cursor-grab active:cursor-grabbing touch-none select-none rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                                         title="Drag Task (Touch & Mouse Supported on iOS & Android)">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                                            <circle cx="8" cy="6" r="1.75" />
+                                            <circle cx="16" cy="6" r="1.75" />
+                                            <circle cx="8" cy="12" r="1.75" />
+                                            <circle cx="16" cy="12" r="1.75" />
+                                            <circle cx="8" cy="18" r="1.75" />
+                                            <circle cx="16" cy="18" r="1.75" />
+                                        </svg>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-md font-semibold text-[10px] uppercase tracking-wider @GetPriorityBadgeClass(card.Priority)">
+                                        @card.Priority
+                                    </span>
+                                </div>
                                 <span class="text-slate-400 font-mono text-[10px]">#@card.Id.Substring(0, Math.Min(6, card.Id.Length))</span>
                             </div>
 
@@ -109,8 +135,8 @@
                                 }
                             </div>
 
-                            <!-- Move Buttons (Quick Lane Navigation) -->
-                            <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs">
+                            <!-- Move Controls: 1-Tap Quick Mover + Navigation Arrows -->
+                            <div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs gap-1">
                                 <button type="button" 
                                         @onclick="() => MoveCard(card, cIndex, -1)" 
                                         disabled="@(cIndex == 0)"
@@ -118,7 +144,18 @@
                                         title="Move to Previous Lane">
                                     ◀
                                 </button>
-                                <span class="text-[10px] text-slate-400 font-mono">Move</span>
+                                
+                                <!-- Quick Lane Jump Dropdown for Touch Accessibility -->
+                                <select @onchange="(e) => HandleLaneSelect(card, e.Value?.ToString())" 
+                                        class="text-[10px] py-0.5 px-1 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 focus:outline-none">
+                                    @foreach (var colOption in Columns)
+                                    {
+                                        <option value="@colOption.Id" selected="@(colOption.Id == column.Id)">
+                                            @colOption.Title
+                                        </option>
+                                    }
+                                </select>
+
                                 <button type="button" 
                                         @onclick="() => MoveCard(card, cIndex, 1)" 
                                         disabled="@(cIndex == Columns.Count - 1)"
@@ -171,11 +208,82 @@
     [Parameter] public string CustomClass { get; set; } = "";
     [Parameter] public EventCallback<KanbanCard> OnCardMoved { get; set; }
 
+    private ElementReference _boardRef;
+    private DotNetObjectReference<TwKanbanBoard>? _dotNetRef;
+
     protected override void OnInitialized()
     {
         if (!Columns.Any())
         {
             Columns = GetDefaultColumns();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                _dotNetRef = DotNetObjectReference.Create(this);
+                await JS.InvokeVoidAsync("BlazorKanban.init", _boardRef, _dotNetRef);
+            }
+            catch (JSException)
+            {
+                // Silently handle environment without JS active
+            }
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnCardDroppedJs(string cardId, string targetColId)
+    {
+        KanbanColumn? sourceCol = null;
+        KanbanCard? card = null;
+
+        foreach (var col in Columns)
+        {
+            card = col.Cards.FirstOrDefault(c => c.Id == cardId);
+            if (card != null)
+            {
+                sourceCol = col;
+                break;
+            }
+        }
+
+        var targetCol = Columns.FirstOrDefault(c => c.Id == targetColId);
+
+        if (card != null && targetCol != null && sourceCol != null && sourceCol.Id != targetCol.Id)
+        {
+            sourceCol.Cards.Remove(card);
+            targetCol.Cards.Add(card);
+            await OnCardMoved.InvokeAsync(card);
+            Toast.Show("Task Moved", $"\"{card.Title}\" moved to {targetCol.Title}", SemanticVariant.Success);
+            StateHasChanged();
+        }
+    }
+
+    private void HandleLaneSelect(KanbanCard card, string? targetColId)
+    {
+        if (string.IsNullOrEmpty(targetColId)) return;
+
+        KanbanColumn? sourceCol = null;
+        foreach (var col in Columns)
+        {
+            if (col.Cards.Contains(card))
+            {
+                sourceCol = col;
+                break;
+            }
+        }
+
+        var targetCol = Columns.FirstOrDefault(c => c.Id == targetColId);
+        if (sourceCol != null && targetCol != null && sourceCol.Id != targetCol.Id)
+        {
+            sourceCol.Cards.Remove(card);
+            targetCol.Cards.Add(card);
+            OnCardMoved.InvokeAsync(card);
+            Toast.Show("Task Moved", $"\"{card.Title}\" moved to {targetCol.Title}", SemanticVariant.Success);
         }
     }
 
@@ -187,6 +295,7 @@
             Columns[currentColIndex].Cards.Remove(card);
             Columns[targetColIndex].Cards.Add(card);
             OnCardMoved.InvokeAsync(card);
+            Toast.Show("Task Moved", $"\"{card.Title}\" moved to {Columns[targetColIndex].Title}", SemanticVariant.Success);
         }
     }
 
@@ -206,6 +315,7 @@
                 CompletedChecklistItems = 1,
                 TotalChecklistItems = 3
             });
+            Toast.Show("Task Created", "New task added to backlog.", SemanticVariant.Success);
         }
     }
 
@@ -231,6 +341,7 @@
                 {
                     new KanbanCard
                     {
+                        Id = "task-editor",
                         Title = "Rich Text Editor integration",
                         Description = "Add Markdown and formatted enterprise editor support.",
                         Priority = TaskPriority.Normal,
@@ -252,6 +363,7 @@
                 {
                     new KanbanCard
                     {
+                        Id = "task-query",
                         Title = "Visual Query Filter Builder",
                         Description = "Nested boolean tree editor generating LINQ and SQL strings.",
                         Priority = TaskPriority.Urgent,
@@ -263,6 +375,7 @@
                     },
                     new KanbanCard
                     {
+                        Id = "task-charts",
                         Title = "Sparkline Micro-Charts Engine",
                         Description = "Pure inline SVG generation in C# without JS dependencies.",
                         Priority = TaskPriority.High,
@@ -284,6 +397,7 @@
                 {
                     new KanbanCard
                     {
+                        Id = "task-test",
                         Title = "Playwright Automated Testing",
                         Description = "Verify dual-theme rendering and zero prohibited brand mentions.",
                         Priority = TaskPriority.Normal,
@@ -305,6 +419,7 @@
                 {
                     new KanbanCard
                     {
+                        Id = "task-ribbon",
                         Title = "Enterprise Ribbon Navigation",
                         Description = "Full QAT bar, large/compact button clusters, and collapsible strip.",
                         Priority = TaskPriority.High,
@@ -317,5 +432,15 @@
                 }
             }
         };
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("BlazorKanban.destroy", _boardRef);
+        }
+        catch { }
+        _dotNetRef?.Dispose();
     }
 }
