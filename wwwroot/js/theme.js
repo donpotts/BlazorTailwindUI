@@ -870,25 +870,48 @@ window.blazorCelebration = {
         const ctx = canvasEl.getContext('2d');
         if (!ctx) return;
 
+        if (canvasEl._blazorAnimId) {
+            cancelAnimationFrame(canvasEl._blazorAnimId);
+            canvasEl._blazorAnimId = null;
+        }
+
         opts = opts || {};
         const style = (opts.style || 'confetti').toLowerCase();
         const count = opts.count || 90;
         const originX = opts.x !== undefined ? opts.x : 0.5;
         const originY = opts.y !== undefined ? opts.y : 0.5;
+        const speed = typeof opts.speed === 'number' && opts.speed > 0 ? opts.speed : 1.0;
         const colors = opts.colors || [
             '#6366f1', '#4f46e5', '#10b981', '#f59e0b',
             '#ef4444', '#ec4899', '#8b5cf6', '#06b6d4', '#eab308'
         ];
 
+        // Detect Fullscreen canvas (or attached fixed layer)
+        const isFullScreen = canvasEl.classList.contains('fixed') || opts.fullscreen || false;
+
+        if (isFullScreen) {
+            if (canvasEl.parentElement !== document.body) {
+                document.body.appendChild(canvasEl);
+            }
+            canvasEl.style.position = 'fixed';
+            canvasEl.style.top = '0px';
+            canvasEl.style.left = '0px';
+            canvasEl.style.width = '100vw';
+            canvasEl.style.height = '100vh';
+            canvasEl.style.zIndex = '99999';
+            canvasEl.style.pointerEvents = 'none';
+        }
+
         // Resize canvas to match display size exactly
         const rect = canvasEl.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
-        canvasEl.width = rect.width * dpr;
-        canvasEl.height = rect.height * dpr;
+        const width = isFullScreen ? window.innerWidth : rect.width;
+        const height = isFullScreen ? window.innerHeight : rect.height;
+
+        canvasEl.width = width * dpr;
+        canvasEl.height = height * dpr;
         ctx.scale(dpr, dpr);
 
-        const width = rect.width;
-        const height = rect.height;
         const startX = width * originX;
         const startY = height * originY;
 
@@ -920,8 +943,13 @@ window.blazorCelebration = {
         }
 
         if (style === 'fireworks') {
-            // Multiple explosion burst centers
-            const bursts = [
+            const bursts = isFullScreen ? [
+                { x: width * 0.5, y: height * 0.3, delay: 0 },
+                { x: width * 0.22, y: height * 0.38, delay: 10 },
+                { x: width * 0.78, y: height * 0.35, delay: 16 },
+                { x: width * 0.38, y: height * 0.22, delay: 24 },
+                { x: width * 0.64, y: height * 0.26, delay: 30 }
+            ] : [
                 { x: width * 0.5, y: height * 0.35, delay: 0 },
                 { x: width * 0.28, y: height * 0.42, delay: 12 },
                 { x: width * 0.72, y: height * 0.38, delay: 18 }
@@ -929,20 +957,20 @@ window.blazorCelebration = {
 
             bursts.forEach(burst => {
                 const burstColor = colors[Math.floor(Math.random() * colors.length)];
-                const burstCount = Math.floor(count / bursts.length);
+                const burstCount = Math.floor((isFullScreen ? Math.max(count, 160) : count) / bursts.length);
                 for (let i = 0; i < burstCount; i++) {
                     const angle = (Math.PI * 2 * (i / burstCount)) + ((Math.random() - 0.5) * 0.2);
-                    const speed = 3.5 + Math.random() * 8.5;
+                    const speedVal = ((isFullScreen ? 4.5 : 3.5) + Math.random() * 9.5) * speed;
                     particles.push({
                         type: 'firework',
                         x: burst.x,
                         y: burst.y,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed,
+                        vx: Math.cos(angle) * speedVal,
+                        vy: Math.sin(angle) * speedVal,
                         color: Math.random() > 0.3 ? burstColor : '#ffffff',
-                        size: 2.5 + Math.random() * 3.5,
+                        size: (isFullScreen ? 3.0 : 2.5) + Math.random() * 4.0,
                         opacity: 1,
-                        decay: 0.014 + Math.random() * 0.016,
+                        decay: ((isFullScreen ? 0.009 : 0.014) + Math.random() * 0.014) * Math.min(2.0, Math.max(0.6, Math.sqrt(speed))),
                         delay: burst.delay,
                         trail: []
                     });
@@ -950,42 +978,46 @@ window.blazorCelebration = {
             });
         } else if (style === 'emojis' || style === 'reactions') {
             const emojis = opts.emojis || ['❤️', '🔥', '🚀', '🎉', '⭐', '🏆', '💎', '👏', '🥳', '✨'];
-            const fontSizes = [22, 26, 30, 34];
-            const staggerDuration = Math.min(80, Math.max(35, Math.floor(count * 0.45)));
+            const fontSizes = isFullScreen ? [28, 34, 40, 48] : [24, 28, 32, 36];
+            const particleCount = isFullScreen ? Math.max(count, 160) : count;
+            const staggerDuration = isFullScreen ? 45 : Math.max(8, Math.min(25, Math.floor((particleCount * 0.2) / Math.max(0.4, speed))));
 
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < particleCount; i++) {
                 const size = fontSizes[Math.floor(Math.random() * fontSizes.length)];
 
-                // If custom origin is specified and not dead center, cluster around origin, else distribute smoothly across width
-                const spreadCenter = (opts.x !== undefined && (opts.x < 0.4 || opts.x > 0.6))
-                    ? startX + (Math.random() - 0.5) * Math.min(width * 0.4, 300)
-                    : width * (0.12 + Math.random() * 0.76);
+                // FULL SCREEN: Spread across 100% of screen width from edge to edge
+                const spreadX = isFullScreen
+                    ? Math.random() * width
+                    : ((opts.x !== undefined && Math.abs(opts.x - 0.5) > 0.3)
+                        ? startX + (Math.random() - 0.5) * (width * 0.7)
+                        : width * (0.05 + Math.random() * 0.9));
 
-                // Start near bottom or from startY if set lower down
-                const spawnY = (opts.y && opts.y > 0.65)
-                    ? startY + (Math.random() - 0.5) * 40
-                    : height * 0.94 + Math.random() * 35;
+                // Spawn at the bottom edge
+                const spawnY = height + Math.random() * (isFullScreen ? 60 : 30);
 
-                // Gentle upward buoyant velocity (-1.5 to -3.2 px/frame)
-                const vy = -(1.5 + Math.random() * 1.7);
+                // Fast, energetic upward launch
+                const baseVy = isFullScreen ? -(6.5 + Math.random() * 7.5) : -(4.5 + Math.random() * 5.5);
+                const vy = baseVy * speed;
+                const vx = (Math.random() - 0.5) * 2.5;
 
-                // True harmonic sway parameters
-                const swayAmp = 14 + Math.random() * 22;
-                const swayFreq = 0.025 + Math.random() * 0.022;
+                const swayAmp = isFullScreen ? (20 + Math.random() * 30) : (16 + Math.random() * 22);
+                const swayFreq = (0.05 + Math.random() * 0.04) * Math.min(2.5, Math.sqrt(speed));
                 const phase = Math.random() * Math.PI * 2;
-                const driftX = (Math.random() - 0.5) * 0.35;
 
-                // Stagger spawn delay across the batch for smooth flowing stream
-                const delay = Math.floor((i / count) * staggerDuration) + Math.floor(Math.random() * 6);
+                const delay = Math.floor((i / particleCount) * staggerDuration) + Math.floor(Math.random() * 4);
+
+                // Decay calibrated to guarantee particles float ALL THE WAY through the top of the screen
+                const travelFrames = height / Math.abs(vy);
+                const decay = 1.0 / (travelFrames + (isFullScreen ? 50 : 30));
 
                 particles.push({
                     type: 'emoji',
                     emoji: emojis[Math.floor(Math.random() * emojis.length)],
-                    baseX: spreadCenter,
-                    x: spreadCenter,
+                    baseX: spreadX,
+                    x: spreadX,
                     y: spawnY,
+                    vx: vx,
                     vy: vy,
-                    driftX: driftX,
                     swayAmp: swayAmp,
                     swayFreq: swayFreq,
                     phase: phase,
@@ -993,86 +1025,90 @@ window.blazorCelebration = {
                     font: `${size}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`,
                     opacity: 1,
                     lifeOpacity: 1,
-                    decay: 0.005 + Math.random() * 0.006,
-                    scale: 0.25,
+                    decay: decay,
+                    scale: 0.3,
                     delay: delay
                 });
             }
         } else if (style === 'coins') {
-            for (let i = 0; i < count; i++) {
+            const coinCount = isFullScreen ? Math.max(count, 150) : count;
+            for (let i = 0; i < coinCount; i++) {
                 particles.push({
                     type: 'coin',
-                    x: width * (0.1 + Math.random() * 0.8),
-                    y: -20 - (Math.random() * height * 0.6),
-                    vx: (Math.random() - 0.5) * 4,
-                    vy: 2 + Math.random() * 5,
-                    size: 16 + Math.random() * 10,
+                    x: width * (0.05 + Math.random() * 0.9),
+                    y: -30 - (Math.random() * height * 0.5),
+                    vx: ((Math.random() - 0.5) * 4) * speed,
+                    vy: ((isFullScreen ? 3 : 2) + Math.random() * 5) * speed,
+                    size: (isFullScreen ? 20 : 16) + Math.random() * 10,
                     flipAngle: Math.random() * Math.PI * 2,
-                    flipSpeed: 0.08 + Math.random() * 0.14,
+                    flipSpeed: (0.08 + Math.random() * 0.14) * Math.sqrt(speed),
                     bounces: 0,
                     maxBounces: 2 + Math.floor(Math.random() * 2),
-                    floorY: height * (0.85 + Math.random() * 0.1),
+                    floorY: height * (0.88 + Math.random() * 0.08),
                     opacity: 1,
-                    decay: 0.006 + Math.random() * 0.008
+                    decay: (isFullScreen ? 0.004 : 0.006) + Math.random() * 0.006
                 });
             }
         } else if (style === 'stars') {
-            for (let i = 0; i < count; i++) {
+            const starCount = isFullScreen ? Math.max(count, 140) : count;
+            for (let i = 0; i < starCount; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 4 + Math.random() * 10;
+                const speedVal = ((isFullScreen ? 6 : 4) + Math.random() * 12) * speed;
                 particles.push({
                     type: 'star',
-                    x: startX,
-                    y: startY,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed - 2,
+                    x: isFullScreen ? width * 0.5 : startX,
+                    y: isFullScreen ? height * 0.45 : startY,
+                    vx: Math.cos(angle) * speedVal,
+                    vy: (Math.sin(angle) * speedVal) - 2,
                     color: Math.random() > 0.4 ? '#fbbf24' : (Math.random() > 0.5 ? '#f59e0b' : '#ffffff'),
-                    size: 6 + Math.random() * 7,
+                    size: (isFullScreen ? 8 : 6) + Math.random() * 8,
                     rotation: Math.random() * 360,
-                    rotationSpeed: (Math.random() - 0.5) * 10,
+                    rotationSpeed: (Math.random() - 0.5) * 10 * speed,
                     opacity: 1,
-                    decay: 0.013 + Math.random() * 0.015
+                    decay: (isFullScreen ? 0.008 : 0.013) + Math.random() * 0.012
                 });
             }
         } else if (style === 'streamers') {
-            for (let i = 0; i < Math.min(count, 45); i++) {
+            const streamerCount = isFullScreen ? Math.min(count, 70) : Math.min(count, 45);
+            for (let i = 0; i < streamerCount; i++) {
                 particles.push({
                     type: 'streamer',
-                    x: width * (0.05 + Math.random() * 0.9),
-                    y: -40 - Math.random() * 100,
-                    vy: 2.2 + Math.random() * 3.2,
+                    x: width * (0.02 + Math.random() * 0.96),
+                    y: -50 - Math.random() * 150,
+                    vy: ((isFullScreen ? 3.0 : 2.2) + Math.random() * 3.5) * speed,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    width: 6 + Math.random() * 5,
-                    length: 40 + Math.random() * 40,
+                    width: (isFullScreen ? 8 : 6) + Math.random() * 5,
+                    length: (isFullScreen ? 60 : 40) + Math.random() * 50,
                     waveAngle: Math.random() * Math.PI * 2,
-                    waveSpeed: 0.06 + Math.random() * 0.06,
+                    waveSpeed: (0.06 + Math.random() * 0.06) * Math.sqrt(speed),
                     opacity: 1,
-                    decay: 0.007 + Math.random() * 0.008
+                    decay: (isFullScreen ? 0.004 : 0.007) + Math.random() * 0.006
                 });
             }
         } else {
             // Default: Confetti Cannons (dual-angled burst with 3D fluttering ribbons)
-            for (let i = 0; i < count; i++) {
+            const confettiCount = isFullScreen ? Math.max(count, 150) : count;
+            for (let i = 0; i < confettiCount; i++) {
                 const fromLeft = Math.random() > 0.5;
                 const angle = fromLeft
                     ? (-Math.PI * 0.25) + ((Math.random() - 0.5) * 0.8)
                     : (-Math.PI * 0.75) + ((Math.random() - 0.5) * 0.8);
-                const speed = 7 + Math.random() * 14;
+                const speedVal = ((isFullScreen ? 9 : 7) + Math.random() * 14) * speed;
 
                 particles.push({
                     type: 'confetti',
-                    x: fromLeft ? width * 0.1 : width * 0.9,
-                    y: height * 0.9,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed,
+                    x: fromLeft ? (isFullScreen ? width * 0.04 : width * 0.1) : (isFullScreen ? width * 0.96 : width * 0.9),
+                    y: height * 0.92,
+                    vx: Math.cos(angle) * speedVal,
+                    vy: Math.sin(angle) * speedVal,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    size: 7 + Math.random() * 8,
+                    size: (isFullScreen ? 9 : 7) + Math.random() * 8,
                     rotX: Math.random() * Math.PI,
                     rotY: Math.random() * Math.PI,
-                    rotSpeedX: (Math.random() - 0.5) * 0.15,
-                    rotSpeedY: (Math.random() - 0.5) * 0.15,
+                    rotSpeedX: ((Math.random() - 0.5) * 0.15) * speed,
+                    rotSpeedY: ((Math.random() - 0.5) * 0.15) * speed,
                     opacity: 1,
-                    decay: 0.01 + Math.random() * 0.014
+                    decay: (isFullScreen ? 0.007 : 0.01) + Math.random() * 0.012
                 });
             }
         }
@@ -1114,27 +1150,30 @@ window.blazorCelebration = {
                     ctx.restore();
                 } else if (p.type === 'emoji') {
                     p.phase += p.swayFreq;
-                    p.baseX += p.driftX;
+                    p.baseX += p.vx;
+                    p.vx *= 0.95; // lateral velocity decay into harmonic sway
                     p.x = p.baseX + Math.sin(p.phase) * p.swayAmp;
                     p.y += p.vy;
+                    p.vy *= 0.99; // slight air drag while maintaining high-speed ascent
 
-                    // Smooth pop-in scale
+                    // Snappy pop-in scale
                     if (p.scale < 1.0) {
-                        p.scale = Math.min(1.0, p.scale + 0.05);
+                        p.scale = Math.min(1.0, p.scale + 0.14);
                     }
 
-                    // Natural decay & graceful ceiling fade
+                    // Natural decay & graceful top fade
                     p.lifeOpacity -= p.decay;
                     let currentAlpha = p.lifeOpacity;
 
-                    // Fade out as it nears the top 22% of canvas
-                    if (p.y < height * 0.22) {
-                        const topFade = Math.max(0, p.y / (height * 0.22));
+                    // Fade out as it nears the top 12% (fullscreen) or 20% (stage) of canvas
+                    const fadeThreshold = height * (isFullScreen ? 0.12 : 0.2);
+                    if (p.y < fadeThreshold) {
+                        const topFade = Math.max(0, p.y / fadeThreshold);
                         currentAlpha = Math.min(currentAlpha, topFade);
                     }
                     p.opacity = currentAlpha;
 
-                    if (p.opacity > 0 && p.y > -50) {
+                    if (p.opacity > 0 && p.y > -80) {
                         ctx.save();
                         ctx.globalAlpha = Math.max(0, Math.min(1, p.opacity));
                         ctx.translate(p.x, p.y);

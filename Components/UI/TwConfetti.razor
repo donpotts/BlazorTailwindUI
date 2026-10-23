@@ -22,22 +22,23 @@
     [Parameter] public bool AutoFire { get; set; } = false;
     [Parameter] public CelebrationStyle Style { get; set; } = CelebrationStyle.Confetti;
     [Parameter] public int ParticleCount { get; set; } = 85;
+    [Parameter] public double Speed { get; set; } = 1.0;
     [Parameter] public string? Class { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && AutoFire)
         {
-            await FireStyleAsync(Style, 0.5, 0.4, ParticleCount);
+            await FireStyleAsync(Style, 0.5, 0.4, ParticleCount, Speed);
         }
     }
 
-    public async Task FireAsync(double originX = 0.5, double originY = 0.5, int? count = null)
+    public async Task FireAsync(double originX = 0.5, double originY = 0.5, int? count = null, double? speed = null)
     {
-        await FireStyleAsync(Style, originX, originY, count);
+        await FireStyleAsync(Style, originX, originY, count, speed);
     }
 
-    public async Task FireStyleAsync(CelebrationStyle style, double originX = 0.5, double originY = 0.5, int? count = null)
+    public async Task FireStyleAsync(CelebrationStyle style, double originX = 0.5, double originY = 0.5, int? count = null, double? speed = null)
     {
         var styleName = style switch
         {
@@ -56,14 +57,16 @@
                 style = styleName,
                 count = count ?? ParticleCount,
                 x = originX,
-                y = originY
+                y = originY,
+                speed = speed ?? Speed,
+                fullscreen = FullScreen
             });
         }
         catch
         { }
     }
 
-    public async Task FireCustomAsync(string styleName, double originX = 0.5, double originY = 0.5, int? count = null)
+    public async Task FireCustomAsync(string styleName, double originX = 0.5, double originY = 0.5, int? count = null, double? speed = null)
     {
         try
         {
@@ -72,7 +75,9 @@
                 style = styleName,
                 count = count ?? ParticleCount,
                 x = originX,
-                y = originY
+                y = originY,
+                speed = speed ?? Speed,
+                fullscreen = FullScreen
             });
         }
         catch
