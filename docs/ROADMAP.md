@@ -209,12 +209,49 @@ Provide client-side WebAssembly optical character recognition (OCR) and financia
 
 ---
 
+## 10. 🔌 Developer Model Context Protocol (MCP) Server (`blazor-tailwind-mcp`)
+
+### Objective
+Provide an official, zero-friction **Model Context Protocol (MCP)** server for AI-assisted developer environments (Cursor, Claude Desktop, Antigravity, VS Code Copilot, and Windsurf). Enables developer coding assistants to query the 147+ component library, inspect typed parameter schemas, generate validated AG-UI form JSON, and lint Razor markup in real time.
+
+### Key Architectural Specifications
+- **Packaging & Transports**:
+  - Packaged as a zero-dependency CLI runner: `npx @donpo/blazor-tailwind-mcp` or `dotnet run --project BlazorTailwindUI.Mcp`.
+  - Supports standard STDIO and SSE (Server-Sent Events) transports for local IDE and containerized agentic workflows.
+- **MCP Tools**:
+  - `blazortw_search_components`: Queries all 147+ components by natural language intent (e.g. *"I need a check reader with MICR"*, *"show me a financial pivot grid"*), returning full parameter docs and Razor markup.
+  - `blazortw_get_component_api`: Returns the typed C# parameters, events (`EventCallback<T>`), and default values for any component.
+  - `blazortw_scaffold_form`: Generates production-ready `AguiFormSchema` or `TwFormEngine` JSON schemas and C# models for any enterprise domain.
+  - `blazortw_validate_micr`: Evaluates ANSI X9.27 MICR lines and calculates Federal Reserve Mod-10 ABA routing checksums.
+  - `blazortw_audit_markup`: Analyzes Razor files for mobile-first touch compliance (44px tap targets), zero third-party commercial UI dependencies, and dark-mode styling synchronization.
+- **MCP Resources**:
+  - `blazortw://components/catalog`: Real-time machine-readable catalog of all 147+ components.
+  - `blazortw://forms/100-standard`: The 100 enterprise form schemas across 10 functional domains.
+  - `blazortw://design/tokens`: Tailwind utility classes, design tokens, and animation presets.
+- **MCP Prompts**:
+  - `scaffold-enterprise-page`: Orchestrates end-to-end scaffolding of a full-stack Blazor WASM page adhering to design system guidelines.
+  - `synthesize-agui-agent`: Guides backend LLM agents in outputting type-safe `AguiWidgetSchema` and `AguiFormSchema` JSON trees.
+
+#### Claude Desktop & Cursor Configuration Snippet
+```json
+{
+  "mcpServers": {
+    "blazor-tailwind": {
+      "command": "npx",
+      "args": ["-y", "@donpo/blazor-tailwind-mcp"]
+    }
+  }
+}
+```
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid
 flowchart LR
     A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAUI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA<br/>Check 21 MICR & Form/PDF OCR"]
-    B --> C["v1.2.0<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs"]
+    B --> C["v1.2.0 (In Progress 🚀)<br/>Developer MCP Server (blazor-tailwind-mcp)<br/>Advanced 3D WebGL Canvas<br/>Real-Time Multi-User CRDTs"]
     C --> D["v1.3.0<br/>Native Mobile MAUI Bindings<br/>Enterprise Micro-Frontends"]
 ```
 

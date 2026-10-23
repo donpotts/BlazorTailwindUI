@@ -16,6 +16,7 @@
   <a href="#-progressive-web-app-pwa--1-click-desktopmobile-installation"><img src="https://img.shields.io/badge/PWA-Installable_WASM-059669?style=for-the-badge" alt="PWA Installable" /></a>
   <a href="#-100-most-used-forms-standard-library"><img src="https://img.shields.io/badge/Forms_Catalog-100_Standard_Schemas-10B981?style=for-the-badge" alt="100 Forms" /></a>
   <a href="#-adaptive-generative-ui-agui--agentic-tool-calling"><img src="https://img.shields.io/badge/AGUI-Agentic_Tool_Calling-8B5CF6?style=for-the-badge" alt="AGUI & Tool Calling" /></a>
+  <a href="docs/ROADMAP.md#10--developer-model-context-protocol-mcp-server-blazor-tailwind-mcp"><img src="https://img.shields.io/badge/MCP-Developer_Server-6366F1?style=for-the-badge" alt="MCP Developer Server" /></a>
   <a href="#-celebration-animations-studio--freely-distributable-procedural-sound-fx"><img src="https://img.shields.io/badge/Sound_FX-Procedural_Web_Audio-EC4899?style=for-the-badge" alt="Procedural Sound FX" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge" alt="MIT License" /></a>
 </p>
@@ -58,6 +59,13 @@
 9. **Coaching & Training Masterclass**:
    - Full 1080p high-definition walkthrough video with interactive HyperFrames chapter seeking.
    - Keyboard-driven command palette (`TwCommandPalette`, `Ctrl+K`) and interactive onboarding tour (`TwTour`).
+10. **Form / PDF OCR & Check 21 MICR Engine**:
+    - Client-side WebAssembly optical recognition for paper checks, bank drafts, invoices, and W-9 tax forms.
+    - ANSI X9.27 E-13B magnetic clear band decoding with Mod-10 ABA routing checksum verification.
+    - Direct table ingestion in `TwMarkdownEditor` and entity extraction in `TwSmartOcrButton`.
+11. **Developer Model Context Protocol (MCP) Server (`blazor-tailwind-mcp`)**:
+    - Standardized MCP server for Cursor, Claude Desktop, Antigravity, and VS Code Copilot.
+    - Exposes natural language component discovery, typed C# parameter specs, AG-UI form JSON synthesizers, and MICR check digit validators.
 
 ---
 
@@ -520,6 +528,7 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.1.0** | **Native Media Recorder** | `TwMediaRecorder` | **Shipped ✅** | Browser microphone/camera recording with live SVG frequency visualizer, timer, and file export. |
 | **v1.1.0** | **ScrollCraft Animation Scrubber** | `TwScrollCraft` | **Shipped ✅** | Zero-dependency scroll-driven object animation with multi-layer parallax depth and focal scrubbers. |
 | **v1.1.0** | **Form / PDF OCR & Check 21 MICR Reader** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | **Shipped ✅** | Client-side WASM OCR for checks, drafts, invoices & W-9 forms. Decodes ANSI X9.27 E-13B MICR with Mod-10 ABA routing validation and Markdown editor insertion. |
+| **v1.2.0** | **Developer MCP Server** | `blazor-tailwind-mcp` | **In Progress 🚀** | Official Model Context Protocol (MCP) server for Cursor, Claude Desktop, Antigravity & VS Code to search 147+ components, inspect typed APIs, generate AG-UI forms & validate MICR. |
 | **v1.2.0** | **Advanced 3D WebGL Canvas** | `TwThreeCanvas`, `TwModelViewer` | Planned | Hardware-accelerated 3D object rendering, lighting presets, and model inspection. |
 | **v1.3.0** | **Native Mobile MAUI Bindings** | `TwMobileBridge`, `TwHaptics` | Planned | First-class .NET MAUI mobile shell wrapper with native biometric and haptic feedback triggers. |
 
