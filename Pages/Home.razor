@@ -43,7 +43,7 @@
     <HeaderActions>
         <button type="button" 
                 @onclick="() => _commandPaletteOpen = true"
-                class="px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold transition flex items-center gap-2 focus:outline-none shadow-xs"
+                class="hidden min-[360px]:flex p-2 sm:px-2.5 sm:py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold transition items-center gap-2 focus:outline-none shadow-xs shrink-0"
                 title="Quick Search & Command Palette (Ctrl+K)">
             <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -56,58 +56,62 @@
         </button>
         <button type="button" 
                 @onclick="() => _tourOpen = true"
-                class="px-2.5 py-1.5 rounded-xl border border-brand-500/30 bg-brand-50/60 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-900/50 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none shadow-xs"
+                class="hidden md:inline-flex px-2.5 py-1.5 rounded-xl border border-brand-500/30 bg-brand-50/60 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 hover:bg-brand-100 dark:hover:bg-brand-900/50 text-xs font-bold transition items-center gap-1.5 focus:outline-none shadow-xs"
                 title="Start Guided Coaching Tour">
             <span>🎓</span>
-            <span class="hidden sm:inline">Coaching Tour</span>
+            <span>Coaching Tour</span>
         </button>
         <button type="button" 
                 @onclick="OpenVideoTour"
-                class="px-2.5 py-1.5 rounded-xl border border-purple-500/30 bg-purple-50/60 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none shadow-xs"
+                class="hidden lg:inline-flex px-2.5 py-1.5 rounded-xl border border-purple-500/30 bg-purple-50/60 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-xs font-bold transition items-center gap-1.5 focus:outline-none shadow-xs"
                 title="Watch 1080p Video Tour Walkthrough">
             <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <span class="hidden sm:inline">Video Tour</span>
+            <span>Video Tour</span>
         </button>
         <button type="button" 
                 @onclick='() => _activeTab = "docs"'
-                class="px-2.5 py-1.5 rounded-xl border border-indigo-500/30 bg-indigo-50/60 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-xs font-bold transition flex items-center gap-1.5 focus:outline-none shadow-xs"
+                class="hidden xl:inline-flex px-2.5 py-1.5 rounded-xl border border-indigo-500/30 bg-indigo-50/60 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-xs font-bold transition items-center gap-1.5 focus:outline-none shadow-xs"
                 title="Browse Component Documentation & Settings (86 Components)">
             <span>📖</span>
-            <span class="hidden sm:inline">Docs & Help</span>
+            <span>Docs & Help</span>
         </button>
         <TwPwaInstallButton />
         <TwThemeSelector Alignment="right" />
         
-        <TwDropdown Alignment="right">
-            <TriggerContent>
-                <button type="button" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none" aria-label="Layout Options">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                    </svg>
-                </button>
-            </TriggerContent>
-            <ChildContent>
-                <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Switch Layout</div>
-                <button type="button" @onclick="() => SetLayout(LayoutVariant.Sidebar)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
-                    <span>Sidebar Layout</span>
-                    @if (_activeLayout == LayoutVariant.Sidebar) { <span class="text-brand-600 font-bold">✓</span> }
-                </button>
-                <button type="button" @onclick="() => SetLayout(LayoutVariant.TopNav)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
-                    <span>TopNav Layout</span>
-                    @if (_activeLayout == LayoutVariant.TopNav) { <span class="text-brand-600 font-bold">✓</span> }
-                </button>
-                <button type="button" @onclick="() => SetLayout(LayoutVariant.CompactRail)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
-                    <span>Compact Rail Layout</span>
-                    @if (_activeLayout == LayoutVariant.CompactRail) { <span class="text-brand-600 font-bold">✓</span> }
-                </button>
-                <button type="button" @onclick="() => SetLayout(LayoutVariant.Stacked)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
-                    <span>Stacked Layout</span>
-                    @if (_activeLayout == LayoutVariant.Stacked) { <span class="text-brand-600 font-bold">✓</span> }
-                </button>
-            </ChildContent>
-        </TwDropdown>
+        <div class="hidden sm:inline-block">
+            <TwDropdown Alignment="right">
+                <TriggerContent>
+                    <button type="button" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none" aria-label="Layout Options">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                    </button>
+                </TriggerContent>
+                <ChildContent>
+                    <div class="px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Switch Layout</div>
+                    <button type="button" @onclick="() => SetLayout(LayoutVariant.Sidebar)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
+                        <span>Sidebar Layout</span>
+                        @if (_activeLayout == LayoutVariant.Sidebar) { <span class="text-brand-600 font-bold">✓</span> }
+                    </button>
+                    <button type="button" @onclick="() => SetLayout(LayoutVariant.TopNav)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
+                        <span>TopNav Layout</span>
+                        @if (_activeLayout == LayoutVariant.TopNav) { <span class="text-brand-600 font-bold">✓</span> }
+                    </button>
+                    <button type="button" @onclick="() => SetLayout(LayoutVariant.CompactRail)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
+                        <span>Compact Rail Layout</span>
+                        @if (_activeLayout == LayoutVariant.CompactRail) { <span class="text-brand-600 font-bold">✓</span> }
+                    </button>
+                    <button type="button" @onclick="() => SetLayout(LayoutVariant.Stacked)" class="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center justify-between">
+                        <span>Stacked Layout</span>
+                        @if (_activeLayout == LayoutVariant.Stacked) { <span class="text-brand-600 font-bold">✓</span> }
+                    </button>
+                </ChildContent>
+            </TwDropdown>
+        </div>
 
-        <TwAvatar Initials="JD" Size="ComponentSize.Sm" StatusColor="bg-emerald-500" />
+        <div class="hidden sm:inline-flex">
+            <TwAvatar Initials="JD" Size="ComponentSize.Sm" StatusColor="bg-emerald-500" />
+        </div>
     </HeaderActions>
 
     <!-- Sidebar Navigation Content -->

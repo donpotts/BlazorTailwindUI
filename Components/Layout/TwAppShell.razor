@@ -1,7 +1,7 @@
-<div class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+<div class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-x-hidden max-w-full">
     <!-- Sticky Top Header (Mobile-first) -->
-    <header class="sticky top-0 z-30 h-16 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
+    <header class="sticky top-0 z-30 h-16 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-3 max-w-full">
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
             @if (Layout != LayoutVariant.Stacked)
             {
                 <button type="button"
@@ -23,7 +23,7 @@
             </nav>
         }
 
-        <div class="flex items-center gap-2 sm:gap-3">
+        <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
             @HeaderActions
         </div>
     </header>
@@ -84,7 +84,7 @@
             </aside>
         }
 
-        <main class="flex-1 min-w-0 pb-24 md:pb-10">
+        <main class="flex-1 min-w-0 pb-24 md:pb-10 max-w-full overflow-x-hidden">
             @ChildContent
         </main>
     </div>
