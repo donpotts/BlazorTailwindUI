@@ -90,6 +90,12 @@
     - **Dynamic Port Coordinator (`launch-demos.ps1`, `launch-demos.cmd`)**: Scans ports 5128–5228, eliminates TCP collisions, synchronizes `appsettings.json`, and guarantees API 200 OK pre-flight health probe before launching the UI.
     - **MIME-Compliant Demo Server (`demo-server.py`)**: Standalone WASM/CLR server with SPA fallback routing and `/api/health` diagnostics.
     - **`BlazorTailwindUI-DemoSuite-v1.3.5-Setup.zip`**: Complete standalone offline package ready for immediate deployment.
+18. **PDF Form Filler, Contract Signer & Form Maker Studio (`TwPdfFormFiller`)**:
+    - **Spatial "Sign Here" & "Initial Here" Anchors**: Multi-page contract viewer with interactive callout flags, progress tracking, and calligraphic cursive font presets (Dancing Script, Caveat, Great Vibes, Sacramento).
+    - **Automated Date-Time Stamping**: One-click verified UTC/Local timestamp injection.
+    - **Form Maker / Designer Mode**: Interactive palette to drop new fields onto pages, assign signer roles, and configure required states.
+    - **Data Pre-fill & JSON Export**: Model data binding, sample template pre-population, and full audit payload JSON export.
+    - **Cryptographic Sealing & Immutable Read-Only Lock**: Locks document into read-only vector ink with SHA-256 fingerprint, Cert ID, and ESIGN Act certified execution seal.
 
 ---
 
@@ -103,9 +109,13 @@
   <img src="docs/images/fullstack-hub-verified.png" alt=".NET 11 Full-Stack Blazor Enterprise Hub" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
 </p>
 
-| 2027 Spatial & Anticipatory UI Laboratory | Storage Manager, Word Cloud & Sankey Flow |
+| PDF Form Filler, Contract Signer & Form Maker | 2027 Spatial & Anticipatory UI Laboratory |
 |:---:|:---:|
-| <img src="docs/images/suite-2027-spatial-laboratory.png" width="450" /> | <img src="docs/images/suite-storage-and-flow.png" width="450" /> |
+| <img src="docs/images/suite-pdf-contract-signer.png" width="450" /> | <img src="docs/images/suite-2027-spatial-laboratory.png" width="450" /> |
+
+| Storage Manager, Word Cloud & Sankey Flow | PickList Transfer, Duration & Kiosk Keypad |
+|:---:|:---:|
+| <img src="docs/images/suite-storage-and-flow.png" width="450" /> | <img src="docs/images/suite-picklist-and-kiosk.png" width="450" /> |
 
 | PickList Transfer, Duration & Kiosk Keypad | Conversational AI Studio & Floating Overlays |
 |:---:|:---:|

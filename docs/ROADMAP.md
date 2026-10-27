@@ -579,6 +579,30 @@ A fail-safe runtime architecture guaranteeing that the backend API is online and
 
 ---
 
+---
+
+### Pillar 25: PDF Form Filler, Contract Signer & Form Maker Studio (Shipped v1.3.6 ✅)
+
+![PDF Form Filler, Contract Signer & Form Maker](images/suite-pdf-contract-signer.png)
+
+A comprehensive spatial document signing and form creation engine designed for enterprise contracts, NDAs, and Master Service Agreements:
+
+- **Spatial "Sign Here" & "Initial Here" Anchors (`TwPdfFormFiller`)**:
+  - Realistic multi-page document layout with page thumbnail navigation, progress tracking, and section clauses.
+  - Interactive callout flags for "Sign Here" (full signature block) and "Initial Here" (compact page corner initials).
+  - Calligraphic cursive typography modal with multiple style presets (Dancing Script, Caveat, Great Vibes, Sacramento) and hand-drawn canvas input.
+- **Automated Date/Time Stamping**:
+  - One-click verified timestamp injection capturing UTC date, time, and timezone metadata.
+- **Form Maker / Designer Mode**:
+  - Switch dynamically between Signer View and Form Maker View to drop fields onto document pages, configure signer roles, and mark fields as required or read-only.
+- **Structured Data Pre-fill & JSON Export**:
+  - Pre-populates contract fields from external JSON/C# models and exports full signed audit payloads with field values and timestamps.
+- **Cryptographic Sealing & Immutable Read-Only Lock**:
+  - Enforces completion of all required fields before locking into an uneditable vector state.
+  - Generates tamper-evident SHA-256 fingerprint, unique Certificate ID, and ESIGN Act compliant digital execution seal.
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid
