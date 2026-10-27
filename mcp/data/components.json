@@ -5934,5 +5934,77 @@
         "description": "Fired when upload is requested."
       }
     ]
+  },
+  {
+    "name": "TwSpatialCard",
+    "category": "Cards, Grids & Bento Systems",
+    "description": "2027 volumetric 3D card featuring real-time gyroscopic mouse tilt, dynamic specular refraction glare, multi-layer Z-depth elevation, and tactile organic blur.",
+    "razorSnippet": "<TwSpatialCard Title=\"Quantum Enclave\" MaxTiltDeg=\"14\">...content...</TwSpatialCard>",
+    "parameters": [
+      {
+        "name": "Title",
+        "type": "string?",
+        "defaultValue": "null",
+        "description": "Card title header."
+      },
+      {
+        "name": "Subtitle",
+        "type": "string?",
+        "defaultValue": "null",
+        "description": "Card subtitle text."
+      },
+      {
+        "name": "BadgeText",
+        "type": "string?",
+        "defaultValue": "null",
+        "description": "Elevated 3D pill badge text."
+      },
+      {
+        "name": "MaxTiltDeg",
+        "type": "double",
+        "defaultValue": "12.0",
+        "description": "Maximum rotation angle degrees on tilt."
+      },
+      {
+        "name": "GlowGradient",
+        "type": "string",
+        "defaultValue": "\"from-brand-500 to-indigo-600\"",
+        "description": "Tailwind gradient classes for dynamic ambient aura."
+      }
+    ]
+  },
+  {
+    "name": "TwFluidMesh",
+    "category": "Visualizations & Gauges",
+    "description": "Tactile generative fluid gradient shader with organic motion and real-time psychological emotional state resonance tuning for operator cognitive optimization.",
+    "razorSnippet": "<TwFluidMesh @bind-Mood=\"_operatorMood\" />",
+    "parameters": [
+      {
+        "name": "Mood",
+        "type": "EmotionalState",
+        "defaultValue": "EmotionalState.DeepFocus",
+        "description": "Active emotional and cognitive resonance frequency preset."
+      },
+      {
+        "name": "MoodChanged",
+        "type": "EventCallback<EmotionalState>",
+        "defaultValue": "-",
+        "description": "Fired when operator toggles sentiment mood."
+      }
+    ]
+  },
+  {
+    "name": "TwPredictiveIntent",
+    "category": "Forms & Inputs",
+    "description": "2027 anticipatory state machine demonstrating zero-click UX: gaze focal tracking, tactile biometric pulse sensor, and automated intent action synthesis.",
+    "razorSnippet": "<TwPredictiveIntent />",
+    "parameters": [
+      {
+        "name": "Class",
+        "type": "string",
+        "defaultValue": "\"\"",
+        "description": "Optional CSS classes for outer container."
+      }
+    ]
   }
 ]

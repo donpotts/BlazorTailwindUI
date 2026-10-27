@@ -2656,6 +2656,44 @@ public class ComponentCatalogService
                 new ComponentParameterDoc("OnUpload", "EventCallback", "-", "Fired when user clicks Upload button.")
             }
         },
+        new ComponentDocItem
+        {
+            Name = "TwSpatialCard",
+            Category = "Cards, Grids & Bento Systems",
+            Description = "2027 volumetric 3D card featuring real-time gyroscopic mouse tilt, dynamic specular refraction glare, multi-layer Z-depth elevation, and tactile organic blur.",
+            RazorSnippet = "<TwSpatialCard Title=\"Quantum Enclave\" MaxTiltDeg=\"14\">...content...</TwSpatialCard>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string?", "null", "Card title header."),
+                new ComponentParameterDoc("Subtitle", "string?", "null", "Card subtitle text."),
+                new ComponentParameterDoc("BadgeText", "string?", "null", "Elevated 3D pill badge text."),
+                new ComponentParameterDoc("MaxTiltDeg", "double", "12.0", "Maximum rotation angle degrees on tilt."),
+                new ComponentParameterDoc("GlowGradient", "string", "\"from-brand-500 to-indigo-600\"", "Tailwind gradient classes for dynamic ambient aura.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFluidMesh",
+            Category = "Visualizations & Gauges",
+            Description = "Tactile generative fluid gradient shader with organic motion and real-time psychological emotional state resonance tuning for operator cognitive optimization.",
+            RazorSnippet = "<TwFluidMesh @bind-Mood=\"_operatorMood\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Mood", "EmotionalState", "EmotionalState.DeepFocus", "Active emotional and cognitive resonance frequency preset."),
+                new ComponentParameterDoc("MoodChanged", "EventCallback<EmotionalState>", "-", "Fired when operator toggles sentiment mood.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwPredictiveIntent",
+            Category = "Forms & Inputs",
+            Description = "2027 anticipatory state machine demonstrating zero-click UX: gaze focal tracking, tactile biometric pulse sensor, and automated intent action synthesis.",
+            RazorSnippet = "<TwPredictiveIntent />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes for outer container.")
+            }
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

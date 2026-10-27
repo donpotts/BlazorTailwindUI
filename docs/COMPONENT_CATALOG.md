@@ -3629,7 +3629,73 @@ Pure SVG flow and migration diagram rendering source/target nodes and cubic bezi
 
 ---
 
+### `TwSpatialCard`
 
+**Location:** [`Components/UI/TwSpatialCard.razor`](../Components/UI/TwSpatialCard.razor)
 
+2027 volumetric 3D card featuring real-time gyroscopic mouse tilt, dynamic specular refraction glare, multi-layer Z-depth elevation, and tactile organic blur.
 
+#### Parameters & Settings
 
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string?` | `null` | Card title text. |
+| `Subtitle` | `string?` | `null` | Card subtitle description. |
+| `BadgeText` | `string?` | `null` | Elevated 3D pill badge text. |
+| `MaxTiltDeg` | `double` | `12.0` | Maximum 3D rotation angle in degrees. |
+| `CardBackgroundClass` | `string` | `"bg-white/80 dark:bg-slate-900/80"` | Backdrop blur surface class. |
+| `GlowGradient` | `string` | `"from-brand-500 to-indigo-600"` | Tailwind gradient classes for dynamic ambient aura. |
+| `ChildContent` | `RenderFragment?` | `null` | Elevated 3D body content. |
+| `HeaderExtra` | `RenderFragment?` | `null` | Optional header action controls. |
+
+#### Razor Usage Example
+
+```razor
+<TwSpatialCard Title="Quantum Enclave" Subtitle="HSM Tier 0" BadgeText="Volumetric 3D" MaxTiltDeg="14">
+    <p>Elevated foreground content with specular cursor glare.</p>
+</TwSpatialCard>
+```
+
+---
+
+### `TwFluidMesh`
+
+**Location:** [`Components/UI/TwFluidMesh.razor`](../Components/UI/TwFluidMesh.razor)
+
+Tactile generative fluid gradient shader with organic motion and real-time psychological emotional state resonance tuning (`DeepFocus`, `CreativeAurora`, `HighAlert`, `ZenCalm`).
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Mood` | `EmotionalState` | `EmotionalState.DeepFocus` | Active emotional and cognitive resonance frequency preset. |
+| `MoodChanged` | `EventCallback<EmotionalState>` | `-` | Callback invoked when operator changes sentiment mood. |
+| `ChildContent` | `RenderFragment?` | `null` | Optional content overlaid on the fluid mesh. |
+
+#### Razor Usage Example
+
+```razor
+<TwFluidMesh @bind-Mood="_operatorMood" />
+```
+
+---
+
+### `TwPredictiveIntent`
+
+**Location:** [`Components/UI/TwPredictiveIntent.razor`](../Components/UI/TwPredictiveIntent.razor)
+
+2027 anticipatory state machine demonstrating "States over Pages" zero-click UX: gaze focal tracking, tactile biometric pulse sensor, and automated intent action synthesis.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string` | `""` | Optional CSS classes for outer container. |
+
+#### Razor Usage Example
+
+```razor
+<TwPredictiveIntent />
+```
+
+---

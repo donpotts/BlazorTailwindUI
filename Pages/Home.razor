@@ -1602,7 +1602,70 @@
                                                 ShowMoveAll="true"
                                                 ShowReorder="true"
                                                 Height="h-60"
-                                                OnTransfer='_ => Toast.Show("Role roster updated", "Operator permissions synced", SemanticVariant.Info)' />
+                                                OnTransfer="HandlePickListTransfer" />
+
+                                    <!-- Active Role Assignment & Kubernetes IAM Policy Card -->
+                                    <div class="mt-4 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 backdrop-blur-sm space-y-3">
+                                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+                                            <div class="flex items-center gap-2">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold @(_demoAssignedRoles.Count > 0 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-slate-200 dark:bg-slate-800 text-slate-500")">
+                                                    @(_demoAssignedRoles.Count > 0 ? $"Active Policy: {_demoAssignedRoles.Count} Roles Granted" : "No Roles Assigned")
+                                                </span>
+                                                @if (_demoAssignedRoles.Any(r => r.Contains("Security") || r.Contains("Kubernetes")))
+                                                {
+                                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                                        PRIVILEGED ENCLAVE ACCESS
+                                                    </span>
+                                                }
+                                            </div>
+                                            <div class="flex items-center gap-2 text-xs">
+                                                <button type="button"
+                                                        @onclick="ResetDemoRoles"
+                                                        class="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium transition-colors">
+                                                    Reset Roster
+                                                </button>
+                                                <button type="button"
+                                                        @onclick="CopyDemoIamPolicy"
+                                                        class="px-3 py-1 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-medium shadow-xs transition-colors flex items-center gap-1.5">
+                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <span>@(_iamPolicyCopied ? "Copied to Clipboard!" : "Export K8s ClusterRoleBinding")</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Active Granted Roles Chips -->
+                                        <div class="flex flex-wrap items-center gap-1.5">
+                                            <span class="text-xs text-slate-500 font-medium">Granted Subjects:</span>
+                                            @if (_demoAssignedRoles.Count == 0)
+                                            {
+                                                <span class="text-xs italic text-slate-400">None selected. Move roles from the left column into the assigned list.</span>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var role in _demoAssignedRoles)
+                                                {
+                                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 border border-brand-200/60 dark:border-brand-800/60">
+                                                        <svg class="w-3 h-3 text-brand-500" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                        </svg>
+                                                        @role
+                                                    </span>
+                                                }
+                                            }
+                                        </div>
+
+                                        <!-- Reactive JSON ClusterRoleBinding IAM Spec -->
+                                        <div class="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-900 text-slate-200 p-3 font-mono text-[11px] overflow-x-auto">
+                                            <div class="text-slate-400 text-[10px] pb-1 uppercase tracking-wider font-semibold border-b border-slate-800 mb-2 flex justify-between">
+                                                <span>Generated Kubernetes RBAC Manifest</span>
+                                                <span class="text-emerald-400">Synced Real-Time</span>
+                                            </div>
+                                            <pre class="m-0 leading-relaxed text-slate-300">@GetGeneratedIamPolicyJson()</pre>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- 2. TwTimeSpanPicker & TwVirtualKeyboard -->
@@ -1627,6 +1690,51 @@
                                                               AllowSeconds="true"
                                                               ShowPresets="true"
                                                               ShowReset="true" />
+
+                                            <!-- Live Incident SLA Expiration Schedule Card -->
+                                            <div class="mt-4 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-2.5">
+                                                <div class="flex items-center justify-between text-xs">
+                                                    <span class="text-slate-500 dark:text-slate-400 font-medium">Computed Target Deadline:</span>
+                                                    <span class="font-mono font-bold text-slate-900 dark:text-white">
+                                                        @DateTime.UtcNow.Add(_demoDurationSla).ToString("yyyy-MM-dd HH:mm:ss 'UTC'")
+                                                    </span>
+                                                </div>
+                                                <div class="grid grid-cols-4 gap-2 text-center text-xs">
+                                                    <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
+                                                        <div class="font-mono font-bold text-slate-900 dark:text-white text-sm">@_demoDurationSla.Days</div>
+                                                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Days</div>
+                                                    </div>
+                                                    <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
+                                                        <div class="font-mono font-bold text-slate-900 dark:text-white text-sm">@_demoDurationSla.Hours</div>
+                                                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Hours</div>
+                                                    </div>
+                                                    <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
+                                                        <div class="font-mono font-bold text-slate-900 dark:text-white text-sm">@_demoDurationSla.Minutes</div>
+                                                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Mins</div>
+                                                    </div>
+                                                    <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
+                                                        <div class="font-mono font-bold text-slate-900 dark:text-white text-sm">@_demoDurationSla.Seconds</div>
+                                                        <div class="text-[10px] text-slate-400 uppercase font-semibold">Secs</div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-between pt-1">
+                                                    <div class="flex items-center gap-1.5 text-xs">
+                                                        <span class="w-2 h-2 rounded-full @GetSlaUrgencyColor(_demoDurationSla)"></span>
+                                                        <span class="font-semibold text-slate-700 dark:text-slate-300">@GetSlaUrgencyLabel(_demoDurationSla)</span>
+                                                    </div>
+                                                    <button type="button"
+                                                            @onclick="DispatchSlaIncident"
+                                                            class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shadow-xs">
+                                                        Dispatch Incident
+                                                    </button>
+                                                </div>
+                                                @if (!string.IsNullOrEmpty(_slaDispatchStatus))
+                                                {
+                                                    <div class="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-mono">
+                                                        @_slaDispatchStatus
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
 
@@ -1643,13 +1751,96 @@
                                         <p class="text-xs text-slate-500 dark:text-slate-400">
                                             Touchscreen on-screen keyboard for kiosks and POS terminals with anti-shoulder-surfing randomized PIN keypad scramble.
                                         </p>
-                                        <div class="flex justify-center">
+                                        <div class="flex flex-col items-center gap-3">
                                             <TwVirtualKeyboard @bind-Value="_demoKeyboardValue"
                                                                Mode="TwVirtualKeyboard.VirtualKeyboardMode.Pin"
                                                                IsPassword="false"
                                                                ShowDisplay="true"
                                                                AllowModeSwitch="true"
-                                                               OnSubmit='() => Toast.Show("Input confirmed", $"Value: {_demoKeyboardValue}", SemanticVariant.Success)' />
+                                                               OnSubmit="AuthorizeKioskPin" />
+
+                                            <!-- Live Terminal Authorization Console -->
+                                            <div class="w-full max-w-xl p-4 rounded-2xl border @(_terminalUnlocked ? "border-emerald-500/30 bg-emerald-50/40 dark:bg-emerald-950/20" : _terminalAccessDenied ? "border-rose-500/30 bg-rose-50/40 dark:bg-rose-950/20" : "border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60") space-y-3 transition-all duration-300">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center gap-2">
+                                                        @if (_terminalUnlocked)
+                                                        {
+                                                            <span class="flex h-2.5 w-2.5 relative">
+                                                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                                                            </span>
+                                                            <span class="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                                                                Enclave Operational • Clearance Level 4
+                                                            </span>
+                                                        }
+                                                        else if (_terminalAccessDenied)
+                                                        {
+                                                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                                                            <span class="text-xs font-bold text-rose-700 dark:text-rose-400 uppercase tracking-wider">
+                                                                Access Denied • Invalid PIN Code
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+                                                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                                                                Terminal Locked • PIN Required (Default: 7492)
+                                                            </span>
+                                                        }
+                                                    </div>
+
+                                                    @if (_terminalUnlocked)
+                                                    {
+                                                        <button type="button"
+                                                                @onclick="LockTerminalSession"
+                                                                class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-rose-600 hover:bg-rose-500 text-white transition-colors">
+                                                            Lock Terminal
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button"
+                                                                @onclick="AuthorizeKioskPin"
+                                                                class="px-3 py-1 text-xs font-semibold rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition-colors">
+                                                            Authenticate PIN
+                                                        </button>
+                                                    }
+                                                </div>
+
+                                                @if (_terminalUnlocked)
+                                                {
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                                                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1">
+                                                            <div class="text-[10px] text-slate-400 font-medium uppercase">Active Operator</div>
+                                                            <div class="font-mono font-bold text-slate-900 dark:text-white">SEC-OPERATOR-9021</div>
+                                                            <div class="text-[10px] text-slate-500">Node: us-east-prod-enclave-01</div>
+                                                        </div>
+                                                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1">
+                                                            <div class="text-[10px] text-slate-400 font-medium uppercase">Session Grant Token</div>
+                                                            <div class="font-mono font-bold text-emerald-600 dark:text-emerald-400 truncate">@_terminalSessionToken</div>
+                                                            <div class="text-[10px] text-slate-500">Hardware Crypto Key Decrypted</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center gap-1.5 text-[11px] text-emerald-700 dark:text-emerald-300">
+                                                        <svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                        </svg>
+                                                        <span>Full access granted to Post-Quantum ML-KEM Vault and HSM root key storage.</span>
+                                                    </div>
+                                                }
+                                                else if (_terminalAccessDenied)
+                                                {
+                                                    <div class="text-xs text-rose-600 dark:text-rose-400">
+                                                        Security violation logged to OpenTelemetry audit trail. Please enter passcode <strong>7492</strong> on the keypad and tap Authenticate.
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="text-xs text-slate-500 dark:text-slate-400">
+                                                        Tap digits or toggle QWERTY mode above, then click <strong>Authenticate PIN</strong> to unlock the secure operational terminal.
+                                                    </div>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1674,9 +1865,160 @@
                                     </p>
                                     <TwFileManager Items="_demoFileManagerItems"
                                                    @bind-CurrentPath="_demoFileCurrentPath"
-                                                   OnFileSelected='file => Toast.Show("File Selected", $"{file.Name} ({file.SizeBytes / 1024} KB)", SemanticVariant.Info)'
-                                                   OnFileOpened='file => Toast.Show("File Opened", $"Viewing {file.Name}", SemanticVariant.Success)'
-                                                   OnUpload='() => Toast.Show("Upload Processed", "SHA-256 integrity verified", SemanticVariant.Success)' />
+                                                   OnFileSelected="HandleDemoFileSelect"
+                                                   OnFileOpened="HandleDemoFileOpen"
+                                                   OnUpload="HandleDemoFileUpload" />
+
+                                    <!-- Live File Inspector & Content Preview Panel -->
+                                    @if (_selectedDemoFile != null)
+                                    {
+                                        <div class="mt-4 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 backdrop-blur-md shadow-lg space-y-4">
+                                            <!-- Header & Action Row -->
+                                            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-10 h-10 rounded-2xl bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl shadow-xs">
+                                                        @GetFileIconDisplay(_selectedDemoFile)
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                                            <span>@_selectedDemoFile.Name</span>
+                                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                                                @(_selectedDemoFile.Extension?.ToUpperInvariant() ?? "FILE")
+                                                            </span>
+                                                        </h4>
+                                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                                            @_selectedDemoFile.Path • @FormatFileSize(_selectedDemoFile.SizeBytes) • Modified @_selectedDemoFile.Modified.ToString("yyyy-MM-dd HH:mm")
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex items-center gap-2 text-xs">
+                                                    <button type="button"
+                                                            @onclick='() => _fileInspectorHashVerified = true'
+                                                            class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 font-semibold transition-colors flex items-center gap-1.5 shadow-xs">
+                                                        <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                                        </svg>
+                                                        <span>Verify SHA-256</span>
+                                                    </button>
+                                                    <button type="button"
+                                                            @onclick="HandleDemoFileUpload"
+                                                            class="px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-colors shadow-xs flex items-center gap-1.5">
+                                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                                        </svg>
+                                                        <span>Simulate Upload</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Integrity Hash Banner -->
+                                            <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 text-xs">
+                                                <div class="flex items-center gap-2 overflow-hidden">
+                                                    <span class="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+                                                        SHA-256 Validated
+                                                    </span>
+                                                    <span class="font-mono text-slate-600 dark:text-slate-300 truncate text-[11px]">
+                                                        @(_fileInspectorHashVerified ? GetDemoFileSha256(_selectedDemoFile.Name) : "Computing hash...")
+                                                    </span>
+                                                </div>
+                                                <span class="text-slate-400 text-[11px] shrink-0 font-medium">MIME: @_selectedDemoFile.MimeType</span>
+                                            </div>
+
+                                            <!-- Dynamic Content Preview Section based on file type -->
+                                            <div class="space-y-2">
+                                                <div class="flex items-center justify-between text-xs text-slate-500 font-semibold uppercase tracking-wider">
+                                                    <span>Operational Content Preview</span>
+                                                    <span class="text-brand-500">Interactive Zero-Copy Stream</span>
+                                                </div>
+
+                                                @if (_selectedDemoFile.Extension == ".json")
+                                                {
+                                                    <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-950 p-4 font-mono text-xs text-slate-200 overflow-x-auto">
+                                                        <pre class="m-0 leading-relaxed text-indigo-300">@GetJsonDemoPreview()</pre>
+                                                    </div>
+                                                }
+                                                else if (_selectedDemoFile.Extension == ".xlsx")
+                                                {
+                                                    <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 overflow-hidden shadow-xs">
+                                                        <table class="w-full text-left text-xs">
+                                                            <thead class="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+                                                                <tr>
+                                                                    <th class="p-2.5 font-bold">Quarter</th>
+                                                                    <th class="p-2.5 font-bold">ARR Target</th>
+                                                                    <th class="p-2.5 font-bold">Net Expansion</th>
+                                                                    <th class="p-2.5 font-bold">Gross Margin</th>
+                                                                    <th class="p-2.5 font-bold">Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 font-mono text-[11px]">
+                                                                <tr>
+                                                                    <td class="p-2.5 font-semibold text-slate-800 dark:text-slate-200">Q1-2026</td>
+                                                                    <td class="p-2.5 text-slate-600 dark:text-slate-300">$12,450,000</td>
+                                                                    <td class="p-2.5 text-emerald-600">+138%</td>
+                                                                    <td class="p-2.5 text-slate-600 dark:text-slate-300">84.2%</td>
+                                                                    <td class="p-2.5"><span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-bold">AUDITED</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="p-2.5 font-semibold text-slate-800 dark:text-slate-200">Q2-2026</td>
+                                                                    <td class="p-2.5 text-slate-600 dark:text-slate-300">$15,820,000</td>
+                                                                    <td class="p-2.5 text-emerald-600">+142%</td>
+                                                                    <td class="p-2.5 text-slate-600 dark:text-slate-300">86.0%</td>
+                                                                    <td class="p-2.5"><span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 font-bold">AUDITED</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="p-2.5 font-semibold text-slate-800 dark:text-slate-200">Q3-2026</td>
+                                                                    <td class="p-2.5 text-slate-600 dark:text-slate-300">$19,250,000</td>
+                                                                    <td class="p-2.5 text-emerald-600">+149%</td>
+                                                                    <td class="p-2.5 text-slate-600 dark:text-slate-300">87.5%</td>
+                                                                    <td class="p-2.5"><span class="px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 font-bold">CURRENT</span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                }
+                                                else if (_selectedDemoFile.Extension == ".pdf")
+                                                {
+                                                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 space-y-3">
+                                                        <div class="flex items-center justify-between">
+                                                            <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Document Summary &amp; Attestation</span>
+                                                            <span class="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">✓ Cryptographically Signed</span>
+                                                        </div>
+                                                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                            Executive summary and independent assurance report covering SOC-2 Type II controls, data isolation boundaries, zero-trust network encryption, and disaster recovery redundancy across all active cloud regions.
+                                                        </p>
+                                                        <div class="flex flex-wrap gap-4 text-[11px] text-slate-400 pt-1 font-mono">
+                                                            <span>Pages: 42</span>
+                                                            <span>Auditor: Ernst &amp; Global LLP</span>
+                                                            <span>Standard: AICPA Trust Services</span>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (_selectedDemoFile.Extension == ".parquet")
+                                                {
+                                                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-900 text-slate-200 space-y-2">
+                                                        <div class="flex items-center justify-between text-xs font-mono font-bold text-slate-300">
+                                                            <span>Apache Parquet Schema Definition (Snappy Compressed)</span>
+                                                            <span class="text-emerald-400">1,240,000 Rows</span>
+                                                        </div>
+                                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono">
+                                                            <div class="p-2 rounded-lg bg-slate-800 text-indigo-300">timestamp (int64)</div>
+                                                            <div class="p-2 rounded-lg bg-slate-800 text-indigo-300">cluster_id (string)</div>
+                                                            <div class="p-2 rounded-lg bg-slate-800 text-indigo-300">p99_latency_ns (int32)</div>
+                                                            <div class="p-2 rounded-lg bg-slate-800 text-indigo-300">error_rate (float32)</div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 flex items-center justify-between text-xs">
+                                                        <span class="text-slate-600 dark:text-slate-300">Raw binary asset ready for zero-copy buffer streaming.</span>
+                                                        <span class="font-mono text-brand-500 font-bold">@FormatFileSize(_selectedDemoFile.SizeBytes)</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
 
                                 <!-- 2. TwWordCloud & TwSankeyChart -->
@@ -1696,7 +2038,47 @@
                                         </p>
                                         <TwWordCloud Words="_demoWordCloudItems"
                                                      Title="Architecture & Technology Keywords"
-                                                     OnWordClick='word => Toast.Show("Keyword Selected", $"{word.Text} (Weight: {word.Weight})", SemanticVariant.Info)' />
+                                                     OnWordClick="HandleWordCloudClick" />
+
+                                        <!-- Live Keyword Intelligence Card -->
+                                        @if (_selectedCloudWord != null)
+                                        {
+                                            <div class="mt-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3 shadow-xs">
+                                                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                                            Keyword Intelligence:
+                                                        </span>
+                                                        <span class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-mono">
+                                                            @_selectedCloudWord.Text
+                                                        </span>
+                                                    </div>
+                                                    <span class="text-xs font-mono font-bold text-slate-500">
+                                                        Frequency: @_selectedCloudWord.Weight.ToString("F0") / 100
+                                                    </span>
+                                                </div>
+
+                                                <div class="space-y-1.5">
+                                                    <div class="flex justify-between text-[11px] text-slate-500 font-medium">
+                                                        <span>Architecture Density Factor</span>
+                                                        <span class="font-mono font-bold text-indigo-600 dark:text-indigo-400">@((_selectedCloudWord.Weight).ToString("F0"))%</span>
+                                                    </div>
+                                                    <div class="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                                        <div class="h-full bg-gradient-to-r from-indigo-500 to-brand-500 rounded-full transition-all duration-300" style="width: @((_selectedCloudWord.Weight).ToString("F0"))%"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex flex-wrap items-center gap-1.5 text-xs pt-1">
+                                                    <span class="text-slate-400 text-[11px] font-medium">Related Controls:</span>
+                                                    @foreach (var comp in GetRelatedComponentsForWord(_selectedCloudWord.Text))
+                                                    {
+                                                        <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[11px] font-semibold">
+                                                            @comp
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
 
                                     <!-- TwSankeyChart -->
@@ -1715,8 +2097,170 @@
                                         <TwSankeyChart Nodes="_demoSankeyNodes"
                                                        Links="_demoSankeyLinks"
                                                        Title="Enterprise Cloud Workload Migration Flow"
-                                                       OnNodeClick='node => Toast.Show("Cluster Node Selected", $"{node.Label}", SemanticVariant.Success)' />
+                                                       OnNodeClick="HandleSankeyNodeClick" />
+
+                                        <!-- Live Telemetry Pipeline Node Inspector -->
+                                        @if (_selectedSankeyNode != null)
+                                        {
+                                            var inVolume = _demoSankeyLinks.Where(l => l.TargetId == _selectedSankeyNode.Id).Sum(l => l.Value);
+                                            var outVolume = _demoSankeyLinks.Where(l => l.SourceId == _selectedSankeyNode.Id).Sum(l => l.Value);
+
+                                            <div class="mt-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3 shadow-xs">
+                                                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="w-3 h-3 rounded-md shrink-0" style="background-color: @_selectedSankeyNode.Color"></span>
+                                                        <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                                            Pipeline Node: @_selectedSankeyNode.Label
+                                                        </span>
+                                                        <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">
+                                                            @_selectedSankeyNode.Id
+                                                        </span>
+                                                    </div>
+                                                    <button type="button"
+                                                            @onclick="() => SimulateSankeySurge(_selectedSankeyNode.Id)"
+                                                            class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition-colors shadow-xs flex items-center gap-1">
+                                                        <span>+25% Surge</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                                    <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-850 space-y-0.5">
+                                                        <div class="text-[10px] text-slate-400 uppercase font-medium">Inbound Flow</div>
+                                                        <div class="font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                                                            @(inVolume > 0 ? inVolume.ToString("N0") : "Ingress")
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-850 space-y-0.5">
+                                                        <div class="text-[10px] text-slate-400 uppercase font-medium">Outbound Flow</div>
+                                                        <div class="font-mono font-bold text-indigo-600 dark:text-indigo-400">
+                                                            @(outVolume > 0 ? outVolume.ToString("N0") : "Egress")
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-2 rounded-xl bg-slate-50 dark:bg-slate-850 space-y-0.5">
+                                                        <div class="text-[10px] text-slate-400 uppercase font-medium">P99 Latency</div>
+                                                        <div class="font-mono font-bold text-slate-900 dark:text-white">1.18 ms</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                                                    <span>Cluster Status: <strong class="text-emerald-500">Healthy (0 drops)</strong></span>
+                                                    <span class="font-mono">Active Streams: @_demoSankeyLinks.Count(l => l.SourceId == _selectedSankeyNode.Id || l.TargetId == _selectedSankeyNode.Id)</span>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
+                                </div>
+                            </div>
+                        </TwCard>
+
+
+                        <!-- 2027 Next-Gen Spatial & Anticipatory UI Laboratory -->
+                        <TwCard Title="2027 Next-Gen Spatial & Anticipatory UI Laboratory" Subtitle="Volumetric 3D Tilt, Organic Emotional Resonance Fluid Mesh, and Anticipatory Biometric Intent">
+                            <div class="space-y-8">
+                                <div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-emerald-500/10 border border-brand-500/20">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-brand-600 text-white uppercase tracking-wider shadow-xs">
+                                                2027 UI Paradigm Shift
+                                            </span>
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                                States over Pages • Volumetric 3D • Anticipatory Intent
+                                            </h4>
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-300">
+                                            Moving beyond static bento grids into organic fluid motion, 3D spatial perspective, and neural biometric anticipation.
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-xs font-mono font-bold text-brand-600 dark:text-brand-400">
+                                        <span>Zero Heavy WebGL</span>
+                                        <span>•</span>
+                                        <span>Pure C# &amp; CSS Math</span>
+                                    </div>
+                                </div>
+
+                                <!-- Grid of Spatial Components: TwSpatialCard + TwFluidMesh + TwPredictiveIntent -->
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                    <!-- 1. TwSpatialCard (Volumetric 3D Card with Tilt & Specular Shine) -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>🧊</span> 1. Volumetric 3D Spatial Card (TwSpatialCard)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                                                Gyroscopic Tilt • Specular Refraction
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            Hover and move cursor across the card to experience real-time 3D parallax tilt, dynamic light reflections, and multi-layer Z-depth.
+                                        </p>
+                                        <TwSpatialCard Title="Spatial Quantum Enclave"
+                                                       Subtitle="Hardware Security Module • Tier 0 Root"
+                                                       BadgeText="Volumetric 3D"
+                                                       MaxTiltDeg="14"
+                                                       GlowGradient="from-brand-500 via-indigo-600 to-purple-600">
+                                            <HeaderExtra>
+                                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-mono font-bold border border-emerald-500/30">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                                    3D Parallax Active
+                                                </span>
+                                            </HeaderExtra>
+                                            <ChildContent>
+                                                <div class="space-y-4">
+                                                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                        Elevated foreground elements cast realistic ambient occlusion shadows while preserving fluid interaction. Notice the specular glare tracking your cursor.
+                                                    </p>
+                                                    <div class="grid grid-cols-2 gap-3 text-xs">
+                                                        <div class="p-3 rounded-2xl bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60 shadow-xs space-y-1">
+                                                            <div class="text-[10px] text-slate-400 uppercase font-semibold">Z-Index Elevation</div>
+                                                            <div class="font-mono font-bold text-slate-900 dark:text-white">+32px Depth</div>
+                                                        </div>
+                                                        <div class="p-3 rounded-2xl bg-white/70 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60 shadow-xs space-y-1">
+                                                            <div class="text-[10px] text-slate-400 uppercase font-semibold">Refraction Index</div>
+                                                            <div class="font-mono font-bold text-indigo-600 dark:text-indigo-400">1.458 Glass</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center justify-between pt-1">
+                                                        <span class="text-[11px] text-slate-500 font-mono">Shader: Pure CSS 3D Matrix</span>
+                                                        <button type="button" class="px-3 py-1.5 text-xs font-bold rounded-xl bg-brand-600 text-white shadow-md shadow-brand-500/20 hover:bg-brand-500 transition-all">
+                                                            Engage Spatial Layer
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </ChildContent>
+                                        </TwSpatialCard>
+                                    </div>
+
+                                    <!-- 2. TwPredictiveIntent (Anticipatory Intent & Biometric State Engine) -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>🔮</span> 2. Anticipatory Intent Engine (TwPredictiveIntent)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                                                Gaze Focus • Biometric Contact
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            The app anticipates operator intent and transforms states organically from gaze tracking to tactile biometric attunement and zero-click synthesis.
+                                        </p>
+                                        <TwPredictiveIntent />
+                                    </div>
+                                </div>
+
+                                <!-- 3. TwFluidMesh (Tactile Organic Emotional Resonance Mesh) -->
+                                <div class="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>🌊</span> 3. Organic Fluid Emotional Resonance Mesh (TwFluidMesh)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                            Psychological Biometrics • Alpha Entrainment
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Organic generative fluid gradient mesh tuning color temperature and harmonic velocity to modulate operator autonomic states. Select moods to watch the fluid mesh adapt in real-time.
+                                    </p>
+                                    <TwFluidMesh />
                                 </div>
                             </div>
                         </TwCard>
@@ -3998,6 +4542,249 @@
     // Conversational AI & Floating Context Demo State
 
 
+    // 2027 Reactive State & Logic
+    private DateTime _lastRoleTransferTime = DateTime.UtcNow;
+    private bool _iamPolicyCopied = false;
+
+    private void HandlePickListTransfer()
+    {
+        _lastRoleTransferTime = DateTime.UtcNow;
+        _iamPolicyCopied = false;
+    }
+
+    private void ResetDemoRoles()
+    {
+        _demoAssignedRoles = new List<string>
+        {
+            "Security Architect",
+            "Kubernetes Administrator"
+        };
+        _lastRoleTransferTime = DateTime.UtcNow;
+        _iamPolicyCopied = false;
+    }
+
+    private void CopyDemoIamPolicy()
+    {
+        _iamPolicyCopied = true;
+    }
+
+    private string GetGeneratedIamPolicyJson()
+    {
+        var timestamp = _lastRoleTransferTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("{");
+        sb.AppendLine("  \"apiVersion\": \"rbac.authorization.k8s.io/v1\",");
+        sb.AppendLine("  \"kind\": \"ClusterRoleBinding\",");
+        sb.AppendLine("  \"metadata\": {");
+        sb.AppendLine("    \"name\": \"enterprise-operator-matrix\",");
+        sb.AppendLine($"    \"syncedAt\": \"{timestamp}\"");
+        sb.AppendLine("  },");
+        sb.AppendLine("  \"roleRef\": { \"apiGroup\": \"rbac.authorization.k8s.io\", \"kind\": \"ClusterRole\", \"name\": \"cluster-operator\" },");
+        sb.AppendLine("  \"subjects\": [");
+        var roleList = _demoAssignedRoles.ToList();
+        for (int i = 0; i < roleList.Count; i++)
+        {
+            var roleSlug = roleList[i].ToLowerInvariant().Replace(' ', '-');
+            var comma = (i < roleList.Count - 1) ? "," : "";
+            sb.AppendLine($"    {{ \"kind\": \"User\", \"name\": \"{roleSlug}-svc\", \"namespace\": \"production\" }}{comma}");
+        }
+        sb.AppendLine("  ]");
+        sb.Append("}");
+        return sb.ToString();
+    }
+
+    // Incident SLA Expiration Schedule Logic
+    private string? _slaDispatchStatus;
+
+    private string GetSlaUrgencyColor(TimeSpan sla)
+    {
+        if (sla.TotalHours < 1) return "bg-rose-500 animate-pulse";
+        if (sla.TotalHours < 8) return "bg-amber-500";
+        if (sla.TotalHours < 48) return "bg-blue-500";
+        return "bg-emerald-500";
+    }
+
+    private string GetSlaUrgencyLabel(TimeSpan sla)
+    {
+        if (sla.TotalHours < 1) return "Critical P1 (Immediate Escalation)";
+        if (sla.TotalHours < 8) return "High P2 (Business Hours Urgent)";
+        if (sla.TotalHours < 48) return "Standard P3 (Active Queue)";
+        return "Normal P4 (Planned Maintenance)";
+    }
+
+    private void DispatchSlaIncident()
+    {
+        var targetTime = DateTime.UtcNow.Add(_demoDurationSla);
+        _slaDispatchStatus = $"🚨 DISPATCHED to PagerDuty On-Call: Target breach in {_demoDurationSla.TotalHours:F1}h ({targetTime:HH:mm:ss} UTC).";
+    }
+
+    // High-Security Enclave Kiosk Terminal Logic
+    private bool _terminalUnlocked = false;
+    private bool _terminalAccessDenied = false;
+    private string _terminalSessionToken = "";
+
+    private void AuthorizeKioskPin()
+    {
+        if (_demoKeyboardValue == "7492" || (_demoKeyboardValue.Length >= 4 && !_demoKeyboardValue.Contains("0000")))
+        {
+            _terminalUnlocked = true;
+            _terminalAccessDenied = false;
+            _terminalSessionToken = "SESSION-SEC-" + Guid.NewGuid().ToString("N")[..12].ToUpperInvariant();
+        }
+        else
+        {
+            _terminalUnlocked = false;
+            _terminalAccessDenied = true;
+        }
+    }
+
+    private void LockTerminalSession()
+    {
+        _terminalUnlocked = false;
+        _terminalAccessDenied = false;
+        _demoKeyboardValue = "";
+    }
+
+    // Enterprise File Manager Inspector State
+    private TwFileManager.FileItem? _selectedDemoFile;
+    private bool _fileInspectorHashVerified = true;
+
+    private void HandleDemoFileSelect(TwFileManager.FileItem file)
+    {
+        _selectedDemoFile = file;
+        _fileInspectorHashVerified = true;
+    }
+
+    private void HandleDemoFileOpen(TwFileManager.FileItem file)
+    {
+        _selectedDemoFile = file;
+        _fileInspectorHashVerified = true;
+    }
+
+    private void HandleDemoFileUpload()
+    {
+        var newFile = new TwFileManager.FileItem(
+            Guid.NewGuid().ToString("N"),
+            $"telemetry-ingest-{DateTime.UtcNow:mmss}.parquet",
+            _demoFileCurrentPath,
+            5242880,
+            DateTime.Now,
+            false,
+            "application/octet-stream",
+            ".parquet"
+        );
+        _demoFileManagerItems.Insert(0, newFile);
+        _selectedDemoFile = newFile;
+        _fileInspectorHashVerified = true;
+    }
+
+    private string GetFileIconDisplay(TwFileManager.FileItem file)
+    {
+        return (file.Extension ?? "").ToLowerInvariant() switch
+        {
+            ".pdf" => "📄",
+            ".xlsx" => "📊",
+            ".json" => "⚙️",
+            ".parquet" => "📦",
+            ".png" => "🖼️",
+            ".docx" => "📝",
+            ".tar.gz" => "🗄️",
+            _ => "📁"
+        };
+    }
+
+    private string FormatFileSize(long bytes)
+    {
+        if (bytes >= 1024 * 1024 * 1024)
+            return $"{(double)bytes / (1024 * 1024 * 1024):F1} GB";
+        if (bytes >= 1024 * 1024)
+            return $"{(double)bytes / (1024 * 1024):F1} MB";
+        if (bytes >= 1024)
+            return $"{(double)bytes / 1024:F0} KB";
+        return $"{bytes} B";
+    }
+
+    private string GetDemoFileSha256(string fileName)
+    {
+        return fileName.ToLowerInvariant() switch
+        {
+            "q3-financial-audit.pdf" => "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "revenue-runrate.xlsx" => "8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
+            "kubernetes-config.json" => "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
+            "telemetry-export-2026.parquet" => "c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2",
+            _ => "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+        };
+    }
+
+    private string GetJsonDemoPreview()
+    {
+        return @"{
+  ""apiVersion"": ""apps/v1"",
+  ""kind"": ""Deployment"",
+  ""metadata"": {
+    ""name"": ""blazortailwind-wasm-edge"",
+    ""labels"": { ""app"": ""ui-cluster"" }
+  },
+  ""spec"": {
+    ""replicas"": 6,
+    ""strategy"": { ""type"": ""RollingUpdate"" },
+    ""template"": {
+      ""spec"": {
+        ""containers"": [{
+          ""name"": ""webassembly-host"",
+          ""image"": ""ghcr.io/blazortailwind:v1.3.0"",
+          ""resources"": { ""limits"": { ""cpu"": ""2000m"", ""memory"": ""2Gi"" } }
+        }]
+      }
+    }
+  }
+}";
+    }
+
+    // Word Cloud Keyword Intelligence State
+    private TwWordCloud.WordCloudItem? _selectedCloudWord;
+
+    private void HandleWordCloudClick(TwWordCloud.WordCloudItem word)
+    {
+        _selectedCloudWord = word;
+    }
+
+    private IEnumerable<string> GetRelatedComponentsForWord(string text)
+    {
+        return text.ToLowerInvariant() switch
+        {
+            var t when t.Contains("blazor") => new[] { "TwVirtualKeyboard", "TwPickList", "TwSankeyChart", "TwFileManager" },
+            var t when t.Contains(".net") => new[] { "TwMemoryChart", "TwTimeSpanPicker", "TwTelemetryPanel" },
+            var t when t.Contains("tailwind") => new[] { "TwBadge", "TwCard", "TwButton", "TwModal" },
+            var t when t.Contains("webassembly") => new[] { "TwChatStudio", "TwWordCloud", "TwVirtualKeyboard" },
+            var t when t.Contains("nativeaot") => new[] { "TwMemoryChart", "TwTelemetryPanel" },
+            var t when t.Contains("spiral") => new[] { "TwWordCloud", "TwSankeyChart", "TwSparkline" },
+            var t when t.Contains("quantum") || t.Contains("ml-kem") => new[] { "TwVirtualKeyboard", "TwKeybindingListener" },
+            var t when t.Contains("opentelemetry") => new[] { "TwSankeyChart", "TwTelemetryPanel", "TwMetric" },
+            _ => new[] { "TwCard", "TwButton", "TwBadge" }
+        };
+    }
+
+    // Sankey Chart Node Telemetry Inspector State
+    private TwSankeyChart.SankeyNode? _selectedSankeyNode;
+
+    private void HandleSankeyNodeClick(TwSankeyChart.SankeyNode node)
+    {
+        _selectedSankeyNode = node;
+    }
+
+    private void SimulateSankeySurge(string nodeId)
+    {
+        for (int i = 0; i < _demoSankeyLinks.Count; i++)
+        {
+            var link = _demoSankeyLinks[i];
+            if (link.SourceId == nodeId || link.TargetId == nodeId)
+            {
+                _demoSankeyLinks[i] = new TwSankeyChart.SankeyLink(link.SourceId, link.TargetId, link.Value * 1.25);
+            }
+        }
+    }
+
     // Enterprise File Manager & Visualizations State
     private string _demoFileCurrentPath = "/";
     private readonly List<TwFileManager.FileItem> _demoFileManagerItems = new()
@@ -4220,6 +5007,9 @@
     {
         InitCommandPalette();
         InitTourSteps();
+        _selectedDemoFile = _demoFileManagerItems.FirstOrDefault(x => x.Name == "Kubernetes-Config.json") ?? _demoFileManagerItems.FirstOrDefault();
+        _selectedCloudWord = _demoWordCloudItems.FirstOrDefault();
+        _selectedSankeyNode = _demoSankeyNodes.FirstOrDefault();
     }
 
     private void InitCommandPalette()
