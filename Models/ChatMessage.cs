@@ -16,6 +16,8 @@ public enum StepStatus
 
 public sealed record ReasoningStep(string Label, StepStatus Status);
 
+public sealed record ChatAttachment(string Id, string Name, long SizeBytes, string MimeType, string? DataUrl = null);
+
 public sealed class ChatMessage
 {
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -29,5 +31,6 @@ public sealed class ChatMessage
     public List<ReasoningStep>? ReasoningSteps { get; set; }
     public List<string>? SuggestedPrompts { get; set; }
     public List<string>? Sources { get; set; }
+    public List<ChatAttachment>? Attachments { get; set; }
     public bool? FeedbackThumb { get; set; } // true = up, false = down, null = unrated
 }

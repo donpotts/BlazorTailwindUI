@@ -69,3 +69,33 @@ public enum DrawerPlacement
     Right,
     Bottom
 }
+
+public enum TwPopoverPlacement
+{
+    Top,
+    TopStart,
+    TopEnd,
+    Bottom,
+    BottomStart,
+    BottomEnd,
+    Left,
+    Right
+}
+
+public enum TwPopoverTrigger
+{
+    Click,
+    Hover,
+    Manual
+}
+
+public enum TwSnackbarPosition
+{
+    BottomCenter,
+    BottomLeft,
+    BottomRight,
+    TopCenter,
+    TopLeft,
+    TopRight
+}
+

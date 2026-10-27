@@ -37,3 +37,9 @@ playwright/.cache/
 dist/
 release-packages/
 src-tauri/target/
+
+## Temporary Scratch & Python Cache
+scratch/
+__pycache__/
+*.pyc
+

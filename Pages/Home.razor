@@ -1448,6 +1448,135 @@
                             </div>
                         </TwCard>
 
+                        <!-- Conversational AI & Floating Context Suite -->
+                        <TwCard Title="Conversational AI & Floating Context Suite" Subtitle="Enterprise Chat Studio, Anchored Popover Overlays, and Actionable Dismissible Snackbars">
+                            <div class="space-y-8">
+                                <!-- 1. TwChatStudio -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>💬</span> 1. Conversational AI Studio (TwChatStudio)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                                            Multi-turn • Staged Attachments • Feedback Reactions
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Full-featured conversational studio with growing multiline composer, suggestion pills, attachment staging drawer, like/dislike ratings, and harmonic typing status.
+                                    </p>
+                                    <div class="max-w-2xl mx-auto">
+                                        <TwChatStudio Title="Copilot Workspace"
+                                                      ModelBadge=".NET 11 WASM"
+                                                      StatusSubtitle="Zero-Latency Native • Ready"
+                                                      Messages="_demoChatMessages"
+                                                      Suggestions="_demoChatSuggestions"
+                                                      IsTyping="_demoChatIsTyping"
+                                                      OnMessageSent="HandleDemoChatSend"
+                                                      OnRegenerate="HandleDemoChatRegen"
+                                                      OnClearChat='() => Toast.Show("Chat cleared", "History wiped cleanly", SemanticVariant.Info)' />
+                                    </div>
+                                </div>
+
+                                <!-- 2. Floating Popover & Actionable Snackbar -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    <!-- TwPopover -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>🎯</span> 2. Anchored Popover (TwPopover)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                                                8-Way Arrow Anchoring
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            Floating contextual flyout with directional arrow, click/hover activation modes, and Escape key dismiss.
+                                        </p>
+                                        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center justify-center gap-4">
+                                            <TwPopover Title="Display Filters" Placement="_demoPopoverPlacement" @bind-IsOpen="_demoPopoverOpen">
+                                                <AnchorContent>
+                                                    <button type="button" class="px-4 py-2 text-xs font-bold rounded-xl bg-brand-600 hover:bg-brand-500 text-white shadow-md shadow-brand-500/20 inline-flex items-center gap-2 transition-all">
+                                                        <span>⚙️ Configure Metrics</span>
+                                                        <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded">Popover</span>
+                                                    </button>
+                                                </AnchorContent>
+                                                <ChildContent>
+                                                    <div class="space-y-3">
+                                                        <div class="text-xs text-slate-600 dark:text-slate-300">
+                                                            Configure real-time telemetry filters for your edge cluster view:
+                                                        </div>
+                                                        <div class="space-y-2">
+                                                            <label class="flex items-center gap-2 text-xs font-medium cursor-pointer">
+                                                                <input type="checkbox" checked class="rounded text-brand-600 focus:ring-brand-500" />
+                                                                <span>Live Memory Stream</span>
+                                                            </label>
+                                                            <label class="flex items-center gap-2 text-xs font-medium cursor-pointer">
+                                                                <input type="checkbox" checked class="rounded text-brand-600 focus:ring-brand-500" />
+                                                                <span>P99 Query Latency</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </ChildContent>
+                                                <Footer>
+                                                    <button type="button" @onclick='() => _demoPopoverOpen = false' class="px-3 py-1 text-xs font-bold rounded-lg bg-brand-600 text-white">Apply</button>
+                                                </Footer>
+                                            </TwPopover>
+
+                                            <!-- Placement Switcher -->
+                                            <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                                                <span>Position:</span>
+                                                <select @bind="_demoPopoverPlacement" class="text-xs py-1 px-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                                                    <option value="@TwPopoverPlacement.Bottom">Bottom</option>
+                                                    <option value="@TwPopoverPlacement.Top">Top</option>
+                                                    <option value="@TwPopoverPlacement.Left">Left</option>
+                                                    <option value="@TwPopoverPlacement.Right">Right</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- TwSnackbar -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>🔔</span> 3. Actionable Snackbar (TwSnackbar)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                                Timer Bar • Undo Action
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            Bottom screen banner with interactive action trigger (e.g. Undo), animated countdown progress bar, and hover pause.
+                                        </p>
+                                        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center justify-center gap-3">
+                                            <button type="button"
+                                                    @onclick='() => TriggerDemoSnackbar("File moved to trash", "Undo", SemanticVariant.Default)'
+                                                    class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-300 transition-colors">
+                                                Default Banner
+                                            </button>
+                                            <button type="button"
+                                                    @onclick='() => TriggerDemoSnackbar("Database cluster snapshot completed", "View Log", SemanticVariant.Success)'
+                                                    class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors">
+                                                Success with Action
+                                            </button>
+                                            <button type="button"
+                                                    @onclick='() => TriggerDemoSnackbar("High packet loss detected on US-East-1", "Investigate", SemanticVariant.Danger)'
+                                                    class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 transition-colors">
+                                                Danger Alert
+                                            </button>
+                                        </div>
+
+                                        <TwSnackbar @bind-IsOpen="_demoSnackbarOpen"
+                                                    Message="@_demoSnackbarMessage"
+                                                    ActionText="@_demoSnackbarAction"
+                                                    Variant="_demoSnackbarVariant"
+                                                    DurationMs="5000"
+                                                    OnAction='() => Toast.Show("Snackbar action invoked!", "Undo operation processed successfully.", SemanticVariant.Success)' />
+                                    </div>
+                                </div>
+                            </div>
+                        </TwCard>
+
                         <!-- Buttons & Badges -->
                         <TwCard Title="Buttons & Interactive Elements" Subtitle="Mobile-first tap states, loading spinners, full-width options and semantic variants">
                             <div class="space-y-6">
@@ -3721,6 +3850,73 @@
     private double _rangeUpper = 750;
     private string _highlightQuery = "Blazor";
     private int _highlightActiveIndex = 0;
+
+    // Conversational AI & Floating Context Demo State
+    private bool _demoPopoverOpen = false;
+    private TwPopoverPlacement _demoPopoverPlacement = TwPopoverPlacement.Bottom;
+    private bool _demoSnackbarOpen = false;
+    private string _demoSnackbarMessage = "Operation processed";
+    private string? _demoSnackbarAction = "Undo";
+    private SemanticVariant _demoSnackbarVariant = SemanticVariant.Default;
+
+    private List<ChatMessage> _demoChatMessages = new()
+    {
+        new ChatMessage
+        {
+            Role = ChatRole.Assistant,
+            Content = "Hello! I am your Blazor enterprise copilot powered by .NET 11 WASM. How can I assist you with your architecture, streaming grids, or data contracts today?",
+            Timestamp = DateTime.Now.AddMinutes(-5),
+            FeedbackThumb = true
+        }
+    };
+
+    private List<string> _demoChatSuggestions = new()
+    {
+        "Analyze cluster throughput",
+        "Generate .NET 11 entity schema",
+        "Summarize recent audit alerts"
+    };
+
+    private bool _demoChatIsTyping = false;
+
+    private async Task HandleDemoChatSend(ChatMessage msg)
+    {
+        _demoChatMessages.Add(msg);
+        _demoChatIsTyping = true;
+        await Task.Delay(1200);
+
+        _demoChatIsTyping = false;
+        var responseContent = msg.Content.ToLower().Contains("cluster")
+            ? "Edge cluster telemetry indicates 24 nodes healthy with 1.2ms average roundtrip latency and zero memory leaks under the .NET 11 Runtime Native Async V2 pipeline."
+            : msg.Content.ToLower().Contains("schema")
+            ? "Generated C# 15 record with closed hierarchy: public union ApiResponse(Success, Failure); public record Success(string Payload); public record Failure(int ErrorCode, string Message);"
+            : $"Analyzed prompt: '{msg.Content}'. All downstream data validations passed with zero runtime allocations and sub-millisecond execution.";
+
+        _demoChatMessages.Add(new ChatMessage
+        {
+            Role = ChatRole.Assistant,
+            Content = responseContent,
+            Timestamp = DateTime.Now
+        });
+    }
+
+    private async Task HandleDemoChatRegen(ChatMessage msg)
+    {
+        _demoChatIsTyping = true;
+        await Task.Delay(1000);
+        _demoChatIsTyping = false;
+        msg.Content = "Regenerated analysis: Pipeline throughput optimized. All 162 enterprise UI components are fully tree-shaken and running natively in client WebAssembly.";
+        msg.Timestamp = DateTime.Now;
+    }
+
+    private void TriggerDemoSnackbar(string message, string? actionText, SemanticVariant variant)
+    {
+        _demoSnackbarMessage = message;
+        _demoSnackbarAction = actionText;
+        _demoSnackbarVariant = variant;
+        _demoSnackbarOpen = true;
+    }
+
     private bool _demoDrawerMini = false;
     private string _demoDrawerActive = "dashboard";
     private string _highlightSampleText = "Blazor Tailwind UI brings full-stack C# power to modern web apps. With Blazor WebAssembly and Blazor Server, developers build lightning-fast interactive dashboards. The Blazor component model simplifies state management across enterprise clouds.";

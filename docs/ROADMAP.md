@@ -466,6 +466,27 @@ Provide clean-room, zero-dependency Tailwind CSS + Blazor components addressing 
 
 ---
 
+### Pillar 20: Conversational AI & Floating Context Suite (Shipped v1.3.2 ✅)
+
+Clean-room engineered enterprise conversational AI studio, floating anchored popover overlays, and dismissible actionable snackbars inspired by modern UI specifications:
+- **`TwChatStudio`**:
+  - Full-featured conversational AI studio with multi-turn message timeline (user vs assistant bubbles).
+  - Staged file attachment drawer with badge icons, filenames, formatted byte sizes, and staging removal.
+  - Quick reply suggestion chips positioned above composer for 1-click prompt dispatch.
+  - Message action toolbar: copy to clipboard, persistent feedback reactions (thumbs up/down), and response regeneration.
+  - 3-dot harmonic pulsing typing indicator with customizable status text.
+  - Multiline auto-growing composer with Enter/Shift+Enter keyboard bindings and character counter.
+- **`TwPopover`**:
+  - Anchored contextual flyout with directional pointer arrow and 8-way placement (`Top`, `Bottom`, `Left`, `Right`, etc.).
+  - Click and hover activation triggers with transparent outside click dismiss and keyboard <kbd>Escape</kbd> dismissal.
+  - Header, child content, and footer action slots.
+- **`TwSnackbar`**:
+  - Actionable floating notification banner with secondary trigger button (e.g. *Undo*, *Retry*, *View Log*).
+  - Animated auto-dismiss countdown progress timer bar with automatic pause when hovered by the mouse pointer.
+  - 5 semantic variants (Default, Success, Warning, Danger, Info) across 6 viewport anchoring positions.
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid

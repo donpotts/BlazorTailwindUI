@@ -2510,6 +2510,55 @@ public class ComponentCatalogService
                 new ComponentParameterDoc("AllowToggleMini", "bool", "true", "Show collapse/expand toggle button.")
             }
         },
+        new ComponentDocItem
+        {
+            Name = "TwPopover",
+            Category = "Overlays & Modals",
+            Description = "Anchored contextual floating popover with arrow pointer, 8-way placement, click or hover triggers, keyboard Escape dismiss, and optional header/footer slots.",
+            RazorSnippet = "<TwPopover Title=\"Filter Settings\" Placement=\"TwPopoverPlacement.Bottom\"><AnchorContent><button class=\"btn\">Filter</button></AnchorContent><ChildContent><p>Options...</p></ChildContent></TwPopover>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string?", "null", "Optional header title text."),
+                new ComponentParameterDoc("Placement", "TwPopoverPlacement", "TwPopoverPlacement.Bottom", "Placement relative to anchor (Top, Bottom, Left, Right, etc.)."),
+                new ComponentParameterDoc("Trigger", "TwPopoverTrigger", "TwPopoverTrigger.Click", "Activation trigger mode (Click, Hover, Manual)."),
+                new ComponentParameterDoc("ShowArrow", "bool", "true", "Render pointer arrow pointing to anchor."),
+                new ComponentParameterDoc("Width", "string", "\"w-72\"", "Flyout container width utility."),
+                new ComponentParameterDoc("IsOpen", "bool", "false", "Two-way bindable open state.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwSnackbar",
+            Category = "Feedback & Alerts",
+            Description = "Actionable bottom floating notification snackbar with action trigger callback, animated progress auto-dismiss countdown bar, pause on hover, and semantic color variants.",
+            RazorSnippet = "<TwSnackbar Message=\"Invoice archived\" ActionText=\"Undo\" Variant=\"SemanticVariant.Info\" @bind-IsOpen=\"_showSnack\" OnAction=\"HandleUndo\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Message", "string", "\"\"", "Notification message."),
+                new ComponentParameterDoc("ActionText", "string?", "null", "Optional action button text (e.g. Undo, Retry)."),
+                new ComponentParameterDoc("DurationMs", "int", "4000", "Auto-dismiss duration in ms (0 for persistent)."),
+                new ComponentParameterDoc("ShowProgress", "bool", "true", "Render animated countdown progress bar."),
+                new ComponentParameterDoc("Variant", "SemanticVariant", "SemanticVariant.Default", "Color scheme (Default, Info, Success, Warning, Danger)."),
+                new ComponentParameterDoc("Position", "TwSnackbarPosition", "TwSnackbarPosition.BottomCenter", "Viewport anchoring position.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwChatStudio",
+            Category = "AI & Agentic Workflows",
+            Description = "Full-featured modern conversational AI chat studio with multiline growing composer, staged file attachment preview chips, quick reply suggestion pills, feedback reactions (thumbs up/down), copy to clipboard, and live harmonic typing indicator.",
+            RazorSnippet = "<TwChatStudio Title=\"AI Enterprise Studio\" Messages=\"_messages\" Suggestions=\"_prompts\" OnMessageSent=\"HandleSend\" OnRegenerate=\"HandleRegen\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string", "\"AI Enterprise Studio\"", "Chat studio title."),
+                new ComponentParameterDoc("ModelBadge", "string", "\".NET 11 WASM\"", "Model identification badge."),
+                new ComponentParameterDoc("Messages", "List<ChatMessage>", "new()", "Chronological chat message stream."),
+                new ComponentParameterDoc("Suggestions", "List<string>", "new()", "Quick reply suggestion chips above composer."),
+                new ComponentParameterDoc("IsTyping", "bool", "false", "Show animated harmonic typing indicator."),
+                new ComponentParameterDoc("TypingStatusText", "string", "\"AI is thinking...\"", "Typing indicator status message."),
+                new ComponentParameterDoc("OnMessageSent", "EventCallback<ChatMessage>", "-", "Invoked when user sends prompt with staged attachments.")
+            }
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

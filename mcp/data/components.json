@@ -5532,5 +5532,137 @@
         "description": "Show collapse/expand toggle button."
       }
     ]
+  },
+  {
+    "name": "TwPopover",
+    "category": "Overlays & Modals",
+    "description": "Anchored contextual floating popover with arrow pointer, 8-way placement, click or hover triggers, keyboard Escape dismiss, and optional header/footer slots.",
+    "snippet": "<TwPopover Title=\"Filter Settings\" Placement=\"TwPopoverPlacement.Bottom\"><AnchorContent><button class=\"btn\">Filter</button></AnchorContent><ChildContent><p>Options...</p></ChildContent></TwPopover>",
+    "parameters": [
+      {
+        "name": "Title",
+        "type": "string?",
+        "default": "null",
+        "description": "Optional header title text."
+      },
+      {
+        "name": "Placement",
+        "type": "TwPopoverPlacement",
+        "default": "TwPopoverPlacement.Bottom",
+        "description": "Placement relative to anchor."
+      },
+      {
+        "name": "Trigger",
+        "type": "TwPopoverTrigger",
+        "default": "TwPopoverTrigger.Click",
+        "description": "Activation trigger mode."
+      },
+      {
+        "name": "ShowArrow",
+        "type": "bool",
+        "default": "true",
+        "description": "Render pointer arrow pointing to anchor."
+      },
+      {
+        "name": "Width",
+        "type": "string",
+        "default": "\"w-72\"",
+        "description": "Flyout container width utility."
+      },
+      {
+        "name": "IsOpen",
+        "type": "bool",
+        "default": "false",
+        "description": "Two-way bindable open state."
+      }
+    ]
+  },
+  {
+    "name": "TwSnackbar",
+    "category": "Feedback & Alerts",
+    "description": "Actionable bottom floating notification snackbar with action trigger callback, animated progress auto-dismiss countdown bar, pause on hover, and semantic color variants.",
+    "snippet": "<TwSnackbar Message=\"Invoice archived\" ActionText=\"Undo\" Variant=\"SemanticVariant.Info\" @bind-IsOpen=\"_showSnack\" OnAction=\"HandleUndo\" />",
+    "parameters": [
+      {
+        "name": "Message",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Notification message."
+      },
+      {
+        "name": "ActionText",
+        "type": "string?",
+        "default": "null",
+        "description": "Optional action button text."
+      },
+      {
+        "name": "DurationMs",
+        "type": "int",
+        "default": "4000",
+        "description": "Auto-dismiss duration in ms."
+      },
+      {
+        "name": "ShowProgress",
+        "type": "bool",
+        "default": "true",
+        "description": "Render animated countdown progress bar."
+      },
+      {
+        "name": "Variant",
+        "type": "SemanticVariant",
+        "default": "SemanticVariant.Default",
+        "description": "Color scheme."
+      },
+      {
+        "name": "Position",
+        "type": "TwSnackbarPosition",
+        "default": "TwSnackbarPosition.BottomCenter",
+        "description": "Viewport anchoring position."
+      }
+    ]
+  },
+  {
+    "name": "TwChatStudio",
+    "category": "AI & Agentic Workflows",
+    "description": "Full-featured modern conversational AI chat studio with multiline growing composer, staged file attachment preview chips, quick reply suggestion pills, feedback reactions (thumbs up/down), copy to clipboard, and live harmonic typing indicator.",
+    "snippet": "<TwChatStudio Title=\"AI Enterprise Studio\" Messages=\"_messages\" Suggestions=\"_prompts\" OnMessageSent=\"HandleSend\" OnRegenerate=\"HandleRegen\" />",
+    "parameters": [
+      {
+        "name": "Title",
+        "type": "string",
+        "default": "\"AI Enterprise Studio\"",
+        "description": "Chat studio title."
+      },
+      {
+        "name": "ModelBadge",
+        "type": "string",
+        "default": "\".NET 11 WASM\"",
+        "description": "Model identification badge."
+      },
+      {
+        "name": "Messages",
+        "type": "List<ChatMessage>",
+        "default": "new()",
+        "description": "Chronological chat message stream."
+      },
+      {
+        "name": "Suggestions",
+        "type": "List<string>",
+        "default": "new()",
+        "description": "Quick reply suggestion chips above composer."
+      },
+      {
+        "name": "IsTyping",
+        "type": "bool",
+        "default": "false",
+        "description": "Show animated harmonic typing indicator."
+      },
+      {
+        "name": "TypingStatusText",
+        "type": "string",
+        "default": "\"AI is thinking...\"",
+        "description": "Typing indicator status message."
+      }
+    ]
   }
 ]

@@ -3383,4 +3383,97 @@ Drop-in Smart Component button that triggers instant client-side OCR for paper c
 
 ---
 
+### `TwChatStudio`
+
+**Location:** [`Components/UI/TwChatStudio.razor`](../Components/UI/TwChatStudio.razor)
+
+Full-featured modern conversational AI chat studio featuring auto-growing multiline composer, staged file attachment preview chips, quick reply suggestion pills, feedback reactions (thumbs up/down), copy to clipboard, and live harmonic typing status.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"AI Enterprise Studio"` | Chat studio header title. |
+| `ModelBadge` | `string` | `".NET 11 WASM"` | Model identification badge text. |
+| `StatusSubtitle` | `string` | `"Active • Ready for enterprise workloads"` | Subtitle status text. |
+| `Messages` | `List<ChatMessage>` | `new()` | Chronological chat message stream. |
+| `Suggestions` | `List<string>` | `new()` | Quick reply suggestion chips above composer. |
+| `IsTyping` | `bool` | `false` | Whether the harmonic typing indicator is active. |
+| `TypingStatusText` | `string` | `"AI is thinking..."` | Status message displayed next to typing dots. |
+| `OnMessageSent` | `EventCallback<ChatMessage>` | `-` | Fired when a prompt is sent with staged attachments. |
+| `OnRegenerate` | `EventCallback<ChatMessage>` | `-` | Fired when prompt regeneration is requested. |
+
+#### Razor Usage Example
+
+```razor
+<TwChatStudio Title="Copilot Workspace"
+              ModelBadge=".NET 11 WASM"
+              Messages="_messages"
+              Suggestions="_prompts"
+              IsTyping="_isThinking"
+              OnMessageSent="HandleSend"
+              OnRegenerate="HandleRegen" />
+```
+
+---
+
+### `TwPopover`
+
+**Location:** [`Components/UI/TwPopover.razor`](../Components/UI/TwPopover.razor)
+
+Anchored contextual floating popover with directional pointer arrow, 8-way placement (`Top`, `Bottom`, `Left`, `Right`, `TopStart`, `TopEnd`, etc.), click or hover triggers, keyboard Escape dismiss, and optional header/footer slots.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string?` | `null` | Optional header title text. |
+| `Placement` | `TwPopoverPlacement` | `TwPopoverPlacement.Bottom` | Placement relative to anchor. |
+| `Trigger` | `TwPopoverTrigger` | `TwPopoverTrigger.Click` | Activation trigger mode (Click, Hover, Manual). |
+| `ShowArrow` | `bool` | `true` | Render pointer arrow pointing to anchor. |
+| `Width` | `string` | `"w-72"` | Flyout container width utility. |
+| `IsOpen` | `bool` | `false` | Two-way bindable open state (`@bind-IsOpen`). |
+
+#### Razor Usage Example
+
+```razor
+<TwPopover Title="Display Filters" Placement="TwPopoverPlacement.Bottom" @bind-IsOpen="_isOpen">
+    <AnchorContent>
+        <button class="btn">Configure Metrics</button>
+    </AnchorContent>
+    <ChildContent>
+        <p>Telemetry settings...</p>
+    </ChildContent>
+</TwPopover>
+```
+
+---
+
+### `TwSnackbar`
+
+**Location:** [`Components/UI/TwSnackbar.razor`](../Components/UI/TwSnackbar.razor)
+
+Actionable bottom floating notification snackbar with action trigger callback, animated progress auto-dismiss countdown bar, pause on hover, and semantic color variants.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Message` | `string` | `""` | Notification message text. |
+| `ActionText` | `string?` | `null` | Optional action button label (e.g. Undo, Retry). |
+| `DurationMs` | `int` | `4000` | Auto-dismiss duration in ms (0 for persistent). |
+| `ShowProgress` | `bool` | `true` | Whether to render the animated countdown progress bar. |
+| `Variant` | `SemanticVariant` | `SemanticVariant.Default` | Color theme (Default, Success, Warning, Danger, Info). |
+| `Position` | `TwSnackbarPosition` | `TwSnackbarPosition.BottomCenter` | Viewport anchoring position. |
+| `OnAction` | `EventCallback` | `-` | Fired when the action button is clicked. |
+
+#### Razor Usage Example
+
+```razor
+<TwSnackbar Message="File moved to trash" ActionText="Undo" Variant="SemanticVariant.Default" @bind-IsOpen="_showSnack" OnAction="HandleUndo" />
+```
+
+---
+
+
 
