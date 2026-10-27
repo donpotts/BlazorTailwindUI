@@ -3554,6 +3554,82 @@ On-screen virtual keyboard for kiosks, touch displays, POS terminals, and anti-k
 
 ---
 
+### `TwFileManager`
+
+**Location:** [`Components/UI/TwFileManager.razor`](../Components/UI/TwFileManager.razor)
+
+Enterprise cloud and asset file manager with folder tree navigation, breadcrumbs, grid/table view modes, search, storage quota meter, and upload/delete actions.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `List<FileItem>` | `new()` | Files and folders collection. |
+| `CurrentPath` | `string` | `"/"` | Current active directory path (`@bind-CurrentPath`). |
+| `OnFileSelected` | `EventCallback<FileItem>` | `-` | Fired when a file or folder is selected. |
+| `OnFileOpened` | `EventCallback<FileItem>` | `-` | Fired when a file or folder is double-clicked. |
+| `OnUpload` | `EventCallback` | `-` | Fired when the user triggers an upload action. |
+
+#### Razor Usage Example
+
+```razor
+<TwFileManager Items="_files" CurrentPath="/" OnFileSelected="HandleFileSelected" />
+```
+
+---
+
+### `TwWordCloud`
+
+**Location:** [`Components/UI/TwWordCloud.razor`](../Components/UI/TwWordCloud.razor)
+
+Pure SVG weighted term and keyword frequency cloud with Archimedean spiral positioning, harmonic color palettes, hover scaling, and click callbacks.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Words` | `IReadOnlyList<WordCloudItem>` | `[]` | Weighted words collection with `Text` and `Weight`. |
+| `Title` | `string?` | `"Keyword Density & Term Frequency"` | Chart header title text. |
+| `Width` | `int` | `640` | SVG viewBox width. |
+| `Height` | `int` | `320` | SVG viewBox height. |
+| `MinFontSize` | `double` | `12` | Smallest font size in points. |
+| `MaxFontSize` | `double` | `42` | Largest font size in points. |
+| `OnWordClick` | `EventCallback<WordCloudItem>` | `-` | Fired when the user clicks any keyword. |
+
+#### Razor Usage Example
+
+```razor
+<TwWordCloud Words="_keywords" Title="Keyword Density" OnWordClick="HandleWordClick" />
+```
+
+---
+
+### `TwSankeyChart`
+
+**Location:** [`Components/UI/TwSankeyChart.razor`](../Components/UI/TwSankeyChart.razor)
+
+Pure SVG flow and migration diagram rendering source/target nodes and cubic bezier ribbons with thickness proportional to flow volume.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Nodes` | `IReadOnlyList<SankeyNode>` | `[]` | Nodes collection with `Id`, `Label`, and `Color`. |
+| `Links` | `IReadOnlyList<SankeyLink>` | `[]` | Ribbon links collection with `SourceId`, `TargetId`, and `Value`. |
+| `Title` | `string?` | `"Enterprise Pipeline & Resource Flow"` | Chart header title text. |
+| `Width` | `int` | `700` | SVG viewBox width. |
+| `Height` | `int` | `360` | SVG viewBox height. |
+| `OnNodeClick` | `EventCallback<SankeyNode>` | `-` | Callback invoked when a node is clicked. |
+
+#### Razor Usage Example
+
+```razor
+<TwSankeyChart Nodes="_nodes" Links="_links" Title="Workload Flow" OnNodeClick="HandleNodeClick" />
+```
+
+---
+
+
 
 
 

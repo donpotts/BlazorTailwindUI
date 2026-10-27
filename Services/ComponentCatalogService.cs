@@ -2608,6 +2608,54 @@ public class ComponentCatalogService
                 new ComponentParameterDoc("OnSubmit", "EventCallback", "-", "Callback invoked when Enter / Submit key is pressed.")
             }
         },
+        new ComponentDocItem
+        {
+            Name = "TwWordCloud",
+            Category = "Visualizations & Gauges",
+            Description = "Pure SVG weighted term and keyword frequency cloud with Archimedean spiral positioning, harmonic color palettes, hover scaling, and click callbacks.",
+            RazorSnippet = "<TwWordCloud Words=\"_keywords\" Title=\"Sentiment Keywords\" OnWordClick=\"HandleWordClick\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Words", "IReadOnlyList<WordCloudItem>", "[]", "Weighted words collection with Text and Weight."),
+                new ComponentParameterDoc("Title", "string?", "\"Keyword Density & Term Frequency\"", "Chart header title."),
+                new ComponentParameterDoc("Width", "int", "640", "SVG viewBox width."),
+                new ComponentParameterDoc("Height", "int", "320", "SVG viewBox height."),
+                new ComponentParameterDoc("MinFontSize", "double", "12", "Smallest font size in points."),
+                new ComponentParameterDoc("MaxFontSize", "double", "42", "Largest font size in points."),
+                new ComponentParameterDoc("OnWordClick", "EventCallback<WordCloudItem>", "-", "Fired when user clicks any keyword.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwSankeyChart",
+            Category = "Visualizations & Gauges",
+            Description = "Pure SVG flow and migration diagram rendering source/target nodes and cubic bezier ribbons with thickness proportional to flow volume.",
+            RazorSnippet = "<TwSankeyChart Nodes=\"_nodes\" Links=\"_links\" Title=\"Pipeline Throughput Flow\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Nodes", "IReadOnlyList<SankeyNode>", "[]", "Nodes collection with Id, Label, and Color."),
+                new ComponentParameterDoc("Links", "IReadOnlyList<SankeyLink>", "[]", "Ribbon links collection with SourceId, TargetId, and Value."),
+                new ComponentParameterDoc("Title", "string?", "\"Enterprise Pipeline & Resource Flow\"", "Chart header title."),
+                new ComponentParameterDoc("Width", "int", "700", "SVG viewBox width."),
+                new ComponentParameterDoc("Height", "int", "360", "SVG viewBox height."),
+                new ComponentParameterDoc("OnNodeClick", "EventCallback<SankeyNode>", "-", "Callback invoked when a node is clicked.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFileManager",
+            Category = "Cards, Grids & Bento Systems",
+            Description = "Enterprise cloud and asset file manager with folder tree navigation, breadcrumbs, grid/table view modes, search, storage quota meter, and upload/delete actions.",
+            RazorSnippet = "<TwFileManager Items=\"_files\" CurrentPath=\"/\" OnFileSelected=\"HandleFileSelected\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "List<FileItem>", "new()", "Files and folders collection."),
+                new ComponentParameterDoc("CurrentPath", "string", "\"/\"", "Current active directory path."),
+                new ComponentParameterDoc("OnFileSelected", "EventCallback<FileItem>", "-", "Fired when a file or folder is selected."),
+                new ComponentParameterDoc("OnFileOpened", "EventCallback<FileItem>", "-", "Fired when a file or folder is double-clicked."),
+                new ComponentParameterDoc("OnUpload", "EventCallback", "-", "Fired when user clicks Upload button.")
+            }
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

@@ -5802,5 +5802,137 @@
         "description": "Callback invoked when Enter / Submit key is pressed."
       }
     ]
+  },
+  {
+    "name": "TwWordCloud",
+    "category": "Visualizations & Gauges",
+    "description": "Pure SVG weighted term and keyword frequency cloud with Archimedean spiral positioning, harmonic color palettes, hover scaling, and click callbacks.",
+    "snippet": "<TwWordCloud Words=\"_keywords\" Title=\"Sentiment Keywords\" OnWordClick=\"HandleWordClick\" />",
+    "parameters": [
+      {
+        "name": "Words",
+        "type": "IReadOnlyList<WordCloudItem>",
+        "default": "[]",
+        "description": "Weighted words collection."
+      },
+      {
+        "name": "Title",
+        "type": "string?",
+        "default": "\"Keyword Density & Term Frequency\"",
+        "description": "Chart header title."
+      },
+      {
+        "name": "Width",
+        "type": "int",
+        "default": "640",
+        "description": "SVG viewBox width."
+      },
+      {
+        "name": "Height",
+        "type": "int",
+        "default": "320",
+        "description": "SVG viewBox height."
+      },
+      {
+        "name": "MinFontSize",
+        "type": "double",
+        "default": "12",
+        "description": "Smallest font size in points."
+      },
+      {
+        "name": "MaxFontSize",
+        "type": "double",
+        "default": "42",
+        "description": "Largest font size in points."
+      },
+      {
+        "name": "OnWordClick",
+        "type": "EventCallback<WordCloudItem>",
+        "default": "-",
+        "description": "Fired when user clicks any keyword."
+      }
+    ]
+  },
+  {
+    "name": "TwSankeyChart",
+    "category": "Visualizations & Gauges",
+    "description": "Pure SVG flow and migration diagram rendering source/target nodes and cubic bezier ribbons with thickness proportional to flow volume.",
+    "snippet": "<TwSankeyChart Nodes=\"_nodes\" Links=\"_links\" Title=\"Pipeline Throughput Flow\" />",
+    "parameters": [
+      {
+        "name": "Nodes",
+        "type": "IReadOnlyList<SankeyNode>",
+        "default": "[]",
+        "description": "Nodes collection."
+      },
+      {
+        "name": "Links",
+        "type": "IReadOnlyList<SankeyLink>",
+        "default": "[]",
+        "description": "Ribbon links collection."
+      },
+      {
+        "name": "Title",
+        "type": "string?",
+        "default": "\"Enterprise Pipeline & Resource Flow\"",
+        "description": "Chart header title."
+      },
+      {
+        "name": "Width",
+        "type": "int",
+        "default": "700",
+        "description": "SVG viewBox width."
+      },
+      {
+        "name": "Height",
+        "type": "int",
+        "default": "360",
+        "description": "SVG viewBox height."
+      },
+      {
+        "name": "OnNodeClick",
+        "type": "EventCallback<SankeyNode>",
+        "default": "-",
+        "description": "Callback when node is clicked."
+      }
+    ]
+  },
+  {
+    "name": "TwFileManager",
+    "category": "Cards, Grids & Bento Systems",
+    "description": "Enterprise cloud and asset file manager with folder tree navigation, breadcrumbs, grid/table view modes, search, storage quota meter, and upload/delete actions.",
+    "snippet": "<TwFileManager Items=\"_files\" CurrentPath=\"/\" OnFileSelected=\"HandleFileSelected\" />",
+    "parameters": [
+      {
+        "name": "Items",
+        "type": "List<FileItem>",
+        "default": "new()",
+        "description": "Files and folders collection."
+      },
+      {
+        "name": "CurrentPath",
+        "type": "string",
+        "default": "\"/\"",
+        "description": "Current active directory path."
+      },
+      {
+        "name": "OnFileSelected",
+        "type": "EventCallback<FileItem>",
+        "default": "-",
+        "description": "Fired when file/folder is selected."
+      },
+      {
+        "name": "OnFileOpened",
+        "type": "EventCallback<FileItem>",
+        "default": "-",
+        "description": "Fired when file/folder is opened."
+      },
+      {
+        "name": "OnUpload",
+        "type": "EventCallback",
+        "default": "-",
+        "description": "Fired when upload is requested."
+      }
+    ]
   }
 ]

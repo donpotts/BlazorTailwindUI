@@ -507,6 +507,23 @@ Clean-room engineered enterprise dual-list transfer picklists, precision duratio
 
 ---
 
+### Pillar 22: Storage Manager, Word Cloud & Sankey Flow Suite (Shipped v1.3.4 ✅)
+
+Clean-room engineered enterprise cloud file asset managers, pure SVG keyword density clouds, and multi-stage throughput Sankey flow diagrams inspired by high-end analytics specifications:
+- **`TwFileManager`**:
+  - Enterprise cloud file explorer with left folder navigation tree and dynamic breadcrumb bar.
+  - Dual view modes: visual Grid cards vs sortable List/Table view with file sizes, types, and modification timestamps.
+  - Search filter bar, cloud storage quota utilization meter, and file action callbacks (upload, download, delete).
+- **`TwWordCloud`**:
+  - Pure SVG keyword density and term frequency cloud powered by an Archimedean spiral placement algorithm.
+  - Dynamic weight-based font size interpolation (`MinFontSize` to `MaxFontSize`) with zero third-party script dependencies.
+  - Harmonic palette distribution, hover scale transformations, and interactive selection callbacks.
+- **`TwSankeyChart`**:
+  - Multi-stage pipeline and resource flow diagram with source/target column layouts and cubic bezier gradient ribbons.
+  - Proportional ribbon thickness scaled to flow volume with interactive node click and ribbon inspection.
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid

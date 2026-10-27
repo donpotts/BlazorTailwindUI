@@ -1,0 +1,116 @@
+@namespace BlazorTailwindUI.Components.UI
+
+<div class="flex flex-col gap-2 w-full @Class" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">@Title</h4>
+            @if (_selectedWord != null)
+            {
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 font-bold">
+                    @_selectedWord.Text (@_selectedWord.Weight.ToString("F0") hits)
+                </span>
+            }
+        </div>
+    }
+
+    <div class="relative w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm overflow-hidden flex items-center justify-center">
+        <svg viewBox="0 0 @Width @Height" class="w-full h-auto max-h-[360px] select-none" role="img" aria-label="Word Cloud Visualization">
+            @foreach (var entry in Placements)
+            {
+                var item = entry.Item;
+                var isSelected = _selectedWord == item;
+                <g class="cursor-pointer transition-all duration-200 group"
+                   @onclick="() => HandleWordClick(item)">
+                    <text x="@entry.X"
+                          y="@entry.Y"
+                          font-size="@entry.FontSize"
+                          font-weight="bold"
+                          fill="@entry.Color"
+                          text-anchor="middle"
+                          dominant-baseline="middle"
+                          class="transition-all duration-200 group-hover:scale-110 active:scale-95 transform origin-center @(isSelected ? "drop-shadow-md font-extrabold opacity-100" : "opacity-85 group-hover:opacity-100")">
+                        @item.Text
+                    </text>
+                </g>
+            }
+        </svg>
+
+        @if (Words.Count == 0)
+        {
+            <div class="absolute inset-0 flex items-center justify-center text-xs text-slate-400">
+                No words available
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    public sealed record WordCloudItem(string Text, double Weight, string? Category = null);
+
+    private sealed record WordPlacement(WordCloudItem Item, double X, double Y, double FontSize, string Color);
+
+    [Parameter] public IReadOnlyList<WordCloudItem> Words { get; set; } = Array.Empty<WordCloudItem>();
+    [Parameter] public string? Title { get; set; } = "Keyword Density & Term Frequency";
+    [Parameter] public int Width { get; set; } = 640;
+    [Parameter] public int Height { get; set; } = 320;
+    [Parameter] public double MinFontSize { get; set; } = 12;
+    [Parameter] public double MaxFontSize { get; set; } = 42;
+    [Parameter] public EventCallback<WordCloudItem> OnWordClick { get; set; }
+    [Parameter] public string Class { get; set; } = "";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private WordCloudItem? _selectedWord;
+
+    private static readonly string[] Palette =
+    {
+        "#6366f1", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#14b8a6", "#3b82f6", "#84cc16"
+    };
+
+    private IReadOnlyList<WordPlacement> Placements
+    {
+        get
+        {
+            if (Words.Count == 0) return Array.Empty<WordPlacement>();
+
+            var minWeight = Words.Min(w => w.Weight);
+            var maxWeight = Words.Max(w => w.Weight);
+            var weightRange = Math.Max(1.0, maxWeight - minWeight);
+
+            var list = new List<WordPlacement>();
+            var sorted = Words.OrderByDescending(w => w.Weight).ToList();
+
+            // Archimedean spiral placement distribution
+            double centerX = Width / 2.0;
+            double centerY = Height / 2.0;
+
+            for (int i = 0; i < sorted.Count; i++)
+            {
+                var word = sorted[i];
+                var normalized = (word.Weight - minWeight) / weightRange;
+                var fontSize = MinFontSize + (normalized * (MaxFontSize - MinFontSize));
+
+                // Position on spiral
+                double angle = i * 2.4;
+                double radius = (i == 0) ? 0 : 25 + (i * 12.0);
+                
+                // Keep within bounds
+                double x = Math.Clamp(centerX + (radius * Math.Cos(angle) * 1.6), 50.0, Width - 50.0);
+                double y = Math.Clamp(centerY + (radius * Math.Sin(angle)), 30.0, Height - 30.0);
+
+                var color = Palette[i % Palette.Length];
+                list.Add(new WordPlacement(word, x, y, fontSize, color));
+            }
+
+            return list;
+        }
+    }
+
+    private async Task HandleWordClick(WordCloudItem item)
+    {
+        _selectedWord = item;
+        await OnWordClick.InvokeAsync(item);
+    }
+}

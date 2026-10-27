@@ -1656,6 +1656,71 @@
                             </div>
                         </TwCard>
 
+                        <!-- Enterprise Storage Manager & Advanced Flow Visualizations -->
+                        <TwCard Title="Enterprise Storage Manager & Advanced Flow Visualizations" Subtitle="Cloud Asset File Manager, Pure SVG Word Cloud, and Multi-Stage Sankey Pipeline Flow">
+                            <div class="space-y-8">
+                                <!-- 1. TwFileManager -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>🗂️</span> 1. Enterprise Cloud File Manager (TwFileManager)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                                            Folder Tree • Breadcrumbs • Grid/List Views • Quota Meter
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Enterprise file system explorer featuring folder sidebar tree, breadcrumb hierarchy, grid vs list view toggling, real-time file search, and storage metrics.
+                                    </p>
+                                    <TwFileManager Items="_demoFileManagerItems"
+                                                   @bind-CurrentPath="_demoFileCurrentPath"
+                                                   OnFileSelected='file => Toast.Show("File Selected", $"{file.Name} ({file.SizeBytes / 1024} KB)", SemanticVariant.Info)'
+                                                   OnFileOpened='file => Toast.Show("File Opened", $"Viewing {file.Name}", SemanticVariant.Success)'
+                                                   OnUpload='() => Toast.Show("Upload Processed", "SHA-256 integrity verified", SemanticVariant.Success)' />
+                                </div>
+
+                                <!-- 2. TwWordCloud & TwSankeyChart -->
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+                                    <!-- TwWordCloud -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>☁️</span> 2. Pure SVG Word Cloud (TwWordCloud)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                                                Zero-Dependency • Spiral Packing
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            High-performance SVG weighted tag and term density cloud with dynamic font scaling, harmonic coloring, and hover expansion.
+                                        </p>
+                                        <TwWordCloud Words="_demoWordCloudItems"
+                                                     Title="Architecture & Technology Keywords"
+                                                     OnWordClick='word => Toast.Show("Keyword Selected", $"{word.Text} (Weight: {word.Weight})", SemanticVariant.Info)' />
+                                    </div>
+
+                                    <!-- TwSankeyChart -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>🌊</span> 3. Sankey Flow Diagram (TwSankeyChart)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                                Proportional Ribbons • Gradient Curves
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            Multi-stage resource and throughput flow diagram with bezier gradient ribbons and interactive node metrics.
+                                        </p>
+                                        <TwSankeyChart Nodes="_demoSankeyNodes"
+                                                       Links="_demoSankeyLinks"
+                                                       Title="Enterprise Cloud Workload Migration Flow"
+                                                       OnNodeClick='node => Toast.Show("Cluster Node Selected", $"{node.Label}", SemanticVariant.Success)' />
+                                    </div>
+                                </div>
+                            </div>
+                        </TwCard>
+
                         <!-- Buttons & Badges -->
                         <TwCard Title="Buttons & Interactive Elements" Subtitle="Mobile-first tap states, loading spinners, full-width options and semantic variants">
                             <div class="space-y-6">
@@ -3931,6 +3996,60 @@
     private int _highlightActiveIndex = 0;
 
     // Conversational AI & Floating Context Demo State
+
+
+    // Enterprise File Manager & Visualizations State
+    private string _demoFileCurrentPath = "/";
+    private readonly List<TwFileManager.FileItem> _demoFileManagerItems = new()
+    {
+        new(Guid.NewGuid().ToString("N"), "Q3-Financial-Audit.pdf", "/financials", 2457600, DateTime.Now.AddDays(-2), false, "application/pdf", ".pdf"),
+        new(Guid.NewGuid().ToString("N"), "Revenue-RunRate.xlsx", "/financials", 845200, DateTime.Now.AddDays(-5), false, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"),
+        new(Guid.NewGuid().ToString("N"), "SOC2-Type2-Attestation.pdf", "/compliance", 3145728, DateTime.Now.AddDays(-14), false, "application/pdf", ".pdf"),
+        new(Guid.NewGuid().ToString("N"), "Data-Processing-Agreement.docx", "/compliance", 450000, DateTime.Now.AddDays(-20), false, "application/docx", ".docx"),
+        new(Guid.NewGuid().ToString("N"), "Postgres-Snapshot-Latest.tar.gz", "/backups", 145000000, DateTime.Now.AddHours(-6), false, "application/gzip", ".tar.gz"),
+        new(Guid.NewGuid().ToString("N"), "Telemetry-Export-2026.parquet", "/", 8450000, DateTime.Now.AddHours(-2), false, "application/octet-stream", ".parquet"),
+        new(Guid.NewGuid().ToString("N"), "Cluster-Architecture.png", "/", 1250000, DateTime.Now.AddDays(-1), false, "image/png", ".png"),
+        new(Guid.NewGuid().ToString("N"), "Kubernetes-Config.json", "/", 15200, DateTime.Now.AddHours(-12), false, "application/json", ".json"),
+    };
+
+    private readonly List<TwWordCloud.WordCloudItem> _demoWordCloudItems = new()
+    {
+        new("Blazor WASM", 98),
+        new(".NET 11", 94),
+        new("Tailwind CSS", 88),
+        new("WebAssembly", 84),
+        new("NativeAOT", 78),
+        new("Zero-Latency", 72),
+        new("Enterprise UI", 68),
+        new("High-Throughput", 62),
+        new("SIMD SVE2", 58),
+        new("ML-KEM Vault", 54),
+        new("Post-Quantum", 50),
+        new("Full-Stack C#", 46),
+        new("OpenTelemetry", 42),
+        new("Playwright E2E", 38),
+        new("Archimedean Spiral", 34)
+    };
+
+    private readonly List<TwSankeyChart.SankeyNode> _demoSankeyNodes = new()
+    {
+        new("edge_ingress", "Edge Ingress", "#6366f1"),
+        new("api_gateway", "API Gateway", "#3b82f6"),
+        new("batch_pipeline", "Batch Pipeline", "#8b5cf6"),
+        new("hot_cache", "Memory Cache", "#10b981"),
+        new("analytics_db", "Analytics Lake", "#f59e0b"),
+        new("cold_storage", "Cold Vault", "#06b6d4")
+    };
+
+    private readonly List<TwSankeyChart.SankeyLink> _demoSankeyLinks = new()
+    {
+        new("edge_ingress", "hot_cache", 54000),
+        new("edge_ingress", "analytics_db", 32000),
+        new("api_gateway", "hot_cache", 41000),
+        new("api_gateway", "analytics_db", 18000),
+        new("batch_pipeline", "analytics_db", 29000),
+        new("batch_pipeline", "cold_storage", 45000)
+    };
 
     // Enterprise PickList, Duration Picker & Virtual Keyboard Demo State
     private readonly List<string> _demoAvailableRoles = new()
