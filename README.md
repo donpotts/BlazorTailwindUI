@@ -85,12 +85,12 @@
     - **`TwWordCloud`**: Pure SVG weighted term frequency cloud with Archimedean spiral positioning, hover scaling, and keyword architecture intelligence cards.
     - **`TwSankeyChart`**: Pure SVG pipeline throughput flow diagram with bezier gradient ribbons, node metrics, and interactive +25% traffic surge simulations.
 16. **Enterprise Desktop Installers (Windows MSI & EXE)**:
-    - Native desktop builds packaged with Tauri v2: WiX MSI (`BlazorTailwindUI-1.3.5-x64-en-US.msi`, 84.2 MB) and NSIS EXE (`BlazorTailwindUI-1.3.5-x64-Setup.exe`, 83.5 MB) in `release-packages/`.
+    - Native desktop builds packaged with Tauri v2: WiX MSI (`BlazorTailwindUI-1.4.0-x64-en-US.msi`, 98.2 MB) and NSIS EXE (`BlazorTailwindUI-1.4.0-x64-Setup.exe`, 97.4 MB) in `release-packages/`.
 17. **Demo Suite Standalone Installer & Client-Server Port Coordinator**:
     - **`Install-BlazorTailwindDemos.cmd` & `install-demo-suite.ps1`**: 1-click Windows installer establishing desktop shortcuts, start menu entries, and clean uninstallation in `%LOCALAPPDATA%\BlazorTailwindUI\Demos`.
     - **Dynamic Port Coordinator (`launch-demos.ps1`, `launch-demos.cmd`)**: Scans ports 5128–5228, eliminates TCP collisions, synchronizes `appsettings.json`, and guarantees API 200 OK pre-flight health probe before launching the UI.
     - **MIME-Compliant Demo Server (`demo-server.py`)**: Standalone WASM/CLR server with SPA fallback routing and `/api/health` diagnostics.
-    - **`BlazorTailwindUI-DemoSuite-v1.3.5-Setup.zip`**: Complete standalone offline package ready for immediate deployment.
+    - **`BlazorTailwindUI-DemoSuite-v1.4.0-Setup.zip`**: Complete standalone offline package ready for immediate deployment.
 18. **PDF Form Filler, Contract Signer, Form Maker & Flattening Engine (`TwPdfFormFiller`)**:
     - **PDF Form Flattening & Stamping (Merged Content Stream)**: Eliminates interactive form widgets and permanently burns-in text inputs, checkboxes, initials, and cursive signatures directly into immutable vector typography, purging AcroForm/XFA dictionaries for ISO 32000-1 / PDF-A archival compliance.
     - **Zero-Dependency Standard PDF 1.4 Generation (`PdfFlattenStreamGenerator`)**: Pure C# stream generator creating compliant, downloadable `.pdf` binaries on-the-fly and supporting native browser printing (`window.print()`) with clean page break rules.
@@ -107,10 +107,36 @@
     - **EF Core 11 & Vectors**: Query nested JSON documents and execute high-dimensional cosine vector similarity retrieval without external vector DBs.
     - **Native AOT & Micro-Benchmarks**: In-browser hardware micro-benchmark measuring execution ops/sec and GC collections.
     - **1-Click Installers**: Pre-flight port coordinator setup for Windows desktop and server environments.
+20. **Mobile-First Persistent & Draggable CRM Dashboard Studio (`TwDashboard`)**:
+    - **12-Column Responsive GridStack Engine**: Mobile-first adaptive dashboard architecture inspired by enterprise CRM layouts, with zero external charting library licensing constraints.
+    - **Persistent State (`localStorage`)**: Real-time layout serialization under configurable `StorageKey`, preserving custom widget order, column widths (2–12), heights, and card metrics across browser reloads.
+    - **Mobile-First Drag Handles (`⠿ .move-handle`)**: Dedicated 6-dot touch-friendly drag handles with `touch-action: none` and `cursor: grab`, enabling seamless mobile finger dragging alongside 1-tap `⬆️` and `⬇️` quick-reorder buttons.
+    - **1-Click Interactive Layout Operations**:
+      - `➕ Add Card`: Template catalog modal with instant insertion of Sales Over Time, Lead Sources, Pipeline Value, Revenue KPIs, and Activity feeds.
+      - `🔒 Lock / 🔓 Unlock Layout`: Immediate freeze to switch between layout customization mode and clean mobile touch-scrolling.
+      - `📦 Compact Layout`: Instant gravity-compaction removing gaps between active widgets.
+      - `↔️ Toggle Full Width`: Instant single-card expansion between half-width (6-col) and full-width (12-col).
+      - `⚙️ Card Properties Customizer`: In-place editing of card title, column width, row height, and color accent glow (`indigo`, `emerald`, `amber`, `rose`, `cyan`, `purple`).
+      - `📋 JSON Layout Studio`: Live JSON export and import for seamless backup, templating, and enterprise configuration portability.
+    - **Built-in Pure SVG Visualizations & CRM Widgets**:
+      - Smooth SVG Linear Gradient Area Line Charts with trend sparklines.
+      - Pure SVG Doughnut Charts with `stroke-dasharray` segmented arcs and interactive legends.
+      - Responsive Funnel Stage Bar Charts with dynamic scale labeling.
+      - Enterprise Opportunity Tables with stage badges and win-probability meters.
+      - Real-Time Activity Feed with timestamped audit logs.
+      - Executive Scratchpad with real-time text observation note taking.
 
 ---
 
 ## 📸 Visual Showcase
+
+<p align="center">
+  <img src="docs/images/suite-tw-dashboard.png" alt="Mobile-First Draggable & Resizable CRM Dashboard Studio (TwDashboard)" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
+</p>
+
+| Mobile-First Draggable & Resizable CRM Dashboard (`TwDashboard`) | Mobile-First Touch Drag Handles & 1-Tap Positioning |
+|:---:|:---:|
+| <img src="docs/images/suite-tw-dashboard.png" width="450" /> | <img src="docs/images/suite-tw-dashboard-mobile.png" width="450" /> |
 
 <p align="center">
   <img src="docs/images/modern-flare-2027-verified.png" alt="2027 Next-Gen Spatial & Anticipatory UI Laboratory" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
@@ -510,13 +536,13 @@ Blazor Tailwind UI ships with native desktop packaging powered by **TAUI (Tauri 
 
 | Operating System | Package Type | Artifact Name | Description |
 |---|---|---|---|
-| **Windows** | **NSIS Setup (.exe)** | `BlazorTailwindUI-1.3.5-x64-Setup.exe` | Standard Windows executable wizard installer (~83 MB) |
-| **Windows** | **Windows Installer (.msi)** | `BlazorTailwindUI-1.3.5-x64-en-US.msi` | Enterprise WiX MSI package for silent / GPO rollout (~84 MB) |
-| **Windows / All** | **Demo Suite Installer (.zip)** | `BlazorTailwindUI-DemoSuite-v1.3.5-Setup.zip` | 1-click Windows demo installer with pre-flight port coordinator (~86 MB) |
+| **Windows** | **NSIS Setup (.exe)** | `BlazorTailwindUI-1.4.0-x64-Setup.exe` | Standard Windows executable wizard installer (~97 MB) |
+| **Windows** | **Windows Installer (.msi)** | `BlazorTailwindUI-1.4.0-x64-en-US.msi` | Enterprise WiX MSI package for silent / GPO rollout (~98 MB) |
+| **Windows / All** | **Demo Suite Installer (.zip)** | `BlazorTailwindUI-DemoSuite-v1.4.0-Setup.zip` | 1-click Windows demo installer with pre-flight port coordinator (~121 MB) |
 | **macOS** | **Apple Disk Image (.dmg)** | `BlazorTailwindUI-1.0.0-universal.dmg` | Drag-and-drop macOS Universal Binary (Apple Silicon + Intel) |
 | **Linux** | **Debian Package (.deb)** | `blazor-tailwind-ui_1.0.0_amd64.deb` | Ubuntu / Debian package with desktop launcher entry |
 | **Linux** | **AppImage (.AppImage)** | `BlazorTailwindUI-1.0.0-x86_64.AppImage` | Single-file zero-install portable Linux executable |
-| **Cross-Platform** | **Web Demo (.zip)** | `BlazorTailwindUI-WebDemo-v1.2.0.zip` | Standalone offline web demo with 1-click `start-demo` scripts |
+| **Cross-Platform** | **Web Demo (.zip)** | `BlazorTailwindUI-WebDemo-v1.4.0.zip` | Standalone offline web demo with 1-click `start-demo` scripts |
 
 ### Build Desktop Installers Locally
 ```bash
@@ -641,7 +667,8 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.3.3** | **PickList, Duration & Virtual Keypad** | `TwPickList`, `TwTimeSpanPicker`, `TwVirtualKeyboard` | **Shipped ✅** | Dual-list entity transfer with real-time search, precision duration steppers, kiosk PIN scrambled keypad, and live Kubernetes IAM manifest generation. |
 | **v1.3.4** | **Storage Manager, Word Cloud & Sankey Flow** | `TwFileManager`, `TwWordCloud`, `TwSankeyChart` | **Shipped ✅** | Cloud asset manager with live SHA-256 inspector, pure SVG Archimedean word cloud, and multi-stage throughput Sankey flow diagrams. |
 | **v1.3.5** | **2027 Spatial & Anticipatory UI Laboratory** | `TwSpatialCard`, `TwFluidMesh`, `TwPredictiveIntent` | **Shipped ✅** | Volumetric 3D cards with real gyroscopic tilt, organic emotional fluid resonance shaders, anticipatory zero-click intent engine, and native MSI/EXE desktop installers. |
-| **v1.4.0** | **C# 15 Union State & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState` | Planned 🚀 | Compiler-enforced exhaustiveness checking, type-safe error boundaries, and closed design-system token inheritance. |
+| **v1.4.0** | **Mobile-First Draggable CRM Dashboard Studio & PDF Form Flattening** | `TwDashboard`, `TwPdfFormFiller`, `PdfFlattenStreamGenerator` | **Shipped ✅** | Persistent 12-column GridStack dashboard, touch drag handles, card customizer, pure SVG CRM analytics, AcroForm stream flattening & cryptographic sealing, WiX/NSIS installers. |
+| **v1.4.5** | **C# 15 Union State & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState` | Planned 🚀 | Compiler-enforced exhaustiveness checking, type-safe error boundaries, and closed design-system token inheritance. |
 | **v1.4.0** | **Blazor Donut Caching & [ShortCircuit] Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Planned 🚀 | High-performance SSR partial rerendering, static shell edge caching, and sub-millisecond bypass endpoints. |
 | **v1.4.0** | **Native Zstandard Compression Pipeline** | `TwZstdStreamService`, `TwZstdPayloadBridge` | Planned 🚀 | Native ZstandardStream integration delivering 2-7x faster compression for SignalR batches, streaming grids & IndexedDB. |
 | **v1.4.0** | **Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwHpkeEnclave` | Planned 🚀 | Zero-trust quantum-resistant encryption for sensitive forms, payroll records & Check 21 MICR tokens. |

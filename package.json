@@ -1,6 +1,6 @@
 {
   "name": "blazor-tailwind-ui",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "description": "Mobile-first Blazor WASM reusable component library with Tailwind CSS and Light/Dark/System theme support",
   "scripts": {

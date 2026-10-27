@@ -279,15 +279,36 @@ Every component follows the same familiar C# conventions:
 
 ---
 
+### Recipe L: PDF Form Filler, Contract Signer & Stream Flattening
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<TwPdfFormFiller />
+```
+*Capabilities*: Spatial "Sign Here" / "Initial Here" callout flags, 1-click UTC/Local timestamp stamping, cryptographic SHA-256 seal, AcroForm stream flattening into immutable vector typography, zero-dependency PDF 1.4 generation, and native `window.print()` support.
+
+### Recipe M: Mobile-First Draggable & Resizable CRM Dashboard
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<TwDashboard StorageKey="my-enterprise-dashboard"
+             Title="Executive CRM Dashboard"
+             Subtitle="Draggable, resizable, persistent, customizable cards"
+             IsLocked="false" />
+```
+*Capabilities*: 12-column responsive GridStack layout, persistent `localStorage` serialization, dedicated `⠿ .move-handle` touch drag handles with `touch-action: none` and `cursor: grab`, 1-tap mobile positioning buttons, in-place card property customizer, 1-click compact, JSON export/import modal, and built-in pure SVG charts (Sales Line, Lead Doughnut, Funnel Bar, Opportunity Deals table, Activity Feed, Scratchpad).
+
+---
+
 ## 3. Desktop Native Installers (Windows MSI & EXE)
 
 BlazorTailwindUI includes official desktop installers built using Tauri v2, providing native Windows desktop app distribution:
 
 | Installer | Description | Location |
 |---|---|---|
-| **`BlazorTailwindUI-1.3.5-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.3.5-x64-Setup.exe` |
-| **`BlazorTailwindUI-1.3.5-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.3.5-x64-en-US.msi` |
-| **`BlazorTailwindUI-WebDemo-v1.3.5.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.3.5.zip` |
+| **`BlazorTailwindUI-1.4.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.4.0-x64-Setup.exe` |
+| **`BlazorTailwindUI-1.4.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.4.0-x64-en-US.msi` |
+| **`BlazorTailwindUI-WebDemo-v1.4.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.4.0.zip` |
 
 ### Building Installers from Source:
 ```bash
