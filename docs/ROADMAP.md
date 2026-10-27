@@ -487,6 +487,26 @@ Clean-room engineered enterprise conversational AI studio, floating anchored pop
 
 ---
 
+### Pillar 21: PickList, Duration Stepper & Virtual Keypad Suite (Shipped v1.3.3 ✅)
+
+Clean-room engineered enterprise dual-list transfer picklists, precision duration steppers, and touchscreen kiosk virtual keypads inspired by modern full-stack UI specifications:
+- **`TwPickList<TItem>`**:
+  - Dual-listbox item transfer picker between Available (`Source`) and Selected (`Target`) collections.
+  - Real-time client-side dual search filtering on both panels with match count badges.
+  - Batch transfer actions: Move Selected (`>`), Return Selected (`<`), Transfer All (`>>`), and Return All (`<<`).
+  - Target list item reordering (`Move Up` / `Move Down`) and double-click immediate transfer shortcut.
+- **`TwTimeSpanPicker`**:
+  - Precision duration steppers for Days, Hours (0-23), Minutes (0-59), and Seconds (0-59).
+  - Spin stepper up/down controls with direct numeric keyboard editing.
+  - Quick duration presets bar (`15m`, `30m`, `1h`, `4h`, `1d`, `7d`, `30d`) and 1-click zero reset.
+  - Live formatted summary badge (e.g. `2d 4h 30m 0s`).
+- **`TwVirtualKeyboard`**:
+  - Multi-layout on-screen keyboard supporting `QWERTY` alpha-numeric, `Numeric` calculator pad, and `Secure PIN` pad.
+  - Anti-shoulder-surfing dynamic randomized key scrambling for touchscreen kiosks and POS terminals.
+  - Password bullet masking (`••••`), Caps Lock with illuminated LED state, and Enter/Submit callback.
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid

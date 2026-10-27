@@ -5664,5 +5664,143 @@
         "description": "Typing indicator status message."
       }
     ]
+  },
+  {
+    "name": "TwPickList",
+    "category": "Buttons, Forms & Controls",
+    "description": "Dual-listbox item transfer picker with instant dual-list search filtering, move selected/all transfer actions, target list reordering, and item badges.",
+    "snippet": "<TwPickList TItem=\"string\" Source=\"_available\" @bind-Target=\"_selected\" SourceTitle=\"Roles\" TargetTitle=\"Assigned\" />",
+    "parameters": [
+      {
+        "name": "Source",
+        "type": "IEnumerable<TItem>?",
+        "default": "null",
+        "description": "Source available items collection."
+      },
+      {
+        "name": "Target",
+        "type": "IList<TItem>",
+        "default": "new List<TItem>()",
+        "description": "Selected target items collection."
+      },
+      {
+        "name": "SourceTitle",
+        "type": "string",
+        "default": "\"Available Items\"",
+        "description": "Left panel header title."
+      },
+      {
+        "name": "TargetTitle",
+        "type": "string",
+        "default": "\"Selected Items\"",
+        "description": "Right panel header title."
+      },
+      {
+        "name": "AllowFiltering",
+        "type": "bool",
+        "default": "true",
+        "description": "Show real-time filter search input on both lists."
+      },
+      {
+        "name": "ShowMoveAll",
+        "type": "bool",
+        "default": "true",
+        "description": "Show transfer all (>> and <<) buttons."
+      },
+      {
+        "name": "ShowReorder",
+        "type": "bool",
+        "default": "true",
+        "description": "Show up/down reorder buttons in target list."
+      }
+    ]
+  },
+  {
+    "name": "TwTimeSpanPicker",
+    "category": "Advanced Forms & Inputs",
+    "description": "Structured duration and timespan picker with Days, Hours, Minutes, Seconds input blocks, step increments, reset trigger, and quick preset duration pills.",
+    "snippet": "<TwTimeSpanPicker Label=\"SLA Duration\" @bind-Value=\"_sla\" ShowPresets=\"true\" />",
+    "parameters": [
+      {
+        "name": "Value",
+        "type": "TimeSpan",
+        "default": "TimeSpan.Zero",
+        "description": "Two-way bindable duration value."
+      },
+      {
+        "name": "Label",
+        "type": "string?",
+        "default": "null",
+        "description": "Optional form label."
+      },
+      {
+        "name": "AllowDays",
+        "type": "bool",
+        "default": "true",
+        "description": "Whether to show Days stepper unit."
+      },
+      {
+        "name": "AllowSeconds",
+        "type": "bool",
+        "default": "true",
+        "description": "Whether to show Seconds stepper unit."
+      },
+      {
+        "name": "ShowPresets",
+        "type": "bool",
+        "default": "true",
+        "description": "Show quick duration preset buttons."
+      },
+      {
+        "name": "ShowReset",
+        "type": "bool",
+        "default": "true",
+        "description": "Show zero-reset button."
+      }
+    ]
+  },
+  {
+    "name": "TwVirtualKeyboard",
+    "category": "Typography, Badges & Keys",
+    "description": "On-screen virtual keyboard for kiosks, touch displays, POS terminals, and anti-keylogger secure PIN entry with QWERTY, Numeric, and scrambled PIN modes.",
+    "snippet": "<TwVirtualKeyboard @bind-Value=\"_enteredPin\" Mode=\"VirtualKeyboardMode.Pin\" IsPassword=\"true\" OnSubmit=\"HandlePinSubmit\" />",
+    "parameters": [
+      {
+        "name": "Value",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Two-way bindable typed text/PIN value."
+      },
+      {
+        "name": "Mode",
+        "type": "VirtualKeyboardMode",
+        "default": "VirtualKeyboardMode.Qwerty",
+        "description": "Key layout mode (Qwerty, Numeric, Pin)."
+      },
+      {
+        "name": "IsPassword",
+        "type": "bool",
+        "default": "false",
+        "description": "Mask display output with bullet points."
+      },
+      {
+        "name": "ShowDisplay",
+        "type": "bool",
+        "default": "true",
+        "description": "Show top value display bar with clear button."
+      },
+      {
+        "name": "AllowModeSwitch",
+        "type": "bool",
+        "default": "true",
+        "description": "Show mode switcher tabs."
+      },
+      {
+        "name": "OnSubmit",
+        "type": "EventCallback",
+        "default": "-",
+        "description": "Callback invoked when Enter / Submit key is pressed."
+      }
+    ]
   }
 ]

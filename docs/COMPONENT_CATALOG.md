@@ -3475,5 +3475,85 @@ Actionable bottom floating notification snackbar with action trigger callback, a
 
 ---
 
+### `TwPickList<TItem>`
+
+**Location:** [`Components/UI/TwPickList.razor`](../Components/UI/TwPickList.razor)
+
+Dual-listbox item transfer picker with instant dual-list search filtering, move selected/all transfer actions, target list reordering, and item count badges.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Source` | `IEnumerable<TItem>?` | `null` | Source available items collection. |
+| `Target` | `IList<TItem>` | `new List<TItem>()` | Selected target items collection (`@bind-Target`). |
+| `SourceTitle` | `string` | `"Available Items"` | Left panel header title. |
+| `TargetTitle` | `string` | `"Selected Items"` | Right panel header title. |
+| `AllowFiltering` | `bool` | `true` | Show real-time filter search input on both lists. |
+| `ShowMoveAll` | `bool` | `true` | Show transfer all (`>>` and `<<`) buttons. |
+| `ShowReorder` | `bool` | `true` | Show up/down reorder buttons in target list. |
+| `Height` | `string` | `"h-72"` | Height utility for list scroll containers. |
+| `OnTransfer` | `EventCallback<List<TItem>>` | `-` | Fired when items are moved between lists. |
+
+#### Razor Usage Example
+
+```razor
+<TwPickList TItem="string" Source="_roles" @bind-Target="_assigned" SourceTitle="Roles" TargetTitle="Assigned" />
+```
+
+---
+
+### `TwTimeSpanPicker`
+
+**Location:** [`Components/UI/TwTimeSpanPicker.razor`](../Components/UI/TwTimeSpanPicker.razor)
+
+Structured duration and timespan picker with Days, Hours, Minutes, Seconds input blocks, step increments, reset trigger, and quick preset duration pills.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `TimeSpan` | `TimeSpan.Zero` | Two-way bindable duration value (`@bind-Value`). |
+| `Label` | `string?` | `null` | Optional form label. |
+| `AllowDays` | `bool` | `true` | Whether to show the Days stepper unit. |
+| `AllowSeconds` | `bool` | `true` | Whether to show the Seconds stepper unit. |
+| `ShowPresets` | `bool` | `true` | Show quick duration preset buttons (15m, 1h, 1d, etc.). |
+| `ShowReset` | `bool` | `true` | Show zero-reset button. |
+
+#### Razor Usage Example
+
+```razor
+<TwTimeSpanPicker Label="SLA Duration" @bind-Value="_sla" ShowPresets="true" />
+```
+
+---
+
+### `TwVirtualKeyboard`
+
+**Location:** [`Components/UI/TwVirtualKeyboard.razor`](../Components/UI/TwVirtualKeyboard.razor)
+
+On-screen virtual keyboard for kiosks, touch displays, POS terminals, and anti-keylogger secure PIN entry with QWERTY, Numeric, and scrambled PIN modes.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `string` | `""` | Two-way bindable typed text/PIN value (`@bind-Value`). |
+| `Mode` | `VirtualKeyboardMode` | `VirtualKeyboardMode.Qwerty` | Key layout mode (Qwerty, Numeric, Pin). |
+| `IsPassword` | `bool` | `false` | Mask display output with bullet points. |
+| `ShowDisplay` | `bool` | `true` | Show top value display bar with clear button. |
+| `AllowModeSwitch` | `bool` | `true` | Show mode switcher tabs. |
+| `MaxLength` | `int?` | `null` | Optional maximum character length. |
+| `OnSubmit` | `EventCallback` | `-` | Callback invoked when Enter / Submit key is pressed. |
+
+#### Razor Usage Example
+
+```razor
+<TwVirtualKeyboard @bind-Value="_enteredPin" Mode="TwVirtualKeyboard.VirtualKeyboardMode.Pin" IsPassword="true" OnSubmit="HandlePinSubmit" />
+```
+
+---
+
+
 
 

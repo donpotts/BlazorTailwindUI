@@ -1577,6 +1577,85 @@
                             </div>
                         </TwCard>
 
+                        <!-- Enterprise PickList, Duration Picker & Virtual Keyboard Suite -->
+                        <TwCard Title="PickList Transfer, Duration & Virtual Keypad Suite" Subtitle="Dual-Listbox Entity Transfer, Precision TimeSpan Steppers, and Touchscreen Kiosk Keypads">
+                            <div class="space-y-8">
+                                <!-- 1. TwPickList -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>🔀</span> 1. Dual-List Item Transfer Picker (TwPickList)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                                            Dual-Search • Reorder • Batch Transfer
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Enterprise transfer picker with real-time search on both lists, batch transfer buttons, double-click assignment, and target position reordering.
+                                    </p>
+                                    <TwPickList TItem="string"
+                                                Source="_demoAvailableRoles"
+                                                @bind-Target="_demoAssignedRoles"
+                                                SourceTitle="Available Cloud Roles"
+                                                TargetTitle="Assigned Operator Roles"
+                                                AllowFiltering="true"
+                                                ShowMoveAll="true"
+                                                ShowReorder="true"
+                                                Height="h-60"
+                                                OnTransfer='_ => Toast.Show("Role roster updated", "Operator permissions synced", SemanticVariant.Info)' />
+                                </div>
+
+                                <!-- 2. TwTimeSpanPicker & TwVirtualKeyboard -->
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+                                    <!-- TwTimeSpanPicker -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>⏱️</span> 2. Duration &amp; TimeSpan Picker (TwTimeSpanPicker)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                                Spin Steppers • Preset Pills
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            Structured days, hours, minutes, and seconds input blocks with spin buttons, zero reset, and quick duration presets.
+                                        </p>
+                                        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800">
+                                            <TwTimeSpanPicker Label="SLA Resolution Target"
+                                                              @bind-Value="_demoDurationSla"
+                                                              AllowDays="true"
+                                                              AllowSeconds="true"
+                                                              ShowPresets="true"
+                                                              ShowReset="true" />
+                                        </div>
+                                    </div>
+
+                                    <!-- TwVirtualKeyboard -->
+                                    <div class="space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                                <span>⌨️</span> 3. Virtual Keypad &amp; PIN Pad (TwVirtualKeyboard)
+                                            </h4>
+                                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                                                QWERTY • Numeric • Scrambled PIN
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                            Touchscreen on-screen keyboard for kiosks and POS terminals with anti-shoulder-surfing randomized PIN keypad scramble.
+                                        </p>
+                                        <div class="flex justify-center">
+                                            <TwVirtualKeyboard @bind-Value="_demoKeyboardValue"
+                                                               Mode="TwVirtualKeyboard.VirtualKeyboardMode.Pin"
+                                                               IsPassword="false"
+                                                               ShowDisplay="true"
+                                                               AllowModeSwitch="true"
+                                                               OnSubmit='() => Toast.Show("Input confirmed", $"Value: {_demoKeyboardValue}", SemanticVariant.Success)' />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </TwCard>
+
                         <!-- Buttons & Badges -->
                         <TwCard Title="Buttons & Interactive Elements" Subtitle="Mobile-first tap states, loading spinners, full-width options and semantic variants">
                             <div class="space-y-6">
@@ -3852,6 +3931,28 @@
     private int _highlightActiveIndex = 0;
 
     // Conversational AI & Floating Context Demo State
+
+    // Enterprise PickList, Duration Picker & Virtual Keyboard Demo State
+    private readonly List<string> _demoAvailableRoles = new()
+    {
+        "Kubernetes Administrator",
+        "Zero-Trust Network Eng",
+        "Audit Compliance Lead",
+        "Security Architect",
+        "Database Reliability Lead",
+        "FinOps Cloud Specialist",
+        "DevSecOps Release Eng"
+    };
+
+    private IList<string> _demoAssignedRoles = new List<string>
+    {
+        "Security Architect",
+        "Kubernetes Administrator"
+    };
+
+    private TimeSpan _demoDurationSla = new TimeSpan(2, 4, 30, 0);
+    private string _demoKeyboardValue = "7492";
+
     private bool _demoPopoverOpen = false;
     private TwPopoverPlacement _demoPopoverPlacement = TwPopoverPlacement.Bottom;
     private bool _demoSnackbarOpen = false;

@@ -2559,6 +2559,55 @@ public class ComponentCatalogService
                 new ComponentParameterDoc("OnMessageSent", "EventCallback<ChatMessage>", "-", "Invoked when user sends prompt with staged attachments.")
             }
         },
+        new ComponentDocItem
+        {
+            Name = "TwPickList",
+            Category = "Buttons, Forms & Controls",
+            Description = "Dual-listbox item transfer picker with instant dual-list search filtering, move selected/all transfer actions, target list reordering, and item badges.",
+            RazorSnippet = "<TwPickList TItem=\"string\" Source=\"_available\" @bind-Target=\"_selected\" SourceTitle=\"Roles\" TargetTitle=\"Assigned\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Source", "IEnumerable<TItem>?", "null", "Source available items collection."),
+                new ComponentParameterDoc("Target", "IList<TItem>", "new List<TItem>()", "Selected target items collection."),
+                new ComponentParameterDoc("SourceTitle", "string", "\"Available Items\"", "Left panel header title."),
+                new ComponentParameterDoc("TargetTitle", "string", "\"Selected Items\"", "Right panel header title."),
+                new ComponentParameterDoc("AllowFiltering", "bool", "true", "Show real-time filter search input on both lists."),
+                new ComponentParameterDoc("ShowMoveAll", "bool", "true", "Show transfer all (>> and <<) buttons."),
+                new ComponentParameterDoc("ShowReorder", "bool", "true", "Show up/down reorder buttons in target list.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTimeSpanPicker",
+            Category = "Advanced Forms & Inputs",
+            Description = "Structured duration and timespan picker with Days, Hours, Minutes, Seconds input blocks, step increments, reset trigger, and quick preset duration pills.",
+            RazorSnippet = "<TwTimeSpanPicker Label=\"SLA Duration\" @bind-Value=\"_sla\" ShowPresets=\"true\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "TimeSpan", "TimeSpan.Zero", "Two-way bindable duration value."),
+                new ComponentParameterDoc("Label", "string?", "null", "Optional form label."),
+                new ComponentParameterDoc("AllowDays", "bool", "true", "Whether to show the Days stepper unit."),
+                new ComponentParameterDoc("AllowSeconds", "bool", "true", "Whether to show the Seconds stepper unit."),
+                new ComponentParameterDoc("ShowPresets", "bool", "true", "Show quick duration preset buttons (15m, 1h, 1d, etc.)."),
+                new ComponentParameterDoc("ShowReset", "bool", "true", "Show zero-reset button.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwVirtualKeyboard",
+            Category = "Typography, Badges & Keys",
+            Description = "On-screen virtual keyboard for kiosks, touch displays, POS terminals, and anti-keylogger secure PIN entry with QWERTY, Numeric, and scrambled PIN modes.",
+            RazorSnippet = "<TwVirtualKeyboard @bind-Value=\"_enteredPin\" Mode=\"VirtualKeyboardMode.Pin\" IsPassword=\"true\" OnSubmit=\"HandlePinSubmit\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "string", "\"\"", "Two-way bindable typed text/PIN value."),
+                new ComponentParameterDoc("Mode", "VirtualKeyboardMode", "VirtualKeyboardMode.Qwerty", "Key layout mode (Qwerty, Numeric, Pin)."),
+                new ComponentParameterDoc("IsPassword", "bool", "false", "Mask display output with bullet points."),
+                new ComponentParameterDoc("ShowDisplay", "bool", "true", "Show top value display bar with clear button."),
+                new ComponentParameterDoc("AllowModeSwitch", "bool", "true", "Show mode switcher tabs."),
+                new ComponentParameterDoc("OnSubmit", "EventCallback", "-", "Callback invoked when Enter / Submit key is pressed.")
+            }
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;
