@@ -18,6 +18,7 @@
   <a href="#-adaptive-generative-ui-agui--agentic-tool-calling"><img src="https://img.shields.io/badge/AGUI-Agentic_Tool_Calling-8B5CF6?style=for-the-badge" alt="AGUI & Tool Calling" /></a>
   <a href="docs/ROADMAP.md#10--developer-model-context-protocol-mcp-server-blazor-tailwind-mcp"><img src="https://img.shields.io/badge/MCP-Developer_Server-6366F1?style=for-the-badge" alt="MCP Developer Server" /></a>
   <a href="#-celebration-animations-studio--freely-distributable-procedural-sound-fx"><img src="https://img.shields.io/badge/Sound_FX-Procedural_Web_Audio-EC4899?style=for-the-badge" alt="Procedural Sound FX" /></a>
+  <a href="https://github.com/donpotts/Net11Showcase"><img src="https://img.shields.io/badge/.NET_11-Showcase_Platform-6366F1?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 11 Showcase Platform" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge" alt="MIT License" /></a>
 </p>
 
@@ -96,6 +97,13 @@
     - **Form Maker / Designer Mode**: Interactive palette to drop new fields onto pages, assign signer roles, and configure required states.
     - **Data Pre-fill & JSON Export**: Model data binding, sample template pre-population, and full audit payload JSON export.
     - **Cryptographic Sealing & Immutable Read-Only Lock**: Locks document into read-only vector ink with SHA-256 fingerprint, Cert ID, and ESIGN Act certified execution seal.
+19. **.NET 11 Showcase Suite Companion Platform ([donpotts/Net11Showcase](https://github.com/donpotts/Net11Showcase)):**
+    - **Full-Stack Reference Architecture**: ASP.NET Core Minimal APIs with Scalar OpenAPI (/scalar/v1) and IAsyncEnumerable response streaming.
+    - **Blazor Auto Render Mode**: Dynamic transition from Static SSR HTML to Interactive WebAssembly.
+    - **MAUI Blazor Hybrid Lab**: CoreCLR Tiered PGO diagnostics, live GPS geofencing, 3-axis motion sensors with 3D CSS perspective, and offline SQLite synchronization.
+    - **EF Core 11 & Vectors**: Query nested JSON documents and execute high-dimensional cosine vector similarity retrieval without external vector DBs.
+    - **Native AOT & Micro-Benchmarks**: In-browser hardware micro-benchmark measuring execution ops/sec and GC collections.
+    - **1-Click Installers**: Pre-flight port coordinator setup for Windows desktop and server environments.
 
 ---
 
