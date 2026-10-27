@@ -71,10 +71,28 @@
     - High-throughput streaming DataGrid (`TwStreamingGrid`) consuming native `IAsyncEnumerable<T>` server streams with real-time arrival animations and 1M row capacity.
     - Dual-mode enterprise form engine (`TwFullstackForm`) supporting Static SSR Enhanced Form POST and Interactive Auto Client RPC.
     - Official 1-click CLI template (`dotnet new blazortw -n MyEnterpriseApp --render-mode auto`).
+13. **2027 Next-Gen Spatial & Anticipatory UI Suite**:
+    - **`TwSpatialCard`**: Volumetric 3D perspective card with real-time gyroscopic mouse parallax tilt, specular light refraction glare, and multi-layer Z-depth elevation without bulky WebGL libraries.
+    - **`TwFluidMesh`**: Tactile organic fluid gradient mesh tuning color temperature and velocity to harmonize operator cognitive load across 4 emotional states (`DeepFocus`, `CreativeAurora`, `HighAlert`, `ZenCalm`).
+    - **`TwPredictiveIntent`**: Anticipatory intent state machine demonstrating "States over Pages" with simulated gaze tracking, tactile biometric pulse sensors, and zero-click action synthesis.
+14. **PickList, Duration Stepper & Virtual Keypad Suite**:
+    - **`TwPickList`**: Dual-listbox transfer with real-time search, batch transfer, reordering, and live Kubernetes `ClusterRoleBinding` JSON manifest generation.
+    - **`TwTimeSpanPicker`**: Structured duration picker with Days, Hours, Minutes, Seconds steppers, presets (`15m`–`30d`), and live SLA expiration deadline calculations with PagerDuty dispatching.
+    - **`TwVirtualKeyboard`**: Touchscreen kiosk keypad with QWERTY, Numeric, and anti-shoulder-surfing randomized PIN scramble modes, with Level 4 clearance unlock and active session tokens.
+15. **Cloud Storage Manager, Word Cloud & Sankey Flow Suite**:
+    - **`TwFileManager`**: Enterprise file explorer featuring folder sidebar tree, breadcrumbs, Grid vs List modes, search, quota meter, and live File Inspector with SHA-256 validation and content previews.
+    - **`TwWordCloud`**: Pure SVG weighted term frequency cloud with Archimedean spiral positioning, hover scaling, and keyword architecture intelligence cards.
+    - **`TwSankeyChart`**: Pure SVG pipeline throughput flow diagram with bezier gradient ribbons, node metrics, and interactive +25% traffic surge simulations.
+16. **Desktop Installers (Windows MSI & EXE)**:
+    - Native desktop builds packaged with Tauri v2: WiX MSI (`BlazorTailwindUI-1.3.5-x64-en-US.msi`, 81.9 MB) and NSIS EXE (`BlazorTailwindUI-1.3.5-x64-Setup.exe`, 81.0 MB) in `release-packages/`.
 
 ---
 
 ## 📸 Visual Showcase
+
+<p align="center">
+  <img src="docs/images/modern-flare-2027-verified.png" alt="2027 Next-Gen Spatial & Anticipatory UI Laboratory" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
+</p>
 
 <p align="center">
   <img src="docs/images/fullstack-hub-verified.png" alt=".NET 11 Full-Stack Blazor Enterprise Hub" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
@@ -584,6 +602,10 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.1.0** | **Form / PDF OCR & Check 21 MICR Reader** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | **Shipped ✅** | Client-side WASM OCR for checks, drafts, invoices & W-9 forms. Decodes ANSI X9.27 E-13B MICR with Mod-10 ABA routing validation and Markdown editor insertion. |
 | **v1.2.0** | **Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | **Shipped ✅** | Official Model Context Protocol (MCP) server for Cursor, Claude Desktop, Antigravity & VS Code to search 150+ components, inspect typed APIs, generate AG-UI forms & validate MICR. |
 | **v1.3.0** | **.NET 11 Full-Stack Universal Architecture** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | **Shipped ✅** | Unified Blazor render modes, zero-flicker SSR hydration cache, high-throughput IAsyncEnumerable streaming DataGrid with 1M row capacity, and dotnet new blazortw CLI scaffolder. |
+| **v1.3.2** | **Conversational AI & Floating Context** | `TwChatStudio`, `TwPopover`, `TwSnackbar` | **Shipped ✅** | Multi-turn conversational studio with suggestion pills, directional anchored popovers, and actionable snackbars with countdown progress bars. |
+| **v1.3.3** | **PickList, Duration & Virtual Keypad** | `TwPickList`, `TwTimeSpanPicker`, `TwVirtualKeyboard` | **Shipped ✅** | Dual-list entity transfer with real-time search, precision duration steppers, kiosk PIN scrambled keypad, and live Kubernetes IAM manifest generation. |
+| **v1.3.4** | **Storage Manager, Word Cloud & Sankey Flow** | `TwFileManager`, `TwWordCloud`, `TwSankeyChart` | **Shipped ✅** | Cloud asset manager with live SHA-256 inspector, pure SVG Archimedean word cloud, and multi-stage throughput Sankey flow diagrams. |
+| **v1.3.5** | **2027 Spatial & Anticipatory UI Laboratory** | `TwSpatialCard`, `TwFluidMesh`, `TwPredictiveIntent` | **Shipped ✅** | Volumetric 3D cards with real gyroscopic tilt, organic emotional fluid resonance shaders, anticipatory zero-click intent engine, and native MSI/EXE desktop installers. |
 | **v1.4.0** | **C# 15 Union State & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState` | Planned 🚀 | Compiler-enforced exhaustiveness checking, type-safe error boundaries, and closed design-system token inheritance. |
 | **v1.4.0** | **Blazor Donut Caching & [ShortCircuit] Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Planned 🚀 | High-performance SSR partial rerendering, static shell edge caching, and sub-millisecond bypass endpoints. |
 | **v1.4.0** | **Native Zstandard Compression Pipeline** | `TwZstdStreamService`, `TwZstdPayloadBridge` | Planned 🚀 | Native ZstandardStream integration delivering 2-7x faster compression for SignalR batches, streaming grids & IndexedDB. |

@@ -161,7 +161,147 @@ Every component follows the same familiar C# conventions:
 
 ---
 
-## 3. Troubleshooting & FAQs
+
+### Recipe F: Volumetric 3D Spatial Cards with Gyroscopic Parallax
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<TwSpatialCard Title="Quantum Enclave"
+               Subtitle="Hardware Security Module • Tier 0 Root"
+               BadgeText="Volumetric 3D"
+               MaxTiltDeg="14"
+               GlowGradient="from-brand-500 via-indigo-600 to-purple-600">
+    <p class="text-xs text-slate-600 dark:text-slate-300">
+        Move your cursor across this card to experience gyroscopic 3D tilt, specular refraction, and multi-layer Z-depth elevation.
+    </p>
+</TwSpatialCard>
+```
+
+### Recipe G: Anticipatory Intent & Biometric State Engine
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<!-- 2027 Anticipatory State Machine ("States over Pages") -->
+<TwPredictiveIntent />
+```
+
+### Recipe H: Organic Fluid Emotional Mesh with Psychological State Tuning
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<TwFluidMesh @bind-Mood="_operatorMood" />
+
+@code {
+    private TwFluidMesh.EmotionalState _operatorMood = TwFluidMesh.EmotionalState.DeepFocus;
+}
+```
+
+### Recipe I: Enterprise Dual-List Transfers with TwPickList
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<TwPickList TItem="string"
+            Source="_availableRoles"
+            @bind-Target="_assignedRoles"
+            SourceTitle="Available Roles"
+            TargetTitle="Granted Roles"
+            AllowFiltering="true"
+            ShowMoveAll="true"
+            ShowReorder="true"
+            Height="h-60"
+            OnTransfer="HandleRolesChanged" />
+
+@code {
+    private List<string> _availableRoles = new() { "SecOps Lead", "Kubernetes Admin", "Auditor" };
+    private IList<string> _assignedRoles = new List<string> { "DevOps Engineer" };
+
+    private void HandleRolesChanged()
+    {
+        // Reactively regenerate IAM manifests or sync permissions
+    }
+}
+```
+
+### Recipe J: Enterprise Cloud File Manager with Live File Inspector
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<TwFileManager Items="_files"
+               @bind-CurrentPath="_activePath"
+               OnFileSelected="HandleFileSelected"
+               OnUpload="HandleFileUpload" />
+
+@code {
+    private string _activePath = "/";
+    private List<TwFileManager.FileItem> _files = new()
+    {
+        new(Guid.NewGuid().ToString("N"), "Kubernetes-Config.json", "/", 15200, DateTime.Now, false, "application/json", ".json")
+    };
+
+    private void HandleFileSelected(TwFileManager.FileItem file)
+    {
+        // Populate live inspector with SHA-256 and content preview
+    }
+
+    private void HandleFileUpload()
+    {
+        // Ingest new file into active directory
+    }
+}
+```
+
+### Recipe K: Throughput Sankey Flow Diagram with Traffic Surge
+```razor
+@using BlazorTailwindUI.Components.UI
+
+<TwSankeyChart Nodes="_nodes"
+               Links="_links"
+               Title="Workload Telemetry Flow"
+               OnNodeClick="HandleNodeClick" />
+
+@code {
+    private List<TwSankeyChart.SankeyNode> _nodes = new()
+    {
+        new("edge", "Edge Ingress", "#6366f1"),
+        new("cache", "Memory Cache", "#10b981")
+    };
+    private List<TwSankeyChart.SankeyLink> _links = new()
+    {
+        new("edge", "cache", 50000)
+    };
+
+    private void HandleNodeClick(TwSankeyChart.SankeyNode node)
+    {
+        // Inspect node telemetry metrics
+    }
+}
+```
+
+---
+
+## 3. Desktop Native Installers (Windows MSI & EXE)
+
+BlazorTailwindUI includes official desktop installers built using Tauri v2, providing native Windows desktop app distribution:
+
+| Installer | Description | Location |
+|---|---|---|
+| **`BlazorTailwindUI-1.3.5-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.3.5-x64-Setup.exe` |
+| **`BlazorTailwindUI-1.3.5-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.3.5-x64-en-US.msi` |
+| **`BlazorTailwindUI-WebDemo-v1.3.5.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.3.5.zip` |
+
+### Building Installers from Source:
+```bash
+# 1. Compile Tailwind CSS and WebAssembly dist bundle
+npm run build:dist
+
+# 2. Package Windows MSI and NSIS installers via Tauri CLI
+npx tauri build
+```
+The compiled bundles are automatically placed in `src-tauri/target/release/bundle/msi` and `nsis`.
+
+---
+
+## 4. Troubleshooting & FAQs
 
 ### Q: Why do I see an HTTP 416 (Range Not Satisfiable) error on video playback?
 **Cause**: When replacing a video or media file on disk while the ASP.NET Core DevServer is running, the server caches the previous file size in memory. When the browser makes a byte-range request for the old file length, a 416 status occurs.  
@@ -180,7 +320,7 @@ This scans all `.razor` and `.cs` files and compiles minified CSS to `wwwroot/cs
 
 ---
 
-## 4. Architectural Rules Summary
+## 5. Architectural Rules Summary
 1. **Zero Prohibited Commercial Brands**: Strictly vendor-neutral.
 2. **Strict .NET 11 RC WebAssembly**: No server-side rendering dependencies for components.
 3. **Pure Mobile-First**: 44px min touch targets, adaptive card fallbacks, and safe-area padding.
