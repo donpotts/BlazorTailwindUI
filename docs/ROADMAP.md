@@ -468,6 +468,8 @@ Provide clean-room, zero-dependency Tailwind CSS + Blazor components addressing 
 
 ### Pillar 20: Conversational AI & Floating Context Suite (Shipped v1.3.2 ✅)
 
+![Conversational AI & Floating Context Suite](images/suite-conversational-ai.png)
+
 Clean-room engineered enterprise conversational AI studio, floating anchored popover overlays, and dismissible actionable snackbars inspired by modern UI specifications:
 - **`TwChatStudio`**:
   - Full-featured conversational AI studio with multi-turn message timeline (user vs assistant bubbles).
@@ -489,6 +491,8 @@ Clean-room engineered enterprise conversational AI studio, floating anchored pop
 
 ### Pillar 21: PickList, Duration Stepper & Virtual Keypad Suite (Shipped v1.3.3 ✅)
 
+![PickList, Duration Stepper & Virtual Keypad Suite](images/suite-picklist-and-kiosk.png)
+
 Clean-room engineered enterprise dual-list transfer picklists, precision duration steppers, and touchscreen kiosk virtual keypads inspired by modern full-stack UI specifications:
 - **`TwPickList<TItem>`**:
   - Dual-listbox item transfer picker between Available (`Source`) and Selected (`Target`) collections.
@@ -509,6 +513,8 @@ Clean-room engineered enterprise dual-list transfer picklists, precision duratio
 
 ### Pillar 22: Storage Manager, Word Cloud & Sankey Flow Suite (Shipped v1.3.4 ✅)
 
+![Storage Manager, Word Cloud & Sankey Flow Suite](images/suite-storage-and-flow.png)
+
 Clean-room engineered enterprise cloud file asset managers, pure SVG keyword density clouds, and multi-stage throughput Sankey flow diagrams inspired by high-end analytics specifications:
 - **`TwFileManager`**:
   - Enterprise cloud file explorer with left folder navigation tree and dynamic breadcrumb bar.
@@ -525,6 +531,8 @@ Clean-room engineered enterprise cloud file asset managers, pure SVG keyword den
 ---
 
 ### Pillar 23: 2027 Next-Gen Spatial & Anticipatory UI Laboratory (Shipped v1.3.5 ✅)
+
+![2027 Next-Gen Spatial & Anticipatory UI Laboratory](images/suite-2027-spatial-laboratory.png)
 
 A comprehensive paradigm shift translating the 2024-to-2027 modern UI transition into production Blazor WebAssembly components without bulky WebGL dependencies:
 
