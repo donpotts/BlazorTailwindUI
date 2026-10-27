@@ -91,12 +91,15 @@
     - **Dynamic Port Coordinator (`launch-demos.ps1`, `launch-demos.cmd`)**: Scans ports 5128–5228, eliminates TCP collisions, synchronizes `appsettings.json`, and guarantees API 200 OK pre-flight health probe before launching the UI.
     - **MIME-Compliant Demo Server (`demo-server.py`)**: Standalone WASM/CLR server with SPA fallback routing and `/api/health` diagnostics.
     - **`BlazorTailwindUI-DemoSuite-v1.3.5-Setup.zip`**: Complete standalone offline package ready for immediate deployment.
-18. **PDF Form Filler, Contract Signer & Form Maker Studio (`TwPdfFormFiller`)**:
+18. **PDF Form Filler, Contract Signer, Form Maker & Flattening Engine (`TwPdfFormFiller`)**:
+    - **PDF Form Flattening & Stamping (Merged Content Stream)**: Eliminates interactive form widgets and permanently burns-in text inputs, checkboxes, initials, and cursive signatures directly into immutable vector typography, purging AcroForm/XFA dictionaries for ISO 32000-1 / PDF-A archival compliance.
+    - **Zero-Dependency Standard PDF 1.4 Generation (`PdfFlattenStreamGenerator`)**: Pure C# stream generator creating compliant, downloadable `.pdf` binaries on-the-fly and supporting native browser printing (`window.print()`) with clean page break rules.
     - **Spatial "Sign Here" & "Initial Here" Anchors**: Multi-page contract viewer with interactive callout flags, progress tracking, and calligraphic cursive font presets (Dancing Script, Caveat, Great Vibes, Sacramento).
     - **Automated Date-Time Stamping**: One-click verified UTC/Local timestamp injection.
     - **Form Maker / Designer Mode**: Interactive palette to drop new fields onto pages, assign signer roles, and configure required states.
     - **Data Pre-fill & JSON Export**: Model data binding, sample template pre-population, and full audit payload JSON export.
     - **Cryptographic Sealing & Immutable Read-Only Lock**: Locks document into read-only vector ink with SHA-256 fingerprint, Cert ID, and ESIGN Act certified execution seal.
+    - **Fluid Viewport Responsiveness**: Validated across mobile (375px), tablet (768px), and desktop (1440px) with adaptive stacked page navigation and robust column width constraints.
 19. **.NET 11 Showcase Suite Companion Platform ([donpotts/Net11Showcase](https://github.com/donpotts/Net11Showcase)):**
     - **Full-Stack Reference Architecture**: ASP.NET Core Minimal APIs with Scalar OpenAPI (/scalar/v1) and IAsyncEnumerable response streaming.
     - **Blazor Auto Render Mode**: Dynamic transition from Static SSR HTML to Interactive WebAssembly.

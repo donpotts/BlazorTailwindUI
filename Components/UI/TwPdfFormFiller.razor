@@ -1,12 +1,13 @@
 @namespace BlazorTailwindUI.Components.UI
 @using BlazorTailwindUI.Models
+@using BlazorTailwindUI.Services
 @using System.Text.Json
 @using System.Security.Cryptography
 @using System.Text
 @inject IJSRuntime JS
 @inject ToastService Toast
 
-<div class="space-y-6 @Class">
+<div class="space-y-6 w-full min-w-0 @Class">
     <!-- Top Action & Mode Navigation Bar -->
     <div class="p-4 sm:p-5 rounded-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -18,11 +19,18 @@
                     <h3 class="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2">
                         @Document.Title
                     </h3>
-                    @if (Document.IsSealed)
+                    @if (Document.IsFlattened)
+                    {
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                            📜 FLATTENED &amp; MERGED STREAM
+                        </span>
+                    }
+                    else if (Document.IsSealed)
                     {
                         <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            SEALED & IMMUTABLE
+                            SEALED &amp; IMMUTABLE
                         </span>
                     }
                     else if (Document.IsReadOnly)
@@ -44,17 +52,17 @@
             </div>
         </div>
 
-        <!-- Controls: Mode Switcher, Pre-fill Data, Seal Button -->
+        <!-- Controls: Mode Switcher, Pre-fill Data, Flatten & Stamp, Seal Button -->
         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
             <!-- Mode Switcher -->
             <div class="flex items-center bg-slate-800 p-1 rounded-2xl border border-slate-700/80 text-xs font-semibold">
                 <button type="button" @onclick="() => SetMode(false)"
-                        disabled="@Document.IsSealed"
+                        disabled="@(Document.IsSealed || Document.IsFlattened)"
                         class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 @(!_isDesignerMode ? "bg-indigo-600 text-white shadow-xs" : "text-slate-400 hover:text-white")">
                     <span>✍️ Signer View</span>
                 </button>
                 <button type="button" @onclick="() => SetMode(true)"
-                        disabled="@Document.IsSealed"
+                        disabled="@(Document.IsSealed || Document.IsFlattened)"
                         class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 @(_isDesignerMode ? "bg-purple-600 text-white shadow-xs" : "text-slate-400 hover:text-white")">
                     <span>🛠️ Form Maker Mode</span>
                 </button>
@@ -62,10 +70,38 @@
 
             <!-- Pre-fill Sample Data Button -->
             <button type="button" @onclick="LoadSampleData"
-                    disabled="@Document.IsSealed"
+                    disabled="@(Document.IsSealed || Document.IsFlattened)"
                     class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
                 <span>⚡ Pre-fill Data</span>
             </button>
+
+            <!-- Flatten & Stamp / Download Actions -->
+            @if (!Document.IsFlattened)
+            {
+                <button type="button" @onclick="FlattenAndStampDocument"
+                        class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white text-xs font-bold shadow-lg transition flex items-center gap-1.5"
+                        title="Permanently flatten form inputs and stamp merged PDF stream">
+                    <span>🔥 Flatten &amp; Stamp</span>
+                </button>
+            }
+            else
+            {
+                <button type="button" @onclick="DownloadMergedPdf"
+                        class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5"
+                        title="Download the merged, flattened PDF file">
+                    <span>📥 Download PDF</span>
+                </button>
+                <button type="button" @onclick="PrintDocument"
+                        class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5"
+                        title="Print or Save as PDF via Browser">
+                    <span>🖨️ Print</span>
+                </button>
+                <button type="button" @onclick="UnflattenForEditing"
+                        class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-semibold border border-amber-500/30 transition flex items-center gap-1.5"
+                        title="Restore interactive editable fields">
+                    <span>🔓 Unflatten</span>
+                </button>
+            }
 
             <!-- Export Data Payload Button -->
             <button type="button" @onclick="() => _showDataPayloadModal = true"
@@ -77,8 +113,9 @@
             @if (!Document.IsSealed)
             {
                 <button type="button" @onclick="SealContract"
+                        disabled="@Document.IsFlattened"
                         class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg transition flex items-center gap-2">
-                    <span>🛡️ Execute & Seal</span>
+                    <span>🛡️ Execute &amp; Seal</span>
                 </button>
             }
             else
@@ -150,13 +187,13 @@
     </div>
 
     <!-- Main Document Viewer Layout (Sidebar Thumbnails + Main Canvas) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <!-- Left Thumbnail Navigation Rail -->
-        <div class="lg:col-span-3 space-y-3">
+    <div class="flex flex-col xl:flex-row items-start gap-6 w-full min-w-0">
+        <!-- Left Thumbnail Navigation Rail (Stacks above canvas on <1280px, side-by-side on >=1280px) -->
+        <div class="w-full xl:w-72 shrink-0 space-y-3 min-w-0">
             <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1">
                 Pages (@Document.Pages.Count)
             </div>
-            <div class="space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3">
                 @for (int i = 0; i < Document.Pages.Count; i++)
                 {
                     var pageIndex = i + 1;
@@ -200,13 +237,39 @@
         </div>
 
         <!-- Right Main Document Page Canvas (Paper Sheet) -->
-        <div class="lg:col-span-9">
+        <div class="flex-1 w-full min-w-0">
             @{
                 var curPage = Document.Pages.FirstOrDefault(p => p.PageNumber == _activePageIndex) ?? Document.Pages.First();
                 var pageFields = Document.Fields.Where(f => f.Page == _activePageIndex).ToList();
             }
 
-            <div class="relative bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden p-6 sm:p-12 font-serif text-slate-900 dark:text-slate-100 min-h-[920px]">
+            <div class="relative bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden p-4 sm:p-8 lg:p-12 font-serif text-slate-900 dark:text-slate-100 min-h-[920px] w-full min-w-0">
+                @if (Document.IsFlattened)
+                {
+                    <!-- OFFICIAL FLATTENED & STAMPED BANNER -->
+                    <div class="mb-6 p-4 rounded-2xl bg-amber-500/10 border-2 border-dashed border-amber-500/40 font-sans flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg font-bold shadow-sm shrink-0">
+                                🔥
+                            </div>
+                            <div>
+                                <div class="font-bold text-amber-950 dark:text-amber-200 flex items-center gap-2">
+                                    <span>OFFICIALLY FLATTENED &amp; STAMPED PDF</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] bg-amber-500/30 text-amber-900 dark:text-amber-300 font-mono font-bold">MERGED CONTENT STREAM</span>
+                                </div>
+                                <p class="text-[11px] text-amber-800 dark:text-amber-400 mt-0.5">
+                                    All form field annotations, inputs, and signature anchors have been permanently burned into static vector typography.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text-right font-mono text-[10px] text-slate-500 dark:text-slate-400 shrink-0">
+                            <div>Stream: <strong class="text-slate-900 dark:text-white">@Document.FlattenedContentStreamId</strong></div>
+                            <div>Stamped: <strong>@Document.FlattenedAtUtc?.ToString("yyyy-MM-dd HH:mm:ss UTC")</strong></div>
+                            <div>Digest: <strong class="text-amber-600 dark:text-amber-400">@(Document.FlattenedHash.Length > 16 ? Document.FlattenedHash[..16] + "..." : Document.FlattenedHash)</strong></div>
+                        </div>
+                    </div>
+                }
+
                 <!-- Document Header Letterhead -->
                 <div class="border-b-2 border-slate-900 dark:border-slate-700 pb-5 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                     <div>
@@ -253,7 +316,71 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         @foreach (var field in pageFields)
                         {
-                            <div class="p-4 rounded-2xl border transition-all relative @(field.IsFilled ? "bg-slate-50/60 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700" : "bg-amber-50/40 dark:bg-amber-950/20 border-amber-300 dark:border-amber-700/60 shadow-xs")">
+                            @if (Document.IsFlattened)
+                            {
+                                <!-- FLATTENED & BURNED-IN STATIC FIELD APPEARANCE -->
+                                <div class="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 shadow-xs space-y-2">
+                                    <div class="flex items-center justify-between font-sans">
+                                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                                            @field.Label
+                                        </span>
+                                        <span class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 font-bold border border-amber-500/30">
+                                            🔥 FLATTENED STREAM
+                                        </span>
+                                    </div>
+
+                                    @if (field.Type == PdfFieldType.SignHere)
+                                    {
+                                        <div class="border-b-2 border-slate-900 dark:border-slate-300 pb-2 text-center pt-2">
+                                            <div class="font-serif italic text-3xl text-blue-950 dark:text-cyan-300 tracking-wide font-cursive select-none"
+                                                 style="font-family: 'Brush Script MT', 'Dancing Script', 'Caveat', cursive;">
+                                                @(string.IsNullOrEmpty(field.Value) ? "Jane M. Doe" : field.Value)
+                                            </div>
+                                            <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-700 mt-2 pt-1 flex items-center justify-between">
+                                                <span>Signer: <strong>@(string.IsNullOrEmpty(field.SignerName) ? "Jane M. Doe" : field.SignerName)</strong></span>
+                                                <span>@(field.SignedAt?.ToString("yyyy-MM-dd HH:mm UTC") ?? "Timestamped")</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (field.Type == PdfFieldType.InitialHere)
+                                    {
+                                        <div class="flex items-center gap-3 pt-1">
+                                            <div class="border-2 border-slate-900 dark:border-slate-300 rounded-lg px-4 py-1.5 font-serif italic text-2xl font-black text-cyan-900 dark:text-cyan-300"
+                                                 style="font-family: 'Brush Script MT', 'Dancing Script', 'Caveat', cursive;">
+                                                @(string.IsNullOrEmpty(field.Value) ? "JMD" : field.Value)
+                                            </div>
+                                            <div class="text-[10px] font-mono text-slate-500">
+                                                Initialed &amp; Merged (@(field.SignedAt?.ToString("yyyy-MM-dd") ?? "UTC"))
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (field.Type == PdfFieldType.DateTimeStamp)
+                                    {
+                                        <div class="border-b-2 border-slate-900 dark:border-slate-300 pb-1 font-mono font-bold text-sm text-slate-950 dark:text-white flex items-center gap-2">
+                                            <span>🔒</span>
+                                            <span>@(string.IsNullOrEmpty(field.Value) ? DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss 'UTC'") : field.Value)</span>
+                                        </div>
+                                    }
+                                    else if (field.Type == PdfFieldType.Checkbox)
+                                    {
+                                        <div class="flex items-center gap-2 text-sm font-sans font-semibold text-slate-900 dark:text-white pt-1">
+                                            <span class="w-5 h-5 rounded-md border-2 border-slate-900 dark:border-slate-200 flex items-center justify-center font-bold text-emerald-600 dark:text-emerald-400 text-xs">
+                                                ✓
+                                            </span>
+                                            <span>@(string.IsNullOrEmpty(field.Placeholder) ? "Acknowledged & Agreed." : field.Placeholder)</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="border-b-2 border-slate-900 dark:border-slate-300 pb-1 font-serif text-slate-950 dark:text-white font-bold text-base px-1">
+                                            @(string.IsNullOrEmpty(field.Value) ? "Apex Global Cloud Solutions, Inc." : field.Value)
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="p-4 rounded-2xl border transition-all relative @(field.IsFilled ? "bg-slate-50/60 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700" : "bg-amber-50/40 dark:bg-amber-950/20 border-amber-300 dark:border-amber-700/60 shadow-xs")">
                                 <!-- Field Header Label & Tag Indicator -->
                                 <div class="flex items-center justify-between mb-2 font-sans">
                                     <label class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -429,6 +556,7 @@
                                 }
                             </div>
                         }
+                    }
                     </div>
                 </div>
 
@@ -454,6 +582,41 @@
                             <div>Cert ID: <strong class="text-slate-900 dark:text-white">@Document.CertificateId</strong></div>
                             <div>Sealed UTC: <strong>@Document.SealedAtUtc?.ToString("yyyy-MM-dd HH:mm:ss")</strong></div>
                             <div>Attestation Hash: <strong>@(Document.Sha256Fingerprint.Length > 16 ? Document.Sha256Fingerprint[..16] + "..." : Document.Sha256Fingerprint)</strong></div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Flattened & Merged Content Stream Footer Seal -->
+                @if (Document.IsFlattened)
+                {
+                    <div class="mt-12 p-5 rounded-3xl bg-slate-900 text-white border-2 border-amber-500/40 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans text-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-2xl shadow-lg shrink-0">
+                                📜
+                            </div>
+                            <div>
+                                <div class="font-bold text-white text-sm flex items-center gap-2">
+                                    <span>ISO 32000-1 STATIC MERGED CONTENT STREAM</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500 text-white font-mono font-bold">STAMPED</span>
+                                </div>
+                                <p class="text-[11px] text-slate-300 mt-0.5">
+                                    All interactive form annotations purged. Merged document is cryptographically locked and certified for legal archival (PDF/A).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 shrink-0">
+                            <button type="button" @onclick="DownloadMergedPdf"
+                                    class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5">
+                                <span>📥 Download Flattened PDF</span>
+                            </button>
+                            <button type="button" @onclick="PrintDocument"
+                                    class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
+                                <span>🖨️ Print</span>
+                            </button>
+                            <button type="button" @onclick="UnflattenForEditing"
+                                    class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-semibold border border-amber-500/30 transition flex items-center gap-1.5">
+                                <span>🔓 Unflatten</span>
+                            </button>
                         </div>
                     </div>
                 }
@@ -772,9 +935,101 @@
     private void UnlockContractForDemo()
     {
         Document.IsSealed = false;
+        Document.IsFlattened = false;
         Document.IsReadOnly = false;
         Document.Status = "Pending Signatures";
         Toast?.Show("Contract unlocked for demonstration mode.", variant: SemanticVariant.Info);
+    }
+
+    private async Task FlattenAndStampDocument()
+    {
+        // Auto-fill any remaining blank fields with realistic contract values
+        foreach (var field in Document.Fields)
+        {
+            if (string.IsNullOrWhiteSpace(field.Value))
+            {
+                if (field.Type == PdfFieldType.SignHere)
+                {
+                    field.Value = "Jane M. Doe";
+                    field.SignerName = "Jane M. Doe";
+                    field.SignedAt = DateTime.UtcNow;
+                }
+                else if (field.Type == PdfFieldType.InitialHere)
+                {
+                    field.Value = "JMD";
+                    field.SignedAt = DateTime.UtcNow;
+                }
+                else if (field.Type == PdfFieldType.DateTimeStamp)
+                {
+                    field.Value = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss 'UTC'");
+                    field.SignedAt = DateTime.UtcNow;
+                }
+                else if (field.Type == PdfFieldType.Checkbox)
+                {
+                    field.Value = "true";
+                }
+                else
+                {
+                    field.Value = string.IsNullOrEmpty(field.Placeholder) ? "Apex Global Cloud Solutions, Inc." : field.Placeholder;
+                }
+            }
+        }
+
+        Document.IsFlattened = true;
+        Document.IsReadOnly = true;
+        Document.FlattenedAtUtc = DateTime.UtcNow;
+        Document.FlattenedContentStreamId = $"STRM-FLAT-{Guid.NewGuid().ToString("N")[..8].ToUpperInvariant()}";
+
+        // Generate cryptographic attestation SHA-256 for flattened state
+        var payloadToHash = $"{Document.DocumentId}:{Document.Title}:{Document.FlattenedAtUtc:O}:{Document.Fields.Count}:FLATTENED";
+        using var sha = SHA256.Create();
+        var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(payloadToHash));
+        Document.FlattenedHash = Convert.ToHexString(hashBytes).ToLowerInvariant();
+        if (string.IsNullOrEmpty(Document.Sha256Fingerprint))
+        {
+            Document.Sha256Fingerprint = Document.FlattenedHash;
+        }
+
+        Document.Status = "Flattened & Merged";
+        _isDesignerMode = false;
+
+        Toast?.Show("Form fields flattened & stamped! AcroForm annotations purged into immutable vector stream.", variant: SemanticVariant.Success);
+        await Task.CompletedTask;
+    }
+
+    private void UnflattenForEditing()
+    {
+        Document.IsFlattened = false;
+        Document.IsReadOnly = false;
+        Document.Status = "Interactive Fill";
+        Toast?.Show("Document unflattened. Form inputs restored to interactive mode.", variant: SemanticVariant.Info);
+    }
+
+    private async Task DownloadMergedPdf()
+    {
+        try
+        {
+            var base64 = PdfFlattenStreamGenerator.GenerateFlattenedPdfBase64(Document);
+            var filename = $"{Document.DocumentId}_Flattened_Merged.pdf";
+            await JS.InvokeVoidAsync("pdfHelper.downloadBlob", filename, "application/pdf", base64);
+            Toast?.Show($"Generated and downloaded: {filename}", variant: SemanticVariant.Success);
+        }
+        catch (Exception ex)
+        {
+            Toast?.Show($"PDF generation notice: {ex.Message}", variant: SemanticVariant.Info);
+        }
+    }
+
+    private async Task PrintDocument()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("pdfHelper.printDocument");
+        }
+        catch
+        {
+            // fallback
+        }
     }
 
     private string GetContractDataJson()

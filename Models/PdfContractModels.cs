@@ -67,6 +67,10 @@ public sealed class PdfContractDocument
     public string Status { get; set; } = "Pending Signatures";
     public bool IsReadOnly { get; set; } = false;
     public bool IsSealed { get; set; } = false;
+    public bool IsFlattened { get; set; } = false;
+    public DateTime? FlattenedAtUtc { get; set; }
+    public string FlattenedHash { get; set; } = string.Empty;
+    public string FlattenedContentStreamId { get; set; } = string.Empty;
     public string Sha256Fingerprint { get; set; } = string.Empty;
     public DateTime? SealedAtUtc { get; set; }
     public string SignerIp { get; set; } = "192.168.1.104 (Authenticated Enclave)";
