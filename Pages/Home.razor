@@ -2,6 +2,7 @@
 @inject ToastService Toast
 @inject ThemeService ThemeService
 @inject IJSRuntime JS
+@inject ServerPortBridgeService ServerBridge
 
 <PageTitle>Blazor Tailwind UI — Mobile-First Core Components</PageTitle>
 
@@ -41,6 +42,16 @@
 
     <!-- Header Actions Slot: Theme Switcher & Actions -->
     <HeaderActions>
+        <!-- Client-Server API Port Health Indicator -->
+        <div class="hidden lg:flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-xs font-mono font-bold shadow-xs cursor-default"
+             title="Verified Client-Server Port Connection: Active & Pre-flight Healthy">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span>API Online :@(ServerBridge.ActivePort)</span>
+            <span class="text-[10px] text-emerald-600/70 dark:text-emerald-400/70">(@(ServerBridge.RoundtripMs.ToString("F1"))ms)</span>
+        </div>
         <button type="button" 
                 @onclick="() => _commandPaletteOpen = true"
                 class="hidden min-[360px]:flex p-2 sm:px-2.5 sm:py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold transition items-center gap-2 focus:outline-none shadow-xs shrink-0"

@@ -557,6 +557,28 @@ A comprehensive paradigm shift translating the 2024-to-2027 modern UI transition
 
 ---
 
+---
+
+### Pillar 24: Demo Suite Installers & Client-Server Port Coordinator (Shipped v1.3.5 ✅)
+
+A fail-safe runtime architecture guaranteeing that the backend API is online and synchronized *before* the UI client launches, while dynamically allocating free ports (5128–5228) to eliminate port collision failures:
+
+- **1-Click Demo Suite Installer (`Install-BlazorTailwindDemos.cmd` & `install-demo-suite.ps1`)**:
+  - Automatically provisions the full compiled WASM demo suite to `%LOCALAPPDATA%\BlazorTailwindUI\Demos`.
+  - Creates desktop and Start Menu shortcuts pointing to the port-coordinated launcher with embedded `favicon.ico`.
+  - Bundles a clean uninstallation script for zero machine pollution.
+- **Client-Server Port Coordinator (`launch-demos.ps1`, `launch-demos.cmd`)**:
+  - Performs dynamic TCP socket scanning from port 5128 up to 5228, picking the first free port.
+  - Automatically writes the active port configuration into `appsettings.json`.
+  - Executes an active pre-flight HTTP health probe loop (`/api/health` and `/`), confirming HTTP 200 OK before triggering browser or WebView launch.
+  - Handles process supervision and clean SIGINT/Ctrl+C port deallocation.
+- **`ServerPortBridgeService`**:
+  - Live client-side Blazor WASM service monitoring connection roundtrip latency and displaying real-time API port connectivity status pills (`🟢 API Online :5128 (0.8ms)`).
+- **MIME-Compliant Demo Server (`demo-server.py`)**:
+  - Lightweight Python static server pre-configured with full MIME type definitions for `.wasm`, `.dll`, `.json`, `.webmanifest`, and SPA route fallback to `index.html`.
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid

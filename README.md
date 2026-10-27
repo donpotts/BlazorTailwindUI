@@ -83,8 +83,13 @@
     - **`TwFileManager`**: Enterprise file explorer featuring folder sidebar tree, breadcrumbs, Grid vs List modes, search, quota meter, and live File Inspector with SHA-256 validation and content previews.
     - **`TwWordCloud`**: Pure SVG weighted term frequency cloud with Archimedean spiral positioning, hover scaling, and keyword architecture intelligence cards.
     - **`TwSankeyChart`**: Pure SVG pipeline throughput flow diagram with bezier gradient ribbons, node metrics, and interactive +25% traffic surge simulations.
-16. **Desktop Installers (Windows MSI & EXE)**:
-    - Native desktop builds packaged with Tauri v2: WiX MSI (`BlazorTailwindUI-1.3.5-x64-en-US.msi`, 81.9 MB) and NSIS EXE (`BlazorTailwindUI-1.3.5-x64-Setup.exe`, 81.0 MB) in `release-packages/`.
+16. **Enterprise Desktop Installers (Windows MSI & EXE)**:
+    - Native desktop builds packaged with Tauri v2: WiX MSI (`BlazorTailwindUI-1.3.5-x64-en-US.msi`, 84.2 MB) and NSIS EXE (`BlazorTailwindUI-1.3.5-x64-Setup.exe`, 83.5 MB) in `release-packages/`.
+17. **Demo Suite Standalone Installer & Client-Server Port Coordinator**:
+    - **`Install-BlazorTailwindDemos.cmd` & `install-demo-suite.ps1`**: 1-click Windows installer establishing desktop shortcuts, start menu entries, and clean uninstallation in `%LOCALAPPDATA%\BlazorTailwindUI\Demos`.
+    - **Dynamic Port Coordinator (`launch-demos.ps1`, `launch-demos.cmd`)**: Scans ports 5128–5228, eliminates TCP collisions, synchronizes `appsettings.json`, and guarantees API 200 OK pre-flight health probe before launching the UI.
+    - **MIME-Compliant Demo Server (`demo-server.py`)**: Standalone WASM/CLR server with SPA fallback routing and `/api/health` diagnostics.
+    - **`BlazorTailwindUI-DemoSuite-v1.3.5-Setup.zip`**: Complete standalone offline package ready for immediate deployment.
 
 ---
 
@@ -484,8 +489,9 @@ Blazor Tailwind UI ships with native desktop packaging powered by **TAUI (Tauri 
 
 | Operating System | Package Type | Artifact Name | Description |
 |---|---|---|---|
-| **Windows** | **NSIS Setup (.exe)** | `BlazorTailwindUI-1.0.0-x64-Setup.exe` | Standard Windows executable wizard installer (~20 MB) |
-| **Windows** | **Windows Installer (.msi)** | `BlazorTailwindUI-1.0.0-x64-en-US.msi` | Enterprise WiX MSI package for silent / GPO rollout (~21 MB) |
+| **Windows** | **NSIS Setup (.exe)** | `BlazorTailwindUI-1.3.5-x64-Setup.exe` | Standard Windows executable wizard installer (~83 MB) |
+| **Windows** | **Windows Installer (.msi)** | `BlazorTailwindUI-1.3.5-x64-en-US.msi` | Enterprise WiX MSI package for silent / GPO rollout (~84 MB) |
+| **Windows / All** | **Demo Suite Installer (.zip)** | `BlazorTailwindUI-DemoSuite-v1.3.5-Setup.zip` | 1-click Windows demo installer with pre-flight port coordinator (~86 MB) |
 | **macOS** | **Apple Disk Image (.dmg)** | `BlazorTailwindUI-1.0.0-universal.dmg` | Drag-and-drop macOS Universal Binary (Apple Silicon + Intel) |
 | **Linux** | **Debian Package (.deb)** | `blazor-tailwind-ui_1.0.0_amd64.deb` | Ubuntu / Debian package with desktop launcher entry |
 | **Linux** | **AppImage (.AppImage)** | `BlazorTailwindUI-1.0.0-x86_64.AppImage` | Single-file zero-install portable Linux executable |

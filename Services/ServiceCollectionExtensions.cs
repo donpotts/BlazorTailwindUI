@@ -23,6 +23,7 @@ public static class BlazorTailwindUIServiceExtensions
         services.AddSingleton<TwZstandardService>();
         services.AddSingleton<TwPostQuantumService>();
         services.AddSingleton<TwOpenTelemetryService>();
+        services.AddScoped<ServerPortBridgeService>();
 
         return services;
     }
