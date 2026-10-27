@@ -26,6 +26,7 @@ This document outlines the strategic architecture, component specifications, and
 | **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Planned (v1.4.0) 🚀 | Observability & Performance HUD |
 | **17. .NET Aspire 11 Live App Host Orchestration** | `Aspire.Hosting.BlazorTailwindUI` | Planned (v1.5.0) 🌐 | Cloud-Native & Developer Velocity |
 | **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSIMDEngine` | Planned (v1.5.0) 🌐 | Runtime Performance & Vector SIMD |
+| **19. Enterprise Form & Workspace Suite** | `TwMaskInput`, `TwRangeSlider`, `TwHighlight`, `TwTileManager`, `TwNavDrawer` | Shipped (v1.3.1) ✅ | Enterprise UX & Dashboards |
 
 ---
 
@@ -436,6 +437,32 @@ Harness .NET 11's **Runtime-Native Async V2** model and modern hardware baseline
 - **Hardware-Accelerated Vector Algorithms**:
   - Leverages SVE2 and AVX2 SIMD intrinsics for real-time Check 21 MICR image cross-correlation, fast sorting in `TwDataGrid`, and instant client-side CSV parsing.
   - Bounds check elimination and generic method devirtualization across high-density data collections.
+
+---
+
+## 19. 🎛️ Enterprise Form & Workspace Suite — Shipped (v1.3.1) ✅
+
+### Objective
+Provide clean-room, zero-dependency Tailwind CSS + Blazor components addressing high-demand enterprise requirements: masked data entry, continuous interval bounds selection, document text search highlights, executive KPI tile management, and compact side navigation drawers.
+
+### Key Architectural Specifications
+- **`TwMaskInput`**:
+  - Configurable mask templates (`(###) ###-####`, `###-##-####`, `#### #### #### ####`, `##/##/####`).
+  - Dual value modes: `Raw` (unformatted digits) vs `WithFormatting` (formatted string with mask literals).
+  - Cursor jumping over literal characters and prompt indicators.
+- **`TwRangeSlider`**:
+  - Dual-handle range selector with lower and upper thumb bounds.
+  - Colored gradient track fill between active thumbs with ticks and prefix/suffix formatting.
+  - Mobile touch-optimized 44px hit targets.
+- **`TwHighlight`**:
+  - Real-time text search highlighter supporting case sensitivity and whole-word matching.
+  - Active match indicator (`Match 2 of 5`) and next/previous match cycling buttons.
+- **`TwTileManager` & `TwTile`**:
+  - Operational KPI tile layout manager with responsive grid column counts (Quad, Triple, Dual).
+  - 1-click Focus Mode Maximize with modal overlay backdrop and minimize collapse.
+- **`TwNavDrawer` & `TwNavDrawerItem`**:
+  - Collapsible side navigation drawer supporting instant toggle between Mini icon rail (64px) and Expanded full sidebar (260px).
+  - Item badge notifications (`Live`, `159`, `New`) and active route indicator.
 
 ---
 

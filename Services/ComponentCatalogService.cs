@@ -2431,6 +2431,85 @@ public class ComponentCatalogService
             RazorSnippet = "<TwTelemetryDashboard />",
             Parameters = new List<ComponentParameterDoc>()
         },
+        new ComponentDocItem
+        {
+            Name = "TwMaskInput",
+            Category = "Forms & Controls",
+            Description = "High-performance masked text input with slot validation, prompt guides, and Raw vs WithFormatting modes for Phone, SSN, Credit Card, and custom masks.",
+            RazorSnippet = "<TwMaskInput Label=\"Phone\" Mask=\"(###) ###-####\" @bind-Value=\"@phone\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "string", "\"\"", "Two-way bound input value."),
+                new ComponentParameterDoc("Mask", "string", "\"(###) ###-####\"", "Mask pattern (# digit, A letter, * alphanumeric)."),
+                new ComponentParameterDoc("Prompt", "char", "'_'", "Prompt symbol for unfilled slots."),
+                new ComponentParameterDoc("ValueMode", "MaskValueMode", "Raw", "Raw unformatted string vs formatted string with mask literals."),
+                new ComponentParameterDoc("Preset", "MaskPreset", "Custom", "Preconfigured mask presets (Phone, Ssn, CreditCard, Date, ZipCode)."),
+                new ComponentParameterDoc("Label", "string?", "null", "Input label."),
+                new ComponentParameterDoc("PrefixIcon", "string?", "null", "Prefix icon symbol.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwRangeSlider",
+            Category = "Forms & Controls",
+            Description = "Dual-thumb interactive range slider with Lower/Upper thumb bounds, colored track highlights, ticks, and touch-friendly tap targets.",
+            RazorSnippet = "<TwRangeSlider Label=\"Budget\" Min=\"0\" Max=\"1000\" @bind-Lower=\"@minVal\" @bind-Upper=\"@maxVal\" Prefix=\"$\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Lower", "double", "20", "Lower boundary thumb value (two-way bound)."),
+                new ComponentParameterDoc("Upper", "double", "80", "Upper boundary thumb value (two-way bound)."),
+                new ComponentParameterDoc("Min", "double", "0", "Minimum range limit."),
+                new ComponentParameterDoc("Max", "double", "100", "Maximum range limit."),
+                new ComponentParameterDoc("Step", "double", "1", "Granular increment step."),
+                new ComponentParameterDoc("Prefix", "string?", "null", "Prefix symbol for values ($)."),
+                new ComponentParameterDoc("Suffix", "string?", "null", "Suffix symbol for values (%).")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwHighlight",
+            Category = "Typography & Utilities",
+            Description = "Fast text search highlighter supporting case-sensitive matching, whole-word boundaries, match count badges, and Next/Prev navigation.",
+            RazorSnippet = "<TwHighlight Text=\"@body\" SearchText=\"@query\" ShowNavigation=\"true\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Text", "string", "\"\"", "Full body text to search."),
+                new ComponentParameterDoc("SearchText", "string", "\"\"", "Query term to highlight."),
+                new ComponentParameterDoc("CaseSensitive", "bool", "false", "Whether search matches exact case."),
+                new ComponentParameterDoc("WholeWord", "bool", "false", "Match entire words only."),
+                new ComponentParameterDoc("ActiveIndex", "int", "0", "Index of currently focused active match."),
+                new ComponentParameterDoc("ShowNavigation", "bool", "true", "Displays Next/Prev navigation bar with match count.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTileManager",
+            Category = "Cards, Grids & Bento Systems",
+            Description = "Executive dashboard tile manager with responsive multi-column layouts, 1-click tile focus maximization, minimize collapse, and refresh callbacks.",
+            RazorSnippet = "<TwTileManager Title=\"Executive Command\"><TwTile Title=\"ARR\" ColSpan=\"2\">...</TwTile></TwTileManager>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string?", "\"Executive Operations Command\"", "Toolbar title."),
+                new ComponentParameterDoc("ColumnCount", "int", "4", "Number of grid columns (Quad, Triple, Dual)."),
+                new ComponentParameterDoc("Gap", "string", "\"gap-4\"", "Tailwind gap utility."),
+                new ComponentParameterDoc("ShowToolbar", "bool", "true", "Whether to show view switcher toolbar.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwNavDrawer",
+            Category = "Navigation & Headers",
+            Description = "Enterprise side navigation drawer featuring Mini icon rail (64px) vs Expanded full sidebar (260px) transitions, item badges, and overlay mode.",
+            RazorSnippet = "<TwNavDrawer BrandTitle=\"Enterprise\"><TwNavDrawerItem Text=\"Dashboard\" Icon=\"📊\" /></TwNavDrawer>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("BrandTitle", "string", "\"Enterprise Hub\"", "Drawer header brand text."),
+                new ComponentParameterDoc("IsMini", "bool", "false", "Mini collapsed icon-only rail mode."),
+                new ComponentParameterDoc("IsOpen", "bool", "true", "Drawer open state."),
+                new ComponentParameterDoc("IsOverlay", "bool", "false", "Modal overlay mode with backdrop."),
+                new ComponentParameterDoc("AllowToggleMini", "bool", "true", "Show collapse/expand toggle button.")
+            }
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

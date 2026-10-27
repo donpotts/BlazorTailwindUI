@@ -1250,6 +1250,204 @@
                 else if (_activeTab == "components")
                 {
                     <div class="space-y-8">
+                        <!-- Next-Gen Enterprise Form & Navigation Controls Suite -->
+                        <TwCard Title="Next-Gen Enterprise Form, Navigation & Dashboard Controls" Subtitle="Advanced Masked Inputs, Dual-Thumb Range Sliders, Text Highlighters, Tile Manager, and Nav Drawers">
+                            <div class="space-y-8">
+                                <!-- 1. Masked Text Inputs -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>🪪</span> 1. High-Performance Masked Inputs (TwMaskInput)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400">
+                                            Clean-Room Architecture
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Format and constrain user input with configurable mask templates, literal slot jumps, and two-way data binding.
+                                    </p>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800">
+                                        <!-- Phone Mask -->
+                                        <div class="space-y-1.5">
+                                            <TwMaskInput Label="Phone Number (US)"
+                                                         Preset="TwMaskInput.MaskPreset.Phone"
+                                                         @bind-Value="_maskedPhone"
+                                                         HelperText="Mask: (###) ###-####" />
+                                            <div class="text-[11px] font-mono text-slate-500">
+                                                Raw: <span class="text-brand-600 dark:text-brand-400 font-bold">@_maskedPhone</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- SSN Mask -->
+                                        <div class="space-y-1.5">
+                                            <TwMaskInput Label="Social Security / Tax ID"
+                                                         Preset="TwMaskInput.MaskPreset.Ssn"
+                                                         @bind-Value="_maskedSsn"
+                                                         HelperText="Mask: ###-##-####" />
+                                            <div class="text-[11px] font-mono text-slate-500">
+                                                Raw: <span class="text-brand-600 dark:text-brand-400 font-bold">@_maskedSsn</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Credit Card Mask -->
+                                        <div class="space-y-1.5">
+                                            <TwMaskInput Label="Payment Card"
+                                                         Preset="TwMaskInput.MaskPreset.CreditCard"
+                                                         @bind-Value="_maskedCreditCard"
+                                                         HelperText="Mask: #### #### #### ####" />
+                                            <div class="text-[11px] font-mono text-slate-500">
+                                                Raw: <span class="text-brand-600 dark:text-brand-400 font-bold">@_maskedCreditCard</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2. Dual-Thumb Range Slider -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>🎚️</span> 2. Dual-Thumb Range Slider (TwRangeSlider)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                                            Dual Bounds Two-Way Binding
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Dual-handle slider for selecting continuous numerical intervals with colored range track highlights and mobile touch hit targets.
+                                    </p>
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800">
+                                        <TwRangeSlider Label="Enterprise Infrastructure Monthly Budget"
+                                                       Min="0"
+                                                       Max="1000"
+                                                       Step="10"
+                                                       Prefix="$"
+                                                       Suffix="/mo"
+                                                       @bind-Lower="_rangeLower"
+                                                       @bind-Upper="_rangeUpper" />
+                                    </div>
+                                </div>
+
+                                <!-- 3. Text Search Highlighter -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>🔍</span> 3. Real-Time Text Search Highlighter (TwHighlight)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                                            Match Stepping &amp; Pulse
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Highlights search matches in document paragraphs with active match cycling and accessible keyboard/button controls.
+                                    </p>
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-3">
+                                        <div class="max-w-xs">
+                                            <TwInput Label="Search Document Query"
+                                                     @bind-Value="_highlightQuery"
+                                                     Placeholder="Type a word (e.g. Blazor, apps)..." />
+                                        </div>
+                                        <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+                                            <TwHighlight Text="@_highlightSampleText"
+                                                         SearchText="@_highlightQuery"
+                                                         @bind-ActiveIndex="_highlightActiveIndex"
+                                                         ShowNavigation="true" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 4. Dashboard Tile Manager -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>📊</span> 4. Dashboard Tile Manager (TwTileManager &amp; TwTile)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400">
+                                            Focus Mode Maximize &amp; Minimize
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Dynamic multi-column layout engine for operational KPI tiles with 1-click focus maximization modal and collapse states.
+                                    </p>
+                                    <TwTileManager Title="Executive KPI Operations Deck" ColumnCount="3">
+                                        <TwTile Title="Active Enterprise ARR" Subtitle="Trailing 12-Month Run Rate" Icon="📈" ColSpan="1" OnRefresh='() => Toast.Show("ARR metric refreshed", "Real-time ledger synced", SemanticVariant.Success)'>
+                                            <div class="space-y-2">
+                                                <div class="text-2xl font-mono font-extrabold text-slate-900 dark:text-white">$48.2M</div>
+                                                <div class="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                                                    <span>↑ +18.4%</span>
+                                                    <span class="text-slate-400 font-normal">vs previous quarter</span>
+                                                </div>
+                                            </div>
+                                        </TwTile>
+
+                                        <TwTile Title="Cluster Health &amp; Latency" Subtitle="Global Edge Nodes" Icon="🌐" ColSpan="1" OnRefresh='() => Toast.Show("Edge clusters pinged", "Latency: 1.2ms nominal", SemanticVariant.Info)'>
+                                            <div class="space-y-2">
+                                                <div class="text-2xl font-mono font-extrabold text-brand-600 dark:text-brand-400">1.2ms</div>
+                                                <div class="text-xs text-slate-500 dark:text-slate-400">
+                                                    99.995% Uptime across 24 edge zones
+                                                </div>
+                                            </div>
+                                        </TwTile>
+
+                                        <TwTile Title="Security &amp; Threat Detection" Subtitle="Zero-Trust Enclave" Icon="🛡️" ColSpan="1" OnRefresh='() => Toast.Show("Threat scanner active", "0 vulnerabilities detected", SemanticVariant.Success)'>
+                                            <div class="space-y-2">
+                                                <div class="text-2xl font-mono font-extrabold text-purple-600 dark:text-purple-400">0 Critical</div>
+                                                <div class="text-xs text-slate-500 dark:text-slate-400">
+                                                    Post-Quantum ML-KEM-768 Enclave Active
+                                                </div>
+                                            </div>
+                                        </TwTile>
+                                    </TwTileManager>
+                                </div>
+
+                                <!-- 5. Side Navigation Drawer -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 uppercase tracking-wider">
+                                            <span>📑</span> 5. Application Navigation Drawer (TwNavDrawer)
+                                        </h4>
+                                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                            Mini Rail (64px) &amp; Expanded (260px)
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        Side navigation container featuring instant toggle between compact icon-rail and expanded full sidebar with item counters.
+                                    </p>
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 flex justify-center">
+                                        <div class="h-80 w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-950/60 overflow-hidden flex">
+                                            <TwNavDrawer BrandTitle="SaaS Portal"
+                                                         @bind-IsMini="_demoDrawerMini"
+                                                         AllowToggleMini="true"
+                                                         Class="h-full">
+                                                <TwNavDrawerItem Text="Overview"
+                                                                 Icon="📊"
+                                                                 Badge="Live"
+                                                                 IsActive="@(_demoDrawerActive == "dashboard")"
+                                                                 OnClick='() => _demoDrawerActive = "dashboard"' />
+                                                <TwNavDrawerItem Text="Data Grids"
+                                                                 Icon="📑"
+                                                                 Badge="159"
+                                                                 IsActive="@(_demoDrawerActive == "grids")"
+                                                                 OnClick='() => _demoDrawerActive = "grids"' />
+                                                <TwNavDrawerItem Text="Security &amp; MFA"
+                                                                 Icon="🔐"
+                                                                 IsActive="@(_demoDrawerActive == "security")"
+                                                                 OnClick='() => _demoDrawerActive = "security"' />
+                                                <TwNavDrawerItem Text="Settings"
+                                                                 Icon="⚙️"
+                                                                 IsActive="@(_demoDrawerActive == "settings")"
+                                                                 OnClick='() => _demoDrawerActive = "settings"' />
+                                            </TwNavDrawer>
+                                            <div class="flex-1 p-6 flex flex-col items-center justify-center text-center">
+                                                <span class="text-2xl">⚡</span>
+                                                <h5 class="text-xs font-bold text-slate-900 dark:text-white mt-2">Active View: @_demoDrawerActive.ToUpper()</h5>
+                                                <p class="text-[11px] text-slate-400 mt-1">Drawer is in @(_demoDrawerMini ? "Mini Icon Rail (64px)" : "Expanded Full (260px)") mode.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </TwCard>
+
                         <!-- Buttons & Badges -->
                         <TwCard Title="Buttons & Interactive Elements" Subtitle="Mobile-first tap states, loading spinners, full-width options and semantic variants">
                             <div class="space-y-6">
@@ -3514,6 +3712,18 @@
             _activeLayout = l;
         }
     }
+
+    // Next-Gen Enterprise Form & Navigation Controls State
+    private string _maskedPhone = "4155552671";
+    private string _maskedSsn = "987654321";
+    private string _maskedCreditCard = "4532891044238812";
+    private double _rangeLower = 250;
+    private double _rangeUpper = 750;
+    private string _highlightQuery = "Blazor";
+    private int _highlightActiveIndex = 0;
+    private bool _demoDrawerMini = false;
+    private string _demoDrawerActive = "dashboard";
+    private string _highlightSampleText = "Blazor Tailwind UI brings full-stack C# power to modern web apps. With Blazor WebAssembly and Blazor Server, developers build lightning-fast interactive dashboards. The Blazor component model simplifies state management across enterprise clouds.";
 
     // Showcase & Command Palette State
     private bool _commandPaletteOpen;

@@ -5318,5 +5318,219 @@
     "description": "Native OpenTelemetry (OTel) developer cockpit rendering real-time ActivitySource lifecycle spans, render latency waterfalls, and heap telemetry.",
     "snippet": "<TwTelemetryDashboard />",
     "parameters": []
+  },
+  {
+    "name": "TwMaskInput",
+    "category": "Forms & Controls",
+    "description": "High-performance masked text input with slot validation, prompt guides, and Raw vs WithFormatting modes for Phone, SSN, Credit Card, and custom masks.",
+    "snippet": "<TwMaskInput Label=\"Phone\" Mask=\"(###) ###-####\" @bind-Value=\"@phone\" />",
+    "parameters": [
+      {
+        "name": "Value",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Two-way bound input value."
+      },
+      {
+        "name": "Mask",
+        "type": "string",
+        "default": "\"(###) ###-####\"",
+        "description": "Mask pattern (# digit, A letter, * alphanumeric)."
+      },
+      {
+        "name": "Prompt",
+        "type": "char",
+        "default": "'_'",
+        "description": "Prompt symbol for unfilled slots."
+      },
+      {
+        "name": "ValueMode",
+        "type": "MaskValueMode",
+        "default": "Raw",
+        "description": "Raw unformatted string vs formatted string with mask literals."
+      },
+      {
+        "name": "Preset",
+        "type": "MaskPreset",
+        "default": "Custom",
+        "description": "Preconfigured mask presets (Phone, Ssn, CreditCard, Date, ZipCode)."
+      },
+      {
+        "name": "Label",
+        "type": "string?",
+        "default": "null",
+        "description": "Input label."
+      },
+      {
+        "name": "PrefixIcon",
+        "type": "string?",
+        "default": "null",
+        "description": "Prefix icon symbol."
+      }
+    ]
+  },
+  {
+    "name": "TwRangeSlider",
+    "category": "Forms & Controls",
+    "description": "Dual-thumb interactive range slider with Lower/Upper thumb bounds, colored track highlights, ticks, and touch-friendly tap targets.",
+    "snippet": "<TwRangeSlider Label=\"Budget\" Min=\"0\" Max=\"1000\" @bind-Lower=\"@minVal\" @bind-Upper=\"@maxVal\" Prefix=\"$\" />",
+    "parameters": [
+      {
+        "name": "Lower",
+        "type": "double",
+        "default": "20",
+        "description": "Lower boundary thumb value (two-way bound)."
+      },
+      {
+        "name": "Upper",
+        "type": "double",
+        "default": "80",
+        "description": "Upper boundary thumb value (two-way bound)."
+      },
+      {
+        "name": "Min",
+        "type": "double",
+        "default": "0",
+        "description": "Minimum range limit."
+      },
+      {
+        "name": "Max",
+        "type": "double",
+        "default": "100",
+        "description": "Maximum range limit."
+      },
+      {
+        "name": "Step",
+        "type": "double",
+        "default": "1",
+        "description": "Granular increment step."
+      },
+      {
+        "name": "Prefix",
+        "type": "string?",
+        "default": "null",
+        "description": "Prefix symbol for values ($)."
+      },
+      {
+        "name": "Suffix",
+        "type": "string?",
+        "default": "null",
+        "description": "Suffix symbol for values (%)."
+      }
+    ]
+  },
+  {
+    "name": "TwHighlight",
+    "category": "Typography & Utilities",
+    "description": "Fast text search highlighter supporting case-sensitive matching, whole-word boundaries, match count badges, and Next/Prev navigation.",
+    "snippet": "<TwHighlight Text=\"@body\" SearchText=\"@query\" ShowNavigation=\"true\" />",
+    "parameters": [
+      {
+        "name": "Text",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Full body text to search."
+      },
+      {
+        "name": "SearchText",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Query term to highlight."
+      },
+      {
+        "name": "CaseSensitive",
+        "type": "bool",
+        "default": "false",
+        "description": "Whether search matches exact case."
+      },
+      {
+        "name": "WholeWord",
+        "type": "bool",
+        "default": "false",
+        "description": "Match entire words only."
+      },
+      {
+        "name": "ActiveIndex",
+        "type": "int",
+        "default": "0",
+        "description": "Index of currently focused active match."
+      },
+      {
+        "name": "ShowNavigation",
+        "type": "bool",
+        "default": "true",
+        "description": "Displays Next/Prev navigation bar with match count."
+      }
+    ]
+  },
+  {
+    "name": "TwTileManager",
+    "category": "Cards, Grids & Bento Systems",
+    "description": "Executive dashboard tile manager with responsive multi-column layouts, 1-click tile focus maximization, minimize collapse, and refresh callbacks.",
+    "snippet": "<TwTileManager Title=\"Executive Command\"><TwTile Title=\"ARR\" ColSpan=\"2\">...</TwTile></TwTileManager>",
+    "parameters": [
+      {
+        "name": "Title",
+        "type": "string?",
+        "default": "\"Executive Operations Command\"",
+        "description": "Toolbar title."
+      },
+      {
+        "name": "ColumnCount",
+        "type": "int",
+        "default": "4",
+        "description": "Number of grid columns (Quad, Triple, Dual)."
+      },
+      {
+        "name": "Gap",
+        "type": "string",
+        "default": "\"gap-4\"",
+        "description": "Tailwind gap utility."
+      },
+      {
+        "name": "ShowToolbar",
+        "type": "bool",
+        "default": "true",
+        "description": "Whether to show view switcher toolbar."
+      }
+    ]
+  },
+  {
+    "name": "TwNavDrawer",
+    "category": "Navigation & Headers",
+    "description": "Enterprise side navigation drawer featuring Mini icon rail (64px) vs Expanded full sidebar (260px) transitions, item badges, and overlay mode.",
+    "snippet": "<TwNavDrawer BrandTitle=\"Enterprise\"><TwNavDrawerItem Text=\"Dashboard\" Icon=\"\ud83d\udcca\" /></TwNavDrawer>",
+    "parameters": [
+      {
+        "name": "BrandTitle",
+        "type": "string",
+        "default": "\"Enterprise Hub\"",
+        "description": "Drawer header brand text."
+      },
+      {
+        "name": "IsMini",
+        "type": "bool",
+        "default": "false",
+        "description": "Mini collapsed icon-only rail mode."
+      },
+      {
+        "name": "IsOpen",
+        "type": "bool",
+        "default": "true",
+        "description": "Drawer open state."
+      },
+      {
+        "name": "IsOverlay",
+        "type": "bool",
+        "default": "false",
+        "description": "Modal overlay mode with backdrop."
+      },
+      {
+        "name": "AllowToggleMini",
+        "type": "bool",
+        "default": "true",
+        "description": "Show collapse/expand toggle button."
+      }
+    ]
   }
 ]

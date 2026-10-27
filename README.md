@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-11.0_Full--Stack_Ready-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET 11 Full-Stack Ready" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v3.4" /></a>
-  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-154+_Production_Ready-3B82F6?style=for-the-badge" alt="154+ Components" /></a>
+  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-159+_Production_Ready-3B82F6?style=for-the-badge" alt="159+ Components" /></a>
   <a href="#-progressive-web-app-pwa--1-click-desktopmobile-installation"><img src="https://img.shields.io/badge/PWA-Installable_WASM-059669?style=for-the-badge" alt="PWA Installable" /></a>
   <a href="#-100-most-used-forms-standard-library"><img src="https://img.shields.io/badge/Forms_Catalog-100_Standard_Schemas-10B981?style=for-the-badge" alt="100 Forms" /></a>
   <a href="#-adaptive-generative-ui-agui--agentic-tool-calling"><img src="https://img.shields.io/badge/AGUI-Agentic_Tool_Calling-8B5CF6?style=for-the-badge" alt="AGUI & Tool Calling" /></a>
@@ -27,7 +27,7 @@
 
 **BlazorTailwindUI** is an enterprise-grade component library, dynamic form engine, and **Adaptive Generative UI (AGUI)** workbench for Blazor WebAssembly. Built with modern C# and client-side WebAssembly SIMD performance, it pairs with a standalone, local Tailwind CSS compiler to deliver:
 
-1. **154+ Production-Ready Components** across 20 structured categories.
+1. **159+ Production-Ready Components** across 20 structured categories.
 2. **Adaptive Generative UI (AGUI)**: Prompt-to-UI synthesis compiling natural language user intent into live, reactive interface trees.
 3. **Dual-Plane Agentic Tool Calling (.NET 11)**: First-class client-side WebAssembly tools (`FrontendWasm`) and backend endpoints (`BackendApi`) with real-time latency monitoring and execution tracing.
 4. **Smart Components Drop-in Suite**: Drop-in controls including `TwSmartPasteButton`, `TwSmartTextArea`, `TwSmartSearch`, and `TwSmartFilter`.
