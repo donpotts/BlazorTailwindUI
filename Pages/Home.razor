@@ -3646,20 +3646,103 @@
                         <!-- 1. Video Player & Interactive Chapter Selector -->
                         <TwCard Title="1080p Video Tour & Feature Walkthrough" Subtitle="High-definition demonstration video of the complete component ecosystem">
                             <div class="space-y-4">
-                                <TwMediaPlayer @ref="_masterclassPlayer"
-                                               Src="videos/demo-video.mp4"
-                                               Title="BlazorTailwindUI Masterclass & Architecture"
-                                               Subtitle="Full HD Walkthrough of the Mobile-First Component System"
-                                               Chapters="@_videoChapters" />
 
-                                <!-- Interactive Chapter Timestamps -->
-                                <div class="space-y-2 pt-2">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">HyperFrames Video Chapters</span>
+                                <!-- Video Presentation Mode Tabs -->
+                                <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+                                    <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-850 p-1 border border-slate-200 dark:border-slate-800 text-xs font-semibold">
+                                        <button type="button" @onclick='() => _trainingVideoMode = "player"' class="px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 @(_trainingVideoMode == "player" ? "bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                            <span>🎬</span> 1080p MP4 Video
+                                        </button>
+                                        <button type="button" @onclick='() => _trainingVideoMode = "hyperframes"' class="px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 @(_trainingVideoMode == "hyperframes" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                            <span>⚡</span> HyperFrames Live Engine
+                                        </button>
+                                        <button type="button" @onclick='() => _trainingVideoMode = "demos"' class="px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 @(_trainingVideoMode == "demos" ? "bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                            <span>🎥</span> Flagship Demos Gallery
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        @if (_trainingVideoMode == "hyperframes")
+                                        {
+                                            <a href="videos/hyperframes_masterclass.html" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-xs font-semibold hover:bg-purple-100 transition flex items-center gap-1">
+                                                <span>↗</span> Pop Out 1080p Stage
+                                            </a>
+                                        }
                                         <a href="videos/demo-video.mp4" download="BlazorTailwindUI-Masterclass.mp4" class="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline flex items-center gap-1">
                                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                             Download 1080p MP4 (6.7 MB)
                                         </a>
+                                    </div>
+                                </div>
+
+                                @if (_trainingVideoMode == "player")
+                                {
+                                    <TwMediaPlayer @ref="_masterclassPlayer"
+                                                   Src="videos/demo-video.mp4"
+                                                   Title="BlazorTailwindUI Masterclass & Architecture"
+                                                   Subtitle="Full HD Walkthrough of the Mobile-First Component System"
+                                                   Chapters="@_videoChapters" />
+                                }
+                                else if (_trainingVideoMode == "hyperframes")
+                                {
+                                    <div class="relative w-full aspect-video rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
+                                        <iframe id="hyperframes-iframe"
+                                                src="videos/hyperframes_masterclass.html"
+                                                class="w-full h-full border-0"
+                                                title="HyperFrames 1080p Masterclass Engine"
+                                                allow="fullscreen"></iframe>
+                                    </div>
+                                }
+                                else if (_trainingVideoMode == "demos")
+                                {
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-brand-500 transition space-y-3 cursor-pointer" @onclick='async () => { _trainingVideoMode = "player"; await SeekVideo(0); }'>
+                                            <div class="flex items-center justify-between">
+                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-brand-500/10 text-brand-500 border border-brand-500/20">DEMO 01</span>
+                                                <span class="text-xs text-slate-400 font-mono">04:05</span>
+                                            </div>
+                                            <h4 class="font-bold text-slate-900 dark:text-white text-base">Full Ecosystem Masterclass 1080p</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400">Comprehensive overview of all 184 components, pure IL WebAssembly, architecture, and developer coaching.</p>
+                                            <div class="text-xs font-semibold text-brand-600 dark:text-brand-400 flex items-center gap-1">▶ Watch Demo</div>
+                                        </div>
+
+                                        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-purple-500 transition space-y-3 cursor-pointer" @onclick='async () => { _trainingVideoMode = "player"; await SeekVideo(15.5); }'>
+                                            <div class="flex items-center justify-between">
+                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-purple-500/10 text-purple-500 border border-purple-500/20">DEMO 02</span>
+                                                <span class="text-xs text-slate-400 font-mono">01:30</span>
+                                            </div>
+                                            <h4 class="font-bold text-slate-900 dark:text-white text-base">Adaptive GenUI & Confetti Fireworks</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400">Live dual-plane tool calling, runtime prompt synthesis, and 60 FPS HTML5 canvas physics celebration bursts.</p>
+                                            <div class="text-xs font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1">▶ Watch Demo</div>
+                                        </div>
+
+                                        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-emerald-500 transition space-y-3 cursor-pointer" @onclick='async () => { _trainingVideoMode = "player"; await SeekVideo(128.8); }'>
+                                            <div class="flex items-center justify-between">
+                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">DEMO 03</span>
+                                                <span class="text-xs text-slate-400 font-mono">02:15</span>
+                                            </div>
+                                            <h4 class="font-bold text-slate-900 dark:text-white text-base">Enterprise DataGrid & Universal Kanban</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400">Full CRUD user dialogs, sorting, multi-column search, and universal pointer drag-and-drop workflow board.</p>
+                                            <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">▶ Watch Demo</div>
+                                        </div>
+
+                                        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-cyan-500 transition space-y-3 cursor-pointer" @onclick='async () => { _trainingVideoMode = "player"; await SeekVideo(172.0); }'>
+                                            <div class="flex items-center justify-between">
+                                                <span class="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-cyan-500/10 text-cyan-500 border border-cyan-500/20">DEMO 04</span>
+                                                <span class="text-xs text-slate-400 font-mono">01:50</span>
+                                            </div>
+                                            <h4 class="font-bold text-slate-900 dark:text-white text-base">CRM Draggable Dashboard & PDF Sealing</h4>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400">GridStack drag-and-drop dashboard customization with SHA-256 sealed irreversible PDF form flattening.</p>
+                                            <div class="text-xs font-semibold text-cyan-600 dark:text-cyan-400 flex items-center gap-1">▶ Watch Demo</div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                                <!-- Interactive Chapter Timestamps -->
+                                <div class="space-y-2 pt-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">HyperFrames 1080p Masterclass Chapters (18 Chapters)</span>
+                                        <span class="text-xs text-brand-600 dark:text-brand-400 font-mono font-semibold">Click any chapter to seek live</span>
                                     </div>
                                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                                         <button type="button" @onclick='() => SeekVideo(0)' class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-brand-500 transition text-left focus:outline-none">
@@ -3721,6 +3804,18 @@
                                         <button type="button" @onclick='() => SeekVideo(225.0)' class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-brand-500 transition text-left focus:outline-none">
                                             <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400 font-bold block">3:45</span>
                                             <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">Grouped Category Hubs</span>
+                                        </button>
+                                        <button type="button" @onclick='() => SeekVideo(245.0)' class="p-2.5 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/30 hover:border-blue-500 transition text-left focus:outline-none">
+                                            <span class="text-[10px] font-mono text-blue-600 dark:text-blue-400 font-bold block">4:05</span>
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">Media Asset Manager</span>
+                                        </button>
+                                        <button type="button" @onclick='() => SeekVideo(265.0)' class="p-2.5 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-950/30 hover:border-emerald-500 transition text-left focus:outline-none">
+                                            <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold block">4:25</span>
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">Modern Controls & Drag</span>
+                                        </button>
+                                        <button type="button" @onclick='() => SeekVideo(285.0)' class="p-2.5 rounded-xl border border-purple-200 dark:border-purple-800 bg-purple-50/50 dark:bg-purple-950/30 hover:border-purple-500 transition text-left focus:outline-none">
+                                            <span class="text-[10px] font-mono text-purple-600 dark:text-purple-400 font-bold block">4:45</span>
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">Celebration Sandbox</span>
                                         </button>
                                     </div>
                                 </div>
@@ -5976,16 +6071,28 @@
         new(172.0, "CRM Draggable Dashboard"),
         new(190.0, "PDF Form Flattening & Sealing"),
         new(208.0, "C# 15 Union Boundary"),
-        new(225.0, "Grouped Category Hubs")
+        new(225.0, "Grouped Category Hubs"),
+        new(245.0, "Media Asset Manager"),
+        new(265.0, "Modern Controls & Drag"),
+        new(285.0, "Celebration Sandbox")
     };
+
+    private string _trainingVideoMode = "player";
+    private double _currentMasterclassSeconds = 0;
 
     private async Task SeekVideo(double seconds)
     {
+        _currentMasterclassSeconds = seconds;
         if (_masterclassPlayer != null)
         {
             await _masterclassPlayer.SeekTo(seconds);
             await _masterclassPlayer.PlayAsync();
         }
+        try
+        {
+            await JS.InvokeVoidAsync("seekHyperframes", seconds);
+        }
+        catch { }
     }
 
     private ButtonVariant GetPgButtonVariant() => _pgVariant switch

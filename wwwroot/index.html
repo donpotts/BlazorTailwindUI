@@ -58,6 +58,18 @@
     <link rel="stylesheet" href="lib/gridstack/dist/gridstack.min.css" />
     <link rel="stylesheet" href="css/app.min.css" />
     <link rel="stylesheet" href="BlazorTailwindUI.styles.css" />
+    <script>
+        window.seekHyperframes = function(seconds) {
+            try {
+                const iframe = document.getElementById('hyperframes-iframe');
+                if (iframe && iframe.contentWindow && typeof iframe.contentWindow.renderAtTime === 'function') {
+                    iframe.contentWindow.renderAtTime(seconds);
+                }
+            } catch (e) {
+                console.warn('Hyperframes seek warning:', e);
+            }
+        };
+    </script>
 </head>
 
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased min-h-screen">
