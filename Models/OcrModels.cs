@@ -1,5 +1,7 @@
 namespace BlazorTailwindUI.Models;
 
+using System.Text.Json.Serialization;
+
 /// <summary>
 /// Supported document types for OCR & Form Analysis.
 /// </summary>
@@ -14,6 +16,25 @@ public enum OcrDocumentType
 }
 
 /// <summary>
+/// Verified NACHA / FedACH Financial Institution Directory Record.
+/// </summary>
+public class NachaRoutingEntry
+{
+    public string RoutingNumber { get; set; } = string.Empty;
+    public string BankName { get; set; } = string.Empty;
+    public string City { get; set; } = string.Empty;
+    public string State { get; set; } = string.Empty;
+    public string District { get; set; } = string.Empty;
+    public string OfficeType { get; set; } = "Head Office";
+    public string InstitutionCategory { get; set; } = "Commercial Bank";
+    public bool WireEligible { get; set; } = true;
+    public bool AchEligible { get; set; } = true;
+
+    [JsonIgnore]
+    public string DisplaySummary => $"{BankName} ({City}, {State}) — {RoutingNumber}";
+}
+
+/// <summary>
 /// Parsed E-13B MICR line data according to ANSI X9.27 / Check 21 standards.
 /// </summary>
 public class MicrE13BData
@@ -24,9 +45,17 @@ public class MicrE13BData
     public string CheckNumber { get; set; } = string.Empty;
     public decimal? EmbeddedAmount { get; set; }
     public string BankName { get; set; } = string.Empty;
+    public string FederalReserveDistrict { get; set; } = string.Empty;
+    public string FederalReserveCity { get; set; } = string.Empty;
+    public string InstitutionType { get; set; } = "Commercial Bank";
+    public string OfficeType { get; set; } = "Main Office";
     public bool IsValidRoutingChecksum { get; set; }
     public int Mod10ChecksumValue { get; set; }
+    public int CalculatedCheckDigit { get; set; }
+    public string SuggestedFixRouting { get; set; } = string.Empty;
+    public bool NachaRecordFound { get; set; }
     public double Confidence { get; set; } = 0.99;
+    public string? RawTesseractOutput { get; set; }
 
     /// <summary>
     /// Computes ABA 9-digit Routing Transit Number checksum:
@@ -44,6 +73,23 @@ public class MicrE13BData
 
         int mod = sum % 10;
         return (mod == 0, mod);
+    }
+
+    /// <summary>
+    /// Calculates what the 9th check digit should be for the given first 8 routing digits.
+    /// Formula: [10 - ((3*(d1+d4+d7) + 7*(d2+d5+d8) + 1*(d3+d6)) % 10)] % 10
+    /// </summary>
+    public static int CalculateCheckDigit(string first8Digits)
+    {
+        var digits = first8Digits.Where(char.IsDigit).Select(c => c - '0').ToArray();
+        if (digits.Length < 8) return 0;
+
+        int s8 = 3 * (digits[0] + digits[3] + digits[6])
+               + 7 * (digits[1] + digits[4] + digits[7])
+               + 1 * (digits[2] + digits[5]);
+
+        int remainder = s8 % 10;
+        return (10 - remainder) % 10;
     }
 }
 
@@ -68,6 +114,7 @@ public class CheckDraftOcrResult
     public double OverallConfidence { get; set; } = 0.985;
     public int ProcessingTimeMs { get; set; } = 64;
     public List<OcrBoundingBox> BoundingBoxes { get; set; } = new();
+    public bool IsTesseractEngine { get; set; } = false;
 }
 
 /// <summary>
@@ -118,4 +165,68 @@ public class DocumentOcrResult
     public CheckDraftOcrResult? CheckData { get; set; }
     public string RawExtractedText { get; set; } = string.Empty;
     public string MarkdownTableRepresentation { get; set; } = string.Empty;
+    public bool IsTesseractEngine { get; set; } = false;
+}
+
+/// <summary>
+/// Direct output from Tesseract.js WebAssembly OCR Engine.
+/// </summary>
+public class TesseractRecognitionResult
+{
+    [JsonPropertyName("success")]
+    public bool Success { get; set; }
+
+    [JsonPropertyName("errorMessage")]
+    public string? ErrorMessage { get; set; }
+
+    [JsonPropertyName("text")]
+    public string Text { get; set; } = string.Empty;
+
+    [JsonPropertyName("words")]
+    public List<TesseractWord> Words { get; set; } = new();
+
+    [JsonPropertyName("lines")]
+    public List<TesseractLine> Lines { get; set; } = new();
+
+    [JsonPropertyName("confidence")]
+    public double Confidence { get; set; }
+
+    [JsonPropertyName("durationMs")]
+    public int DurationMs { get; set; }
+}
+
+public class TesseractWord
+{
+    [JsonPropertyName("text")]
+    public string Text { get; set; } = string.Empty;
+
+    [JsonPropertyName("confidence")]
+    public double Confidence { get; set; }
+
+    [JsonPropertyName("bbox")]
+    public TesseractBoundingBox? Bbox { get; set; }
+}
+
+public class TesseractLine
+{
+    [JsonPropertyName("text")]
+    public string Text { get; set; } = string.Empty;
+
+    [JsonPropertyName("confidence")]
+    public double Confidence { get; set; }
+}
+
+public class TesseractBoundingBox
+{
+    [JsonPropertyName("x0")]
+    public double X0 { get; set; }
+
+    [JsonPropertyName("y0")]
+    public double Y0 { get; set; }
+
+    [JsonPropertyName("x1")]
+    public double X1 { get; set; }
+
+    [JsonPropertyName("y1")]
+    public double Y1 { get; set; }
 }

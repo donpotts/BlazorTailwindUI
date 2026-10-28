@@ -16,7 +16,7 @@ public static class BlazorTailwindUIServiceExtensions
         services.AddSingleton<ComponentCatalogService>();
         services.AddSingleton<FormCatalogService>();
         services.AddSingleton<AgenticToolRegistry>();
-        services.AddSingleton<OcrEngineService>();
+        services.AddScoped<OcrEngineService>();
         services.AddSingleton<TwHydrationService>();
         services.AddSingleton<FullstackAgenticBridge>();
         services.AddSingleton<TwDonutCacheService>();
