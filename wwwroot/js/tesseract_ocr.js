@@ -1,52 +1,41 @@
-// BlazorTailwindUI - Genuine Tesseract.js WebAssembly OCR Engine Bridge
-// Connects Blazor WASM with https://github.com/tesseract-ocr/tesseract (via Tesseract.js WASM port)
+// BlazorTailwindUI - 100% Local Tesseract.js WebAssembly OCR Engine Bridge
+// Zero external CDN dependencies - All WASM, Workers, and Models are served locally from wwwroot/lib/tesseract
 
 window.TesseractOcrBridge = {
     _worker: null,
-    _isInitializing: false,
     _isReady: false,
 
     isReady: function () {
-        return this._isReady || (typeof Tesseract !== 'undefined');
+        return typeof Tesseract !== 'undefined';
     },
 
-    init: async function () {
-        if (this._isReady) return true;
-        if (typeof Tesseract === 'undefined') {
-            console.warn('[Tesseract] Tesseract library not yet loaded');
-            return false;
-        }
-        try {
-            this._isReady = true;
-            console.log('[Tesseract] Tesseract WebAssembly engine ready');
-            return true;
-        } catch (err) {
-            console.error('[Tesseract] Init error:', err);
-            return false;
-        }
-    },
-
-    recognizeImage: async function (imageSource, progressDotNetHelper) {
+    recognizeImage: async function (imageSource, dotNetHelper) {
         const startTime = performance.now();
 
         if (typeof Tesseract === 'undefined') {
             return {
                 success: false,
-                errorMessage: "Tesseract engine not loaded.",
+                errorMessage: "Local Tesseract library is not loaded.",
                 text: "",
                 words: [],
+                lines: [],
                 confidence: 0,
                 durationMs: 0
             };
         }
 
         try {
+            // Configure 100% LOCAL execution: no CDN, no external network requests
             const worker = await Tesseract.createWorker('eng', 1, {
+                workerPath: '/lib/tesseract/worker.min.js',
+                corePath: '/lib/tesseract/tesseract-core-simd-lstm.wasm.js',
+                langPath: '/lib/tesseract',
+                gzip: true,
                 logger: m => {
-                    if (progressDotNetHelper && m.status === 'recognizing text') {
+                    if (dotNetHelper && typeof dotNetHelper.invokeMethodAsync === 'function') {
                         try {
                             const pct = Math.round((m.progress || 0) * 100);
-                            progressDotNetHelper.invokeMethodAsync('OnTesseractProgress', pct, m.status);
+                            dotNetHelper.invokeMethodAsync('OnTesseractProgress', pct, m.status || 'processing');
                         } catch (e) { }
                     }
                 }
@@ -63,10 +52,10 @@ window.TesseractOcrBridge = {
                 text: w.text,
                 confidence: w.confidence,
                 bbox: {
-                    x0: w.bbox.x0,
-                    y0: w.bbox.y0,
-                    x1: w.bbox.x1,
-                    y1: w.bbox.y1
+                    x0: w.bbox ? w.bbox.x0 : 0,
+                    y0: w.bbox ? w.bbox.y0 : 0,
+                    x1: w.bbox ? w.bbox.x1 : 0,
+                    y1: w.bbox ? w.bbox.y1 : 0
                 }
             }));
 
@@ -78,19 +67,21 @@ window.TesseractOcrBridge = {
 
             return {
                 success: true,
-                text: data.text,
+                errorMessage: null,
+                text: data.text || "",
                 lines: lines,
                 words: words,
-                confidence: data.confidence,
+                confidence: data.confidence || 0,
                 durationMs: durationMs
             };
         } catch (err) {
-            console.error('[Tesseract] Recognition failed:', err);
+            console.error('[Local Tesseract] Recognition error:', err);
             return {
                 success: false,
                 errorMessage: err.message || err.toString(),
                 text: "",
                 words: [],
+                lines: [],
                 confidence: 0,
                 durationMs: Math.round(performance.now() - startTime)
             };
@@ -108,13 +99,13 @@ window.TesseractOcrBridge = {
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Subtle border
+            // Outer border
             ctx.strokeStyle = '#334155';
             ctx.lineWidth = 3;
             ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
 
-            // Security pattern background lines
-            ctx.strokeStyle = '#f1f5f9';
+            // Subtle security lines
+            ctx.strokeStyle = '#f8fafc';
             ctx.lineWidth = 1;
             for (let y = 30; y < canvas.height - 30; y += 15) {
                 ctx.beginPath();
@@ -123,7 +114,7 @@ window.TesseractOcrBridge = {
                 ctx.stroke();
             }
 
-            // Payer Info
+            // Payer Information
             ctx.fillStyle = '#0f172a';
             ctx.font = 'bold 22px Arial, sans-serif';
             ctx.fillText(payer || 'ACME ENTERPRISE CORP', 40, 55);
@@ -196,7 +187,7 @@ window.TesseractOcrBridge = {
 
             return canvas.toDataURL('image/png');
         } catch (e) {
-            console.error('Canvas error:', e);
+            console.error('[Local Tesseract] Canvas rendering error:', e);
             return null;
         }
     }
