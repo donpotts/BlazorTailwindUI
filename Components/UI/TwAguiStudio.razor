@@ -8,7 +8,8 @@
 @inject TwSoundService Sound
 @inject IJSRuntime JS
 
-<div class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-8 @Class">
+<div class="relative bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-8 @Class">
+    <TwConfetti @ref="_confettiRef" FullScreen="true" />
     <!-- Studio Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
         <div>
@@ -345,6 +346,7 @@
     private AgenticExecutionTrace? _currentExecution;
     private AguiWidgetSchema? _currentWidget;
     private AguiFormSchema? _activeFormSchema;
+    private TwConfetti? _confettiRef;
     private string _smartTextValue = "Our distributed stream processing pipeline reduced cluster memory allocation by 45 percent.";
 
     protected override async Task OnInitializedAsync()
@@ -522,8 +524,14 @@
         }
         else
         {
-            var confettiCall = await ToolRegistry.ExecuteToolAsync("tw_confetti_burst", new() { ["count"] = 120 });
+            var confettiCall = await ToolRegistry.ExecuteToolAsync("tw_confetti_burst", new() { ["count"] = 160 });
             trace.ToolCalls.Add(confettiCall);
+
+            if (_confettiRef != null)
+            {
+                await _confettiRef.FireStyleAsync(TwConfetti.CelebrationStyle.Fireworks, 0.5, 0.35, 160);
+                await Sound.PlayAsync(TwSoundEffect.Fireworks);
+            }
 
             _currentWidget = new AguiWidgetSchema
             {
@@ -536,7 +544,7 @@
                 Tags = new() { "HTML5Canvas", "PhysicsEngine", "WASM" },
                 Metrics = new()
                 {
-                    new() { Label = "Active Particles", Value = "120", Delta = "60 FPS", IsPositive = true },
+                    new() { Label = "Active Particles", Value = "160", Delta = "60 FPS", IsPositive = true },
                     new() { Label = "Gravity Coefficient", Value = "0.92", Delta = "Nominal", IsPositive = true }
                 },
                 Actions = new()
@@ -644,7 +652,11 @@
         }
         else if (action.Id == "more_confetti")
         {
-            await LoadScenario("party");
+            if (_confettiRef != null)
+            {
+                await _confettiRef.FireStyleAsync(TwConfetti.CelebrationStyle.Confetti, 0.5, 0.35, 180);
+                await Sound.PlayAsync(TwSoundEffect.VictoryFanfare);
+            }
         }
         else if (action.Id == "scale_up")
         {

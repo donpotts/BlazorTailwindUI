@@ -4,6 +4,7 @@
 @inject TwSoundService Sound
 
 <div class="relative rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl overflow-hidden @Class">
+    <TwConfetti @ref="_localConfettiRef" FullScreen="false" Class="absolute inset-0 w-full h-full pointer-events-none z-30" />
     @if (Schema != null)
     {
         <!-- Header Banner with Accent Gradient -->
@@ -179,17 +180,45 @@
     [Parameter] public EventCallback<AguiActionItem> OnActionTriggered { get; set; }
     [Parameter] public string Class { get; set; } = "";
 
+    private TwConfetti? _localConfettiRef;
+    private string? _lastRenderedSchemaId;
     private string? _lastActionMessage;
     private bool _hasExecutedTrade = false;
     private bool _showDepthChart = false;
     private string _tradeId = "TX-8912";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Schema?.Id == "agui_celebration" && _lastRenderedSchemaId != "agui_celebration")
+        {
+            _lastRenderedSchemaId = "agui_celebration";
+            if (_localConfettiRef != null)
+            {
+                await _localConfettiRef.FireStyleAsync(TwConfetti.CelebrationStyle.Fireworks, 0.5, 0.4, 160);
+                await Sound.PlayAsync(TwSoundEffect.Fireworks);
+            }
+        }
+        else if (Schema?.Id != "agui_celebration")
+        {
+            _lastRenderedSchemaId = Schema?.Id;
+        }
+    }
 
     private async Task TriggerAction(AguiActionItem action)
     {
         if (Schema == null) return;
 
         // Perform genuine local mutations on the widget so it actually executes what it says!
-        if (action.Id == "scale_up")
+        if (action.Id == "more_confetti" || action.Id.Contains("confetti"))
+        {
+            if (_localConfettiRef != null)
+            {
+                await _localConfettiRef.FireStyleAsync(TwConfetti.CelebrationStyle.Confetti, 0.5, 0.4, 180);
+            }
+            await Sound.PlayAsync(TwSoundEffect.VictoryFanfare);
+            _lastActionMessage = "🎉 Celebration Confetti Particle Burst Activated (60 FPS Canvas Physics)!";
+        }
+        else if (action.Id == "scale_up")
         {
             var vcpu = Schema.Metrics.FirstOrDefault(m => m.Label.Contains("vCPU"));
             if (vcpu != null) vcpu.Value = "46 / 64 Cores";
