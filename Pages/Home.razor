@@ -3372,68 +3372,78 @@
                 else if (_activeTab == "datatable")
                 {
                     <TwCard Title="Enterprise Sortable DataGrid" Subtitle="Column sorting, individual record actions, multi-select batch actions, per-column filters, column widths, and mobile stacked cards">
-                        <TwDataGrid TItem="UserRecord"
-                                    Items="@_users" 
-                                    Selectable="true" 
-                                    PageSize="5"
-                                    AllowColumnFiltering="true"
-                                    ShowGlobalSearch="true"
-                                    SearchPlaceholder="Search by name, email, or role..."
-                                    ActionsTitle="Record Actions">
-                            
-                            <BatchActionsTemplate Context="selected">
-                                <TwButton Variant="ButtonVariant.Secondary" Size="ComponentSize.Xs" OnClick='() => Toast.Show($"Exporting {selected.Count} records to CSV")'>
-                                    Export CSV
-                                </TwButton>
-                                <TwButton Variant="ButtonVariant.Destructive" Size="ComponentSize.Xs" OnClick='() => Toast.Show($"Deleted {selected.Count} records", variant: SemanticVariant.Danger)'>
-                                    Delete Selected
-                                </TwButton>
-                            </BatchActionsTemplate>
+                        <HeaderContent>
+                            <TwButton Variant="ButtonVariant.Primary" Size="ComponentSize.Sm" OnClick="OpenAddUserModal">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                <span>+ Add User</span>
+                            </TwButton>
+                        </HeaderContent>
+                        <ChildContent>
+                            <TwDataGrid TItem="UserRecord"
+                                        Items="@_users" 
+                                        Selectable="true" 
+                                        PageSize="5"
+                                        AllowColumnFiltering="true"
+                                        ShowGlobalSearch="true"
+                                        SearchPlaceholder="Search by name, email, or role..."
+                                        ActionsTitle="Record Actions">
+                                
+                                <BatchActionsTemplate Context="selected">
+                                    <TwButton Variant="ButtonVariant.Secondary" Size="ComponentSize.Xs" OnClick='() => Toast.Show($"Exporting {selected.Count} records to CSV", variant: SemanticVariant.Info)'>
+                                        Export CSV
+                                    </TwButton>
+                                    <TwButton Variant="ButtonVariant.Destructive" Size="ComponentSize.Xs" OnClick='() => DeleteSelectedUsers(selected)'>
+                                        Delete Selected (@selected.Count)
+                                    </TwButton>
+                                </BatchActionsTemplate>
 
-                            <Columns>
-                                <TwDataGridColumn TItem="UserRecord" Title="User" Width="260px" MinWidth="220px" SortBy="u => u.Name" FilterPlaceholder="Filter user...">
-                                    <CellTemplate Context="user">
-                                        <div class="flex items-center gap-3">
-                                            <TwAvatar Initials="@user.Initials" Size="ComponentSize.Sm" />
-                                            <div class="truncate">
-                                                <p class="font-bold text-slate-900 dark:text-white truncate">@user.Name</p>
-                                                <p class="text-xs text-slate-400 truncate">@user.Email</p>
+                                <Columns>
+                                    <TwDataGridColumn TItem="UserRecord" Title="User" Width="260px" MinWidth="220px" SortBy="u => u.Name" FilterPlaceholder="Filter user...">
+                                        <CellTemplate Context="user">
+                                            <div class="flex items-center gap-3">
+                                                <TwAvatar Initials="@user.Initials" Size="ComponentSize.Sm" />
+                                                <div class="truncate">
+                                                    <p class="font-bold text-slate-900 dark:text-white truncate">@user.Name</p>
+                                                    <p class="text-xs text-slate-400 truncate">@user.Email</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </CellTemplate>
-                                </TwDataGridColumn>
+                                        </CellTemplate>
+                                    </TwDataGridColumn>
 
-                                <TwDataGridColumn TItem="UserRecord" Title="Role" Width="140px" Property="u => u.Role" SortBy="u => u.Role" FilterPlaceholder="Filter role...">
-                                    <CellTemplate Context="user">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                                            @user.Role
-                                        </span>
-                                    </CellTemplate>
-                                </TwDataGridColumn>
+                                    <TwDataGridColumn TItem="UserRecord" Title="Role" Width="140px" Property="u => u.Role" SortBy="u => u.Role" FilterPlaceholder="Filter role...">
+                                        <CellTemplate Context="user">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                                @user.Role
+                                            </span>
+                                        </CellTemplate>
+                                    </TwDataGridColumn>
 
-                                <TwDataGridColumn TItem="UserRecord" Title="Status" Width="130px" SortBy="u => u.IsActive" FilterPlaceholder="Filter status...">
-                                    <CellTemplate Context="user">
-                                        <TwBadge Variant="@(user.IsActive ? SemanticVariant.Success : SemanticVariant.Default)" ShowDot="true" Size="ComponentSize.Xs">
-                                            @(user.IsActive ? "Active" : "Offline")
-                                        </TwBadge>
-                                    </CellTemplate>
-                                </TwDataGridColumn>
+                                    <TwDataGridColumn TItem="UserRecord" Title="Status" Width="130px" SortBy="u => u.IsActive" FilterPlaceholder="Filter status...">
+                                        <CellTemplate Context="user">
+                                            <TwBadge Variant="@(user.IsActive ? SemanticVariant.Success : SemanticVariant.Default)" ShowDot="true" Size="ComponentSize.Xs">
+                                                @(user.IsActive ? "Active" : "Offline")
+                                            </TwBadge>
+                                        </CellTemplate>
+                                    </TwDataGridColumn>
 
-                                <TwDataGridColumn TItem="UserRecord" Title="Activity" Width="150px" Property="u => u.LastActive" SortBy="u => u.LastActive" FilterPlaceholder="Filter activity..." />
-                            </Columns>
+                                    <TwDataGridColumn TItem="UserRecord" Title="Activity" Width="150px" Property="u => u.LastActive" SortBy="u => u.LastActive" FilterPlaceholder="Filter activity..." />
+                                </Columns>
 
-                            <ActionsTemplate Context="user">
-                                <TwButton Variant="ButtonVariant.Ghost" Size="ComponentSize.Xs" OnClick='() => Toast.Show($"Editing {user.Name}")'>
-                                    Edit
-                                </TwButton>
-                                <TwButton Variant="ButtonVariant.Ghost" Size="ComponentSize.Xs" OnClick='() => Toast.Show($"Viewing {user.Name}")'>
-                                    View
-                                </TwButton>
-                                <TwButton Variant="ButtonVariant.Ghost" Size="ComponentSize.Xs" OnClick='() => Toast.Show($"Deleted {user.Name}", variant: SemanticVariant.Danger)'>
-                                    <span class="text-rose-500 hover:text-rose-700 font-semibold">Delete</span>
-                                </TwButton>
-                            </ActionsTemplate>
-                        </TwDataGrid>
+                                <ActionsTemplate Context="user">
+                                    <TwButton Variant="ButtonVariant.Ghost" Size="ComponentSize.Xs" OnClick='() => OpenEditUserModal(user)'>
+                                        Edit
+                                    </TwButton>
+                                    <TwButton Variant="ButtonVariant.Ghost" Size="ComponentSize.Xs" OnClick='() => OpenViewUserModal(user)'>
+                                        View
+                                    </TwButton>
+                                    <TwButton Variant="ButtonVariant.Ghost" Size="ComponentSize.Xs" OnClick='() => OpenDeleteUserConfirm(user)'>
+                                        <span class="text-rose-500 hover:text-rose-700 font-semibold">Delete</span>
+                                    </TwButton>
+                                </ActionsTemplate>
+                            </TwDataGrid>
+                        </ChildContent>
                     </TwCard>
                 }
                 else if (_activeTab == "overlays")
@@ -4728,22 +4738,22 @@
                 else if (_activeTab == "telemetry")
                 {
                     <div class="space-y-6">
-                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-950 via-slate-900 to-indigo-950 border border-slate-800 p-6 sm:p-8 text-white shadow-2xl">
+                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50 via-slate-50 to-indigo-50/80 dark:from-purple-950 dark:via-slate-900 dark:to-indigo-950 border border-purple-200/80 dark:border-slate-800 p-6 sm:p-8 text-slate-900 dark:text-white shadow-sm dark:shadow-2xl">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div class="space-y-2 max-w-2xl">
                                     <div class="flex items-center gap-2">
-                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-purple-100 dark:bg-purple-500/20 text-purple-800 dark:text-purple-300 border border-purple-300/80 dark:border-purple-500/30">
                                             🔭 OBSERVABILITY &amp; APM
                                         </span>
-                                        <span class="text-xs text-slate-400 font-mono">Roadmap Pillar 16 • W3C OTLP v1.5.0</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Roadmap Pillar 16 • W3C OTLP v1.5.0</span>
                                     </div>
-                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight">OpenTelemetry Tracing &amp; APM Cockpit</h1>
-                                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">OpenTelemetry Tracing &amp; APM Cockpit</h1>
+                                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                                         Sub-millisecond component render tracking, W3C traceparent headers, WASM heap GC collection tracking, interactive microsecond flame graphs, and 1-click OTLP JSON ingest.
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0">
-                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-white !border-white/30 hover:!bg-white/10" OnClick='() => SwitchOrScroll("fullstack", "")'>
+                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-slate-700 dark:!text-white !border-slate-300 dark:!border-white/30 hover:!bg-slate-100 dark:hover:!bg-white/10" OnClick='() => SwitchOrScroll("fullstack", "")'>
                                         View in Full-Stack Hub
                                     </TwButton>
                                 </div>
@@ -4756,22 +4766,22 @@
                 else if (_activeTab == "dashboard-studio")
                 {
                     <div class="space-y-6">
-                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 p-6 sm:p-8 text-white shadow-2xl">
+                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50/80 dark:from-slate-900 dark:via-indigo-950 dark:to-slate-900 border border-blue-200/80 dark:border-slate-800 p-6 sm:p-8 text-slate-900 dark:text-white shadow-sm dark:shadow-2xl">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div class="space-y-2 max-w-2xl">
                                     <div class="flex items-center gap-2">
-                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30">
+                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-brand-100 dark:bg-brand-500/20 text-brand-800 dark:text-brand-300 border border-brand-300/80 dark:border-brand-500/30">
                                             🚀 FLAGSHIP STUDIO
                                         </span>
-                                        <span class="text-xs text-slate-400 font-mono">DP.BlazorDashboard v2.1 • LocalFeed Ready</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">DP.BlazorDashboard v2.1 • LocalFeed Ready</span>
                                     </div>
-                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight">CRM Draggable & Resizable Dashboard Studio</h1>
-                                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">CRM Draggable & Resizable Dashboard Studio</h1>
+                                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                                         Persistent LocalStorage grid, mobile touch drag handles, customizable card properties, pure SVG revenue charts, lead conversion funnels, and dynamic card reordering.
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0">
-                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-white !border-white/30 hover:!bg-white/10" OnClick='() => SwitchOrScroll("components", "studio-dashboard")'>
+                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-slate-700 dark:!text-white !border-slate-300 dark:!border-white/30 hover:!bg-slate-100 dark:hover:!bg-white/10" OnClick='() => SwitchOrScroll("components", "studio-dashboard")'>
                                         View in Component Hub
                                     </TwButton>
                                 </div>
@@ -4788,22 +4798,22 @@
                 else if (_activeTab == "pdf-studio")
                 {
                     <div class="space-y-6">
-                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-950 border border-slate-800 p-6 sm:p-8 text-white shadow-2xl">
+                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-50 via-slate-50 to-blue-50/80 dark:from-indigo-950 dark:via-slate-900 dark:to-indigo-950 border border-indigo-200/80 dark:border-slate-800 p-6 sm:p-8 text-slate-900 dark:text-white shadow-sm dark:shadow-2xl">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div class="space-y-2 max-w-2xl">
                                     <div class="flex items-center gap-2">
-                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-800 dark:text-indigo-300 border border-indigo-300/80 dark:border-indigo-500/30">
                                             ✍️ FLAGSHIP STUDIO
                                         </span>
-                                        <span class="text-xs text-slate-400 font-mono">PDF Form Filler & Signer • Text Flattening</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">PDF Form Filler & Signer • Text Flattening</span>
                                     </div>
-                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight">PDF Form Filler, Contract Signer & Flattening Studio</h1>
-                                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">PDF Form Filler, Contract Signer & Flattening Studio</h1>
+                                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                                         Field autofill, spatial signature placement, irreversible stamp flattening, SHA-256 audit logs, and downloadable signed PDFs.
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0">
-                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-white !border-white/30 hover:!bg-white/10" OnClick='() => SwitchOrScroll("components", "studio-pdf")'>
+                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-slate-700 dark:!text-white !border-slate-300 dark:!border-white/30 hover:!bg-slate-100 dark:hover:!bg-white/10" OnClick='() => SwitchOrScroll("components", "studio-pdf")'>
                                         View in Component Hub
                                     </TwButton>
                                 </div>
@@ -4820,22 +4830,22 @@
                 else if (_activeTab == "union-studio")
                 {
                     <div class="space-y-6">
-                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-900 border border-slate-800 p-6 sm:p-8 text-white shadow-2xl">
+                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-slate-50 to-teal-50/80 dark:from-emerald-950 dark:via-slate-900 dark:to-slate-900 border border-emerald-200/80 dark:border-slate-800 p-6 sm:p-8 text-slate-900 dark:text-white shadow-sm dark:shadow-2xl">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div class="space-y-2 max-w-2xl">
                                     <div class="flex items-center gap-2">
-                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-500/30">
                                             🛡️ C# 15 ARCHITECTURE
                                         </span>
-                                        <span class="text-xs text-slate-400 font-mono">Roadmap Pillar 12 • Exhaustive Pattern Matching</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Roadmap Pillar 12 • Exhaustive Pattern Matching</span>
                                     </div>
-                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight">C# 15 Discriminated Union Boundary Studio</h1>
-                                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">C# 15 Discriminated Union Boundary Studio</h1>
+                                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                                         UiState&lt;T&gt; closed algebraic UI state hierarchies, exhaustive pattern matching, type-safe async error boundaries, and pulse shimmer loading.
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-2 shrink-0">
-                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-white !border-white/30 hover:!bg-white/10" OnClick='() => SwitchOrScroll("components", "studio-union")'>
+                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-slate-700 dark:!text-white !border-slate-300 dark:!border-white/30 hover:!bg-slate-100 dark:hover:!bg-white/10" OnClick='() => SwitchOrScroll("components", "studio-union")'>
                                         View in Component Hub
                                     </TwButton>
                                 </div>
@@ -4862,6 +4872,148 @@
 
 <!-- Interactive Guided Coaching Tour -->
 <TwTour @bind-IsOpen="_tourOpen" Steps="@_tourSteps" OnCompleted="HandleTourCompleted" />
+
+<!-- User Record CRUD Modals -->
+@if (_userModalOpen)
+{
+    @if (_userModalMode == "view")
+    {
+        <TwModal @bind-IsOpen="_userModalOpen"
+                 Title="@($"User Profile • {_editingUser.Name}")"
+                 Description="Enterprise IAM Identity & Credential Details">
+            <ChildContent>
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                        <TwAvatar Initials="@_editingUser.Initials" Size="ComponentSize.Lg" />
+                        <div class="space-y-1">
+                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">@_editingUser.Name</h4>
+                            <p class="text-xs font-mono text-slate-500 dark:text-slate-400">@_editingUser.Email</p>
+                            <div class="flex items-center gap-2 pt-1">
+                                <span class="px-2 py-0.5 rounded-md text-xs font-semibold bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
+                                    @_editingUser.Role
+                                </span>
+                                <span class="px-2 py-0.5 rounded-full text-xs font-bold @(_editingUser.IsActive ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "bg-slate-500/10 text-slate-500 border border-slate-500/20")">
+                                    @(_editingUser.IsActive ? "● Active Account" : "○ Offline")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                            <span class="text-slate-400 block mb-1">User Identifier</span>
+                            <span class="font-mono font-bold text-slate-800 dark:text-slate-200">usr_@_editingUser.Id</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                            <span class="text-slate-400 block mb-1">Last Interaction</span>
+                            <span class="font-bold text-slate-800 dark:text-slate-200">@_editingUser.LastActive</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                            <span class="text-slate-400 block mb-1">MFA Security</span>
+                            <span class="font-bold text-emerald-600 dark:text-emerald-400">FIDO2 / WebAuthn</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                            <span class="text-slate-400 block mb-1">Session Policy</span>
+                            <span class="font-bold text-slate-800 dark:text-slate-200">SSO Enterprise Direct</span>
+                        </div>
+                    </div>
+                </div>
+            </ChildContent>
+            <FooterContent>
+                <TwButton Variant="ButtonVariant.Ghost" OnClick="() => _userModalOpen = false">
+                    Close
+                </TwButton>
+                <TwButton Variant="ButtonVariant.Primary" OnClick='() => _userModalMode = "edit"'>
+                    Edit Record
+                </TwButton>
+            </FooterContent>
+        </TwModal>
+    }
+    else
+    {
+        <TwModal @bind-IsOpen="_userModalOpen"
+                 Title="@(_userModalMode == "add" ? "Create New User" : $"Edit User: {_editingUser.Name}")"
+                 Description="Configure user credentials, organization role, and account status.">
+            <ChildContent>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+                        <input type="text" @bind="_editingUser.Name" placeholder="e.g. Rachel Green"
+                               class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+                        <input type="email" @bind="_editingUser.Email" placeholder="rachel@example.com"
+                               class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none" />
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Assigned Role</label>
+                            <select @bind="_editingUser.Role"
+                                    class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                                <option value="Admin">Admin</option>
+                                <option value="Engineer">Engineer</option>
+                                <option value="Designer">Designer</option>
+                                <option value="Product">Product</option>
+                                <option value="DevOps">DevOps</option>
+                                <option value="Security">Security</option>
+                                <option value="Architect">Architect</option>
+                                <option value="Support">Support</option>
+                                <option value="Executive">Executive</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col justify-end">
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 cursor-pointer">
+                                <input type="checkbox" @bind="_editingUser.IsActive" class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500" />
+                                <span class="text-xs font-bold text-slate-800 dark:text-slate-200">Account Active</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </ChildContent>
+            <FooterContent>
+                <TwButton Variant="ButtonVariant.Ghost" OnClick="() => _userModalOpen = false">
+                    Cancel
+                </TwButton>
+                <TwButton Variant="ButtonVariant.Primary" OnClick="SaveUserModal">
+                    @(_userModalMode == "add" ? "Create User" : "Save Changes")
+                </TwButton>
+            </FooterContent>
+        </TwModal>
+    }
+}
+
+@if (_deleteConfirmOpen)
+{
+    <TwModal @bind-IsOpen="_deleteConfirmOpen"
+             Title="Confirm Record Deletion"
+             Description="This record will be permanently deleted from the database.">
+        <ChildContent>
+            @if (_userToDelete != null)
+            {
+                <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/60 flex items-start gap-3">
+                    <div class="text-2xl">⚠️</div>
+                    <div class="space-y-1">
+                        <h4 class="text-sm font-bold text-rose-900 dark:text-rose-200">
+                            Delete @_userToDelete.Name (@_userToDelete.Email)?
+                        </h4>
+                        <p class="text-xs text-rose-700 dark:text-rose-300">
+                            Are you sure you want to permanently remove this user? This action cannot be reversed.
+                        </p>
+                    </div>
+                </div>
+            }
+        </ChildContent>
+        <FooterContent>
+            <TwButton Variant="ButtonVariant.Ghost" OnClick="() => _deleteConfirmOpen = false">
+                Cancel
+            </TwButton>
+            <TwButton Variant="ButtonVariant.Destructive" OnClick="ConfirmDeleteUser">
+                Delete Record
+            </TwButton>
+        </FooterContent>
+    </TwModal>
+}
 
 <!-- Full-screen Celebration Confetti -->
 <TwConfetti @ref="_confettiRef" FullScreen="true" />
@@ -6139,7 +6291,41 @@
         new("more", "More", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'/></svg>")
     };
 
-    private sealed record UserRecord(string Name, string Email, string Role, bool IsActive, string LastActive, string Initials);
+    public class UserRecord
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString("N")[..8];
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Role { get; set; } = "Engineer";
+        public bool IsActive { get; set; } = true;
+        public string LastActive { get; set; } = "Just now";
+        public string Initials { get; set; } = "";
+
+        public UserRecord() { }
+
+        public UserRecord(string name, string email, string role, bool isActive, string lastActive, string initials)
+        {
+            Id = Guid.NewGuid().ToString("N")[..8];
+            Name = name;
+            Email = email;
+            Role = role;
+            IsActive = isActive;
+            LastActive = lastActive;
+            Initials = initials;
+        }
+
+        public UserRecord Clone() => new()
+        {
+            Id = this.Id,
+            Name = this.Name,
+            Email = this.Email,
+            Role = this.Role,
+            IsActive = this.IsActive,
+            LastActive = this.LastActive,
+            Initials = this.Initials
+        };
+    }
+
     private readonly List<UserRecord> _users = new()
     {
         new("Alex Morgan", "alex@example.com", "Admin", true, "Just now", "AM"),
@@ -6153,6 +6339,115 @@
         new("Lucas Dubois", "lucas@example.com", "Support", true, "45m ago", "LD"),
         new("Aria Montgomery", "aria@example.com", "Executive", true, "1d ago", "AM")
     };
+
+    private bool _userModalOpen = false;
+    private string _userModalMode = "add";
+    private UserRecord _editingUser = new();
+    private UserRecord? _originalUserToEdit = null;
+
+    private bool _deleteConfirmOpen = false;
+    private UserRecord? _userToDelete = null;
+
+    private void OpenAddUserModal()
+    {
+        _userModalMode = "add";
+        _originalUserToEdit = null;
+        _editingUser = new UserRecord
+        {
+            Role = "Engineer",
+            IsActive = true,
+            LastActive = "Just now"
+        };
+        _userModalOpen = true;
+    }
+
+    private void OpenEditUserModal(UserRecord user)
+    {
+        _userModalMode = "edit";
+        _originalUserToEdit = user;
+        _editingUser = user.Clone();
+        _userModalOpen = true;
+    }
+
+    private void OpenViewUserModal(UserRecord user)
+    {
+        _userModalMode = "view";
+        _originalUserToEdit = user;
+        _editingUser = user.Clone();
+        _userModalOpen = true;
+    }
+
+    private void SaveUserModal()
+    {
+        if (string.IsNullOrWhiteSpace(_editingUser.Name))
+        {
+            Toast.Show("Please enter a valid user name.", variant: SemanticVariant.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(_editingUser.Email) || !_editingUser.Email.Contains('@'))
+        {
+            Toast.Show("Please enter a valid email address.", variant: SemanticVariant.Warning);
+            return;
+        }
+
+        var parts = _editingUser.Name.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        _editingUser.Initials = parts.Length switch
+        {
+            >= 2 => $"{char.ToUpper(parts[0][0])}{char.ToUpper(parts[^1][0])}",
+            1 when parts[0].Length >= 2 => parts[0][..2].ToUpper(),
+            1 => parts[0].ToUpper(),
+            _ => "US"
+        };
+
+        if (_userModalMode == "add")
+        {
+            _editingUser.LastActive = "Just now";
+            _users.Insert(0, _editingUser);
+            Toast.Show($"User '{_editingUser.Name}' created successfully!", variant: SemanticVariant.Success);
+        }
+        else if (_userModalMode == "edit" && _originalUserToEdit != null)
+        {
+            _originalUserToEdit.Name = _editingUser.Name;
+            _originalUserToEdit.Email = _editingUser.Email;
+            _originalUserToEdit.Role = _editingUser.Role;
+            _originalUserToEdit.IsActive = _editingUser.IsActive;
+            _originalUserToEdit.Initials = _editingUser.Initials;
+            Toast.Show($"User '{_originalUserToEdit.Name}' updated successfully!", variant: SemanticVariant.Success);
+        }
+
+        _userModalOpen = false;
+        StateHasChanged();
+    }
+
+    private void OpenDeleteUserConfirm(UserRecord user)
+    {
+        _userToDelete = user;
+        _deleteConfirmOpen = true;
+    }
+
+    private void ConfirmDeleteUser()
+    {
+        if (_userToDelete != null)
+        {
+            _users.Remove(_userToDelete);
+            Toast.Show($"User '{_userToDelete.Name}' permanently deleted.", variant: SemanticVariant.Danger);
+            _userToDelete = null;
+        }
+        _deleteConfirmOpen = false;
+        StateHasChanged();
+    }
+
+    private void DeleteSelectedUsers(IReadOnlyList<UserRecord> selected)
+    {
+        if (selected == null || selected.Count == 0) return;
+        var count = selected.Count;
+        foreach (var u in selected.ToList())
+        {
+            _users.Remove(u);
+        }
+        Toast.Show($"Deleted {count} selected records.", variant: SemanticVariant.Danger);
+        StateHasChanged();
+    }
 
     private void SetLayout(LayoutVariant layout)
     {

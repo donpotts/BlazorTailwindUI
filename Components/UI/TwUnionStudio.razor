@@ -7,29 +7,29 @@
 
 <div class="space-y-6">
     <!-- Header with Badges & Description -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-purple-900/40 via-indigo-900/30 to-slate-900/60 border border-purple-500/30 backdrop-blur-sm">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-purple-50/80 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 shadow-xs">
         <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-purple-600/20 border border-purple-500/40 text-purple-400 flex items-center justify-center text-2xl shadow-inner shrink-0">
+            <div class="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-900/50 border border-purple-200 dark:border-purple-700/60 text-purple-700 dark:text-purple-300 flex items-center justify-center text-2xl shadow-xs shrink-0">
                 🛡️
             </div>
             <div>
                 <div class="flex flex-wrap items-center gap-2">
-                    <h3 class="text-base sm:text-lg font-bold text-white tracking-tight">
-                        C# 15 Discriminated Union Boundary Studio (<span class="font-mono text-purple-400">TwUnionBoundary</span>)
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                        C# 15 Discriminated Union Boundary Studio (<span class="font-mono text-purple-700 dark:text-purple-300">TwUnionBoundary</span>)
                     </h3>
-                    <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-200 border border-purple-300 dark:border-purple-700">
                         PILLAR 12 SHIPPED
                     </span>
                 </div>
-                <p class="text-xs text-slate-400 mt-0.5">
-                    Closed algebraic hierarchies (<code class="text-purple-300 font-mono">UiState&lt;T&gt;</code> &amp; <code class="text-purple-300 font-mono">Result&lt;T, E&gt;</code>) eliminating untyped nulls, runtime branch regressions, and boilerplate if/else UI conditions.
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                    Closed algebraic hierarchies (<code class="font-mono font-semibold text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-900/50 px-1 py-0.5 rounded">UiState&lt;T&gt;</code> &amp; <code class="font-mono font-semibold text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-900/50 px-1 py-0.5 rounded">Result&lt;T, E&gt;</code>) eliminating untyped nulls, runtime branch regressions, and boilerplate if/else UI conditions.
                 </p>
             </div>
         </div>
 
         <div class="flex items-center gap-2 shrink-0">
             <button type="button" @onclick="SimulateAsyncBatch"
-                    class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5 active:scale-95">
+                    class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shadow-md shadow-purple-500/20 transition flex items-center gap-1.5 active:scale-95">
                 <span>⚡ Simulate Async Fetch</span>
             </button>
         </div>

@@ -20,6 +20,33 @@ export function init(containerSelector, dotNetHelper, layoutData, isLocked, cell
         return;
     }
 
+    // Patch GridStack's fixed container lookup to prevent scrolled drag-helper offset bug
+    if (GridStack.Utils && !GridStack.Utils._fixedContainerPatched) {
+        GridStack.Utils._fixedContainerPatched = true;
+        GridStack.Utils.getContainerForPositionFixedElement = function (el) {
+            let curr = el;
+            while (curr && curr !== document.documentElement && curr.parentElement) {
+                const s = window.getComputedStyle(curr);
+                if (s.transform !== 'none' || s.perspective !== 'none' || s.filter !== 'none' || s.backdropFilter !== 'none') {
+                    return curr;
+                }
+                curr = curr.parentElement;
+            }
+            return {
+                getBoundingClientRect: () => ({
+                    left: 0,
+                    top: 0,
+                    right: window.innerWidth,
+                    bottom: window.innerHeight,
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    x: 0,
+                    y: 0
+                })
+            };
+        };
+    }
+
     // Destroy existing instance if any
     if (gridInstances.has(containerSelector)) {
         try {
@@ -41,8 +68,8 @@ export function init(containerSelector, dotNetHelper, layoutData, isLocked, cell
         staticGrid: isLocked,
         draggable: {
             handle: '.move-handle',
-            scroll: true,
-            appendTo: 'parent'
+            scroll: false,
+            appendTo: 'body'
         },
         resizable: {
             handles: 'e, se, s, sw, w'
