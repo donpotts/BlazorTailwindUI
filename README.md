@@ -88,12 +88,12 @@
     - **`TwWordCloud`**: Pure SVG weighted term frequency cloud with Archimedean spiral positioning, hover scaling, and keyword architecture intelligence cards.
     - **`TwSankeyChart`**: Pure SVG pipeline throughput flow diagram with bezier gradient ribbons, node metrics, and interactive +25% traffic surge simulations.
 16. **Enterprise Desktop Installers (Windows MSI & EXE)**:
-    - Native desktop builds packaged with Tauri v2: WiX MSI (`BlazorTailwindUI-1.4.0-x64-en-US.msi`, 98.2 MB) and NSIS EXE (`BlazorTailwindUI-1.4.0-x64-Setup.exe`, 97.4 MB) in `release-packages/`.
+    - Native desktop builds packaged with Tauri v2: WiX MSI (`BlazorTailwindUI-1.5.0-x64-en-US.msi`, 98.2 MB) and NSIS EXE (`BlazorTailwindUI-1.5.0-x64-Setup.exe`, 97.4 MB) in `release-packages/`.
 17. **Demo Suite Standalone Installer & Client-Server Port Coordinator**:
     - **`Install-BlazorTailwindDemos.cmd` & `install-demo-suite.ps1`**: 1-click Windows installer establishing desktop shortcuts, start menu entries, and clean uninstallation in `%LOCALAPPDATA%\BlazorTailwindUI\Demos`.
     - **Dynamic Port Coordinator (`launch-demos.ps1`, `launch-demos.cmd`)**: Scans ports 5128–5228, eliminates TCP collisions, synchronizes `appsettings.json`, and guarantees API 200 OK pre-flight health probe before launching the UI.
     - **MIME-Compliant Demo Server (`demo-server.py`)**: Standalone WASM/CLR server with SPA fallback routing and `/api/health` diagnostics.
-    - **`BlazorTailwindUI-DemoSuite-v1.4.0-Setup.zip`**: Complete standalone offline package ready for immediate deployment.
+    - **`BlazorTailwindUI-DemoSuite-v1.5.0-Setup.zip`**: Complete standalone offline package ready for immediate deployment.
 18. **PDF Form Filler, Contract Signer, Form Maker & Flattening Engine (`TwPdfFormFiller`)**:
     - **PDF Form Flattening & Stamping (Merged Content Stream)**: Eliminates interactive form widgets and permanently burns-in text inputs, checkboxes, initials, and cursive signatures directly into immutable vector typography, purging AcroForm/XFA dictionaries for ISO 32000-1 / PDF-A archival compliance.
     - **Zero-Dependency Standard PDF 1.4 Generation (`PdfFlattenStreamGenerator`)**: Pure C# stream generator creating compliant, downloadable `.pdf` binaries on-the-fly and supporting native browser printing (`window.print()`) with clean page break rules.
@@ -135,9 +135,25 @@
     - **Declarative Union Boundary Container (`TwUnionBoundary<T>`)**: Zero-boilerplate Razor container mapping union variants to type-safe child templates (`<Loading>`, `<Success Context="data">`, `<Empty>`, `<Failure Context="err">`) with built-in shimmery skeleton pulses, empty state illustrations, and 1-click `🔄 Retry Operation` dispatch.
     - **Self-Orchestrating Async Coordinator (`TwAsyncState<T>`)**: High-level async lifecycle component with automatic cancellation tokens on unmount, debounced refreshes, and state change callbacks.
 
+22. **Native OpenTelemetry Component Tracing & APM Cockpit (`TwTelemetryDashboard`, `<TwActivityMeter>`, `TwOpenTelemetryService`) (v1.5.0 Release)**:
+    - **High-Precision ActivitySource v1.5.0**: Sub-millisecond component lifecycle tracing across `BuildRenderTree`, `OnParametersSetAsync`, and asynchronous data operations.
+    - **Interactive SVG Waterfall & Flame Graph**: Microsecond-precision duration bars color-coded by performance thresholds (Optimal < 16.6ms, Warning 16–33ms, Critical > 33ms).
+    - **Component Performance Leaderboard**: Real-time table aggregating render counts, average/maximum latencies, and slow frame drop counts.
+    - **WASM & GC Vitals**: Real-time managed heap tracking, GC Generational collection counters (Gen 0/1/2), and workstation GC health.
+    - **Standard W3C OTLP JSON Export**: 1-click clipboard export with standard `traceparent` headers (`00-{traceId}-{spanId}-01`) for zero-config ingest into Jaeger, Grafana Tempo, and Dynatrace.
+    - **Header Activity Meter (`<TwActivityMeter>`)**: Real-time status indicator pill in `<HeaderActions>` displaying live render latency, FPS, and pulsing health indicator.
+
 ---
 
 ## 📸 Visual Showcase
+
+<p align="center">
+  <img src="docs/images/suite-telemetry-apm.png" alt="Native OpenTelemetry Tracing & APM Cockpit (v1.5.0)" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
+</p>
+
+| OpenTelemetry APM Cockpit (`TwTelemetryDashboard`) | Mobile-First APM Tracing & Waterfalls |
+|:---:|:---:|
+| <img src="docs/images/suite-telemetry-apm.png" width="450" /> | <img src="docs/images/suite-telemetry-apm-mobile.png" width="450" /> |
 
 <p align="center">
   <img src="docs/images/suite-tw-union-boundary.png" alt="C# 15 Discriminated Union Boundary Studio (TwUnionBoundary)" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
@@ -553,13 +569,13 @@ Blazor Tailwind UI ships with native desktop packaging powered by **TAUI (Tauri 
 
 | Operating System | Package Type | Artifact Name | Description |
 |---|---|---|---|
-| **Windows** | **NSIS Setup (.exe)** | `BlazorTailwindUI-1.4.0-x64-Setup.exe` | Standard Windows executable wizard installer (~97 MB) |
-| **Windows** | **Windows Installer (.msi)** | `BlazorTailwindUI-1.4.0-x64-en-US.msi` | Enterprise WiX MSI package for silent / GPO rollout (~98 MB) |
-| **Windows / All** | **Demo Suite Installer (.zip)** | `BlazorTailwindUI-DemoSuite-v1.4.0-Setup.zip` | 1-click Windows demo installer with pre-flight port coordinator (~121 MB) |
+| **Windows** | **NSIS Setup (.exe)** | `BlazorTailwindUI-1.5.0-x64-Setup.exe` | Standard Windows executable wizard installer (~97 MB) |
+| **Windows** | **Windows Installer (.msi)** | `BlazorTailwindUI-1.5.0-x64-en-US.msi` | Enterprise WiX MSI package for silent / GPO rollout (~98 MB) |
+| **Windows / All** | **Demo Suite Installer (.zip)** | `BlazorTailwindUI-DemoSuite-v1.5.0-Setup.zip` | 1-click Windows demo installer with pre-flight port coordinator (~121 MB) |
 | **macOS** | **Apple Disk Image (.dmg)** | `BlazorTailwindUI-1.0.0-universal.dmg` | Drag-and-drop macOS Universal Binary (Apple Silicon + Intel) |
 | **Linux** | **Debian Package (.deb)** | `blazor-tailwind-ui_1.0.0_amd64.deb` | Ubuntu / Debian package with desktop launcher entry |
 | **Linux** | **AppImage (.AppImage)** | `BlazorTailwindUI-1.0.0-x86_64.AppImage` | Single-file zero-install portable Linux executable |
-| **Cross-Platform** | **Web Demo (.zip)** | `BlazorTailwindUI-WebDemo-v1.4.0.zip` | Standalone offline web demo with 1-click `start-demo` scripts |
+| **Cross-Platform** | **Web Demo (.zip)** | `BlazorTailwindUI-WebDemo-v1.5.0.zip` | Standalone offline web demo with 1-click `start-demo` scripts |
 
 ### Build Desktop Installers Locally
 ```bash

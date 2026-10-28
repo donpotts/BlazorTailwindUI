@@ -6,6 +6,7 @@
 @using System.Text
 @inject IJSRuntime JS
 @inject ToastService Toast
+@inject TwOpenTelemetryService OtelService
 
 <div class="space-y-6 w-full min-w-0 @Class">
     <!-- Top Action & Mode Navigation Bar -->
@@ -943,58 +944,61 @@
 
     private async Task FlattenAndStampDocument()
     {
-        // Auto-fill any remaining blank fields with realistic contract values
-        foreach (var field in Document.Fields)
+        using (OtelService.StartSpan("TwPdfFormFiller", "FlattenAndStampDocument", "UserAction", new() { ["pdf.fields"] = Document.Fields.Count.ToString(), ["pdf.id"] = Document.DocumentId }))
         {
-            if (string.IsNullOrWhiteSpace(field.Value))
+            // Auto-fill any remaining blank fields with realistic contract values
+            foreach (var field in Document.Fields)
             {
-                if (field.Type == PdfFieldType.SignHere)
+                if (string.IsNullOrWhiteSpace(field.Value))
                 {
-                    field.Value = "Jane M. Doe";
-                    field.SignerName = "Jane M. Doe";
-                    field.SignedAt = DateTime.UtcNow;
-                }
-                else if (field.Type == PdfFieldType.InitialHere)
-                {
-                    field.Value = "JMD";
-                    field.SignedAt = DateTime.UtcNow;
-                }
-                else if (field.Type == PdfFieldType.DateTimeStamp)
-                {
-                    field.Value = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss 'UTC'");
-                    field.SignedAt = DateTime.UtcNow;
-                }
-                else if (field.Type == PdfFieldType.Checkbox)
-                {
-                    field.Value = "true";
-                }
-                else
-                {
-                    field.Value = string.IsNullOrEmpty(field.Placeholder) ? "Apex Global Cloud Solutions, Inc." : field.Placeholder;
+                    if (field.Type == PdfFieldType.SignHere)
+                    {
+                        field.Value = "Jane M. Doe";
+                        field.SignerName = "Jane M. Doe";
+                        field.SignedAt = DateTime.UtcNow;
+                    }
+                    else if (field.Type == PdfFieldType.InitialHere)
+                    {
+                        field.Value = "JMD";
+                        field.SignedAt = DateTime.UtcNow;
+                    }
+                    else if (field.Type == PdfFieldType.DateTimeStamp)
+                    {
+                        field.Value = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss 'UTC'");
+                        field.SignedAt = DateTime.UtcNow;
+                    }
+                    else if (field.Type == PdfFieldType.Checkbox)
+                    {
+                        field.Value = "true";
+                    }
+                    else
+                    {
+                        field.Value = string.IsNullOrEmpty(field.Placeholder) ? "Apex Global Cloud Solutions, Inc." : field.Placeholder;
+                    }
                 }
             }
+
+            Document.IsFlattened = true;
+            Document.IsReadOnly = true;
+            Document.FlattenedAtUtc = DateTime.UtcNow;
+            Document.FlattenedContentStreamId = $"STRM-FLAT-{Guid.NewGuid().ToString("N")[..8].ToUpperInvariant()}";
+
+            // Generate cryptographic attestation SHA-256 for flattened state
+            var payloadToHash = $"{Document.DocumentId}:{Document.Title}:{Document.FlattenedAtUtc:O}:{Document.Fields.Count}:FLATTENED";
+            using var sha = SHA256.Create();
+            var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(payloadToHash));
+            Document.FlattenedHash = Convert.ToHexString(hashBytes).ToLowerInvariant();
+            if (string.IsNullOrEmpty(Document.Sha256Fingerprint))
+            {
+                Document.Sha256Fingerprint = Document.FlattenedHash;
+            }
+
+            Document.Status = "Flattened & Merged";
+            _isDesignerMode = false;
+
+            Toast?.Show("Form fields flattened & stamped! AcroForm annotations purged into immutable vector stream.", variant: SemanticVariant.Success);
+            await Task.CompletedTask;
         }
-
-        Document.IsFlattened = true;
-        Document.IsReadOnly = true;
-        Document.FlattenedAtUtc = DateTime.UtcNow;
-        Document.FlattenedContentStreamId = $"STRM-FLAT-{Guid.NewGuid().ToString("N")[..8].ToUpperInvariant()}";
-
-        // Generate cryptographic attestation SHA-256 for flattened state
-        var payloadToHash = $"{Document.DocumentId}:{Document.Title}:{Document.FlattenedAtUtc:O}:{Document.Fields.Count}:FLATTENED";
-        using var sha = SHA256.Create();
-        var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(payloadToHash));
-        Document.FlattenedHash = Convert.ToHexString(hashBytes).ToLowerInvariant();
-        if (string.IsNullOrEmpty(Document.Sha256Fingerprint))
-        {
-            Document.Sha256Fingerprint = Document.FlattenedHash;
-        }
-
-        Document.Status = "Flattened & Merged";
-        _isDesignerMode = false;
-
-        Toast?.Show("Form fields flattened & stamped! AcroForm annotations purged into immutable vector stream.", variant: SemanticVariant.Success);
-        await Task.CompletedTask;
     }
 
     private void UnflattenForEditing()

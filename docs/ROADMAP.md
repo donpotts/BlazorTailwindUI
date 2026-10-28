@@ -603,15 +603,97 @@ A comprehensive spatial document signing and form creation engine designed for e
 
 ---
 
+### Pillar 26: Draggable & Resizable CRM Dashboard (Shipped v1.4.5 ✅)
+
+![CRM Draggable & Resizable Dashboard](images/suite-tw-dashboard.png)
+
+A high-performance, mobile-first customizable dashboard system inspired by MudBlazor and modernized with Tailwind CSS and CSS Grid:
+
+- **Mobile-First Touch & Mouse Handles**: Explicit drag handles with `touch-action: none` and corner resize anchors.
+- **Persistent LocalStorage State**: Automatic layout persistence with debounce, card reordering, and instant reset.
+- **Customizable Card Properties**: Title editing, visibility toggling, color presets, size constraints (Min/Max columns and rows).
+- **Rich Business Card Catalog**: Pure SVG revenue charts, stage conversion funnels, task lists, and recent activity logs.
+- **NuGet Packaging**: Multi-targeted `DP.BlazorDashboard` (net8.0, net9.0, net10.0, net11.0) v2.1.0 published to `C:\LocalFeed`.
+
+---
+
+### Pillar 27: PDF Form Flattening, Irreversible Text Stamping & Download (Shipped v1.4.5 ✅)
+
+![PDF Form Flattening & Stamping](images/suite-pdf-contract-signer.png)
+
+Complete AcroForm flattening and irreversible vector stamping engine:
+
+- **1-Click Irreversible Flattening**: Converts interactive input fields into read-only vector text appearances.
+- **Cryptographic SHA-256 Attestation**: Generates verifiable content stream ID, timestamp, and immutable hash digest.
+- **Client-Side PDF File Generation**: Exports compliant PDF document stream with zero external paid libraries.
+
+---
+
+### Pillar 28: C# 15 Discriminated Union Boundary & Closed Algebraic States (Shipped v1.4.5 ✅)
+
+![C# 15 Discriminated Union Boundary](images/suite-tw-union-boundary.png)
+
+Closed algebraic UI state hierarchy modeling using C# 15 union types:
+
+- **Type-Safe `UiState<T>`**: `Initial`, `Loading`, `Success`, `Empty`, and `Failure` states.
+- **Exhaustive Razor Boundary (`TwUnionBoundary`)**: Clean declarative syntax preventing unhandled runtime UI states.
+- **Resilient Async Retry Dispatch**: Built-in retry triggers, shimmer skeletons, and exception diagnostics.
+
+---
+
+### Pillar 29: Categorized Navigation Hubs, Search Filter & Studio Workspaces (Shipped v1.4.6 ✅)
+
+![Categorized Navigation Hubs](images/suite-grouped-navigation.png)
+
+Modern enterprise information architecture replacing flat button bars:
+
+- **5 Structured Category Hubs**: Flagship Studios, Architecture & AI, Enterprise & Business, UI Kit Catalog, Resources & Docs.
+- **Real-Time Keystroke Filter**: Instant client-side search across 18+ workspaces and 86+ components.
+- **Sticky In-Page Jump Bar**: 1-tap smooth scrolling with `scroll-mt-24` viewport offsets.
+- **Dedicated Full-Page Workspaces**: Focused workspace views for CRM Dashboard, PDF Maker, Union Boundary, and Telemetry.
+
+---
+
+### Pillar 30: Developer Coaching Tour, Chaptered Masterclass & Principles Curriculum (Shipped v1.4.6 ✅)
+
+![Developer Coaching & Masterclass](images/suite-training-coaching.png)
+
+Comprehensive interactive training and onboarding system:
+
+- **12-Step Guided Coaching Tour**: Interactive step-by-step product walkthrough with pro-tips, copyable Razor snippets, and direct studio launchers.
+- **15-Module 1080p Video Masterclass**: Chaptered curriculum with interactive timestamp jump links.
+- **12 Architectural Principles Curriculum**: Core design guidelines covering WebAssembly, Tailwind CSS, offline caching, and accessibility.
+- **Interactive Component Playground**: Live previews and prop controls across 22 flagship components.
+- **Knowledge Check Quiz**: Real-time interactive verification with visual scoring.
+
+---
+
+### Pillar 31: Native OpenTelemetry Component Tracing & APM Cockpit (Shipped v1.5.0 ✅)
+
+![OpenTelemetry APM Cockpit](images/suite-telemetry-apm.png)
+
+Production-grade observability and application performance monitoring (APM) embedded into `BlazorTailwindUI`:
+
+- **Sub-Millisecond Component Lifecycle Tracing**: `ActivitySource("BlazorTailwindUI.Components", "1.5.0")` tracking render durations, memory deltas, and lifecycle events.
+- **Real-Time SVG Waterfall & Flame Graph**: Visual latency bars color-coded by performance thresholds (Optimal < 16.6ms, Warning 16-33ms, Critical > 33ms).
+- **Component Performance Leaderboard**: Aggregated table tracking render counts, average/maximum latencies, and slow frame drop counts.
+- **WASM & GC Vitals**: Real-time managed heap tracking, Gen 0/1/2 collection counts, and workstation GC profiling.
+- **W3C OTLP JSON Export**: Standard OpenTelemetry Protocol JSON payload matching Jaeger, Grafana Tempo, and Dynatrace endpoints with 1-click clipboard copy.
+- **Header Activity Meter (`<TwActivityMeter>`)**: Real-time status indicator pill displaying live render latency, FPS, and pulsing health indicator.
+
+---
+
 ## 📅 Target Milestones
 
 ```mermaid
 flowchart LR
-    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAURI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media + ScrollCraft<br/>AG-UI Form Engine + PWA"]
-    B --> C["v1.2.0 (Shipped ✅)<br/>Developer MCP Server (@donpo/blazor-tailwind-mcp)<br/>Check 21 MICR & Form/PDF OCR"]
+    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAURI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media<br/>AG-UI Form Engine + PWA"]
+    B --> C["v1.2.0 (Shipped ✅)<br/>Developer MCP Server<br/>Check 21 MICR & Form OCR"]
     C --> D["v1.3.0 (Shipped ✅)<br/>.NET 11 Full-Stack Universal Suite<br/>Zero-Flicker Hydration + TwStreamingGrid<br/>150 Native Controls + dotnet new blazortw"]
-    D --> E["v1.4.0 (Planned 🚀)<br/>C# 15 Union State & Closed Hierarchies<br/>Donut Caching & [ShortCircuit] Edge<br/>Native Zstandard Compression<br/>Post-Quantum ML-KEM Vault<br/>Native OpenTelemetry Cockpit"]
-    E --> F["v1.5.0 (Planned 🌐)<br/>.NET Aspire 11 Live App Host<br/>Runtime-Native Async V2 & SVE2 SIMD<br/>Advanced 3D WebGL Canvas<br/>Native Mobile MAUI Bindings"]
+    D --> E["v1.4.0 (Shipped ✅)<br/>Donut Caching & ShortCircuit Edge<br/>Native Zstandard Compression<br/>Post-Quantum ML-KEM Vault"]
+    E --> F["v1.4.5 (Shipped ✅)<br/>Draggable CRM Dashboard<br/>PDF Text Flattening & Stamping<br/>C# 15 Union Boundary"]
+    F --> G["v1.4.6 (Shipped ✅)<br/>Grouped Category Hubs<br/>12-Step Coaching Tour<br/>15-Module Video Masterclass"]
+    G --> H["v1.5.0 (Shipped ✅ - Official Release)<br/>OpenTelemetry APM Cockpit<br/>W3C OTLP JSON Export<br/>WASM Heap & GC Profiler<br/>Native Desktop & Web Installers"]
 ```
 
 Contributions and discussions are welcomed in the [GitHub Discussions](https://github.com/donpotts/BlazorTailwindUI/discussions) and [Issue Tracker](https://github.com/donpotts/BlazorTailwindUI/issues).

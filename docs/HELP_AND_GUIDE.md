@@ -348,15 +348,40 @@ Every component follows the same familiar C# conventions:
 
 ---
 
+### Recipe P: Native OpenTelemetry Component Tracing & APM Cockpit
+```razor
+<!-- Real-Time Header APM Health Indicator -->
+<TwActivityMeter OnOpenCockpit="OpenTelemetryCockpit" />
+
+<!-- In-Page APM Telemetry Cockpit -->
+<TwTelemetryDashboard />
+
+@code {
+    @inject TwOpenTelemetryService OtelService
+
+    private void TraceRenderOperation()
+    {
+        // Automatic sub-millisecond execution span with memory delta tracking
+        using (OtelService.StartSpan("OrderGrid", "ComputeSummary", "Render", new() { ["tenant.id"] = "corp-1" }))
+        {
+            // Critical rendering or data processing work
+        }
+    }
+}
+```
+*Capabilities*: Sub-millisecond Blazor component lifecycle tracing via `ActivitySource("BlazorTailwindUI.Components", "1.5.0")`, pure SVG latency waterfalls with microsecond precision, component performance leaderboard with slow frame warnings (>33ms), real-time WASM heap & GC Generational counters (Gen 0/1/2), and 1-click W3C OTLP JSON export formatted for Jaeger, Grafana Tempo, and Dynatrace.
+
+---
+
 ## 3. Desktop Native Installers (Windows MSI & EXE)
 
 BlazorTailwindUI includes official desktop installers built using Tauri v2, providing native Windows desktop app distribution:
 
 | Installer | Description | Location |
 |---|---|---|
-| **`BlazorTailwindUI-1.4.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.4.0-x64-Setup.exe` |
-| **`BlazorTailwindUI-1.4.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.4.0-x64-en-US.msi` |
-| **`BlazorTailwindUI-WebDemo-v1.4.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.4.0.zip` |
+| **`BlazorTailwindUI-1.5.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.5.0-x64-Setup.exe` |
+| **`BlazorTailwindUI-1.5.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.5.0-x64-en-US.msi` |
+| **`BlazorTailwindUI-WebDemo-v1.5.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.5.0.zip` |
 
 ### Building Installers from Source:
 ```bash

@@ -1,7 +1,9 @@
 @namespace BlazorTailwindUI.Components.UI
 @using BlazorTailwindUI.Models
+@using BlazorTailwindUI.Services
 @using System.Threading
 @inject ToastService Toast
+@inject TwOpenTelemetryService OtelService
 
 <div class="space-y-6">
     <!-- Header with Badges & Description -->
@@ -232,37 +234,52 @@
 
     private void SetLoadingState()
     {
-        _currentState = new UiState<List<DemoInvoice>>.Loading("Evaluating ledger balance via SIMD stream...", 42.0);
-        Toast?.Show("Union State transitioned to: Loading", variant: SemanticVariant.Info);
+        using (OtelService.StartSpan("TwUnionStudio", "TransitionToLoading", "StateChange"))
+        {
+            _currentState = new UiState<List<DemoInvoice>>.Loading("Evaluating ledger balance via SIMD stream...", 42.0);
+            Toast?.Show("Union State transitioned to: Loading", variant: SemanticVariant.Info);
+        }
     }
 
     private void SetSuccessState()
     {
-        _currentState = new UiState<List<DemoInvoice>>.Success(GetSampleInvoices());
-        Toast?.Show("Union State transitioned to: Success (4 Records)", variant: SemanticVariant.Success);
+        using (OtelService.StartSpan("TwUnionStudio", "TransitionToSuccess", "StateChange"))
+        {
+            _currentState = new UiState<List<DemoInvoice>>.Success(GetSampleInvoices());
+            Toast?.Show("Union State transitioned to: Success (4 Records)", variant: SemanticVariant.Success);
+        }
     }
 
     private void SetEmptyState()
     {
-        _currentState = new UiState<List<DemoInvoice>>.Empty("Zero Invoices Available", "All accounts receivables for Q4 2026 have been settled.");
-        Toast?.Show("Union State transitioned to: Empty", variant: SemanticVariant.Warning);
+        using (OtelService.StartSpan("TwUnionStudio", "TransitionToEmpty", "StateChange"))
+        {
+            _currentState = new UiState<List<DemoInvoice>>.Empty("Zero Invoices Available", "All accounts receivables for Q4 2026 have been settled.");
+            Toast?.Show("Union State transitioned to: Empty", variant: SemanticVariant.Warning);
+        }
     }
 
     private void SetFailureState()
     {
-        _currentState = new UiState<List<DemoInvoice>>.Failure(
-            "Service Unavailable: Edge Ingress upstream rate-limit exceeded (HTTP 503).",
-            new TimeoutException("Connection to downstream payment orchestrator timed out after 5000ms."),
-            "HTTP_503_EDGE_TIMEOUT");
-        Toast?.Show("Union State transitioned to: Failure (HTTP 503)", variant: SemanticVariant.Danger);
+        using (OtelService.StartSpan("TwUnionStudio", "TransitionToFailure", "StateChange"))
+        {
+            _currentState = new UiState<List<DemoInvoice>>.Failure(
+                "Service Unavailable: Edge Ingress upstream rate-limit exceeded (HTTP 503).",
+                new TimeoutException("Connection to downstream payment orchestrator timed out after 5000ms."),
+                "HTTP_503_EDGE_TIMEOUT");
+            Toast?.Show("Union State transitioned to: Failure (HTTP 503)", variant: SemanticVariant.Danger);
+        }
     }
 
     private async Task SimulateAsyncBatch()
     {
-        _currentState = new UiState<List<DemoInvoice>>.Loading("Connecting to resilient async pipeline...", 15.0);
-        await Task.Delay(800);
-        _currentState = new UiState<List<DemoInvoice>>.Success(GetSampleInvoices());
-        Toast?.Show("Simulated async batch fetched and resolved cleanly!", variant: SemanticVariant.Success);
+        using (OtelService.StartSpan("TwUnionStudio", "SimulateAsyncBatch", "Lifecycle"))
+        {
+            _currentState = new UiState<List<DemoInvoice>>.Loading("Connecting to resilient async pipeline...", 15.0);
+            await Task.Delay(800);
+            _currentState = new UiState<List<DemoInvoice>>.Success(GetSampleInvoices());
+            Toast?.Show("Simulated async batch fetched and resolved cleanly!", variant: SemanticVariant.Success);
+        }
     }
 
     private static List<DemoInvoice> GetSampleInvoices() => new()

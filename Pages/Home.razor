@@ -92,6 +92,7 @@
             <span>API Online :@(ServerBridge.ActivePort)</span>
             <span class="text-[10px] text-emerald-600/70 dark:text-emerald-400/70">(@(ServerBridge.RoundtripMs.ToString("F1"))ms)</span>
         </div>
+        <TwActivityMeter OnOpenCockpit="OpenTelemetryCockpit" />
         <button type="button" 
                 @onclick="() => _commandPaletteOpen = true"
                 class="hidden min-[360px]:flex p-2 sm:px-2.5 sm:py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold transition items-center gap-2 focus:outline-none shadow-xs shrink-0"
@@ -4724,6 +4725,34 @@
                 {
                     <TwFullstackHub />
                 }
+                else if (_activeTab == "telemetry")
+                {
+                    <div class="space-y-6">
+                        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-950 via-slate-900 to-indigo-950 border border-slate-800 p-6 sm:p-8 text-white shadow-2xl">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div class="space-y-2 max-w-2xl">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                            🔭 OBSERVABILITY &amp; APM
+                                        </span>
+                                        <span class="text-xs text-slate-400 font-mono">Roadmap Pillar 16 • W3C OTLP v1.5.0</span>
+                                    </div>
+                                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight">OpenTelemetry Tracing &amp; APM Cockpit</h1>
+                                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                        Sub-millisecond component render tracking, W3C traceparent headers, WASM heap GC collection tracking, interactive microsecond flame graphs, and 1-click OTLP JSON ingest.
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <TwButton Variant="ButtonVariant.Outline" Class="!text-white !border-white/30 hover:!bg-white/10" OnClick='() => SwitchOrScroll("fullstack", "")'>
+                                        View in Full-Stack Hub
+                                    </TwButton>
+                                </div>
+                            </div>
+                        </div>
+
+                        <TwTelemetryDashboard />
+                    </div>
+                }
                 else if (_activeTab == "dashboard-studio")
                 {
                     <div class="space-y-6">
@@ -5968,9 +5997,10 @@
             new("pdf-studio", "PDF Form Maker", "✍️", "NEW", "PDF Form Filler, Signer & Irreversible Flattening", "studio-pdf"),
             new("union-studio", "C# 15 Union Boundary", "🛡️", "NEW", "Closed algebraic UiState<T> state machines", "studio-union")
         }),
-        new NavGroup("Architecture & AI", "⚡", "3 Modules", new List<NavItem>
+        new NavGroup("Architecture & AI", "⚡", "4 Modules", new List<NavItem>
         {
             new("fullstack", ".NET 11 Full-Stack", "⚡", "RC", "WASM + Hybrid, AOT, SIMD & Native CLI"),
+            new("telemetry", "OTel APM Cockpit", "🔭", "APM", "Flame graphs, W3C OTLP JSON & WASM heap tracing"),
             new("aichat", "Smart & AGUI Chat", "🤖", "AI", "AI streaming chat with tool invocations & steppers"),
             new("qrbarcode", "QR, Barcode & OCR", "🏦", "VECTOR", "Vector QR codes, Code 128, MICR check processing")
         }),
@@ -6043,6 +6073,19 @@
             {
                 // Ignore JS interop exceptions during navigation
             }
+        }
+    }
+
+    private async Task OpenTelemetryCockpit()
+    {
+        _activeTab = "telemetry";
+        try
+        {
+            await JS.InvokeVoidAsync("window.scrollTo", 0, 0);
+        }
+        catch
+        {
+            // ignore
         }
     }
 

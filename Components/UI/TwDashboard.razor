@@ -1,8 +1,10 @@
 @namespace BlazorTailwindUI.Components.UI
 @using BlazorTailwindUI.Models
+@using BlazorTailwindUI.Services
 @using System.Text.Json
 @inject IJSRuntime JS
 @inject ToastService Toast
+@inject TwOpenTelemetryService OtelService
 @implements IAsyncDisposable
 
 <div class="tw-dashboard-root space-y-6 @Class" id="@_dashboardContainerId">
@@ -426,7 +428,10 @@
 
     protected override void OnInitialized()
     {
-        _dotNetHelper = DotNetObjectReference.Create(this);
+        using (OtelService.StartSpan("TwDashboard", "OnInitialized", "Lifecycle"))
+        {
+            _dotNetHelper = DotNetObjectReference.Create(this);
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -547,14 +552,17 @@
 
     public async Task SaveLayoutAsync()
     {
-        try
+        using (OtelService.StartSpan("TwDashboard", "SaveLayoutAsync", "StateChange", new() { ["layout.cards"] = _currentLayout.Count.ToString() }))
         {
-            var json = JsonSerializer.Serialize(_currentLayout);
-            await JS.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
-        }
-        catch
-        {
-            // fallback
+            try
+            {
+                var json = JsonSerializer.Serialize(_currentLayout);
+                await JS.InvokeVoidAsync("localStorage.setItem", StorageKey, json);
+            }
+            catch
+            {
+                // fallback
+            }
         }
     }
 

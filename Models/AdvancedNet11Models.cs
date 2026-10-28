@@ -187,8 +187,25 @@ public class ComponentTraceSpan
     public string? ParentSpanId { get; set; }
     public string ComponentName { get; set; } = string.Empty;
     public string OperationName { get; set; } = "BuildRenderTree";
+    public string Category { get; set; } = "Render";
     public double DurationMicroseconds { get; set; }
+    public double DurationMs => DurationMicroseconds / 1000.0;
+    public string Health => DurationMs < 16.67 ? "Optimal" : (DurationMs <= 33.33 ? "Warning" : "Critical");
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     public Dictionary<string, string> Attributes { get; set; } = new();
     public long MemoryAllocatedBytes { get; set; }
 }
+
+/// <summary>
+/// Aggregated performance summary for an individual Blazor component.
+/// </summary>
+public sealed record ComponentPerformanceSummary(
+    string ComponentName,
+    int RenderCount,
+    double TotalDurationMs,
+    double AvgDurationMs,
+    double MaxDurationMs,
+    double MinDurationMs,
+    int SlowFrameCount,
+    DateTime LastRendered
+);
