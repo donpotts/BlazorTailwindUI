@@ -57,9 +57,12 @@
    - **`TwMfaAuthSuite`**: NIST 800-63B Zero-Trust MFA suite with TOTP QR codes, SMS/Email OTP, Passkeys biometrics, and recovery codes.
    - **`TwMediaRecorder`**: In-browser microphone & camera media recorder with real-time SVG frequency visualizer and WebM export.
    - **`TwScrollCraft`**: Viewport-driven object animation scrubber with parallax focal depth.
-9. **Coaching & Training Masterclass**:
-   - Full 1080p high-definition walkthrough video with interactive HyperFrames chapter seeking.
-   - Keyboard-driven command palette (`TwCommandPalette`, `Ctrl+K`) and interactive onboarding tour (`TwTour`).
+9. **Coaching, Training Hub & Video Masterclass (v1.4.6)**:
+   - **15-Chapter 1080p Video Masterclass**: Interactive HyperFrames chapter seeking with new chapters for CRM Draggable Studio, PDF Form Flattening, C# 15 Union Boundaries, and Grouped Category Hubs.
+   - **12-Step Guided Coaching Tour (`TwTour`)**: Step-by-step onboarding with live Razor snippets, pro-tips, progress tracks, and 1-click studio launcher buttons.
+   - **12 Developer Architecture Principles**: Mobile-first touch targets, zero-FOUC theming, DataGrid mobile cards, pure inline SVG charts, draggable LocalStorage persistence, irreversible PDF flattening, C# 15 discriminated unions, and Check 21 MICR processing.
+   - **Interactive Knowledge Check Quiz**: 6-question certification module with real-time green validation checkmarks.
+   - **Interactive Component Code Generator Playground**: Live property tweaking and instant copy-pasteable Blazor markup across 22+ components.
 10. **Form / PDF OCR & Check 21 MICR Engine**:
     - Client-side WebAssembly optical recognition for paper checks, bank drafts, invoices, and W-9 tax forms.
     - ANSI X9.27 E-13B magnetic clear band decoding with Mod-10 ABA routing checksum verification.

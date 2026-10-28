@@ -3669,6 +3669,22 @@
                                             <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400 font-bold block">2:36</span>
                                             <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">Open Source Release</span>
                                         </button>
+                                        <button type="button" @onclick='() => SeekVideo(172.0)' class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-brand-500 transition text-left focus:outline-none">
+                                            <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400 font-bold block">2:52</span>
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">CRM Draggable Studio</span>
+                                        </button>
+                                        <button type="button" @onclick='() => SeekVideo(190.0)' class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-brand-500 transition text-left focus:outline-none">
+                                            <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400 font-bold block">3:10</span>
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">PDF Form Flattening</span>
+                                        </button>
+                                        <button type="button" @onclick='() => SeekVideo(208.0)' class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-brand-500 transition text-left focus:outline-none">
+                                            <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400 font-bold block">3:28</span>
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">C# 15 Union Boundary</span>
+                                        </button>
+                                        <button type="button" @onclick='() => SeekVideo(225.0)' class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-brand-500 transition text-left focus:outline-none">
+                                            <span class="text-[10px] font-mono text-brand-600 dark:text-brand-400 font-bold block">3:45</span>
+                                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate block">Grouped Category Hubs</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -3701,6 +3717,12 @@
                                             <option value="snippet">TwSnippet (Showcase)</option>
                                             <option value="kbd">TwKbd (Showcase)</option>
                                             <option value="confetti">TwConfetti (Showcase)</option>
+                                            <option value="dashboard">TwDashboard (Flagship Studio)</option>
+                                            <option value="pdffiller">TwPdfFormFiller (PDF Studio)</option>
+                                            <option value="unionboundary">TwUnionBoundary (C# 15 Architecture)</option>
+                                            <option value="spatialcard">TwSpatialCard (2027 Spatial)</option>
+                                            <option value="fluidmesh">TwFluidMesh (Emotional Shaders)</option>
+                                            <option value="micrreader">TwMicrCheckReader (Check 21 MICR)</option>
                                         </select>
                                     </div>
 
@@ -3865,6 +3887,59 @@
                                                 <span class="text-xs text-slate-400">Canvas physics particle explosion</span>
                                             </div>
                                         }
+                                        else if (_pgComponent == "dashboard")
+                                        {
+                                            <div class="w-full p-4 rounded-xl bg-slate-900 border border-slate-800 text-white space-y-2">
+                                                <div class="flex items-center justify-between text-xs">
+                                                    <span class="font-bold">📊 CRM Draggable Dashboard Widget</span>
+                                                    <span class="font-mono text-emerald-400 font-bold">$142,850 ARR</span>
+                                                </div>
+                                                <p class="text-[11px] text-slate-400">Persistent LocalStorage grid with touch drag handles and SVG charts.</p>
+                                                <button type="button" @onclick='() => _activeTab = "dashboard-studio"' class="text-xs text-brand-400 font-bold hover:underline">Launch Full Studio →</button>
+                                            </div>
+                                        }
+                                        else if (_pgComponent == "pdffiller")
+                                        {
+                                            <div class="w-full p-4 rounded-xl bg-indigo-950 border border-indigo-800 text-white space-y-2">
+                                                <div class="flex items-center justify-between text-xs">
+                                                    <span class="font-bold">✍️ PDF Form Filler &amp; Contract Signer</span>
+                                                    <span class="font-mono text-indigo-300 font-bold">AcroForm Stamp</span>
+                                                </div>
+                                                <p class="text-[11px] text-indigo-200">Spatial signature placement and irreversible flattening stream export.</p>
+                                                <button type="button" @onclick='() => _activeTab = "pdf-studio"' class="text-xs text-indigo-400 font-bold hover:underline">Launch Full Studio →</button>
+                                            </div>
+                                        }
+                                        else if (_pgComponent == "unionboundary")
+                                        {
+                                            <div class="w-full p-4 rounded-xl bg-emerald-950/80 border border-emerald-800 text-white space-y-2">
+                                                <div class="flex items-center justify-between text-xs">
+                                                    <span class="font-bold">🛡️ C# 15 Discriminated Union Boundary</span>
+                                                    <span class="font-mono text-emerald-400 font-bold">UiState&lt;T&gt;</span>
+                                                </div>
+                                                <p class="text-[11px] text-emerald-200">Exhaustive compiler matching over Loading, Success, Empty, and Failure.</p>
+                                                <button type="button" @onclick='() => _activeTab = "union-studio"' class="text-xs text-emerald-400 font-bold hover:underline">Launch Full Studio →</button>
+                                            </div>
+                                        }
+                                        else if (_pgComponent == "spatialcard")
+                                        {
+                                            <div class="w-full max-w-sm">
+                                                <TwSpatialCard Title="@_pgText" Subtitle="Volumetric 3D Tilt" Glassmorphism="true">
+                                                    <p class="text-xs text-slate-300">Hover and move mouse or tilt phone to experience gyroscopic parallax.</p>
+                                                </TwSpatialCard>
+                                            </div>
+                                        }
+                                        else if (_pgComponent == "fluidmesh")
+                                        {
+                                            <div class="w-full max-w-sm">
+                                                <TwFluidMesh />
+                                            </div>
+                                        }
+                                        else if (_pgComponent == "micrreader")
+                                        {
+                                            <div class="w-full max-w-md">
+                                                <TwMicrCheckReader />
+                                            </div>
+                                        }
                                     </div>
 
                                     <!-- Code Box -->
@@ -3939,10 +4014,70 @@
                                 <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2">
                                     <div class="flex items-center gap-2">
                                         <span class="w-6 h-6 rounded-lg bg-sky-100 dark:bg-sky-950 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-xs">6</span>
-                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Command Palette & Keyboard Hooks</h4>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Command Palette &amp; Keyboard Hooks</h4>
                                     </div>
                                     <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                                         TwCommandPalette attaches a global keydown event listener capturing Ctrl+K/Cmd+K. It delivers sub-millisecond fuzzy search, grouped categorical routing, and keyboard arrow navigation with escape dismissals.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs">7</span>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Persistent Draggable Dashboard (TwDashboard)</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        LocalStorage persistence binds layout state per-operator. Mobile touch drag handles ensure effortless reordering without scrolling lock-ups, paired with zero-JS SVG analytics.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-lg bg-brand-100 dark:bg-brand-950 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold text-xs">8</span>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">PDF Form Flattening &amp; Signatures</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        TwPdfFormFiller provides spatial signature anchors, automated timestamping, and irreversible AcroForm stream flattening into vector page streams for tamper-proof contracts.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-xs">9</span>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">C# 15 Discriminated Union Boundaries</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        Closed algebraic UiState&lt;T&gt; state machines enforce compile-time pattern matching over Loading, Success, Empty, and Failure with automatic retry dispatch.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-xs">10</span>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Grouped Category Hubs &amp; Real-Time Search</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        5 structured hubs, keystroke-level instant sidebar filtering, and sticky 1-tap in-page anchor jump bars with scroll-mt-24 margin offsets eliminate navigation wrapping and clutter.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-lg bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-xs">11</span>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">2027 Spatial &amp; Anticipatory UI</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        Volumetric 3D cards with real gyroscopic tilt and specular gloss, organic emotional fluid resonance shaders adapting to operator mood, and zero-click predictive biometric intent anticipation.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-6 h-6 rounded-lg bg-teal-100 dark:bg-teal-950 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold text-xs">12</span>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Barcode, OCR &amp; Check 21 MICR Reader</h4>
+                                    </div>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        Pure client-side WebAssembly vector QR &amp; Code 128 generation, document optical character recognition, and ANSI X9.27 MICR clear band decoding with Mod-10 routing checks.
                                     </p>
                                 </div>
                             </div>
@@ -3994,6 +4129,94 @@
                                         </div>
                                     }
                                 </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white block">
+                                        Question 3: What is the architectural purpose of PDF form flattening in TwPdfFormFiller?
+                                    </span>
+                                    <div class="space-y-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz3" @onchange='() => _quiz3Answer = "a"' checked="@(_quiz3Answer == "a")" class="text-brand-600" />
+                                            <span>It irreversibly burns text and signatures into the permanent vector page stream, preventing downstream field tampering.</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz3" @onchange='() => _quiz3Answer = "b"' checked="@(_quiz3Answer == "b")" class="text-brand-600" />
+                                            <span>It compresses the PDF file into a ZIP archive for faster email delivery.</span>
+                                        </label>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(_quiz3Answer))
+                                    {
+                                        <div class="p-2.5 rounded-xl text-xs font-semibold @(_quiz3Answer == "a" ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800" : "bg-rose-50 text-rose-700")">
+                                            @(_quiz3Answer == "a" ? "✓ Correct! Flattening makes forms immutable and legally enforceable." : "✕ Incorrect. Flattening is cryptographic and structural, not archive compression.")
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white block">
+                                        Question 4: How does C# 15 UiState&lt;T&gt; in TwUnionBoundary improve over standard nullable models?
+                                    </span>
+                                    <div class="space-y-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz4" @onchange='() => _quiz4Answer = "a"' checked="@(_quiz4Answer == "a")" class="text-brand-600" />
+                                            <span>It enforces compile-time exhaustiveness over Loading, Success, Empty, and Failure states, eliminating untyped null runtime crashes.</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz4" @onchange='() => _quiz4Answer = "b"' checked="@(_quiz4Answer == "b")" class="text-brand-600" />
+                                            <span>It automatically encrypts strings using AES-256.</span>
+                                        </label>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(_quiz4Answer))
+                                    {
+                                        <div class="p-2.5 rounded-xl text-xs font-semibold @(_quiz4Answer == "a" ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800" : "bg-rose-50 text-rose-700")">
+                                            @(_quiz4Answer == "a" ? "✓ Correct! Discriminated union types guarantee exhaustive state coverage at compile time." : "✕ Incorrect. Unions are algebraic state structures, not cipher algorithms.")
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white block">
+                                        Question 5: How does TwDashboard ensure customized card layouts persist across browser sessions?
+                                    </span>
+                                    <div class="space-y-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz5" @onchange='() => _quiz5Answer = "a"' checked="@(_quiz5Answer == "a")" class="text-brand-600" />
+                                            <span>It serializes grid dimensions, positions, and card visibility to HTML5 LocalStorage under a scoped StorageKey.</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz5" @onchange='() => _quiz5Answer = "b"' checked="@(_quiz5Answer == "b")" class="text-brand-600" />
+                                            <span>It sends layout coordinates to a paid third-party cloud dashboard service.</span>
+                                        </label>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(_quiz5Answer))
+                                    {
+                                        <div class="p-2.5 rounded-xl text-xs font-semibold @(_quiz5Answer == "a" ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800" : "bg-rose-50 text-rose-700")">
+                                            @(_quiz5Answer == "a" ? "✓ Correct! LocalStorage persistence provides instant client-side reload with zero cloud fees." : "✕ Incorrect. BlazorTailwindUI is 100% self-hosted with zero external dependencies.")
+                                        </div>
+                                    }
+                                </div>
+
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-3">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white block">
+                                        Question 6: What prevents in-page smooth scroll anchors from hiding behind sticky navigation headers?
+                                    </span>
+                                    <div class="space-y-2 text-xs">
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz6" @onchange='() => _quiz6Answer = "a"' checked="@(_quiz6Answer == "a")" class="text-brand-600" />
+                                            <span>Tailwind's scroll-mt-24 utility class, which reserves a 6rem top margin offset for smooth scroll alignment.</span>
+                                        </label>
+                                        <label class="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-750 cursor-pointer hover:bg-white dark:hover:bg-slate-800">
+                                            <input type="radio" name="quiz6" @onchange='() => _quiz6Answer = "b"' checked="@(_quiz6Answer == "b")" class="text-brand-600" />
+                                            <span>By disabling the sticky header during scrolling.</span>
+                                        </label>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(_quiz6Answer))
+                                    {
+                                        <div class="p-2.5 rounded-xl text-xs font-semibold @(_quiz6Answer == "a" ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800" : "bg-rose-50 text-rose-700")">
+                                            @(_quiz6Answer == "a" ? "✓ Correct! scroll-mt-24 ensures anchor targets remain perfectly visible below sticky bars." : "✕ Incorrect. Sticky headers remain active; scroll-mt provides the necessary offset.")
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </TwCard>
 
@@ -4038,20 +4261,38 @@
                                     </div>
 
                                     <!-- Pillar 12: C# 15 Discriminated Unions & Closed Hierarchies -->
-                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-brand-500/30 dark:border-brand-500/20 space-y-2 hover:border-brand-500 transition">
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2 hover:border-brand-500/50 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-brand-600 dark:text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded-md">Planned v1.4.0 🚀</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.4.5 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">C# 15 Language</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                                             <span>🛡️</span> C# 15 Union State &amp; Closed Hierarchies
                                         </h4>
                                         <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                                            Compiler-checked exhaustive union types (<code class="font-bold text-brand-600 dark:text-brand-400">public union UiState&lt;T&gt;</code>) and closed token hierarchies eliminating untyped nulls and unhandled UI error states.
+                                            Compiler-checked exhaustive union types (<code class="font-bold text-brand-600 dark:text-brand-400">UiState&lt;T&gt;</code>) and closed token hierarchies eliminating untyped nulls and unhandled UI error states.
                                         </p>
                                         <div class="pt-1 flex flex-wrap gap-1">
                                             <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">TwUnionBoundary</span>
                                             <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Result&lt;T,E&gt;</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Pillar 12B: Flagship Studios & Grouped Navigation -->
+                                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2 hover:border-brand-500/50 transition">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.4.6 ✅</span>
+                                            <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Studios &amp; Nav Hubs</span>
+                                        </div>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                            <span>🚀</span> Grouped Hubs &amp; CRM/PDF Studios
+                                        </h4>
+                                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                            5 categorized navigation hubs, keystroke-level instant sidebar search filter, persistent draggable CRM dashboard (TwDashboard), and PDF form flattening &amp; sealing (TwPdfFormFiller).
+                                        </p>
+                                        <div class="pt-1 flex flex-wrap gap-1">
+                                            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">TwDashboard</span>
+                                            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800 text-slate-600 dark:text-slate-300">TwPdfFormFiller</span>
                                         </div>
                                     </div>
 
@@ -5347,6 +5588,10 @@
     private bool _pgShowIcon = true;
     private string? _quiz1Answer;
     private string? _quiz2Answer;
+    private string? _quiz3Answer;
+    private string? _quiz4Answer;
+    private string? _quiz5Answer;
+    private string? _quiz6Answer;
 
     // QR & Barcode Studio State
     private string _qrInput = "https://tailwindcss.com";
@@ -5364,12 +5609,58 @@
     {
         _tourSteps.Clear();
         _tourSteps.Add(new(
-            "Welcome to BlazorTailwindUI!",
-            "This enterprise library gives you full-stack component superpower in Blazor WebAssembly (.NET 11 RC), styled exclusively with utility-first Tailwind CSS with 0 external JavaScript chart bundles.",
+            "Welcome to BlazorTailwindUI v1.4.6!",
+            "This enterprise library gives you full-stack component superpower in Blazor WebAssembly (.NET 11 RC), styled exclusively with utility-first Tailwind CSS with 0 external chart bundles or tracking beacons.",
             "🚀",
             "Architecture",
             "Every component is mobile-first: minimum 44px tap targets, bottom-sheet transitions, and stacked card transformations.",
             "<TwAppShell Layout=\"LayoutVariant.Sidebar\"> ... </TwAppShell>"
+        ));
+        _tourSteps.Add(new(
+            "Grouped Category Hubs & Real-Time Filter",
+            "Navigation is cleanly organized into 5 structured Category Hubs (🚀 Flagship Studios, ⚡ Architecture & AI, 🏢 Enterprise & Business, 🧩 UI Kit Catalog, 🎓 Resources & Docs) with keystroke-level instant sidebar search filtering and sticky 1-tap in-page anchor jump bars.",
+            "🗂️",
+            "Navigation Hubs",
+            "Type in the sidebar filter to narrow navigation in real-time, or click any jump pill for instant smooth scrolling.",
+            "<div data-testid=\"jump-bar\"> <button @onclick='() => SwitchOrScroll(\"components\", \"studio-dashboard\")'>CRM Dashboard</button> </div>"
+        ));
+        _tourSteps.Add(new(
+            "Mobile-First CRM Draggable Dashboard Studio",
+            "Full drag-and-drop and resize dashboard with persistent HTML5 LocalStorage layout saving, mobile touch drag handles, card visibility toggling, custom card properties, and pure SVG revenue analytics.",
+            "📊",
+            "Flagship Studio",
+            "Touch handles ensure smooth dragging on mobile phones and tablets without interfering with native page scrolling.",
+            "<TwDashboard StorageKey=\"blazor-tw-crm-dashboard\" />",
+            "🚀 Launch CRM Studio",
+            () => { _tourOpen = false; _activeTab = "dashboard-studio"; }
+        ));
+        _tourSteps.Add(new(
+            "PDF Form Filler, Contract Signer & Flattening",
+            "Interactive PDF form filling, spatial 'Sign Here' / 'Initial Here' signature placement, automatic date-time stamping, irreversible text & signature stream flattening, and SHA-256 cryptographic audit sealing.",
+            "✍️",
+            "Enterprise PDF",
+            "Toggle 'Flatten All Form Fields' before export to permanently render signatures and text into the vector page stream, preventing downstream tampering.",
+            "<TwPdfFormFiller />",
+            "✍️ Launch PDF Signer",
+            () => { _tourOpen = false; _activeTab = "pdf-studio"; }
+        ));
+        _tourSteps.Add(new(
+            "C# 15 Discriminated Union Boundary",
+            "Closed algebraic UI state hierarchies (UiState<T>: Loading, Success, Empty, Failure) with compiler-enforced exhaustiveness pattern matching, animated pulse shimmers, and type-safe error boundaries with retry dispatch.",
+            "🛡️",
+            "C# 15 Architecture",
+            "Use TwUnionBoundary to guarantee that loading, empty, and failure states can never be forgotten at compile time.",
+            "<TwUnionBoundary TItem=\"List<Invoice>\" State=\"@invoiceState\" OnRetry=\"FetchInvoicesAsync\"> ... </TwUnionBoundary>",
+            "🛡️ Launch Union Studio",
+            () => { _tourOpen = false; _activeTab = "union-studio"; }
+        ));
+        _tourSteps.Add(new(
+            "2027 Spatial & Anticipatory UI Laboratory",
+            "Volumetric 3D cards with real gyroscopic tilt and specular gloss, organic emotional fluid resonance shaders adapting to user mood, and zero-click predictive biometric intent anticipation.",
+            "🌐",
+            "Next-Gen 2027",
+            "Gyroscopic tilt uses deviceorientation events on mobile and mouse coordinates on desktop with zero WebGL overhead.",
+            "<TwSpatialCard Title=\"Spatial Quantum Enclave\" Subtitle=\"Volumetric 3D Tilt\"> ... </TwSpatialCard>"
         ));
         _tourSteps.Add(new(
             "Zero-FOUC Theming & Color Tokens",
@@ -5380,36 +5671,28 @@
             "<TwThemeSelector Alignment=\"right\" />"
         ));
         _tourSteps.Add(new(
-            "Enterprise Sortable DataGrid",
+            "Enterprise Sortable DataGrid & Streaming Hub",
             "Full-featured TwDataGrid with column sorting, individual row record actions, multi-select batch actions, per-column filters, column widths, and automatic mobile card transformation.",
-            "📊",
+            "📈",
             "DataGrid",
             "Set Width, SortBy, and FilterPlaceholder on TwDataGridColumn, then use ActionsTemplate for Edit/Delete buttons.",
             "<TwDataGrid TItem=\"User\" Items=\"@users\" Selectable=\"true\" AllowColumnFiltering=\"true\"> ... </TwDataGrid>"
         ));
         _tourSteps.Add(new(
-            "Zero-Dependency Native SVG Charts",
-            "Blazor-native C# SVG charts (Donut, Bar, Sparkline) and radial speedometer gauges with animated gradient strokes and live numeric binding — zero Chart.js or D3 dependencies required.",
-            "📈",
-            "Visualizations",
-            "Bind TwGauge directly to TwNumeric or TwSlider to see real-time SVG updates at 60fps.",
-            "<TwGauge Value=\"@perf\" Min=\"0\" Max=\"100\" Unit=\"%\" />"
+            "Barcode, OCR & Check 21 MICR Reader",
+            "Pure client-side WebAssembly vector QR code & Code 128 barcode generation, document optical character recognition (OCR), and ANSI X9.27 MICR magnetic ink clear band decoding with Mod-10 routing validation.",
+            "🏦",
+            "Financial Processing",
+            "Check 21 MICR reader verifies bank routing numbers in real time with zero cloud latency.",
+            "<TwMicrCheckReader OnCheckParsed=\"HandleCheckParsed\" />"
         ));
         _tourSteps.Add(new(
             "Interactive AI Chatbot & Reasoning UI",
-            "Features multi-step thinking checklists, streaming token animations, code blocks with instant copy, touch-optimized input, and a floating launcher widget.",
-            "✨",
-            "AI Assistant",
+            "Features multi-step thinking checklists, streaming token animations, code blocks with instant copy, touch-optimized input, and a floating launcher widget with dual-plane agentic tool calling.",
+            "🤖",
+            "Smart & AGUI",
             "Use TwChatWidget for an always-accessible floating bottom sheet on mobile and window on desktop.",
             "<TwChatWidget BotName=\"NexusAI Assistant\" />"
-        ));
-        _tourSteps.Add(new(
-            "Motion & Animation System",
-            "Wrap any component in TwAnimate for keyframe presets (BounceIn, FadeInUp, ZoomIn, PulseGlow). Use TwCountUp for smooth cubic ease-out KPI tickers.",
-            "🎈",
-            "Motion",
-            "Set OnHover='true' on TwAnimate to trigger animations only when hovered.",
-            "<TwCountUp StartValue=\"0\" EndValue=\"148500\" Prefix=\"$\" DurationMs=\"1500\" />"
         ));
         _tourSteps.Add(new(
             "Tailwind Showcase & Parity",
@@ -5482,7 +5765,11 @@
         new(115.1, "Icon & Emoji Studio"),
         new(128.8, "Enterprise DataGrid"),
         new(142.9, "Barcodes & Signatures"),
-        new(156.0, "Open Source Release")
+        new(156.0, "Open Source Release"),
+        new(172.0, "CRM Draggable Dashboard"),
+        new(190.0, "PDF Form Flattening & Sealing"),
+        new(208.0, "C# 15 Union Boundary"),
+        new(225.0, "Grouped Category Hubs")
     };
 
     private async Task SeekVideo(double seconds)
@@ -5558,6 +5845,18 @@
             return $"<TwKbd Key=\"cmd\" /> + <TwKbd Key=\"shift\" /> + <TwKbd Key=\"{_pgText}\" />";
         if (_pgComponent == "confetti")
             return $"<TwConfetti @ref=\"_confetti\" FullScreen=\"true\" />\n// In C#: await _confetti.FireAsync();";
+        if (_pgComponent == "dashboard")
+            return $"<TwDashboard StorageKey=\"crm-dashboard-user-1\" />";
+        if (_pgComponent == "pdffiller")
+            return $"<TwPdfFormFiller DefaultDocumentName=\"Master_Services_Agreement.pdf\" />";
+        if (_pgComponent == "unionboundary")
+            return $"<TwUnionBoundary TItem=\"List<Invoice>\" State=\"@invoiceState\" OnRetry=\"FetchInvoicesAsync\">\n    <Loading><div class=\"animate-pulse\">Loading...</div></Loading>\n    <Success Context=\"items\"><InvoicesTable Items=\"@items\" /></Success>\n    <Empty><div>No records found</div></Empty>\n    <Failure Context=\"err\"><div>Error: @err.Message</div></Failure>\n</TwUnionBoundary>";
+        if (_pgComponent == "spatialcard")
+            return $"<TwSpatialCard Title=\"{_pgText}\" Subtitle=\"Volumetric 3D Tilt & Specular Shine\">\n    <p class=\"text-xs text-slate-300\">Spatial card contents</p>\n</TwSpatialCard>";
+        if (_pgComponent == "fluidmesh")
+            return $"<TwFluidMesh Velocity=\"1.2\" Mood=\"FluidMood.Quantum\" />";
+        if (_pgComponent == "micrreader")
+            return $"<TwMicrCheckReader OnCheckParsed=\"HandleCheckParsed\" />";
         return $"<TwAnimate Type=\"TwAnimate.AnimationType.BounceIn\">{_pgText}</TwAnimate>";
     }
 
