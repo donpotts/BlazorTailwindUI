@@ -2694,6 +2694,160 @@ public class ComponentCatalogService
                 new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes for outer container.")
             }
         },
+        new ComponentDocItem
+        {
+            Name = "TwModernProgress",
+            Category = "Progress & Steppers",
+            Description = "Cool modern progress indicators: SVG glowing circular rings, dashboard speedometer arcs, multi-segment capsule pill steppers, neon liquid shimmer, and Apple Fitness style triple concentric activity rings.",
+            RazorSnippet = "<TwModernProgress Type=\"TwModernProgress.ProgressType.RadialRing\" Value=\"75\" Label=\"Done\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Type", "ProgressType", "ProgressType.RadialRing", "Visual variant: RadialRing, SpeedometerArc, SegmentedCapsule, NeonLiquidGlow, ConcentricMultiRing."),
+                new ComponentParameterDoc("Value", "int", "75", "Primary progress percentage (0-100)."),
+                new ComponentParameterDoc("SecondaryValue", "int", "60", "Secondary ring percentage for concentric mode."),
+                new ComponentParameterDoc("TertiaryValue", "int", "92", "Tertiary ring percentage for concentric mode."),
+                new ComponentParameterDoc("Label", "string?", "null", "Text description or phase label."),
+                new ComponentParameterDoc("PixelSize", "int", "110", "Diameter size in pixels for ring/arc modes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwUnionStudio",
+            Category = "Architecture & State",
+            Description = "C# 15 Discriminated Union boundary studio with exhaustive pattern matching, algebraic UI states (Idle, Loading, Success, Error), latency simulation, and retry triggers.",
+            RazorSnippet = "<TwUnionStudio />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("CustomClass", "string", "\"\"", "Optional CSS class modifiers.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwPdfFormFiller",
+            Category = "Documents & Forms",
+            Description = "Interactive PDF form filler and attestation engine supporting initial stamping, legal full name signing, UTC timestamps, and corporate authority checkboxes.",
+            RazorSnippet = "<TwPdfFormFiller />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("CustomClass", "string", "\"\"", "Optional CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwAguiFormCanvas",
+            Category = "Forms & Inputs",
+            Description = "AG-UI Adaptive Generative UI form engine with AI confidence percentages, 2-way diff binding, dynamic field schema synthesis, and human-in-the-loop gating.",
+            RazorSnippet = "<TwAguiFormCanvas Schema=\"@schema\" OnSubmit=\"HandleSubmit\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Schema", "AguiFormSchema", "null", "The synthesized adaptive form schema."),
+                new ComponentParameterDoc("OnSubmit", "EventCallback<Dictionary<string, object>>", "null", "Callback on approved form submission.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwPwaInstallButton",
+            Category = "Navigation & Shell",
+            Description = "1-Click Progressive Web App (PWA) installation button with native beforeinstallprompt detection, standalone status badges, and cross-platform installation modal.",
+            RazorSnippet = "<TwPwaInstallButton />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Optional CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwActivityMeter",
+            Category = "Data Visualization",
+            Description = "High-density system activity meter with pulse rate indicators, status badge, and customizable threshold levels.",
+            RazorSnippet = "<TwActivityMeter Value=\"85\" Max=\"100\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "double", "0", "Current numeric activity level."),
+                new ComponentParameterDoc("Max", "double", "100", "Maximum activity threshold scale.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwAsyncState",
+            Category = "Architecture & State",
+            Description = "Declarative async boundary container for handling loading skeletons, error states with retry buttons, empty states, and success content.",
+            RazorSnippet = "<TwAsyncState State=\"@state\"><Success>Content</Success></TwAsyncState>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("State", "AsyncOperationState", "-", "The active state enum.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwBirthdayBanner",
+            Category = "Gamification & Celebrations",
+            Description = "Company-wide birthday alert banner with quick emoji reaction buttons and celebration confetti trigger.",
+            RazorSnippet = "<TwBirthdayBanner EmployeeName=\"Jane Doe\" Department=\"Engineering\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("EmployeeName", "string", "\"\"", "Recipient employee name."),
+                new ComponentParameterDoc("Department", "string", "\"\"", "Employee department.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwBirthdayCard",
+            Category = "Gamification & Celebrations",
+            Description = "Role-tailored interactive 3D card with inside jokes, particle reveals, and peer signing wall.",
+            RazorSnippet = "<TwBirthdayCard RecipientName=\"Jane Doe\" Role=\"Architect\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("RecipientName", "string", "\"\"", "Card recipient name.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwCelebrationModal",
+            Category = "Modals & Overlays",
+            Description = "Modal dialog with celebration confetti burst animation, congratulatory header, and reward claim buttons.",
+            RazorSnippet = "<TwCelebrationModal @bind-IsOpen=\"isOpen\" Title=\"Congratulations!\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("IsOpen", "bool", "false", "Whether the modal is visible.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwDashboard",
+            Category = "Dashboards & Layouts",
+            Description = "Executive multi-widget draggable dashboard layout with GridStack.js integration and responsive card snapping.",
+            RazorSnippet = "<TwDashboard />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("CustomClass", "string", "\"\"", "Optional CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwNavDrawerItem",
+            Category = "Navigation & Shell",
+            Description = "Navigation drawer menu item with icon, label, active state indicator, and optional counter badge.",
+            RazorSnippet = "<TwNavDrawerItem Icon=\"📊\" Label=\"Analytics\" IsActive=\"true\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Label", "string", "\"\"", "Menu item label text."),
+                new ComponentParameterDoc("Icon", "string", "\"\"", "Menu item icon."),
+                new ComponentParameterDoc("IsActive", "bool", "false", "Whether the item is currently active.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTile",
+            Category = "Cards & Bento",
+            Description = "Compact KPI metric tile with inline trend badge, subtext, and zero-JS sparkline micro-chart.",
+            RazorSnippet = "<TwTile Title=\"Active Users\" Value=\"4,820\" Change=\"+12%\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string", "\"\"", "Tile title text."),
+                new ComponentParameterDoc("Value", "string", "\"\"", "Primary metric value text.")
+            }
+        },
     };
 
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;

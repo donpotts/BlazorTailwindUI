@@ -123,7 +123,7 @@
         <button type="button" 
                 @onclick='() => _activeTab = "docs"'
                 class="hidden xl:inline-flex px-2.5 py-1.5 rounded-xl border border-indigo-500/30 bg-indigo-50/60 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-xs font-bold transition items-center gap-1.5 focus:outline-none shadow-xs"
-                title="Browse Component Documentation & Settings (86 Components)">
+                title="Browse Component Documentation & Settings (184 Components)">
             <span>📖</span>
             <span>Docs & Help</span>
         </button>
@@ -3534,6 +3534,32 @@
                                 </div>
                             </TwCard>
 
+                        <!-- Modern Progress Indicators Showcase -->
+                        <TwCard Title="Modern Cool Progress & Activity Indicators" Subtitle="SVG glowing circular rings, dashboard speedometer arcs, multi-segment capsule pill steppers, neon liquid shimmer, and Apple Fitness style triple concentric activity rings">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-2">
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Glowing Radial Ring</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.RadialRing" Value="78" Label="Target" PixelSize="110" />
+                                </div>
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Speedometer Arc Gauge</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.SpeedometerArc" Value="84" Label="Velocity" PixelSize="120" />
+                                </div>
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-center">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Capsule Stepper & Neon Glow</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.SegmentedCapsule" Value="60" TotalSegments="5" Label="Release Pipeline" />
+                                    <div class="mt-4">
+                                        <TwModernProgress Type="TwModernProgress.ProgressType.NeonLiquidGlow" Value="92" Label="AI Ingestion Rate" GradientStart="#06b6d4" GradientEnd="#3b82f6" />
+                                    </div>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center justify-center">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Triple Activity Rings</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.ConcentricMultiRing" Value="85" SecondaryValue="68" TertiaryValue="94" />
+                                </div>
+                            </div>
+                        </TwCard>
+
+
                             <TwCard Title="Skeleton Shimmer Placeholders" Subtitle="Loading state placeholders for fast-perceived UX">
                                 <div class="space-y-4">
                                     <div class="flex items-center gap-3">
@@ -5623,7 +5649,7 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "C# 15 Union Boundary Studio", Subtitle = "UiState<T> closed algebraic UI state hierarchies & error boundaries", Category = "Studios", ShortcutKey = "U", Action = () => { _activeTab = "union-studio"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Core Components", Subtitle = "Buttons, Badges, Inputs, Switches, Alerts", Category = "Navigation", ShortcutKey = "C", Action = () => { _activeTab = "components"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Enterprise Suite", Subtitle = "Native SVG Charts, Gauges, Timeline, File Upload, Tree", Category = "Navigation", ShortcutKey = "E", Action = () => { _activeTab = "enterprise"; StateHasChanged(); } });
-        _commandPaletteItems.Add(new CommandPaletteItem { Title = "Component Docs, Settings & Coach", Subtitle = "Search & inspect all 86 components, parameter tables, recipes, rules", Category = "Navigation", ShortcutKey = "D", Action = () => { _activeTab = "docs"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "Component Docs, Settings & Coach", Subtitle = "Search & inspect all 184 components, parameter tables, recipes, rules", Category = "Navigation", ShortcutKey = "D", Action = () => { _activeTab = "docs"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Responsive DataGrid", Subtitle = "Column sorting, filters, batch actions, row actions", Category = "Navigation", ShortcutKey = "G", Action = () => { _activeTab = "datatable"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "AI Chatbot & Reasoning Progress", Subtitle = "Interactive assistant with step-by-step thinking", Category = "Navigation", ShortcutKey = "A", Action = () => { _activeTab = "aichat"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Coaching & Video Masterclass", Subtitle = "1080p demo video, curriculum, interactive playground", Category = "Navigation", ShortcutKey = "T", Action = () => { _activeTab = "training"; StateHasChanged(); } });
@@ -6174,7 +6200,7 @@
         {
             new("innovations", "Innovations & Wins", "🎁", "6 WINS", "Culture quick wins, Easter eggs & sound FX"),
             new("training", "Coaching & Video", "🎓", "1080p", "Interactive coaching tour & chaptered masterclass"),
-            new("docs", "Docs & Settings", "📖", "86 ITEMS", "Interactive component documentation & live props")
+            new("docs", "Docs & Settings", "📖", "184 ITEMS", "Interactive component documentation & live props")
         })
     };
 
@@ -6275,7 +6301,7 @@
         new("overlays", "Overlays & Drawers", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2'/></svg>"),
         new("training", "Coaching & Video", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 14l9-5-9-5-9 5 9 5z'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z'/></svg>", "Masterclass"),
         new("qrbarcode", "QR, Barcode & Sign", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z'/></svg>", "Studio"),
-        new("docs", "Docs & Coach", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'/></svg>", "86 Items"),
+        new("docs", "Docs & Coach", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'/></svg>", "184 Items"),
         new("more", "More UI", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'/></svg>")
     };
 
@@ -6283,11 +6309,8 @@
     {
         new("showcase", "Showcase", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 10V3L4 14h7v7l9-11h-7z'/></svg>"),
         new("components", "UI Kit", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16'/></svg>"),
-        new("enterprise", "Enterprise", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'/></svg>"),
-        new("gridcards", "Cards", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'/></svg>"),
         new("studio", "Studio", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'/></svg>"),
         new("aichat", "AI Chat", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z'/></svg>"),
-        new("datatable", "Table", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z'/></svg>"),
         new("more", "More", "<svg fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'/></svg>")
     };
 
