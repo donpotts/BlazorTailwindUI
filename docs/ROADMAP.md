@@ -19,7 +19,7 @@ This document outlines the strategic architecture, component specifications, and
 | **9. Form / PDF OCR & Check 21 MICR Engine** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | Shipped (v1.2.0) ✅ | Client WebAssembly & FinTech |
 | **10. Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | Shipped (v1.2.0) ✅ | Developer Tooling & Agentic AI |
 | **11. .NET 11 Full-Stack Universal Suite** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | Shipped (v1.3.0) ✅ | Full-Stack Blazor & Telemetry |
-| **12. C# 15 Discriminated Unions & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState` | Planned (v1.4.0) 🚀 | Language Modernization & State Safety |
+| **12. C# 15 Discriminated Unions & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState`, `TwUnionStudio` | Shipped (v1.4.5) ✅ | Language Modernization & State Safety |
 | **13. Donut Caching & ShortCircuit Edge Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Planned (v1.4.0) 🚀 | SSR Performance & Edge Caching |
 | **14. Native Zstandard Ultra-Fast Compression** | `TwZstdStreamService`, `TwZstdPayloadBridge` | Planned (v1.4.0) 🚀 | High-Throughput Data & Transport |
 | **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwHpkeEnclave` | Planned (v1.4.0) 🚀 | Zero-Trust & Post-Quantum Security |
@@ -278,7 +278,7 @@ Provide comprehensive, first-class full-stack development support for **.NET 11 
 
 ---
 
-## 12. 🛡️ C# 15 Discriminated Union Types & Closed Hierarchies (`TwUnionBoundary`, `Result<T, E>`)
+## 12. 🛡️ C# 15 Discriminated Union Types & Closed Hierarchies (`TwUnionBoundary`, `Result<T, E>`) — Shipped (v1.4.5) ✅
 
 ### Objective
 Leverage modern C# 15 language innovations—specifically **first-class Union Types** and **Closed Class Hierarchies** (`closed`)—to eliminate untyped nullable models, runtime exceptions, and sentinel flags in asynchronous Blazor component state machines.

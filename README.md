@@ -126,9 +126,23 @@
       - Real-Time Activity Feed with timestamped audit logs.
       - Executive Scratchpad with real-time text observation note taking.
 
+21. **C# 15 Discriminated Union Boundary & Closed State Studio (`TwUnionBoundary`, `Result<T, E>`, `TwAsyncState`, `TwUnionStudio`)**:
+    - **Closed Algebraic UI State Machines (`UiState<T>`)**: Formally models the complete lifecycle of UI async states (`Loading`, `Success(T Data)`, `Empty`, `Failure(string Message, Exception? Exception, string? ErrorCode)`), eliminating untyped null references and invalid state transitions.
+    - **Functional Result Monad (`Result<T, E>`)**: Eliminates unhandled exception crashes through compile-time checked `Ok(T)` and `Err(E)` variants, supporting monadic `Match`, `MatchAsync`, `Map`, and `Bind`.
+    - **Declarative Union Boundary Container (`TwUnionBoundary<T>`)**: Zero-boilerplate Razor container mapping union variants to type-safe child templates (`<Loading>`, `<Success Context="data">`, `<Empty>`, `<Failure Context="err">`) with built-in shimmery skeleton pulses, empty state illustrations, and 1-click `🔄 Retry Operation` dispatch.
+    - **Self-Orchestrating Async Coordinator (`TwAsyncState<T>`)**: High-level async lifecycle component with automatic cancellation tokens on unmount, debounced refreshes, and state change callbacks.
+
 ---
 
 ## 📸 Visual Showcase
+
+<p align="center">
+  <img src="docs/images/suite-tw-union-boundary.png" alt="C# 15 Discriminated Union Boundary Studio (TwUnionBoundary)" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
+</p>
+
+| C# 15 Discriminated Union Boundary Studio (`TwUnionBoundary`) | Mobile Touch & Closed State Testing |
+|:---:|:---:|
+| <img src="docs/images/suite-tw-union-boundary.png" width="450" /> | <img src="docs/images/suite-tw-union-boundary-mobile.png" width="450" /> |
 
 <p align="center">
   <img src="docs/images/suite-tw-dashboard.png" alt="Mobile-First Draggable & Resizable CRM Dashboard Studio (TwDashboard)" width="920" style="border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);" />
@@ -668,7 +682,7 @@ Explore the full architectural blueprints in **[docs/ROADMAP.md](docs/ROADMAP.md
 | **v1.3.4** | **Storage Manager, Word Cloud & Sankey Flow** | `TwFileManager`, `TwWordCloud`, `TwSankeyChart` | **Shipped ✅** | Cloud asset manager with live SHA-256 inspector, pure SVG Archimedean word cloud, and multi-stage throughput Sankey flow diagrams. |
 | **v1.3.5** | **2027 Spatial & Anticipatory UI Laboratory** | `TwSpatialCard`, `TwFluidMesh`, `TwPredictiveIntent` | **Shipped ✅** | Volumetric 3D cards with real gyroscopic tilt, organic emotional fluid resonance shaders, anticipatory zero-click intent engine, and native MSI/EXE desktop installers. |
 | **v1.4.0** | **Mobile-First Draggable CRM Dashboard Studio & PDF Form Flattening** | `TwDashboard`, `TwPdfFormFiller`, `PdfFlattenStreamGenerator` | **Shipped ✅** | Persistent 12-column GridStack dashboard, touch drag handles, card customizer, pure SVG CRM analytics, AcroForm stream flattening & cryptographic sealing, WiX/NSIS installers. |
-| **v1.4.5** | **C# 15 Union State & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState` | Planned 🚀 | Compiler-enforced exhaustiveness checking, type-safe error boundaries, and closed design-system token inheritance. |
+| **v1.4.5** | **C# 15 Union State & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState`, `TwUnionStudio` | **Shipped ✅** | Compiler-enforced exhaustiveness checking, type-safe error boundaries with auto-retry, and closed design-system token inheritance. |
 | **v1.4.0** | **Blazor Donut Caching & [ShortCircuit] Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Planned 🚀 | High-performance SSR partial rerendering, static shell edge caching, and sub-millisecond bypass endpoints. |
 | **v1.4.0** | **Native Zstandard Compression Pipeline** | `TwZstdStreamService`, `TwZstdPayloadBridge` | Planned 🚀 | Native ZstandardStream integration delivering 2-7x faster compression for SignalR batches, streaming grids & IndexedDB. |
 | **v1.4.0** | **Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwHpkeEnclave` | Planned 🚀 | Zero-trust quantum-resistant encryption for sensitive forms, payroll records & Check 21 MICR tokens. |

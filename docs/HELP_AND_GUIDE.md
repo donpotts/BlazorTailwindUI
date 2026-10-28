@@ -300,6 +300,30 @@ Every component follows the same familiar C# conventions:
 
 ---
 
+### Recipe N: C# 15 Discriminated Union Boundary & Closed State Machines
+```razor
+@using BlazorTailwindUI.Components.UI
+@using BlazorTailwindUI.Models
+
+<TwUnionBoundary TItem="List<Invoice>" State="@invoiceState" OnRetry="FetchInvoicesAsync">
+    <Loading>
+        <div class="p-6 rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse">Loading ledger...</div>
+    </Loading>
+    <Success Context="invoices">
+        <InvoicesTable Items="@invoices" />
+    </Success>
+    <Empty>
+        <div class="p-8 text-center text-slate-500">No invoices found.</div>
+    </Empty>
+    <Failure Context="err">
+        <div class="p-4 rounded-xl bg-rose-50 text-rose-800">Error: @err.Message</div>
+    </Failure>
+</TwUnionBoundary>
+```
+*Capabilities*: Type-safe algebraic UI state lifecycle modeling (`UiState<T>`: `Loading`, `Success`, `Empty`, `Failure`), compiler exhaustiveness enforcement, animated pulse skeleton shimmers, failure diagnostic inspection, and automated 1-click retry dispatch.
+
+---
+
 ## 3. Desktop Native Installers (Windows MSI & EXE)
 
 BlazorTailwindUI includes official desktop installers built using Tauri v2, providing native Windows desktop app distribution:

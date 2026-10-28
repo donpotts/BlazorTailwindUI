@@ -9,10 +9,22 @@ using System.Collections.Generic;
 /// </summary>
 public abstract record UiState<T>
 {
-    public sealed record Loading : UiState<T>;
+    public sealed record Loading(string? Message = "Loading...", double? ProgressPercent = null) : UiState<T>
+    {
+        public Loading() : this("Loading...", null) { }
+    }
+
     public sealed record Success(T Data) : UiState<T>;
-    public sealed record Empty : UiState<T>;
-    public sealed record Failure(string Message, Exception? Exception = null) : UiState<T>;
+
+    public sealed record Empty(string? Title = "No Records Found", string? Description = "No active records match the criteria.") : UiState<T>
+    {
+        public Empty() : this("No Records Found", "No active records match the criteria.") { }
+    }
+
+    public sealed record Failure(string Message, Exception? Exception = null, string? ErrorCode = null, DateTime? Timestamp = null) : UiState<T>
+    {
+        public DateTime TimestampUtc { get; init; } = Timestamp ?? DateTime.UtcNow;
+    }
 
     public bool IsLoading => this is Loading;
     public bool IsSuccess => this is Success;
@@ -20,6 +32,38 @@ public abstract record UiState<T>
     public bool IsFailure => this is Failure;
 
     public T? DataOrNull => this is Success s ? s.Data : default;
+    public T? DataOrDefault => this is Success s ? s.Data : default;
+
+    public TResult Match<TResult>(
+        Func<Loading, TResult> onLoading,
+        Func<Success, TResult> onSuccess,
+        Func<Empty, TResult> onEmpty,
+        Func<Failure, TResult> onFailure) => this switch
+    {
+        Loading l => onLoading(l),
+        Success s => onSuccess(s),
+        Empty e => onEmpty(e),
+        Failure f => onFailure(f),
+        _ => throw new InvalidOperationException("Unreachable UI state variant.")
+    };
+
+    public async Task<TResult> MatchAsync<TResult>(
+        Func<Loading, Task<TResult>> onLoading,
+        Func<Success, Task<TResult>> onSuccess,
+        Func<Empty, Task<TResult>> onEmpty,
+        Func<Failure, Task<TResult>> onFailure) => this switch
+    {
+        Loading l => await onLoading(l),
+        Success s => await onSuccess(s),
+        Empty e => await onEmpty(e),
+        Failure f => await onFailure(f),
+        _ => throw new InvalidOperationException("Unreachable UI state variant.")
+    };
+
+    public static UiState<T> CreateLoading(string? msg = null, double? progress = null) => new Loading(msg ?? "Loading...", progress);
+    public static UiState<T> CreateSuccess(T data) => new Success(data);
+    public static UiState<T> CreateEmpty(string? title = null, string? desc = null) => new Empty(title, desc);
+    public static UiState<T> CreateFailure(string msg, Exception? ex = null, string? code = null) => new Failure(msg, ex, code);
 }
 
 /// <summary>
@@ -32,6 +76,42 @@ public abstract record Result<T, E>
 
     public bool IsOk => this is Ok;
     public bool IsErr => this is Err;
+
+    public T? ValueOrDefault => this is Ok ok ? ok.Value : default;
+    public E? ErrorOrDefault => this is Err err ? err.Error : default;
+
+    public TResult Match<TResult>(Func<T, TResult> onOk, Func<E, TResult> onErr) => this switch
+    {
+        Ok ok => onOk(ok.Value),
+        Err err => onErr(err.Error),
+        _ => throw new InvalidOperationException("Unreachable result branch.")
+    };
+
+    public async Task<TResult> MatchAsync<TResult>(Func<T, Task<TResult>> onOk, Func<E, Task<TResult>> onErr) => this switch
+    {
+        Ok ok => await onOk(ok.Value),
+        Err err => await onErr(err.Error),
+        _ => throw new InvalidOperationException("Unreachable result branch.")
+    };
+
+    public Result<U, E> Map<U>(Func<T, U> mapper) => this switch
+    {
+        Ok ok => new Result<U, E>.Ok(mapper(ok.Value)),
+        Err err => new Result<U, E>.Err(err.Error),
+        _ => throw new InvalidOperationException("Unreachable result branch.")
+    };
+
+    public Result<U, E> Bind<U>(Func<T, Result<U, E>> binder) => this switch
+    {
+        Ok ok => binder(ok.Value),
+        Err err => new Result<U, E>.Err(err.Error),
+        _ => throw new InvalidOperationException("Unreachable result branch.")
+    };
+
+    public static Result<T, E> Success(T value) => new Ok(value);
+    public static Result<T, E> Failure(E error) => new Err(error);
+
+    public static implicit operator Result<T, E>(T value) => new Ok(value);
 }
 
 /// <summary>
