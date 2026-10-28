@@ -324,6 +324,30 @@ Every component follows the same familiar C# conventions:
 
 ---
 
+### Recipe O: Grouped Category Hubs, Real-Time Navigation Filter & In-Page Jump Anchors
+```razor
+<!-- In-Sidebar Keystroke Real-Time Filter -->
+<div class="px-1 mb-3">
+    <div class="relative">
+        <input type="text"
+               @bind="_navSearchQuery"
+               @bind:event="oninput"
+               placeholder="Filter navigation..."
+               class="w-full pl-8 pr-7 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-800/80 ..." />
+    </div>
+</div>
+
+<!-- Sticky 1-Tap Anchor Jump Bar -->
+<div data-testid="jump-bar" class="sticky top-16 z-20 py-2.5 px-3 rounded-2xl bg-white/90 ...">
+    <button type="button" @onclick='() => SwitchOrScroll("components", "studio-dashboard")'>CRM Dashboard</button>
+    <button type="button" @onclick='() => SwitchOrScroll("components", "studio-pdf")'>PDF Form Maker</button>
+    <button type="button" @onclick='() => SwitchOrScroll("components", "studio-union")'>C# 15 Union</button>
+</div>
+```
+*Capabilities*: Transforms long flat navigation menus into 5 organized Category Hubs (🚀 Flagship Studios, ⚡ Architecture & AI, 🏢 Enterprise & Business, 🧩 UI Kit Catalog, 🎓 Resources & Docs), real-time query filtering across titles and badges, smooth-scrolling in-page anchors with `scroll-mt-24` offset, and dedicated workspace modes for flagship studios.
+
+---
+
 ## 3. Desktop Native Installers (Windows MSI & EXE)
 
 BlazorTailwindUI includes official desktop installers built using Tauri v2, providing native Windows desktop app distribution:
