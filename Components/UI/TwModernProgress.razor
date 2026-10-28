@@ -1,12 +1,12 @@
 @namespace BlazorTailwindUI.Components.UI
 @using BlazorTailwindUI.Models
 
-<div class="space-y-2 @CustomClass">
+<div class="space-y-2 w-full max-w-full overflow-hidden @CustomClass">
     @if (Type == ProgressType.RadialRing)
     {
         <!-- 1. COOL MODERN RADIAL CIRCLE RING WITH GRADIENT & GLOW -->
-        <div class="flex flex-col items-center justify-center p-3">
-            <div class="relative flex items-center justify-center" style="width: @(PixelSize)px; height: @(PixelSize)px;">
+        <div class="flex flex-col items-center justify-center p-3 w-full">
+            <div class="relative flex items-center justify-center shrink-0" style="width: @(PixelSize)px; height: @(PixelSize)px;">
                 <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
                     <defs>
                         <linearGradient id="@_gradId" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -60,8 +60,8 @@
     else if (Type == ProgressType.SpeedometerArc)
     {
         <!-- 2. SPEEDOMETER DASHBOARD SEMI-CIRCLE ARC -->
-        <div class="flex flex-col items-center p-3 space-y-1">
-            <div class="relative flex items-center justify-center" style="width: @(PixelSize)px; height: @(PixelSize * 0.62)px; overflow: hidden;">
+        <div class="flex flex-col items-center p-3 space-y-1 w-full">
+            <div class="relative flex items-center justify-center shrink-0" style="width: @(PixelSize)px; height: @(PixelSize * 0.62)px; overflow: hidden;">
                 <svg class="w-full h-full" viewBox="0 0 100 65">
                     <defs>
                         <linearGradient id="@_gradId" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -99,7 +99,7 @@
                     }
                 </div>
             </div>
-            <div class="w-full flex justify-between px-2 text-[10px] font-mono text-slate-400">
+            <div class="w-full max-w-[150px] flex justify-between px-2 text-[10px] font-mono text-slate-400">
                 <span>0%</span>
                 <span>50%</span>
                 <span>100%</span>
@@ -148,11 +148,11 @@
             @if (!string.IsNullOrEmpty(Label))
             {
                 <div class="flex items-center justify-between text-xs">
-                    <span class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full animate-ping" style="background-color: @GradientEnd;"></span>
-                        <span>@Label</span>
+                    <span class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 truncate">
+                        <span class="w-2 h-2 rounded-full animate-ping shrink-0" style="background-color: @GradientEnd;"></span>
+                        <span class="truncate">@Label</span>
                     </span>
-                    <span class="font-mono font-bold text-brand-600 dark:text-brand-400">@ClampedValue%</span>
+                    <span class="font-mono font-bold text-brand-600 dark:text-brand-400 shrink-0">@ClampedValue%</span>
                 </div>
             }
             <div class="relative w-full h-3.5 rounded-full bg-slate-200 dark:bg-slate-850 p-0.5 overflow-hidden shadow-inner border border-slate-300/40 dark:border-slate-800">
@@ -167,8 +167,8 @@
     else if (Type == ProgressType.ConcentricMultiRing)
     {
         <!-- 5. APPLE FITNESS STYLE TRIPLE CONCENTRIC ACTIVITY RINGS -->
-        <div class="flex flex-col sm:flex-row items-center gap-6 p-2 justify-center">
-            <div class="relative flex items-center justify-center shrink-0" style="width: 140px; height: 140px;">
+        <div class="flex flex-col items-center gap-3 p-1 justify-center w-full max-w-full overflow-hidden">
+            <div class="relative flex items-center justify-center shrink-0 w-28 h-28">
                 <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
                     <!-- Ring 1 (Outer - Cyan / Brand) -->
                     <circle cx="60" cy="60" r="48" fill="transparent" stroke="currentColor" stroke-width="7" class="text-slate-100 dark:text-slate-800" />
@@ -194,21 +194,27 @@
             </div>
 
             <!-- Legend Details -->
-            <div class="space-y-2 text-xs">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>
-                    <span class="font-bold text-slate-800 dark:text-slate-200">Execution Capacity</span>
-                    <span class="font-mono text-cyan-600 dark:text-cyan-400 font-bold ml-auto">@ClampedValue%</span>
+            <div class="space-y-1.5 text-xs w-full max-w-[200px]">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-1.5 truncate">
+                        <span class="w-2 h-2 rounded-full bg-cyan-500 shrink-0"></span>
+                        <span class="font-bold text-slate-800 dark:text-slate-200 truncate text-[11px]">Execution</span>
+                    </span>
+                    <span class="font-mono text-cyan-600 dark:text-cyan-400 font-bold text-xs shrink-0">@ClampedValue%</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    <span class="font-bold text-slate-800 dark:text-slate-200">Memory Integrity</span>
-                    <span class="font-mono text-emerald-600 dark:text-emerald-400 font-bold ml-auto">@SecondaryValue%</span>
+                <div class="flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-1.5 truncate">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                        <span class="font-bold text-slate-800 dark:text-slate-200 truncate text-[11px]">Memory</span>
+                    </span>
+                    <span class="font-mono text-emerald-600 dark:text-emerald-400 font-bold text-xs shrink-0">@SecondaryValue%</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
-                    <span class="font-bold text-slate-800 dark:text-slate-200">SLA Availability</span>
-                    <span class="font-mono text-purple-600 dark:text-purple-400 font-bold ml-auto">@TertiaryValue%</span>
+                <div class="flex items-center justify-between gap-2">
+                    <span class="flex items-center gap-1.5 truncate">
+                        <span class="w-2 h-2 rounded-full bg-purple-500 shrink-0"></span>
+                        <span class="font-bold text-slate-800 dark:text-slate-200 truncate text-[11px]">SLA Uptime</span>
+                    </span>
+                    <span class="font-mono text-purple-600 dark:text-purple-400 font-bold text-xs shrink-0">@TertiaryValue%</span>
                 </div>
             </div>
         </div>
@@ -226,33 +232,34 @@
     }
 
     [Parameter] public ProgressType Type { get; set; } = ProgressType.RadialRing;
-    [Parameter] public int Value { get; set; } = 75;
-    [Parameter] public int SecondaryValue { get; set; } = 60;
-    [Parameter] public int TertiaryValue { get; set; } = 92;
+    [Parameter] public int Value { get; set; } = 0;
+    [Parameter] public int SecondaryValue { get; set; } = 0;
+    [Parameter] public int TertiaryValue { get; set; } = 0;
     [Parameter] public string? Label { get; set; }
-    [Parameter] public int PixelSize { get; set; } = 110;
-    [Parameter] public int TotalSegments { get; set; } = 5;
-    [Parameter] public bool ShowSuccessIcon { get; set; } = true;
+    [Parameter] public int PixelSize { get; set; } = 120;
+    [Parameter] public int StrokeWidth { get; set; } = 8;
     [Parameter] public string GradientStart { get; set; } = "#6366f1"; // Indigo
     [Parameter] public string GradientEnd { get; set; } = "#a855f7";   // Purple
-    [Parameter] public string CustomClass { get; set; } = "";
+    [Parameter] public bool ShowSuccessIcon { get; set; } = true;
+    [Parameter] public int TotalSegments { get; set; } = 4;
+    [Parameter] public string? CustomClass { get; set; }
 
-    private string _gradId = "mod-prog-" + Guid.NewGuid().ToString("N")[..8];
+    private readonly string _gradId = "mp-grad-" + Guid.NewGuid().ToString("N")[..6];
 
-    private int ClampedValue => Math.Clamp(Value, 0, 100);
-    private double Radius => 40.0;
-    private double StrokeWidth => 8.0;
+    private int ClampedValue => Math.Max(0, Math.Min(100, Value));
+    private double Radius => 50 - (StrokeWidth / 2.0);
     private double Circumference => 2 * Math.PI * Radius;
-    private double DashOffset => Circumference - (ClampedValue / 100.0 * Circumference);
+    private double DashOffset => Circumference - ((double)ClampedValue / 100.0 * Circumference);
 
-    // Speedometer Arc constants
-    private double ArcLength => Math.PI * 35.0; // Half circle circumference
-    private double ArcDashOffset => ArcLength - (ClampedValue / 100.0 * ArcLength);
+    // Speedometer Arc calculation (Half circle arc of radius 35)
+    private double ArcLength => Math.PI * 35;
+    private double ArcDashOffset => ArcLength - ((double)ClampedValue / 100.0 * ArcLength);
 
     private string CenterTextClass => PixelSize switch
     {
-        < 80 => "text-xs",
-        < 120 => "text-base",
-        _ => "text-xl"
+        < 90 => "text-xs",
+        < 120 => "text-sm",
+        < 160 => "text-xl",
+        _ => "text-2xl"
     };
 }

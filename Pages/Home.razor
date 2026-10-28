@@ -3519,7 +3519,7 @@
                             </TwAccordion>
                         </TwCard>
 
-                        <!-- Progress Bars & Shimmer Skeletons -->
+                        <!-- Progress Bars & Shimmer Skeletons (Side-by-Side 2-Column Grid) -->
                         <TwGrid Preset="1-2" Gap="md">
                             <TwCard Title="Progress Bars" Subtitle="Semantic colors and sizes">
                                 <div class="space-y-4">
@@ -3534,32 +3534,6 @@
                                 </div>
                             </TwCard>
 
-                        <!-- Modern Progress Indicators Showcase -->
-                        <TwCard Title="Modern Cool Progress & Activity Indicators" Subtitle="SVG glowing circular rings, dashboard speedometer arcs, multi-segment capsule pill steppers, neon liquid shimmer, and Apple Fitness style triple concentric activity rings">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-2">
-                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center">
-                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Glowing Radial Ring</span>
-                                    <TwModernProgress Type="TwModernProgress.ProgressType.RadialRing" Value="78" Label="Target" PixelSize="110" />
-                                </div>
-                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center">
-                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Speedometer Arc Gauge</span>
-                                    <TwModernProgress Type="TwModernProgress.ProgressType.SpeedometerArc" Value="84" Label="Velocity" PixelSize="120" />
-                                </div>
-                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-center">
-                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Capsule Stepper & Neon Glow</span>
-                                    <TwModernProgress Type="TwModernProgress.ProgressType.SegmentedCapsule" Value="60" TotalSegments="5" Label="Release Pipeline" />
-                                    <div class="mt-4">
-                                        <TwModernProgress Type="TwModernProgress.ProgressType.NeonLiquidGlow" Value="92" Label="AI Ingestion Rate" GradientStart="#06b6d4" GradientEnd="#3b82f6" />
-                                    </div>
-                                </div>
-                                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center justify-center">
-                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Triple Activity Rings</span>
-                                    <TwModernProgress Type="TwModernProgress.ProgressType.ConcentricMultiRing" Value="85" SecondaryValue="68" TertiaryValue="94" />
-                                </div>
-                            </div>
-                        </TwCard>
-
-
                             <TwCard Title="Skeleton Shimmer Placeholders" Subtitle="Loading state placeholders for fast-perceived UX">
                                 <div class="space-y-4">
                                     <div class="flex items-center gap-3">
@@ -3573,6 +3547,31 @@
                                 </div>
                             </TwCard>
                         </TwGrid>
+
+                        <!-- Modern Cool Progress Indicators Showcase (Full-Width Responsive 4-Column Card) -->
+                        <TwCard Title="Modern Cool Progress & Activity Indicators" Subtitle="SVG glowing circular rings, dashboard speedometer arcs, multi-segment capsule pill steppers, neon liquid shimmer, and Apple Fitness style triple concentric activity rings">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-2">
+                                <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center overflow-hidden">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Glowing Radial Ring</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.RadialRing" Value="78" Label="Target" PixelSize="110" />
+                                </div>
+                                <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center text-center overflow-hidden">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Speedometer Arc Gauge</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.SpeedometerArc" Value="84" Label="Velocity" PixelSize="120" />
+                                </div>
+                                <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-center overflow-hidden">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Capsule Stepper & Neon Glow</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.SegmentedCapsule" Value="60" TotalSegments="5" Label="Release Pipeline" />
+                                    <div class="mt-4">
+                                        <TwModernProgress Type="TwModernProgress.ProgressType.NeonLiquidGlow" Value="92" Label="AI Ingestion Rate" GradientStart="#06b6d4" GradientEnd="#3b82f6" />
+                                    </div>
+                                </div>
+                                <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex flex-col items-center justify-center overflow-hidden">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Triple Activity Rings</span>
+                                    <TwModernProgress Type="TwModernProgress.ProgressType.ConcentricMultiRing" Value="85" SecondaryValue="68" TertiaryValue="94" />
+                                </div>
+                            </div>
+                        </TwCard>
 
                         <!-- Responsive Pagination -->
                         <TwCard Title="Responsive Pagination" Subtitle="Prev/Next on phones; full numbered control on tablets & desktop">
