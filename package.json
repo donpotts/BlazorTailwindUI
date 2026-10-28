@@ -6,7 +6,7 @@
   "scripts": {
     "build:css": "tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/app.min.css --minify",
     "watch:css": "tailwindcss -i ./wwwroot/css/input.css -o ./wwwroot/css/app.min.css --watch",
-    "build:dist": "npm run build:css && dotnet publish -c Release -o dist",
+    "build:dist": "npm run build:css && dotnet publish BlazorTailwindUI.csproj -c Release -o dist",
     "tauri": "tauri",
     "tauri:build": "tauri build"
   },
