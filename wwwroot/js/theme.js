@@ -1339,3 +1339,186 @@ window.blazorClipboard = {
 
 
 
+
+
+// -----------------------------------------------------------------------------
+// Floating Unclipped Popover Engine (TwPopover)
+// Breaks out of parent overflow-hidden / overflow-auto clipping containers
+// -----------------------------------------------------------------------------
+window.twPopover = {
+    activePopovers: new Map(),
+
+    position: function (anchorId, popoverId, placementStr, showArrow, arrowId, dotNetRef) {
+        const anchorEl = document.getElementById(anchorId);
+        const popoverEl = document.getElementById(popoverId);
+        if (!anchorEl || !popoverEl) return;
+
+        const update = () => {
+            const a = document.getElementById(anchorId);
+            const p = document.getElementById(popoverId);
+            if (!a || !p) {
+                this.cleanup(popoverId);
+                return;
+            }
+
+            const anchorRect = a.getBoundingClientRect();
+            if (anchorRect.width === 0 && anchorRect.height === 0) return;
+
+            const popoverRect = p.getBoundingClientRect();
+            const popW = popoverRect.width || 288;
+            const popH = popoverRect.height || 200;
+            const offset = 8;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+
+            let placement = (placementStr || 'Bottom').toLowerCase();
+
+            // Auto-flip if overflowing viewport boundaries
+            if (placement.startsWith('top') && anchorRect.top - popH - offset < 8) {
+                placement = placement.replace('top', 'bottom');
+            } else if (placement.startsWith('bottom') && anchorRect.bottom + popH + offset > vh - 8) {
+                placement = placement.replace('bottom', 'top');
+            } else if (placement === 'left' && anchorRect.left - popW - offset < 8) {
+                placement = 'right';
+            } else if (placement === 'right' && anchorRect.right + popW + offset > vw - 8) {
+                placement = 'left';
+            }
+
+            let top = 0;
+            let left = 0;
+
+            switch (placement) {
+                case 'top':
+                    top = anchorRect.top - popH - offset;
+                    left = anchorRect.left + (anchorRect.width / 2) - (popW / 2);
+                    break;
+                case 'topstart':
+                    top = anchorRect.top - popH - offset;
+                    left = anchorRect.left;
+                    break;
+                case 'topend':
+                    top = anchorRect.top - popH - offset;
+                    left = anchorRect.right - popW;
+                    break;
+                case 'bottom':
+                    top = anchorRect.bottom + offset;
+                    left = anchorRect.left + (anchorRect.width / 2) - (popW / 2);
+                    break;
+                case 'bottomstart':
+                    top = anchorRect.bottom + offset;
+                    left = anchorRect.left;
+                    break;
+                case 'bottomend':
+                    top = anchorRect.bottom + offset;
+                    left = anchorRect.right - popW;
+                    break;
+                case 'left':
+                    top = anchorRect.top + (anchorRect.height / 2) - (popH / 2);
+                    left = anchorRect.left - popW - offset;
+                    break;
+                case 'right':
+                    top = anchorRect.top + (anchorRect.height / 2) - (popH / 2);
+                    left = anchorRect.right + offset;
+                    break;
+                default:
+                    top = anchorRect.bottom + offset;
+                    left = anchorRect.left + (anchorRect.width / 2) - (popW / 2);
+                    break;
+            }
+
+            // Viewport containment clamp
+            left = Math.max(8, Math.min(left, vw - popW - 8));
+            top = Math.max(8, Math.min(top, vh - popH - 8));
+
+            p.style.position = 'fixed';
+            p.style.top = Math.round(top) + 'px';
+            p.style.left = Math.round(left) + 'px';
+            p.style.zIndex = '9999';
+            p.style.margin = '0';
+            p.style.transform = 'none';
+
+            // Arrow placement pointing at anchor center
+            if (showArrow && arrowId) {
+                const arr = document.getElementById(arrowId);
+                if (arr) {
+                    if (placement.startsWith('top')) {
+                        arr.style.top = '100%';
+                        arr.style.bottom = 'auto';
+                        arr.style.marginTop = '-5px';
+                        arr.style.marginBottom = 'auto';
+                        const arrowX = Math.max(16, Math.min(popW - 16, (anchorRect.left + anchorRect.width / 2) - left));
+                        arr.style.left = Math.round(arrowX) + 'px';
+                        arr.style.right = 'auto';
+                        arr.style.transform = 'translateX(-50%) rotate(45deg)';
+                    } else if (placement.startsWith('bottom')) {
+                        arr.style.top = 'auto';
+                        arr.style.bottom = '100%';
+                        arr.style.marginTop = 'auto';
+                        arr.style.marginBottom = '-5px';
+                        const arrowX = Math.max(16, Math.min(popW - 16, (anchorRect.left + anchorRect.width / 2) - left));
+                        arr.style.left = Math.round(arrowX) + 'px';
+                        arr.style.right = 'auto';
+                        arr.style.transform = 'translateX(-50%) rotate(45deg)';
+                    } else if (placement === 'left') {
+                        arr.style.left = '100%';
+                        arr.style.right = 'auto';
+                        arr.style.marginLeft = '-5px';
+                        arr.style.marginRight = 'auto';
+                        const arrowY = Math.max(16, Math.min(popH - 16, (anchorRect.top + anchorRect.height / 2) - top));
+                        arr.style.top = Math.round(arrowY) + 'px';
+                        arr.style.bottom = 'auto';
+                        arr.style.transform = 'translateY(-50%) rotate(45deg)';
+                    } else if (placement === 'right') {
+                        arr.style.left = 'auto';
+                        arr.style.right = '100%';
+                        arr.style.marginLeft = 'auto';
+                        arr.style.marginRight = '-5px';
+                        const arrowY = Math.max(16, Math.min(popH - 16, (anchorRect.top + anchorRect.height / 2) - top));
+                        arr.style.top = Math.round(arrowY) + 'px';
+                        arr.style.bottom = 'auto';
+                        arr.style.transform = 'translateY(-50%) rotate(45deg)';
+                    }
+                }
+            }
+        };
+
+        update();
+        requestAnimationFrame(update);
+
+        this.cleanup(popoverId);
+
+        const onScrollOrResize = () => update();
+        window.addEventListener('scroll', onScrollOrResize, { passive: true, capture: true });
+        window.addEventListener('resize', onScrollOrResize, { passive: true });
+
+        // Global Escape key listener
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                if (dotNetRef) {
+                    try {
+                        dotNetRef.invokeMethodAsync('CloseFromJs');
+                    } catch (_) {}
+                }
+            }
+        };
+        window.addEventListener('keydown', onKeyDown);
+
+        this.activePopovers.set(popoverId, { onScrollOrResize, onKeyDown });
+    },
+
+    cleanup: function (popoverId) {
+        if (this.activePopovers.has(popoverId)) {
+            const item = this.activePopovers.get(popoverId);
+            if (item) {
+                if (item.onScrollOrResize) {
+                    window.removeEventListener('scroll', item.onScrollOrResize, { capture: true });
+                    window.removeEventListener('resize', item.onScrollOrResize);
+                }
+                if (item.onKeyDown) {
+                    window.removeEventListener('keydown', item.onKeyDown);
+                }
+            }
+            this.activePopovers.delete(popoverId);
+        }
+    }
+};

@@ -1503,7 +1503,7 @@
                         </TwCard>
 
                         <!-- Conversational AI & Floating Context Suite -->
-                        <TwCard Title="Conversational AI & Floating Context Suite" Subtitle="Enterprise Chat Studio, Anchored Popover Overlays, and Actionable Dismissible Snackbars">
+                        <TwCard Title="Conversational AI & Floating Context Suite" Subtitle="Enterprise Chat Studio, Anchored Popover Overlays, and Actionable Dismissible Snackbars" OverflowVisible="true">
                             <div class="space-y-8">
                                 <!-- 1. TwChatStudio -->
                                 <div class="space-y-3">
@@ -1547,11 +1547,15 @@
                                             Floating contextual flyout with directional arrow, click/hover activation modes, and Escape key dismiss.
                                         </p>
                                         <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center justify-center gap-4">
-                                            <TwPopover Title="Display Filters" Placement="_demoPopoverPlacement" @bind-IsOpen="_demoPopoverOpen">
+                                            <TwPopover Title="Display Filters"
+                                                       Placement="_demoPopoverPlacement"
+                                                       Trigger="_demoPopoverTrigger"
+                                                       Strategy="_demoPopoverStrategy"
+                                                       @bind-IsOpen="_demoPopoverOpen">
                                                 <AnchorContent>
                                                     <button type="button" class="px-4 py-2 text-xs font-bold rounded-xl bg-brand-600 hover:bg-brand-500 text-white shadow-md shadow-brand-500/20 inline-flex items-center gap-2 transition-all">
                                                         <span>⚙️ Configure Metrics</span>
-                                                        <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded">Popover</span>
+                                                        <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded">@_demoPopoverPlacement</span>
                                                     </button>
                                                 </AnchorContent>
                                                 <ChildContent>
@@ -1576,15 +1580,37 @@
                                                 </Footer>
                                             </TwPopover>
 
-                                            <!-- Placement Switcher -->
-                                            <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                                                <span>Position:</span>
-                                                <select @bind="_demoPopoverPlacement" class="text-xs py-1 px-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
-                                                    <option value="@TwPopoverPlacement.Bottom">Bottom</option>
-                                                    <option value="@TwPopoverPlacement.Top">Top</option>
-                                                    <option value="@TwPopoverPlacement.Left">Left</option>
-                                                    <option value="@TwPopoverPlacement.Right">Right</option>
-                                                </select>
+                                            <!-- 8-Way Placement & Activation Controls -->
+                                            <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+                                                <div class="flex items-center gap-1.5">
+                                                    <span class="font-semibold text-slate-700 dark:text-slate-300">8-Way Anchor:</span>
+                                                    <select @bind="_demoPopoverPlacement" class="text-xs py-1 px-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium">
+                                                        <option value="@TwPopoverPlacement.Bottom">Bottom (Center)</option>
+                                                        <option value="@TwPopoverPlacement.BottomStart">Bottom Start (Left)</option>
+                                                        <option value="@TwPopoverPlacement.BottomEnd">Bottom End (Right)</option>
+                                                        <option value="@TwPopoverPlacement.Top">Top (Center)</option>
+                                                        <option value="@TwPopoverPlacement.TopStart">Top Start (Left)</option>
+                                                        <option value="@TwPopoverPlacement.TopEnd">Top End (Right)</option>
+                                                        <option value="@TwPopoverPlacement.Left">Left</option>
+                                                        <option value="@TwPopoverPlacement.Right">Right</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="flex items-center gap-1.5">
+                                                    <span class="font-semibold text-slate-700 dark:text-slate-300">Trigger:</span>
+                                                    <select @bind="_demoPopoverTrigger" class="text-xs py-1 px-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium">
+                                                        <option value="@TwPopoverTrigger.Click">Click</option>
+                                                        <option value="@TwPopoverTrigger.Hover">Hover</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="flex items-center gap-1.5">
+                                                    <span class="font-semibold text-slate-700 dark:text-slate-300">Strategy:</span>
+                                                    <select @bind="_demoPopoverStrategy" class="text-xs py-1 px-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-medium">
+                                                        <option value="@TwPopoverStrategy.Fixed">Fixed (Anti-Clipping Breakout)</option>
+                                                        <option value="@TwPopoverStrategy.Absolute">Absolute (Inline)</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -5610,6 +5636,8 @@
 
     private bool _demoPopoverOpen = false;
     private TwPopoverPlacement _demoPopoverPlacement = TwPopoverPlacement.Bottom;
+    private TwPopoverTrigger _demoPopoverTrigger = TwPopoverTrigger.Click;
+    private TwPopoverStrategy _demoPopoverStrategy = TwPopoverStrategy.Fixed;
     private bool _demoSnackbarOpen = false;
     private string _demoSnackbarMessage = "Operation processed";
     private string? _demoSnackbarAction = "Undo";

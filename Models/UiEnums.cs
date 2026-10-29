@@ -89,6 +89,12 @@ public enum TwPopoverTrigger
     Manual
 }
 
+public enum TwPopoverStrategy
+{
+    Fixed,
+    Absolute
+}
+
 public enum TwSnackbarPosition
 {
     BottomCenter,
