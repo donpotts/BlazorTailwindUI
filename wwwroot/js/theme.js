@@ -1522,3 +1522,34 @@ window.twPopover = {
         }
     }
 };
+
+
+window.clipboardHelper = {
+    copyText: async function (text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (err) {
+                // fall through to fallback
+            }
+        }
+        try {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '0';
+            textArea.style.left = '0';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            const success = document.execCommand('copy');
+            document.body.removeChild(textArea);
+            return success;
+        } catch (e) {
+            console.error('Clipboard copy failed:', e);
+            return false;
+        }
+    }
+};

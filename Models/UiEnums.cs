@@ -105,3 +105,29 @@ public enum TwSnackbarPosition
     TopRight
 }
 
+public enum WordBalloonShape
+{
+    PillCapsule,
+    ComicBurst,
+    SpeechBubble,
+    CyberHexagon,
+    CloudPuff
+}
+
+public enum WordBalloonEffect
+{
+    Bold,
+    Outlined,
+    PowEffect,
+    NeonGlow,
+    GradientChrome
+}
+
+public enum WordBalloonTheme
+{
+    IndigoViolet,
+    ComicYellow,
+    CrimsonBurst,
+    EmeraldTech,
+    CyberCyan
+}

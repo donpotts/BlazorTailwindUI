@@ -1,0 +1,517 @@
+@namespace BlazorTailwindUI.Components.UI
+@using BlazorTailwindUI.Models
+@using System.Globalization
+@using System.Text
+@inject IJSRuntime JS
+
+<div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-6 @Class">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
+        <div>
+            <div class="flex items-center gap-2">
+                <span class="text-xl">💥</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+                    Word Balloon & Comic Banner Creator
+                </h3>
+                <span class="px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    SVG Engine • Zero CDN
+                </span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                Customize center word typography, comic starburst backdrops, 3D POW extrusions, and export standalone vector SVGs.
+            </p>
+        </div>
+
+        <!-- 1-Click Action Buttons -->
+        <div class="flex items-center gap-2 flex-wrap">
+            <button type="button"
+                    @onclick="RandomizeWord"
+                    class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                <span>🎲</span> Randomize
+            </button>
+            <button type="button"
+                    @onclick="CopySvgMarkup"
+                    class="px-3 py-1.5 rounded-xl border border-indigo-200 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-950/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-semibold flex items-center gap-1.5 transition-colors">
+                <span>📋</span> @(_copyConfirmed ? "Copied SVG!" : "Copy SVG")
+            </button>
+            <button type="button"
+                    @onclick="ExportSvgFile"
+                    class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-500 hover:to-brand-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-all">
+                <span>📥</span> Export SVG
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Preset Kits -->
+    <div class="space-y-2">
+        <label class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            Quick Preset Kits:
+        </label>
+        <div class="flex flex-wrap items-center gap-2">
+            <button type="button"
+                    @onclick='() => ApplyPreset("POW", WordBalloonShape.ComicBurst, WordBalloonEffect.PowEffect, WordBalloonTheme.ComicYellow, "KABOOM!", true)'
+                    class="px-3 py-1 rounded-xl text-xs font-bold transition-all @(CurrentPreset == "POW" ? "bg-amber-500 text-slate-950 shadow-sm" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750")">
+                💥 Superhero POW!
+            </button>
+            <button type="button"
+                    @onclick='() => ApplyPreset("SPEECH", WordBalloonShape.SpeechBubble, WordBalloonEffect.Outlined, WordBalloonTheme.IndigoViolet, "Blazor WASM", false)'
+                    class="px-3 py-1 rounded-xl text-xs font-bold transition-all @(CurrentPreset == "SPEECH" ? "bg-indigo-600 text-white shadow-sm" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750")">
+                💬 Speech Bubble
+            </button>
+            <button type="button"
+                    @onclick='() => ApplyPreset("CYBER", WordBalloonShape.CyberHexagon, WordBalloonEffect.NeonGlow, WordBalloonTheme.CyberCyan, "NEURAL AOT", false)'
+                    class="px-3 py-1 rounded-xl text-xs font-bold transition-all @(CurrentPreset == "CYBER" ? "bg-cyan-500 text-slate-950 shadow-sm" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750")">
+                ⚡ Cyber Hexagon
+            </button>
+            <button type="button"
+                    @onclick='() => ApplyPreset("CHROME", WordBalloonShape.PillCapsule, WordBalloonEffect.GradientChrome, WordBalloonTheme.EmeraldTech, "SVE2 SIMD", false)'
+                    class="px-3 py-1 rounded-xl text-xs font-bold transition-all @(CurrentPreset == "CHROME" ? "bg-emerald-600 text-white shadow-sm" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750")">
+                🪞 Metallic Chrome
+            </button>
+            <button type="button"
+                    @onclick='() => ApplyPreset("CLOUD", WordBalloonShape.CloudPuff, WordBalloonEffect.Bold, WordBalloonTheme.CrimsonBurst, "CLOUD NATIVE", false)'
+                    class="px-3 py-1 rounded-xl text-xs font-bold transition-all @(CurrentPreset == "CLOUD" ? "bg-rose-600 text-white shadow-sm" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750")">
+                ☁️ Comic Cloud
+            </button>
+        </div>
+    </div>
+
+    <!-- Live Preview Stage -->
+    <div class="relative">
+        <TwWordCloud Words="CurrentCloudWords"
+                     BalloonShape="SelectedShape"
+                     BalloonEffect="SelectedEffect"
+                     BalloonTheme="SelectedTheme"
+                     AnimatePulse="AnimatePulse"
+                     CenterWordScale="WordScale"
+                     CenterWordOnTop="CenterWordOnTop"
+                     ShowCenterBalloon="true"
+                     ShowSpiralWords="ShowSpiralWords"
+                     Title="" />
+
+        @if (_copyConfirmed)
+        {
+            <div class="absolute top-4 right-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-xl shadow-lg animate-fadeIn flex items-center gap-1.5">
+                <span>✓</span> SVG Markup Copied!
+            </div>
+        }
+        @if (_downloadConfirmed)
+        {
+            <div class="absolute top-4 right-4 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-xl shadow-lg animate-fadeIn flex items-center gap-1.5">
+                <span>✓</span> File Exported (@_downloadedFilename)
+            </div>
+        }
+    </div>
+
+    <!-- Controls Studio Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <!-- 1. Text & Scale -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    Main Center Word:
+                </label>
+                <div class="relative">
+                    <input type="text"
+                           @bind="MainWord"
+                           @bind:event="oninput"
+                           maxlength="28"
+                           placeholder="Enter center word..."
+                           class="w-full px-3.5 py-2 rounded-xl text-sm font-bold bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 dark:text-white" />
+                    <span class="absolute right-3 top-2.5 text-[10px] font-mono text-slate-400">
+                        @MainWord.Length/28
+                    </span>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    <span>Center Word Size:</span>
+                    <span class="font-mono text-indigo-600 dark:text-indigo-400">@(Math.Round(WordScale * 42))px (@WordScale.ToString("F1")x)</span>
+                </div>
+                <input type="range"
+                       min="0.7"
+                       max="1.6"
+                       step="0.05"
+                       @bind="WordScale"
+                       @bind:event="oninput"
+                       class="w-full accent-indigo-600 cursor-pointer" />
+            </div>
+
+            <!-- Toggles -->
+            <div class="space-y-2 pt-1">
+                <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-700 dark:text-slate-300">
+                    <input type="checkbox"
+                           @bind="ShowSpiralWords"
+                           class="rounded-sm border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                    <span>Show Surrounding Spiral Words</span>
+                </label>
+
+                <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-700 dark:text-slate-300">
+                    <input type="checkbox"
+                           @bind="AnimatePulse"
+                           class="rounded-sm border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                    <span>Action Pulse & Bounce Animation</span>
+                </label>
+
+                <label class="flex items-center gap-2 cursor-pointer text-xs font-medium text-slate-700 dark:text-slate-300">
+                    <input type="checkbox"
+                           @bind="CenterWordOnTop"
+                           class="rounded-sm border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                    <span>Always Paint Center Word On Top</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 2. Balloon Shape & Typography Effect -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Balloon Backdrop Shape:
+                </label>
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button"
+                            @onclick="() => SelectedShape = WordBalloonShape.PillCapsule"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedShape == WordBalloonShape.PillCapsule ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>💊</span> Pill Capsule
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedShape = WordBalloonShape.ComicBurst"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedShape == WordBalloonShape.ComicBurst ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>💥</span> Starburst (POW)
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedShape = WordBalloonShape.SpeechBubble"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedShape == WordBalloonShape.SpeechBubble ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>💬</span> Speech Bubble
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedShape = WordBalloonShape.CyberHexagon"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedShape == WordBalloonShape.CyberHexagon ? "border-cyan-500 bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>⬡</span> Cyber Hexagon
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedShape = WordBalloonShape.CloudPuff"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 col-span-2 transition-all @(SelectedShape == WordBalloonShape.CloudPuff ? "border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>☁️</span> Comic Cloud Puff
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Center Word Text Effect:
+                </label>
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button"
+                            @onclick="() => SelectedEffect = WordBalloonEffect.Bold"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedEffect == WordBalloonEffect.Bold ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>🔲</span> Bold Heavy
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedEffect = WordBalloonEffect.Outlined"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedEffect == WordBalloonEffect.Outlined ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>✏️</span> Outlined Pop
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedEffect = WordBalloonEffect.PowEffect"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedEffect == WordBalloonEffect.PowEffect ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>💥</span> POW! 3D Effect
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedEffect = WordBalloonEffect.NeonGlow"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 transition-all @(SelectedEffect == WordBalloonEffect.NeonGlow ? "border-cyan-500 bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400 font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>✨</span> Neon Glow
+                    </button>
+                    <button type="button"
+                            @onclick="() => SelectedEffect = WordBalloonEffect.GradientChrome"
+                            class="px-3 py-2 rounded-xl text-xs font-semibold border text-left flex items-center gap-2 col-span-2 transition-all @(SelectedEffect == WordBalloonEffect.GradientChrome ? "border-slate-500 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold" : "border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300")">
+                        <span>🪞</span> Specular Chrome
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Themes & Export Info -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    Color Theme:
+                </label>
+                <div class="space-y-2">
+                    <button type="button"
+                            @onclick="() => SelectedTheme = WordBalloonTheme.ComicYellow"
+                            class="w-full px-3 py-2 rounded-xl text-xs font-semibold border flex items-center justify-between transition-all @(SelectedTheme == WordBalloonTheme.ComicYellow ? "border-amber-500 bg-amber-50 dark:bg-amber-950/30 font-bold" : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300")">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded-full bg-yellow-400 border border-slate-900 shadow-xs"></span>
+                            <span>Comic Yellow Pop</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400">Classic POW</span>
+                    </button>
+
+                    <button type="button"
+                            @onclick="() => SelectedTheme = WordBalloonTheme.IndigoViolet"
+                            class="w-full px-3 py-2 rounded-xl text-xs font-semibold border flex items-center justify-between transition-all @(SelectedTheme == WordBalloonTheme.IndigoViolet ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-950/30 font-bold" : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300")">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded-full bg-indigo-600 shadow-xs"></span>
+                            <span>Indigo & Violet</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400">Modern SaaS</span>
+                    </button>
+
+                    <button type="button"
+                            @onclick="() => SelectedTheme = WordBalloonTheme.CrimsonBurst"
+                            class="w-full px-3 py-2 rounded-xl text-xs font-semibold border flex items-center justify-between transition-all @(SelectedTheme == WordBalloonTheme.CrimsonBurst ? "border-rose-500 bg-rose-50 dark:bg-rose-950/30 font-bold" : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300")">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded-full bg-rose-500 shadow-xs"></span>
+                            <span>Crimson Burst</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400">Fiery Flame</span>
+                    </button>
+
+                    <button type="button"
+                            @onclick="() => SelectedTheme = WordBalloonTheme.CyberCyan"
+                            class="w-full px-3 py-2 rounded-xl text-xs font-semibold border flex items-center justify-between transition-all @(SelectedTheme == WordBalloonTheme.CyberCyan ? "border-cyan-500 bg-cyan-50 dark:bg-cyan-950/30 font-bold" : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300")">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded-full bg-cyan-400 shadow-xs"></span>
+                            <span>Cyber Cyan</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400">Neon HUD</span>
+                    </button>
+
+                    <button type="button"
+                            @onclick="() => SelectedTheme = WordBalloonTheme.EmeraldTech"
+                            class="w-full px-3 py-2 rounded-xl text-xs font-semibold border flex items-center justify-between transition-all @(SelectedTheme == WordBalloonTheme.EmeraldTech ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 font-bold" : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300")">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-xs"></span>
+                            <span>Emerald Tech</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400">Mint Spec</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Architecture Info -->
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-[11px] text-slate-500 dark:text-slate-400 space-y-1">
+                <div class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                    <span>💡</span> Vector Specs:
+                </div>
+                <div>Render Engine: Pure Scalable Vector Graphics</div>
+                <div>Z-Order: Topological Painting Sort (On Top)</div>
+                <div>Downloads: 100% Client-Side Blob via Blob URL</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Class { get; set; } = "";
+
+    public string MainWord { get; set; } = "KABOOM!";
+    public double WordScale { get; set; } = 1.25;
+    public WordBalloonShape SelectedShape { get; set; } = WordBalloonShape.ComicBurst;
+    public WordBalloonEffect SelectedEffect { get; set; } = WordBalloonEffect.PowEffect;
+    public WordBalloonTheme SelectedTheme { get; set; } = WordBalloonTheme.ComicYellow;
+    public bool AnimatePulse { get; set; } = true;
+    public bool ShowSpiralWords { get; set; } = true;
+    public bool CenterWordOnTop { get; set; } = true;
+    public string CurrentPreset { get; set; } = "POW";
+
+    private bool _copyConfirmed = false;
+    private bool _downloadConfirmed = false;
+    private string _downloadedFilename = "";
+
+    private static readonly string[] SurpriseWords =
+    {
+        "KABOOM!", "POW!", "BLAZOR WASM", "AI AGENT", "HYPER-SPEED", "FULL-STACK C#",
+        "TURBO SVE2", "QUANTUM ML", "SUPERHERO!", "INFINITY", "NATIVE AOT", "ZERO LATENCY"
+    };
+
+    private IReadOnlyList<TwWordCloud.WordCloudItem> CurrentCloudWords
+    {
+        get
+        {
+            var center = new TwWordCloud.WordCloudItem(string.IsNullOrWhiteSpace(MainWord) ? "BLAZOR" : MainWord, 99, "CenterHighlight");
+
+            return new[]
+            {
+                center,
+                new TwWordCloud.WordCloudItem(".NET 11", 85, "Framework"),
+                new TwWordCloud.WordCloudItem("Tailwind CSS", 78, "Styling"),
+                new TwWordCloud.WordCloudItem("WebAssembly", 72, "Runtime"),
+                new TwWordCloud.WordCloudItem("NativeAOT", 65, "Compiler"),
+                new TwWordCloud.WordCloudItem("SIMD SVE2", 58, "Hardware"),
+                new TwWordCloud.WordCloudItem("Zero-Latency", 52, "Performance"),
+                new TwWordCloud.WordCloudItem("Enterprise UI", 46, "Design"),
+                new TwWordCloud.WordCloudItem("ML-KEM Vault", 40, "Security"),
+                new TwWordCloud.WordCloudItem("Playwright E2E", 34, "Quality"),
+                new TwWordCloud.WordCloudItem("Post-Quantum", 28, "Cryptography"),
+                new TwWordCloud.WordCloudItem("OpenTelemetry", 22, "Observability")
+            };
+        }
+    }
+
+    private void ApplyPreset(string presetKey, WordBalloonShape shape, WordBalloonEffect effect, WordBalloonTheme theme, string word, bool animate)
+    {
+        CurrentPreset = presetKey;
+        SelectedShape = shape;
+        SelectedEffect = effect;
+        SelectedTheme = theme;
+        MainWord = word;
+        AnimatePulse = animate;
+    }
+
+    private void RandomizeWord()
+    {
+        var rnd = new Random();
+        MainWord = SurpriseWords[rnd.Next(SurpriseWords.Length)];
+        CurrentPreset = "CUSTOM";
+    }
+
+    private async Task CopySvgMarkup()
+    {
+        var svg = GenerateStandaloneSvgString();
+        try
+        {
+            var res = await JS.InvokeAsync<bool>("clipboardHelper.copyText", svg);
+            _copyConfirmed = true;
+            StateHasChanged();
+            await Task.Delay(2500);
+            _copyConfirmed = false;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Clipboard error: {ex.Message}");
+            _copyConfirmed = true;
+            StateHasChanged();
+            await Task.Delay(2500);
+            _copyConfirmed = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ExportSvgFile()
+    {
+        var svg = GenerateStandaloneSvgString();
+        var safeName = string.Concat((string.IsNullOrWhiteSpace(MainWord) ? "word-balloon" : MainWord).Split(Path.GetInvalidFileNameChars())).Replace(" ", "-").ToLowerInvariant();
+        _downloadedFilename = $"{safeName}-balloon.svg";
+
+        await JS.InvokeVoidAsync("pdfHelper.downloadText", _downloadedFilename, "image/svg+xml", svg);
+        _downloadConfirmed = true;
+        StateHasChanged();
+        await Task.Delay(3000);
+        _downloadConfirmed = false;
+        StateHasChanged();
+    }
+
+    private string GenerateStandaloneSvgString()
+    {
+        var sb = new StringBuilder();
+        var safeText = System.Net.WebUtility.HtmlEncode(string.IsNullOrWhiteSpace(MainWord) ? "BLAZOR" : MainWord);
+        var fontSize = Math.Round(42 * Math.Clamp(WordScale, 0.7, 1.6));
+        var approxCharWidth = fontSize * 0.52;
+        var pillWidth = Math.Max(95.0, (safeText.Length * approxCharWidth) + 26.0);
+        var pillHeight = fontSize * 1.45;
+        double cx = 320.0;
+        double cy = 160.0;
+
+        sb.AppendLine(@"<?xml version=""1.0"" encoding=""UTF-8""?>");
+        sb.AppendLine(@"<svg xmlns=""http://www.w3.org/2000/svg"" viewBox=""0 0 640 320"" width=""640"" height=""320"">");
+        sb.AppendLine(@"  <defs>");
+        sb.AppendLine(@"    <filter id=""shadow"" x=""-30%"" y=""-30%"" width=""160%"" height=""160%""><feDropShadow dx=""3"" dy=""4"" stdDeviation=""4"" flood-color=""#000000"" flood-opacity=""0.4""/></filter>");
+        sb.AppendLine(@"    <linearGradient id=""bgGrad"" x1=""0%"" y1=""0%"" x2=""100%"" y2=""100%"">");
+        
+        if (SelectedTheme == WordBalloonTheme.ComicYellow)
+        {
+            sb.AppendLine(@"      <stop offset=""0%"" stop-color=""#fef08a""/><stop offset=""100%"" stop-color=""#facc15""/>");
+        }
+        else if (SelectedTheme == WordBalloonTheme.CrimsonBurst)
+        {
+            sb.AppendLine(@"      <stop offset=""0%"" stop-color=""#ef4444""/><stop offset=""100%"" stop-color=""#f97316""/>");
+        }
+        else if (SelectedTheme == WordBalloonTheme.CyberCyan)
+        {
+            sb.AppendLine(@"      <stop offset=""0%"" stop-color=""#0891b2""/><stop offset=""100%"" stop-color=""#06b6d4""/>");
+        }
+        else if (SelectedTheme == WordBalloonTheme.EmeraldTech)
+        {
+            sb.AppendLine(@"      <stop offset=""0%"" stop-color=""#059669""/><stop offset=""100%"" stop-color=""#10b981""/>");
+        }
+        else
+        {
+            sb.AppendLine(@"      <stop offset=""0%"" stop-color=""#4338ca""/><stop offset=""100%"" stop-color=""#6366f1""/>");
+        }
+        sb.AppendLine(@"    </linearGradient>");
+        sb.AppendLine(@"  </defs>");
+
+        // Background Backdrop
+        sb.AppendLine(@"  <rect width=""100%"" height=""100%"" fill=""#0f172a"" rx=""16""/>");
+
+        // Balloon Shape
+        if (SelectedShape == WordBalloonShape.ComicBurst)
+        {
+            var points = GenerateBurstPointsString(cx, cy, pillWidth, pillHeight);
+            sb.AppendLine($@"  <polygon points=""{points}"" fill=""url(#bgGrad)"" stroke=""#000000"" stroke-width=""3.5"" stroke-linejoin=""round"" filter=""url(#shadow)""/>");
+        }
+        else if (SelectedShape == WordBalloonShape.SpeechBubble)
+        {
+            var d = GenerateSpeechPathString(cx, cy, pillWidth, pillHeight);
+            sb.AppendLine($@"  <path d=""{d}"" fill=""url(#bgGrad)"" stroke=""#6366f1"" stroke-width=""2.5"" filter=""url(#shadow)""/>");
+        }
+        else
+        {
+            var px = cx - (pillWidth / 2.0);
+            var py = cy - (pillHeight / 2.0);
+            sb.AppendLine($@"  <rect x=""{px.ToString("F1", CultureInfo.InvariantCulture)}"" y=""{py.ToString("F1", CultureInfo.InvariantCulture)}"" width=""{pillWidth.ToString("F1", CultureInfo.InvariantCulture)}"" height=""{pillHeight.ToString("F1", CultureInfo.InvariantCulture)}"" rx=""{(pillHeight / 2.0).ToString("F1", CultureInfo.InvariantCulture)}"" fill=""url(#bgGrad)"" stroke=""#6366f1"" stroke-width=""2"" filter=""url(#shadow)""/>");
+        }
+
+        // Text
+        if (SelectedEffect == WordBalloonEffect.PowEffect)
+        {
+            sb.AppendLine($@"  <text x=""{(cx + 3.5).ToString("F1", CultureInfo.InvariantCulture)}"" y=""{(cy + 3.5).ToString("F1", CultureInfo.InvariantCulture)}"" font-family=""system-ui, sans-serif"" font-size=""{fontSize}"" font-weight=""900"" text-anchor=""middle"" dominant-baseline=""central"" fill=""#000000"" transform=""rotate(-5 {cx} {cy})"">{safeText}</text>");
+            sb.AppendLine($@"  <text x=""{cx.ToString("F1", CultureInfo.InvariantCulture)}"" y=""{cy.ToString("F1", CultureInfo.InvariantCulture)}"" font-family=""system-ui, sans-serif"" font-size=""{fontSize}"" font-weight=""900"" text-anchor=""middle"" dominant-baseline=""central"" fill=""#facc15"" stroke=""#000000"" stroke-width=""4"" stroke-linejoin=""round"" font-style=""italic"" transform=""rotate(-5 {cx} {cy})"">{safeText}</text>");
+        }
+        else
+        {
+            sb.AppendLine($@"  <text x=""{cx.ToString("F1", CultureInfo.InvariantCulture)}"" y=""{cy.ToString("F1", CultureInfo.InvariantCulture)}"" font-family=""system-ui, sans-serif"" font-size=""{fontSize}"" font-weight=""900"" text-anchor=""middle"" dominant-baseline=""central"" fill=""#ffffff"" stroke=""#0f172a"" stroke-width=""2"" stroke-linejoin=""round"">{safeText}</text>");
+        }
+
+        sb.AppendLine(@"</svg>");
+        return sb.ToString();
+    }
+
+    private string GenerateBurstPointsString(double cx, double cy, double w, double h)
+    {
+        int points = 18;
+        var sb = new StringBuilder();
+        double rxOuter = (w / 2.0) * 1.25;
+        double ryOuter = (h / 2.0) * 1.45;
+        double rxInner = (w / 2.0) * 0.72;
+        double ryInner = (h / 2.0) * 0.72;
+
+        for (int i = 0; i < points; i++)
+        {
+            double angle = (i * 2 * Math.PI) / points - (Math.PI / 2);
+            double rX = (i % 2 == 0) ? rxOuter : rxInner;
+            double rY = (i % 2 == 0) ? ryOuter : ryInner;
+            double px = cx + (rX * Math.Cos(angle));
+            double py = cy + (rY * Math.Sin(angle));
+            sb.Append(CultureInfo.InvariantCulture, $"{px:F1},{py:F1} ");
+        }
+        return sb.ToString().Trim();
+    }
+
+    private string GenerateSpeechPathString(double cx, double cy, double w, double h)
+    {
+        double x = cx - (w / 2.0);
+        double y = cy - (h / 2.0);
+        double r = Math.Min(16.0, h / 2.5);
+        double tailW = 16.0;
+        double tailH = 14.0;
+        double tailX = x + (w * 0.25);
+
+        return string.Create(CultureInfo.InvariantCulture,
+            $"M {x + r:F1},{y:F1} H {x + w - r:F1} Q {x + w:F1},{y:F1} {x + w:F1},{y + r:F1} V {y + h - r:F1} Q {x + w:F1},{y + h:F1} {x + w - r:F1},{y + h:F1} H {tailX + tailW:F1} L {tailX:F1},{y + h + tailH:F1} L {tailX - (tailW * 0.3):F1},{y + h:F1} H {x + r:F1} Q {x:F1},{y + h:F1} {x:F1},{y + h - r:F1} V {y + r:F1} Q {x:F1},{y:F1} {x + r:F1},{y:F1} Z");
+    }
+}
