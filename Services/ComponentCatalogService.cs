@@ -2300,13 +2300,16 @@ public class ComponentCatalogService
         {
             Name = "TwMicrCheckReader",
             Category = "Financial & OCR",
-            Description = "Check 21 paper check & draft reader with ANSI X9.27 E-13B MICR decoding, Mod-10 ABA routing checksum validation, and courtesy-to-legal amount cross-checking.",
-            RazorSnippet = "<TwMicrCheckReader OnCheckScanned=\"HandleCheck\" OnInsertMarkdown=\"HandleInsert\" />",
+            Description = "Check 21 paper check & draft reader powered by 100% local Tesseract WebAssembly, ANSI X9.27 E-13B MICR decoding, 150+ NACHA Bank Routing Directory resolver, Mod-10 Fed routing validation, and ChoETL.NACHA 94-char fixed-width ACH file generation.",
+            RazorSnippet = "<TwMicrCheckReader OnCheckScanned=\"HandleCheck\" OnDepositApproved=\"HandleApproved\" OnNachaExported=\"HandleNacha\" OnJsonExported=\"HandleJson\" />",
             Parameters = new List<ComponentParameterDoc>
             {
                 new ComponentParameterDoc("Class", "string", "\"\"", "Optional CSS classes."),
                 new ComponentParameterDoc("OnCheckScanned", "EventCallback<CheckDraftOcrResult>", "null", "Callback fired when a check or draft is scanned."),
-                new ComponentParameterDoc("OnInsertMarkdown", "EventCallback<string>", "null", "Callback fired when Markdown ledger table is exported.")
+                new ComponentParameterDoc("OnInsertMarkdown", "EventCallback<string>", "null", "Callback fired when Markdown ledger table is exported."),
+                new ComponentParameterDoc("OnDepositApproved", "EventCallback<CheckDraftOcrResult>", "null", "Callback fired when remote deposit capture (RDC) is approved."),
+                new ComponentParameterDoc("OnNachaExported", "EventCallback<string>", "null", "Callback fired when 94-character fixed-width NACHA ACH batch file is exported."),
+                new ComponentParameterDoc("OnJsonExported", "EventCallback<string>", "null", "Callback fired when Check 21 JSON payload is exported.")
             }
         },
         new ComponentDocItem

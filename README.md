@@ -31,7 +31,7 @@
 - **Mobile-First by Default** — 44px touch targets, bottom sheets, swipe gestures, and responsive DataGrid mobile cards.
 - **Adaptive Generative UI (AGUI)** — Runtime prompt-to-UI synthesis with dual-plane tool calling (Frontend WASM + Backend API).
 - **Zero-FOUC Theme Engine** — Instant dark mode and 12 curated color presets (Indigo, Emerald, Violet, Rose, Cyan, Amber, etc.) with custom hex palette generation.
-- **Enterprise Flagships** — CRM Draggable Dashboard (`GridStack`), Flattened PDF Contract Signer with SHA-256 sealing, C# 15 Discriminated Union boundary, and Check 21 MICR reader.
+- **Enterprise Flagships** — CRM Draggable Dashboard (`GridStack`), Flattened PDF Contract Signer with SHA-256 sealing, C# 15 Discriminated Union boundary, 100% offline Tesseract WebAssembly OCR (`wwwroot/lib/tesseract/`), 150+ NACHA Bank Routing resolver, and ChoETL.NACHA 94-character fixed-width ACH exporter.
 
 ---
 
@@ -117,6 +117,14 @@ Add to your `_Imports.razor`:
                   Value="84" Label="Velocity" />
 ```
 
+### Check 21 MICR & Local Tesseract OCR
+```razor
+<TwMicrCheckReader OnCheckScanned="HandleScanned"
+                   OnDepositApproved="HandleApproved"
+                   OnNachaExported="HandleNachaExport"
+                   OnJsonExported="HandleJsonExport" />
+```
+
 ---
 
 ## 📦 Component Catalog (184 Components)
@@ -134,7 +142,7 @@ All components are documented with parameters and copy-paste snippets in the [Fu
 | **Cards & Layout** | `TwCard`, `TwGrid`, `TwSplitter`, `TwAccordion`, `TwTimeline`, `TwStatCard` | Bento grids, collapsible panels, and responsive containers. |
 | **AI & AG-UI** | `TwAguiStudio`, `TwAguiCanvas`, `TwChatbot`, `TwVoiceRecorder`, `TwCopilot` | Generative UI prompt synthesis and dual-plane tool calling. |
 | **Enterprise Studios** | `TwDashboard`, `TwPdfFormFiller`, `TwUnionBoundary`, `TwFinancialChart`, `TwTreemap`, `TwPivotTable`, `TwMarkdownEditor` | Draggable CRM dashboards, sealed PDFs, and financial charts. |
-| **Media & Scanner** | `TwMediaPlayer`, `TwQrScanner`, `TwBarcodeScanner`, `TwSignaturePad`, `TwMicrReader` | Barcode decoding, Check 21 MICR reading, and audio/video players. |
+| **Media & Scanner** | `TwMediaPlayer`, `TwQrScanner`, `TwBarcodeScanner`, `TwSignaturePad`, `TwMicrCheckReader`, `TwDocumentOcrStudio` | 100% Local Tesseract OCR WASM, Check 21 MICR reading, 150+ NACHA bank directory, and audio/video players. |
 
 ---
 

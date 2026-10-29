@@ -3322,7 +3322,7 @@ Viewport-driven object animation scrubber with multi-layer ambient parallax dept
 
 **Location:** [`Components/UI/TwMicrCheckReader.razor`](../Components/UI/TwMicrCheckReader.razor)
 
-Interactive Check 21 Remote Deposit Capture (RDC) paper check & bank draft reader with ANSI X9.27 / ISO 1004 E-13B magnetic ink clear band decoding, Mod-10 ABA routing checksum validation, and real-time courtesy-to-legal amount cross-checking.
+Production-ready Check 21 Remote Deposit Capture (RDC) paper check & bank draft reader powered by 100% local, offline Tesseract WebAssembly (`wwwroot/lib/tesseract/` — zero CDN dependencies). Features ANSI X9.27 / ISO 1004 E-13B magnetic ink clear band decoding, universal Federal Reserve Modulus-10 routing checksum validation with auto-correction, 150+ verified NACHA Bank Routing Directory lookup across all 12 Federal Reserve Districts, and ChoETL.NACHA-compliant 94-character fixed-width ACH batch file generation (`.ach`).
 
 #### Parameters & Settings
 
@@ -3331,11 +3331,17 @@ Interactive Check 21 Remote Deposit Capture (RDC) paper check & bank draft reade
 | `Class` | `string` | `""` | Additional Tailwind CSS classes. |
 | `OnCheckScanned` | `EventCallback<CheckDraftOcrResult>` | `null` | Fired when check OCR extraction completes. |
 | `OnInsertMarkdown` | `EventCallback<string>` | `null` | Fired when check ledger Markdown table is exported. |
+| `OnDepositApproved` | `EventCallback<CheckDraftOcrResult>` | `null` | Fired when remote deposit capture (RDC) is approved and cleared. |
+| `OnNachaExported` | `EventCallback<string>` | `null` | Fired when 94-character fixed-width NACHA ACH batch file (`.ach`) is exported. |
+| `OnJsonExported` | `EventCallback<string>` | `null` | Fired when Check 21 structured JSON payload is exported. |
 
 #### Razor Usage Example
 
 ```razor
-<TwMicrCheckReader OnCheckScanned="HandleCheckScanned" OnInsertMarkdown="HandleInsertMarkdown" />
+<TwMicrCheckReader OnCheckScanned="HandleCheckScanned"
+                   OnDepositApproved="HandleDepositApproved"
+                   OnNachaExported="HandleNachaExported"
+                   OnJsonExported="HandleJsonExported" />
 ```
 
 ---

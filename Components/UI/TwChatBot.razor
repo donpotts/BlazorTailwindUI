@@ -215,13 +215,28 @@
 
     <!-- Bottom Input Box -->
     <div class="p-3 sm:p-4 bg-slate-50/80 dark:bg-slate-950/60 border-t border-slate-100 dark:border-slate-800 shrink-0 pb-safe">
+        @if (_attachedFiles.Count > 0)
+        {
+            <div class="flex flex-wrap items-center gap-1.5 pb-2">
+                @foreach (var file in _attachedFiles)
+                {
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-medium bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-300 border border-brand-200/80 dark:border-brand-800/80">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                        </svg>
+                        <span>@file</span>
+                        <button type="button" @onclick="() => RemoveAttachment(file)" class="text-brand-500 hover:text-red-500 dark:hover:text-red-400 font-bold ml-0.5">×</button>
+                    </span>
+                }
+            </div>
+        }
         <form @onsubmit="HandleSubmit" class="relative">
             <div class="flex items-end gap-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-300 dark:border-slate-700/80 p-1.5 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20 shadow-xs">
                 
                 <!-- Attachment Button -->
                 <button type="button"
-                        @onclick='() => Toast.Show("File attached", "demo_dataset.csv added to context", SemanticVariant.Info)'
-                        title="Attach file or code"
+                        @onclick="AttachSampleFileAsync"
+                        title="Attach sample dataset or context file"
                         class="p-2.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
@@ -278,7 +293,10 @@
     [Parameter] public string SelectedModel { get; set; } = "Gemini 2.0 Flash";
     [Parameter] public bool ShowCloseButton { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback<string> OnFileAttached { get; set; }
     [Parameter] public string? Class { get; set; }
+
+    private readonly List<string> _attachedFiles = new();
 
     public bool IsGenerating { get; private set; }
     public List<ChatMessage> Messages { get; set; } = new();
@@ -407,7 +425,26 @@
     {
         StopGeneration();
         Messages.Clear();
+        _attachedFiles.Clear();
         Toast.Show("Conversation cleared", variant: SemanticVariant.Default);
+    }
+
+    private async Task AttachSampleFileAsync()
+    {
+        var sampleFile = $"dataset_analytics_{DateTime.Now:MMdd}.csv";
+        if (!_attachedFiles.Contains(sampleFile))
+        {
+            _attachedFiles.Add(sampleFile);
+            if (OnFileAttached.HasDelegate)
+            {
+                await OnFileAttached.InvokeAsync(sampleFile);
+            }
+        }
+    }
+
+    private void RemoveAttachment(string fileName)
+    {
+        _attachedFiles.Remove(fileName);
     }
 
     private void SetFeedback(ChatMessage msg, bool thumbUp)

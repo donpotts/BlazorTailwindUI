@@ -503,10 +503,19 @@
 
             <!-- Action Buttons: Approve Deposit / NACHA ACH Export / Copy Markdown / Export JSON -->
             <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-                <button type="button" @onclick="ApproveDepositAsync"
-                        class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
-                    <span>💳 Approve & Submit Remote Deposit Capture (RDC)</span>
-                </button>
+                @if (_isDepositApproved)
+                {
+                    <div class="w-full py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold text-xs shadow-xs text-center flex items-center justify-center gap-1.5">
+                        <span>✓</span> <span>Deposit Approved & Dispatched to Clearing House</span>
+                    </div>
+                }
+                else
+                {
+                    <button type="button" @onclick="ApproveDepositAsync"
+                            class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+                        <span>💳 Approve & Submit Remote Deposit Capture (RDC)</span>
+                    </button>
+                }
 
                 <button type="button" @onclick="ExportNachaAchFileAsync"
                         class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
@@ -533,10 +542,14 @@
     [Parameter] public string Class { get; set; } = "";
     [Parameter] public EventCallback<CheckDraftOcrResult> OnCheckScanned { get; set; }
     [Parameter] public EventCallback<string> OnInsertMarkdown { get; set; }
+    [Parameter] public EventCallback<CheckDraftOcrResult> OnDepositApproved { get; set; }
+    [Parameter] public EventCallback<string> OnNachaExported { get; set; }
+    [Parameter] public EventCallback<string> OnJsonExported { get; set; }
 
     private CheckDraftOcrResult? _check;
     private bool _isScanning = false;
     private bool _showBoundingBoxes = true;
+    private bool _isDepositApproved = false;
     private string _activeMode = "interactive";
     private string _currentPresetId = "check-payroll-1042";
 
@@ -685,6 +698,7 @@
     private async Task LoadPresetAsync(string presetId)
     {
         _isScanning = true;
+        _isDepositApproved = false;
         StateHasChanged();
 
         _check = await OcrEngine.ScanCheckOrDraftAsync(presetId);
@@ -834,12 +848,17 @@
 
         try
         {
+            await JS.InvokeVoidAsync("pdfHelper.downloadText", $"nacha-batch-{_check.CheckNumber}.ach", "text/plain", achContent);
             await JS.InvokeVoidAsync("navigator.clipboard.writeText", achContent);
         }
         catch { }
 
         await Sound.PlayChimeAsync();
-        Toast.Show("NACHA ACH File Generated", "Standard 94-char fixed-width NACHA batch (PPD) copied to clipboard", SemanticVariant.Success);
+
+        if (OnNachaExported.HasDelegate)
+        {
+            await OnNachaExported.InvokeAsync(achContent);
+        }
     }
 
     private async Task CopyMarkdownTableAsync()
@@ -853,7 +872,6 @@
             }
             catch { }
             await Sound.PlayPopAsync();
-            Toast.Show("Markdown Report Copied", "Check 21 ledger table copied to clipboard", SemanticVariant.Success);
             
             if (OnInsertMarkdown.HasDelegate)
             {
@@ -869,11 +887,16 @@
             var json = System.Text.Json.JsonSerializer.Serialize(_check, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
             try
             {
+                await JS.InvokeVoidAsync("pdfHelper.downloadText", $"check-{_check.CheckNumber}.json", "application/json", json);
                 await JS.InvokeVoidAsync("navigator.clipboard.writeText", json);
             }
             catch { }
             await Sound.PlayPopAsync();
-            Toast.Show("JSON Payload Copied", "Serialized CheckDraftOcrResult payload copied to clipboard", SemanticVariant.Success);
+
+            if (OnJsonExported.HasDelegate)
+            {
+                await OnJsonExported.InvokeAsync(json);
+            }
         }
     }
 
@@ -887,6 +910,11 @@
         }
 
         await Sound.PlayChimeAsync();
-        Toast.Show("Deposit Submitted (RDC)", $"Successfully queued check #{_check?.CheckNumber} for ${_check?.CourtesyAmount:N2} ({_check?.BankName}) to Federal Reserve automated clearing", SemanticVariant.Success);
+        _isDepositApproved = true;
+
+        if (OnDepositApproved.HasDelegate && _check != null)
+        {
+            await OnDepositApproved.InvokeAsync(_check);
+        }
     }
 }
