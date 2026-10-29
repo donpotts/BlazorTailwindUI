@@ -4,10 +4,13 @@
     @if (!string.IsNullOrEmpty(Title))
     {
         <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">@Title</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <span>☁️</span>
+                <span>@Title</span>
+            </h4>
             @if (_selectedWord != null)
             {
-                <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 font-bold">
+                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 font-bold border border-brand-500/20 animate-fadeIn">
                     @_selectedWord.Text (@_selectedWord.Weight.ToString("F0") hits)
                 </span>
             }
@@ -16,20 +19,64 @@
 
     <div class="relative w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm overflow-hidden flex items-center justify-center">
         <svg viewBox="0 0 @Width @Height" class="w-full h-auto max-h-[360px] select-none" role="img" aria-label="Word Cloud Visualization">
-            @foreach (var entry in Placements)
+            <defs>
+                <!-- Center Word Balloon Shadow & Glow -->
+                <filter id="wordBalloonShadow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.25" />
+                </filter>
+                <filter id="wordBalloonActive" x="-30%" y="-30%" width="160%" height="160%">
+                    <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#6366f1" flood-opacity="0.35" />
+                </filter>
+                <linearGradient id="centerBalloonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4f46e5" />
+                    <stop offset="50%" stop-color="#6366f1" />
+                    <stop offset="100%" stop-color="#818cf8" />
+                </linearGradient>
+            </defs>
+
+            @* 
+               SVG Rendering Order: In SVG, later elements in the DOM are painted ON TOP of earlier elements.
+               RenderOrder guarantees background/outer words are drawn first, and the main center word 
+               (and currently selected word) is drawn LAST so it floats prominently on top.
+            *@
+            @foreach (var entry in RenderOrder)
             {
                 var item = entry.Item;
-                var isSelected = _selectedWord == item;
+                var isCenter = (Placements.Count > 0 && entry == Placements[0]);
+                var isSelected = (_selectedWord == item);
+                var isTopLayer = isCenter || isSelected;
+
                 <g class="cursor-pointer transition-all duration-200 group"
                    @onclick="() => HandleWordClick(item)">
+
+                    @* Word Balloon Capsule Pill Backing for Center and Selected Words *@
+                    @if (ShowCenterBalloon && isTopLayer)
+                    {
+                        var approxCharWidth = entry.FontSize * 0.52;
+                        var pillWidth = Math.Max(90.0, (item.Text.Length * approxCharWidth) + 24.0);
+                        var pillHeight = entry.FontSize * 1.45;
+                        var pillX = entry.X - (pillWidth / 2.0);
+                        var pillY = entry.Y - (pillHeight / 2.0);
+
+                        <rect x="@pillX"
+                              y="@pillY"
+                              width="@pillWidth"
+                              height="@pillHeight"
+                              rx="@(pillHeight / 2.0)"
+                              class="fill-white/95 dark:fill-slate-850/95 stroke-brand-500 dark:stroke-brand-400 transition-all duration-300"
+                              stroke-width="@(isSelected ? "2.5" : "1.5")"
+                              filter="@(isSelected ? "url(#wordBalloonActive)" : "url(#wordBalloonShadow)")" />
+                    }
+
                     <text x="@entry.X"
                           y="@entry.Y"
                           font-size="@entry.FontSize"
-                          font-weight="bold"
-                          fill="@entry.Color"
+                          font-weight="@(isTopLayer ? "900" : "bold")"
+                          fill="@(isCenter && !isSelected ? "url(#centerBalloonGrad)" : entry.Color)"
                           text-anchor="middle"
-                          dominant-baseline="middle"
-                          class="transition-all duration-200 group-hover:scale-110 active:scale-95 transform origin-center @(isSelected ? "drop-shadow-md font-extrabold opacity-100" : "opacity-85 group-hover:opacity-100")">
+                          dominant-baseline="central"
+                          style="@(isTopLayer ? "paint-order: stroke fill; stroke: rgba(255, 255, 255, 0.4); stroke-width: 1px;" : "")"
+                          class="transition-all duration-200 group-hover:scale-110 active:scale-95 transform origin-center @(isTopLayer ? "font-black tracking-wide drop-shadow-sm" : "opacity-85 group-hover:opacity-100")">
                         @item.Text
                     </text>
                 </g>
@@ -56,6 +103,8 @@
     [Parameter] public int Height { get; set; } = 320;
     [Parameter] public double MinFontSize { get; set; } = 12;
     [Parameter] public double MaxFontSize { get; set; } = 42;
+    [Parameter] public bool CenterWordOnTop { get; set; } = true;
+    [Parameter] public bool ShowCenterBalloon { get; set; } = true;
     [Parameter] public EventCallback<WordCloudItem> OnWordClick { get; set; }
     [Parameter] public string Class { get; set; } = "";
 
@@ -92,9 +141,9 @@
                 var normalized = (word.Weight - minWeight) / weightRange;
                 var fontSize = MinFontSize + (normalized * (MaxFontSize - MinFontSize));
 
-                // Position on spiral
+                // Position on spiral with center balloon clearance
                 double angle = i * 2.4;
-                double radius = (i == 0) ? 0 : 25 + (i * 12.0);
+                double radius = (i == 0) ? 0 : 55 + (i * 13.5);
                 
                 // Keep within bounds
                 double x = Math.Clamp(centerX + (radius * Math.Cos(angle) * 1.6), 50.0, Width - 50.0);
@@ -105,6 +154,43 @@
             }
 
             return list;
+        }
+    }
+
+    /// <summary>
+    /// Renders outer/smaller words FIRST so they form the background painting layer,
+    /// and renders the main center word (and selected word) LAST so it is painted strictly ON TOP.
+    /// </summary>
+    private IEnumerable<WordPlacement> RenderOrder
+    {
+        get
+        {
+            var placements = Placements;
+            if (placements.Count == 0) return Array.Empty<WordPlacement>();
+
+            if (!CenterWordOnTop)
+            {
+                return placements;
+            }
+
+            var centerPlacement = placements[0];
+
+            // 1. Smaller/background words (ascending font size so smaller words are underneath)
+            var backgroundWords = placements
+                .Where(p => p != centerPlacement && p.Item != _selectedWord)
+                .OrderBy(p => p.FontSize);
+
+            // 2. Main Center Word on top of background words
+            var centerList = (centerPlacement.Item != _selectedWord)
+                ? new[] { centerPlacement }
+                : Array.Empty<WordPlacement>();
+
+            // 3. Currently active/selected word on top of everything
+            var selectedList = (_selectedWord != null)
+                ? placements.Where(p => p.Item == _selectedWord)
+                : Array.Empty<WordPlacement>();
+
+            return backgroundWords.Concat(centerList).Concat(selectedList);
         }
     }
 
