@@ -181,9 +181,17 @@ window.TesseractOcrBridge = {
             ctx.lineWidth = 1;
             ctx.strokeRect(20, 440, canvas.width - 40, 75);
 
+            // Convert E-13B unicode symbols to standard ASCII transit delimiters (A/C/B/D)
+            // so canvas standard monospace fonts render legible glyphs for Tesseract OCR
+            const printableMicr = (micrLine || 'A121000358A 0123456789C 1001')
+                .replace(/⑆/g, 'A')
+                .replace(/⑈/g, 'C')
+                .replace(/⑇/g, 'B')
+                .replace(/⑉/g, 'D');
+
             ctx.font = 'bold 28px monospace';
             ctx.fillStyle = '#0f172a';
-            ctx.fillText(micrLine || 'A121000358A 0123456789C 1001', 120, 490);
+            ctx.fillText(printableMicr, 120, 490);
 
             return canvas.toDataURL('image/png');
         } catch (e) {

@@ -202,6 +202,62 @@
         </div>
     }
 
+    <!-- Tesseract WebAssembly Live OCR Sandbox Mode -->
+    @if (_activeMode == "tesseract")
+    {
+        <div class="p-4 bg-purple-50/70 dark:bg-purple-950/40 border-b border-purple-200 dark:border-purple-800 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300 flex items-center gap-2">
+                        <span>🧠 Genuine Tesseract.js WebAssembly OCR Engine</span>
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-purple-200/70 dark:bg-purple-900 text-purple-800 dark:text-purple-200">
+                            100% Local / Zero CDN
+                        </span>
+                    </h4>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">
+                        Generates high-contrast check images with random routing numbers, renders them to canvas, and runs local Tesseract LSTM optical character recognition on pixels.
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" @onclick="GenerateAndOcrRandomCheckAsync"
+                            disabled="@_isScanning"
+                            class="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold text-xs shadow-md transition flex items-center gap-1.5">
+                        @if (_isScanning)
+                        {
+                            <span class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                            <span>Recognizing Image Pixels...</span>
+                        }
+                        else
+                        {
+                            <span>🎲 Generate Random Check & OCR</span>
+                        }
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upload Custom Check Image -->
+            <div class="p-3 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-purple-200 dark:border-purple-800 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="font-bold text-slate-700 dark:text-slate-300">Or Upload Any Real Check Image:</span>
+                    <span class="text-slate-500 text-[11px]">(PNG, JPG, BMP)</span>
+                </div>
+                <InputFile OnChange="HandleFileUploadAsync" accept="image/*"
+                           class="text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 dark:file:bg-purple-900 dark:file:text-purple-200" />
+            </div>
+
+            @if (!string.IsNullOrEmpty(_lastOcrRawText))
+            {
+                <div class="p-3 rounded-xl bg-slate-950 text-slate-200 border border-slate-800 font-mono text-xs space-y-1">
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-800 pb-1">
+                        <span class="font-bold text-emerald-400">Tesseract OCR Raw Extracted Pixels:</span>
+                        <span>@(_check?.ProcessingTimeMs)ms • Confidence: @(((_check?.OverallConfidence ?? 0) * 100).ToString("F0"))%</span>
+                    </div>
+                    <pre class="whitespace-pre-wrap text-[11px] leading-relaxed text-slate-300 max-h-36 overflow-y-auto">@_lastOcrRawText</pre>
+                </div>
+            }
+        </div>
+    }
+
     <!-- Main Workspace: Split View (Interactive Check Visual vs OCR Audit Ledger) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-200 dark:divide-slate-800">
         
@@ -493,6 +549,7 @@
     private string _payerName = "Acme Enterprise Dynamics Inc.";
     private string _memo = "Q3 High-Availability Cloud Architecture Project";
     private string _nachaSearchQuery = "";
+    private string _lastOcrRawText = "";
 
     private (bool IsValid, int Mod10Value, int ExpectedCheckDigit, string BankName, string District, string InstType, string Suggestion) _routingValidation;
 
@@ -656,11 +713,88 @@
 
         await Sound.PlayPopAsync();
         _check = await OcrEngine.RunTesseractOnRenderedCheckAsync(_check);
+        _lastOcrRawText = _check.MicrData.RawTesseractOutput ?? "";
         _isScanning = false;
         StateHasChanged();
 
         await Sound.PlayChimeAsync();
         Toast.Show("Tesseract OCR Complete", $"Parsed check pixels via Tesseract WebAssembly in {_check.ProcessingTimeMs}ms with {(_check.OverallConfidence * 100):F0}% confidence", SemanticVariant.Success);
+    }
+
+    private async Task GenerateAndOcrRandomCheckAsync()
+    {
+        _isScanning = true;
+        StateHasChanged();
+
+        await Sound.PlayPopAsync();
+        _check = OcrEngine.GenerateRandomValidCheck();
+        _routingNumber = _check.MicrData.TransitRoutingNumber;
+        _accountNumber = _check.MicrData.AccountNumber;
+        _checkNumber = _check.CheckNumber;
+        _amount = _check.CourtesyAmount;
+        _payee = _check.Payee;
+        _payerName = _check.PayerName;
+        _memo = _check.Memo;
+        UpdateRoutingValidation();
+
+        // Run genuine Tesseract OCR directly on the newly rendered check canvas pixels
+        _check = await OcrEngine.RunTesseractOnRenderedCheckAsync(_check);
+        _lastOcrRawText = _check.MicrData.RawTesseractOutput ?? "";
+        _routingNumber = _check.MicrData.TransitRoutingNumber;
+        UpdateRoutingValidation();
+        _isScanning = false;
+        StateHasChanged();
+
+        await Sound.PlayChimeAsync();
+        Toast.Show("Random Check OCR Verified", $"Recognized {_check.BankName} ({_check.MicrData.TransitRoutingNumber}) in {_check.ProcessingTimeMs}ms", SemanticVariant.Success);
+
+        if (OnCheckScanned.HasDelegate && _check != null)
+        {
+            await OnCheckScanned.InvokeAsync(_check);
+        }
+    }
+
+    private async Task HandleFileUploadAsync(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null) return;
+
+        try
+        {
+            _isScanning = true;
+            StateHasChanged();
+
+            using var stream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            string base64 = Convert.ToBase64String(ms.ToArray());
+            string dataUrl = $"data:{file.ContentType};base64,{base64}";
+
+            _check = await OcrEngine.ParseImageWithTesseractAsync(dataUrl);
+            _routingNumber = _check.MicrData.TransitRoutingNumber;
+            _accountNumber = _check.MicrData.AccountNumber;
+            _checkNumber = _check.CheckNumber;
+            if (_check.CourtesyAmount > 0) _amount = _check.CourtesyAmount;
+            if (!string.IsNullOrEmpty(_check.Payee)) _payee = _check.Payee;
+            _lastOcrRawText = _check.MicrData.RawTesseractOutput ?? "";
+
+            UpdateRoutingValidation();
+            _isScanning = false;
+            StateHasChanged();
+
+            await Sound.PlayChimeAsync();
+            Toast.Show("Uploaded Image OCR Parsed", $"Extracted {_check.BankName} via Tesseract in {_check.ProcessingTimeMs}ms", SemanticVariant.Success);
+
+            if (OnCheckScanned.HasDelegate && _check != null)
+            {
+                await OnCheckScanned.InvokeAsync(_check);
+            }
+        }
+        catch (Exception ex)
+        {
+            _isScanning = false;
+            Toast.Show("OCR Error", ex.Message, SemanticVariant.Danger);
+        }
     }
 
     private void ToggleBoundingBoxes()

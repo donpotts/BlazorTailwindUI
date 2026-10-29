@@ -55,7 +55,7 @@ public class OcrEngineService
         new() { RoutingNumber = "071000013", BankName = "JPMorgan Chase Bank, N.A.", City = "Chicago", State = "IL", District = "07 - Chicago", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "111000614", BankName = "JPMorgan Chase Bank, N.A.", City = "Dallas", State = "TX", District = "11 - Dallas", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "044000037", BankName = "JPMorgan Chase Bank, N.A.", City = "Columbus", State = "OH", District = "04 - Cleveland", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
-        new() { RoutingNumber = "061000104", BankName = "JPMorgan Chase Bank, N.A.", City = "Atlanta", State = "GA", District = "06 - Atlanta", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
+        new() { RoutingNumber = "061000052", BankName = "JPMorgan Chase Bank, N.A.", City = "Atlanta", State = "GA", District = "06 - Atlanta", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "022000499", BankName = "JPMorgan Chase Bank, N.A.", City = "Buffalo", State = "NY", District = "02 - New York", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "122201444", BankName = "JPMorgan Chase Bank, N.A.", City = "Los Angeles", State = "CA", District = "12 - San Francisco", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
 
@@ -181,7 +181,9 @@ public class OcrEngineService
     };
 
     private static readonly Dictionary<string, NachaRoutingEntry> DirectoryLookup =
-        NachaDirectory.ToDictionary(k => k.RoutingNumber, v => v);
+        NachaDirectory
+            .GroupBy(k => k.RoutingNumber)
+            .ToDictionary(g => g.Key, g => g.First());
 
     #endregion
 
@@ -320,15 +322,16 @@ public class OcrEngineService
 
         if (t1 >= 0 && t2 > t1)
         {
-            result.TransitRoutingNumber = normalized.Substring(t1 + 1, t2 - t1 - 1).Trim();
+            string rawTransit = normalized.Substring(t1 + 1, t2 - t1 - 1).Trim();
+            result.TransitRoutingNumber = rawTransit.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
         }
         else
         {
-            // Fallback: look for 9-digit block
-            var match = Regex.Match(normalized, @"\b\d{9}\b");
+            // Fallback: look for 9-digit block (supporting OCR substitution of O->0)
+            var match = Regex.Match(normalized, @"\b[0-9Oo]{9}\b");
             if (match.Success)
             {
-                result.TransitRoutingNumber = match.Value;
+                result.TransitRoutingNumber = match.Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
             }
         }
 
@@ -627,12 +630,123 @@ public class OcrEngineService
                     check.ProcessingTimeMs = ocrResult.DurationMs;
                     check.OverallConfidence = ocrResult.Confidence / 100.0;
                     check.MicrData.RawTesseractOutput = ocrResult.Text;
+
+                    // Parse any 9-digit routing numbers detected by Tesseract OCR (with OCR char normalization)
+                    var routingMatch = Regex.Match(ocrResult.Text, @"[A⑆]?([0-9Oo]{9})[A⑆]?");
+                    if (routingMatch.Success)
+                    {
+                        string detectedRtn = routingMatch.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
+                        var (isValid, mod, expected, bankName, district, instType, fix) = ValidateAbaRouting(detectedRtn);
+                        check.MicrData.TransitRoutingNumber = detectedRtn;
+                        check.MicrData.IsValidRoutingChecksum = isValid;
+                        check.MicrData.Mod10ChecksumValue = mod;
+                        check.MicrData.BankName = bankName;
+                        check.MicrData.FederalReserveDistrict = district;
+                        check.MicrData.InstitutionType = instType;
+                        check.BankName = bankName;
+                    }
                 }
             }
         }
         catch
         {
             // Fallback cleanly to internal engine
+        }
+
+        return check;
+    }
+
+    /// <summary>
+    /// Generates a completely randomized, valid paper check from the 150+ NACHA directory
+    /// with accurate Fed District, Mod-10 checksum, amount in words, and ANSI X9.27 MICR line.
+    /// </summary>
+    public CheckDraftOcrResult GenerateRandomValidCheck()
+    {
+        var rng = new Random();
+        var randomBank = NachaDirectory[rng.Next(NachaDirectory.Count)];
+        long randomAcct = rng.NextInt64(1000000000L, 9999999999L);
+        int randomCheckNum = rng.Next(1000, 9999);
+        decimal randomAmount = Math.Round((decimal)(rng.NextDouble() * 50000 + 100), 2);
+
+        var payees = new[]
+        {
+            "Vertex Technologies LLC",
+            "Pacific Coast Data Systems",
+            "Atlas Cloud Infrastructure Inc",
+            "Pinnacle Systems Consulting",
+            "Meridian Edge Analytics",
+            "Horizon Engineering Partners",
+            "Silicon Valley Micro-Servers",
+            "Apex Logistics Partners"
+        };
+        string randomPayee = payees[rng.Next(payees.Length)];
+
+        return CreateCustomCheck(
+            routingNumber: randomBank.RoutingNumber,
+            accountNumber: randomAcct.ToString(),
+            checkNumber: randomCheckNum.ToString(),
+            amount: randomAmount,
+            payee: randomPayee,
+            payerName: "Apex Enterprise Dynamics Corp.",
+            memo: $"Vendor Services PO-{rng.Next(10000, 99999)}"
+        );
+    }
+
+    /// <summary>
+    /// Accepts any raw image (Base64 / Data URL / Blob), runs genuine Tesseract OCR on its pixels,
+    /// and extracts any detected Check 21 routing numbers, amounts, and dates.
+    /// </summary>
+    public async Task<CheckDraftOcrResult> ParseImageWithTesseractAsync(string imageSource)
+    {
+        var ocrResult = await RecognizeWithTesseractAsync(imageSource);
+        var check = new CheckDraftOcrResult
+        {
+            IsTesseractEngine = true,
+            ProcessingTimeMs = ocrResult.DurationMs,
+            OverallConfidence = ocrResult.Confidence / 100.0,
+            Date = DateTime.Now.ToString("MMMM dd, yyyy")
+        };
+
+        if (ocrResult.Success && !string.IsNullOrWhiteSpace(ocrResult.Text))
+        {
+            check.MicrData.RawTesseractOutput = ocrResult.Text;
+
+            // Find 9-digit routing number (with OCR char normalization)
+            var match = Regex.Match(ocrResult.Text, @"[A⑆]?([0-9Oo]{9})[A⑆]?");
+            if (match.Success)
+            {
+                string rtn = match.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
+                var (isValid, mod, expected, bankName, district, instType, fix) = ValidateAbaRouting(rtn);
+                check.MicrData.TransitRoutingNumber = rtn;
+                check.MicrData.IsValidRoutingChecksum = isValid;
+                check.MicrData.Mod10ChecksumValue = mod;
+                check.MicrData.BankName = bankName;
+                check.MicrData.FederalReserveDistrict = district;
+                check.MicrData.InstitutionType = instType;
+                check.BankName = bankName;
+            }
+
+            // Find amount ($X,XXX.XX)
+            var amtMatch = Regex.Match(ocrResult.Text, @"\$?([0-9]{1,3}(?:,[0-9]{3})*\.[0-9]{2})");
+            if (amtMatch.Success && decimal.TryParse(amtMatch.Groups[1].Value.Replace(",", ""), out var amt))
+            {
+                check.CourtesyAmount = amt;
+                check.LegalAmountWords = ConvertAmountToWords(amt);
+            }
+
+            // Find check number
+            var chkMatch = Regex.Match(ocrResult.Text, @"(?:CHECK|Check)\s*#?\s*([0-9]{3,6})");
+            if (chkMatch.Success)
+            {
+                check.CheckNumber = chkMatch.Groups[1].Value;
+                check.MicrData.CheckNumber = chkMatch.Groups[1].Value;
+            }
+
+            check.MicrData.RawMicrLine = BuildMicrLine(
+                check.MicrData.TransitRoutingNumber,
+                check.MicrData.AccountNumber,
+                check.CheckNumber
+            );
         }
 
         return check;
