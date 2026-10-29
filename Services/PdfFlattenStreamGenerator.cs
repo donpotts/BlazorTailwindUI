@@ -17,107 +17,79 @@ public static class PdfFlattenStreamGenerator
     public static byte[] GenerateFlattenedPdfBytes(PdfContractDocument doc)
     {
         using var ms = new MemoryStream();
-        using var writer = new StreamWriter(ms, Encoding.ASCII);
 
         var objectOffsets = new List<long>();
-        long currentOffset = 0;
 
-        void WriteString(string text)
+        void WriteAscii(string text)
         {
             var bytes = Encoding.ASCII.GetBytes(text);
             ms.Write(bytes, 0, bytes.Length);
-            currentOffset += bytes.Length;
         }
 
-        WriteString("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
+        WriteAscii("%PDF-1.4\n");
+        ms.Write(new byte[] { 0x25, 0xE2, 0xE3, 0xCF, 0xD3, 0x0A }, 0, 6);
 
-        int objCount = 0;
+        int totalPages = Math.Max(1, doc.Pages.Count);
+        int fontF1Obj = totalPages * 2 + 3;
+        int fontF2Obj = fontF1Obj + 1;
 
-        // 1: Catalog
-        objCount++;
-        objectOffsets.Add(currentOffset);
-        WriteString($"{objCount} 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+        // Obj 1: Catalog
+        objectOffsets.Add(ms.Position);
+        WriteAscii("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
 
-        // 2: Pages container (placeholder, will reference Page objects)
-        int page2Obj = (doc.Pages.Count > 1) ? 6 : 3;
-
-        objCount++; // obj 2
-        objectOffsets.Add(currentOffset);
-        if (doc.Pages.Count > 1)
+        // Obj 2: Pages container
+        objectOffsets.Add(ms.Position);
+        if (totalPages > 1)
         {
-            WriteString($"2 0 obj\n<< /Type /Pages /Kids [ 3 0 R 6 0 R ] /Count 2 >>\nendobj\n");
+            var kids = string.Join(" ", System.Linq.Enumerable.Range(0, totalPages).Select(i => $"{(3 + i * 2)} 0 R"));
+            WriteAscii($"2 0 obj\n<< /Type /Pages /Kids [ {kids} ] /Count {totalPages} >>\nendobj\n");
         }
         else
         {
-            WriteString($"2 0 obj\n<< /Type /Pages /Kids [ 3 0 R ] /Count 1 >>\nendobj\n");
+            WriteAscii("2 0 obj\n<< /Type /Pages /Kids [ 3 0 R ] /Count 1 >>\nendobj\n");
         }
 
-        // Font objects
-        int fontF1Obj = (doc.Pages.Count > 1) ? 9 : 6;
-        int fontF2Obj = fontF1Obj + 1;
-
-        // Generate Page 1
-        var p1 = doc.Pages.Count > 0 ? doc.Pages[0] : new PdfContractPage { Title = doc.Title, PageNumber = 1 };
-        var p1Fields = doc.Fields.FindAll(f => f.Page == 1);
-        string page1Content = BuildPageContentStream(doc, p1, p1Fields, isFlattened: true);
-        byte[] p1StreamBytes = Encoding.UTF8.GetBytes(page1Content);
-
-        // Obj 3: Page 1
-        objCount++; // 3
-        objectOffsets.Add(currentOffset);
-        WriteString($"3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [ 0 0 612 792 ] /Contents 4 0 R /Resources << /Font << /F1 {fontF1Obj} 0 R /F2 {fontF2Obj} 0 R >> >> >>\nendobj\n");
-
-        // Obj 4: Page 1 Contents
-        objCount++; // 4
-        objectOffsets.Add(currentOffset);
-        WriteString($"4 0 obj\n<< /Length {p1StreamBytes.Length} >>\nstream\n");
-        ms.Write(p1StreamBytes, 0, p1StreamBytes.Length);
-        currentOffset += p1StreamBytes.Length;
-        WriteString("\nendstream\nendobj\n");
-
-        // If Page 2 exists
-        if (doc.Pages.Count > 1)
+        // Pages and Content Streams
+        for (int i = 0; i < totalPages; i++)
         {
-            var p2 = doc.Pages[1];
-            var p2Fields = doc.Fields.FindAll(f => f.Page == 2);
-            string page2Content = BuildPageContentStream(doc, p2, p2Fields, isFlattened: true);
-            byte[] p2StreamBytes = Encoding.UTF8.GetBytes(page2Content);
+            var pageModel = i < doc.Pages.Count ? doc.Pages[i] : new PdfContractPage { PageNumber = i + 1, Title = doc.Title };
+            var pageFields = doc.Fields.FindAll(f => f.Page == (i + 1));
+            string pageContent = BuildPageContentStream(doc, pageModel, pageFields, isFlattened: true);
+            byte[] streamBytes = Encoding.UTF8.GetBytes(pageContent);
 
-            // Obj 5: Page 2
-            objCount++; // 5 -> actually obj 6 in Kids
-            objectOffsets.Add(currentOffset);
-            WriteString($"6 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [ 0 0 612 792 ] /Contents 7 0 R /Resources << /Font << /F1 {fontF1Obj} 0 R /F2 {fontF2Obj} 0 R >> >> >>\nendobj\n");
+            int pageObjNum = 3 + i * 2;
+            int contentObjNum = pageObjNum + 1;
 
-            // Obj 7: Page 2 Contents
-            objCount++; // 7
-            objectOffsets.Add(currentOffset);
-            WriteString($"7 0 obj\n<< /Length {p2StreamBytes.Length} >>\nstream\n");
-            ms.Write(p2StreamBytes, 0, p2StreamBytes.Length);
-            currentOffset += p2StreamBytes.Length;
-            WriteString("\nendstream\nendobj\n");
+            // Page Object
+            objectOffsets.Add(ms.Position);
+            WriteAscii($"{pageObjNum} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [ 0 0 612 792 ] /Contents {contentObjNum} 0 R /Resources << /Font << /F1 {fontF1Obj} 0 R /F2 {fontF2Obj} 0 R >> >> >>\nendobj\n");
+
+            // Content Stream Object
+            objectOffsets.Add(ms.Position);
+            WriteAscii($"{contentObjNum} 0 obj\n<< /Length {streamBytes.Length} >>\nstream\n");
+            ms.Write(streamBytes, 0, streamBytes.Length);
+            WriteAscii("\nendstream\nendobj\n");
         }
 
         // Font F1 (Helvetica - Clean Body)
-        objCount++; // fontF1Obj
-        objectOffsets.Add(currentOffset);
-        WriteString($"{fontF1Obj} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n");
+        objectOffsets.Add(ms.Position);
+        WriteAscii($"{fontF1Obj} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n");
 
         // Font F2 (Times-BoldItalic - Signatures and Stamps)
-        objCount++; // fontF2Obj
-        objectOffsets.Add(currentOffset);
-        WriteString($"{fontF2Obj} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Times-BoldItalic >>\nendobj\n");
+        objectOffsets.Add(ms.Position);
+        WriteAscii($"{fontF2Obj} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Times-BoldItalic >>\nendobj\n");
 
         // Cross-reference table
-        long xrefOffset = currentOffset;
+        long xrefOffset = ms.Position;
         int totalObjs = objectOffsets.Count;
-        WriteString($"xref\n0 {totalObjs + 1}\n0000000000 65535 f \n");
+        WriteAscii($"xref\n0 {totalObjs + 1}\n0000000000 65535 f \n");
         for (int i = 0; i < totalObjs; i++)
         {
-            WriteString($"{objectOffsets[i]:D10} 00000 n \n");
+            WriteAscii($"{objectOffsets[i]:D10} 00000 n \n");
         }
 
         // Trailer
-        WriteString($"trailer\n<< /Size {totalObjs + 1} /Root 1 0 R >>\nstartxref\n{xrefOffset}\n%%EOF\n");
+        WriteAscii($"trailer\n<< /Size {totalObjs + 1} /Root 1 0 R >>\nstartxref\n{xrefOffset}\n%%EOF\n");
 
         return ms.ToArray();
     }

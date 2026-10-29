@@ -57,6 +57,16 @@ public class MicrE13BData
     public double Confidence { get; set; } = 0.99;
     public string? RawTesseractOutput { get; set; }
 
+    public string BaseAccountNumber => AccountNumber.Contains('-') 
+        ? AccountNumber.Split('-')[0] 
+        : (AccountNumber.Contains('⑉') ? AccountNumber.Split('⑉')[0] : AccountNumber);
+
+    public string? ShareOrSubAccount => AccountNumber.Contains('-') && AccountNumber.Split('-').Length > 1 
+        ? AccountNumber.Split('-')[1] 
+        : (AccountNumber.Contains('⑉') && AccountNumber.Split('⑉').Length > 1 ? AccountNumber.Split('⑉')[1] : null);
+
+    public bool HasSubAccountSuffix => !string.IsNullOrEmpty(ShareOrSubAccount);
+
     /// <summary>
     /// Computes ABA 9-digit Routing Transit Number checksum:
     /// (3*(d1 + d4 + d7) + 7*(d2 + d5 + d8) + 1*(d3 + d6 + d9)) % 10 == 0

@@ -181,13 +181,15 @@ window.TesseractOcrBridge = {
             ctx.lineWidth = 1;
             ctx.strokeRect(20, 440, canvas.width - 40, 75);
 
-            // Convert E-13B unicode symbols to standard ASCII transit delimiters (A/C/B/D)
+            // Convert E-13B unicode symbols to standard ASCII transit delimiters (A/C/B/D) with spacing
             // so canvas standard monospace fonts render legible glyphs for Tesseract OCR
-            const printableMicr = (micrLine || 'A121000358A 0123456789C 1001')
-                .replace(/⑆/g, 'A')
-                .replace(/⑈/g, 'C')
-                .replace(/⑇/g, 'B')
-                .replace(/⑉/g, 'D');
+            const printableMicr = (micrLine || 'A 121000358 A 0123456789 C 1001')
+                .replace(/⑆/g, ' A ')
+                .replace(/⑈/g, ' C ')
+                .replace(/⑇/g, ' B ')
+                .replace(/⑉/g, ' - ')
+                .replace(/\s+/g, ' ')
+                .trim();
 
             ctx.font = 'bold 28px monospace';
             ctx.fillStyle = '#0f172a';

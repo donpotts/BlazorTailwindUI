@@ -133,12 +133,12 @@ public class OcrEngineService
         // === Top Digital Banks & Leading Fintechs ===
         new() { RoutingNumber = "124003116", BankName = "Ally Bank", City = "Midvale", State = "UT", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Digital Bank" },
         new() { RoutingNumber = "031101114", BankName = "The Bancorp Bank (Chime / PayPal / Venmo)", City = "Wilmington", State = "DE", District = "03 - Philadelphia", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
-        new() { RoutingNumber = "103112999", BankName = "Stride Bank, N.A. (Chime / DoorDash)", City = "Enid", State = "OK", District = "10 - Kansas City", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
+        new() { RoutingNumber = "103112992", BankName = "Stride Bank, N.A. (Chime / DoorDash)", City = "Enid", State = "OK", District = "10 - Kansas City", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
         new() { RoutingNumber = "121145349", BankName = "SoFi Bank, N.A.", City = "Cottonwood Heights", State = "UT", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Digital Bank" },
         new() { RoutingNumber = "041202582", BankName = "Sutton Bank (Cash App / Robinhood)", City = "Attica", State = "OH", District = "04 - Cleveland", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
         new() { RoutingNumber = "073902766", BankName = "Lincoln Savings Bank (Cash App / Acorns)", City = "Reinbeck", State = "IA", District = "07 - Chicago", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
         new() { RoutingNumber = "091311229", BankName = "Choice Financial Group (Current / Mercury)", City = "Fargo", State = "ND", District = "09 - Minneapolis", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
-        new() { RoutingNumber = "084106764", BankName = "Evolve Bank & Trust (Mercury / Affirm)", City = "West Memphis", State = "AR", District = "08 - St. Louis", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
+        new() { RoutingNumber = "084106768", BankName = "Evolve Bank & Trust (Mercury / Affirm)", City = "West Memphis", State = "AR", District = "08 - St. Louis", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
         new() { RoutingNumber = "026073150", BankName = "Community Federal Savings Bank (Wise)", City = "Woodhaven", State = "NY", District = "02 - New York", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
         new() { RoutingNumber = "026013628", BankName = "Metropolitan Commercial Bank (Revolut)", City = "New York", State = "NY", District = "02 - New York", OfficeType = "Main Office", InstitutionCategory = "Fintech Partner Bank" },
         new() { RoutingNumber = "031101169", BankName = "Discover Bank", City = "Greenwood", State = "DE", District = "03 - Philadelphia", OfficeType = "Main Office", InstitutionCategory = "Digital Bank" },
@@ -147,15 +147,15 @@ public class OcrEngineService
         // === Major Credit Unions (NACHA Thrift Routing 21-32) ===
         new() { RoutingNumber = "256074974", BankName = "Navy Federal Credit Union", City = "Vienna", State = "VA", District = "05 - Richmond", OfficeType = "Main Office", InstitutionCategory = "Federal Credit Union" },
         new() { RoutingNumber = "256078420", BankName = "Navy Federal Credit Union (Secondary)", City = "Merrifield", State = "VA", District = "05 - Richmond", OfficeType = "Processing Office", InstitutionCategory = "Federal Credit Union" },
-        new() { RoutingNumber = "253177002", BankName = "State Employees' Credit Union", City = "Raleigh", State = "NC", District = "05 - Richmond", OfficeType = "Main Office", InstitutionCategory = "State Credit Union" },
+        new() { RoutingNumber = "253177007", BankName = "State Employees' Credit Union", City = "Raleigh", State = "NC", District = "05 - Richmond", OfficeType = "Main Office", InstitutionCategory = "State Credit Union" },
         new() { RoutingNumber = "256078022", BankName = "Pentagon Federal Credit Union (PenFed)", City = "McLean", State = "VA", District = "05 - Richmond", OfficeType = "Main Office", InstitutionCategory = "Federal Credit Union" },
-        new() { RoutingNumber = "325081404", BankName = "Boeing Employees Credit Union (BECU)", City = "Tukwila", State = "WA", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Federal Credit Union" },
+        new() { RoutingNumber = "325081403", BankName = "Boeing Employees Credit Union (BECU)", City = "Tukwila", State = "WA", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Federal Credit Union" },
         new() { RoutingNumber = "322271627", BankName = "SchoolsFirst Federal Credit Union", City = "Santa Ana", State = "CA", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Federal Credit Union" },
         new() { RoutingNumber = "321175656", BankName = "Golden 1 Credit Union", City = "Sacramento", State = "CA", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "State Credit Union" },
         new() { RoutingNumber = "324377516", BankName = "America First Federal Credit Union", City = "Riverdale", State = "UT", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Federal Credit Union" },
         new() { RoutingNumber = "271081528", BankName = "Alliant Credit Union", City = "Chicago", State = "IL", District = "07 - Chicago", OfficeType = "Main Office", InstitutionCategory = "Federal Credit Union" },
         new() { RoutingNumber = "314074269", BankName = "USAA Federal Savings Bank", City = "San Antonio", State = "TX", District = "11 - Dallas", OfficeType = "Main Office", InstitutionCategory = "Federal Savings Bank" },
-        new() { RoutingNumber = "114000719", BankName = "USAA Federal Savings Bank (ACH)", City = "San Antonio", State = "TX", District = "11 - Dallas", OfficeType = "ACH Center", InstitutionCategory = "Federal Savings Bank" },
+        new() { RoutingNumber = "114000718", BankName = "USAA Federal Savings Bank (ACH)", City = "San Antonio", State = "TX", District = "11 - Dallas", OfficeType = "ACH Center", InstitutionCategory = "Federal Savings Bank" },
 
         // === Major Regional Commercial Banks ===
         new() { RoutingNumber = "044000024", BankName = "The Huntington National Bank", City = "Columbus", State = "OH", District = "04 - Cleveland", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
@@ -167,11 +167,11 @@ public class OcrEngineService
         new() { RoutingNumber = "072000096", BankName = "Comerica Bank", City = "Detroit", State = "MI", District = "07 - Chicago", OfficeType = "Regional Center", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "111000753", BankName = "Comerica Bank", City = "Dallas", State = "TX", District = "11 - Dallas", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "124000054", BankName = "Zions Bancorporation, N.A.", City = "Salt Lake City", State = "UT", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
-        new() { RoutingNumber = "114000094", BankName = "Frost Bank (Cullen/Frost Bankers)", City = "San Antonio", State = "TX", District = "11 - Dallas", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
+        new() { RoutingNumber = "114000093", BankName = "Frost Bank (Cullen/Frost Bankers)", City = "San Antonio", State = "TX", District = "11 - Dallas", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "053100300", BankName = "First-Citizens Bank & Trust Company", City = "Raleigh", State = "NC", District = "05 - Richmond", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "121042882", BankName = "Silicon Valley Bank (Div First Citizens)", City = "Santa Clara", State = "CA", District = "12 - San Francisco", OfficeType = "Commercial Branch", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "122105155", BankName = "Western Alliance Bank", City = "Phoenix", State = "AZ", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
-        new() { RoutingNumber = "122238435", BankName = "East West Bank", City = "Pasadena", State = "CA", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
+        new() { RoutingNumber = "122238433", BankName = "East West Bank", City = "Pasadena", State = "CA", District = "12 - San Francisco", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "061100606", BankName = "Synovus Bank", City = "Columbus", State = "GA", District = "06 - Atlanta", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "084000026", BankName = "First Horizon Bank", City = "Memphis", State = "TN", District = "08 - St. Louis", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
         new() { RoutingNumber = "011101752", BankName = "Webster Bank, N.A.", City = "Waterbury", State = "CT", District = "01 - Boston", OfficeType = "Main Office", InstitutionCategory = "Commercial Bank" },
@@ -348,12 +348,13 @@ public class OcrEngineService
             result.NachaRecordFound = DirectoryLookup.ContainsKey(result.TransitRoutingNumber);
         }
 
-        // Remainder extraction for account and check numbers
+        // Remainder extraction for account and check numbers (supporting credit union dash suffixes like NFCU -001)
         string rest = t2 >= 0 ? normalized[(t2 + 1)..].Trim() : normalized;
         int onUs = rest.IndexOf('⑈');
         if (onUs >= 0)
         {
-            result.AccountNumber = rest[..onUs].Trim();
+            string rawAcct = rest[..onUs].Trim();
+            result.AccountNumber = rawAcct.Replace('⑉', '-');
             string after = rest[(onUs + 1)..].Trim();
             var tokens = after.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (tokens.Length > 0) result.CheckNumber = tokens[0].Trim();
@@ -362,9 +363,9 @@ public class OcrEngineService
         {
             var tokens = rest.Split(new[] { ' ', '⑈', '⑆' }, StringSplitOptions.RemoveEmptyEntries);
             if (tokens.Length > 0 && tokens[0] != result.TransitRoutingNumber)
-                result.AccountNumber = tokens[0];
+                result.AccountNumber = tokens[0].Replace('⑉', '-');
             else if (tokens.Length > 1)
-                result.AccountNumber = tokens[1];
+                result.AccountNumber = tokens[1].Replace('⑉', '-');
 
             if (tokens.Length > 2)
                 result.CheckNumber = tokens[2];
@@ -378,7 +379,8 @@ public class OcrEngineService
     /// </summary>
     public static string BuildMicrLine(string routing, string account, string checkNum)
     {
-        return $"⑆{routing.Trim()}⑆ {account.Trim()}⑈ {checkNum.Trim()}";
+        string acctMicr = account.Trim().Replace("-", "⑉");
+        return $"⑆{routing.Trim()}⑆ {acctMicr}⑈ {checkNum.Trim()}";
     }
 
     #endregion
@@ -491,16 +493,16 @@ public class OcrEngineService
             MicrData = micrData,
             BoundingBoxes = new()
             {
-                new OcrBoundingBox { Id = "payer", Label = "Drawer / Account", Value = payerName, LeftPercent = 6, TopPercent = 8, WidthPercent = 42, HeightPercent = 14, AccentColor = "blue" },
-                new OcrBoundingBox { Id = "chknum", Label = "Check #", Value = checkNumber, LeftPercent = 82, TopPercent = 8, WidthPercent = 12, HeightPercent = 10, AccentColor = "indigo" },
-                new OcrBoundingBox { Id = "date", Label = "Issue Date", Value = date, LeftPercent = 65, TopPercent = 22, WidthPercent = 28, HeightPercent = 10, AccentColor = "purple" },
-                new OcrBoundingBox { Id = "payee", Label = "Payee", Value = payee, LeftPercent = 15, TopPercent = 36, WidthPercent = 52, HeightPercent = 12, AccentColor = "emerald" },
-                new OcrBoundingBox { Id = "courtesy", Label = "Courtesy Amount", Value = $"${amount:N2}", LeftPercent = 74, TopPercent = 36, WidthPercent = 20, HeightPercent = 12, AccentColor = "amber" },
-                new OcrBoundingBox { Id = "legal", Label = "Legal Amount Words", Value = legalWords, LeftPercent = 6, TopPercent = 52, WidthPercent = 88, HeightPercent = 12, AccentColor = "emerald" },
-                new OcrBoundingBox { Id = "bank", Label = "Drawee Bank", Value = micrData.BankName, LeftPercent = 6, TopPercent = 64, WidthPercent = 45, HeightPercent = 9, AccentColor = "teal" },
-                new OcrBoundingBox { Id = "memo", Label = "Memo", Value = memo, LeftPercent = 10, TopPercent = 73, WidthPercent = 36, HeightPercent = 9, AccentColor = "slate" },
-                new OcrBoundingBox { Id = "sig", Label = "Signature", Value = "Verified Signer Ink", LeftPercent = 60, TopPercent = 68, WidthPercent = 34, HeightPercent = 14, AccentColor = "teal" },
-                new OcrBoundingBox { Id = "micr", Label = "MICR E-13B Clear Band", Value = rawMicr, LeftPercent = 6, TopPercent = 86, WidthPercent = 88, HeightPercent = 11, AccentColor = micrData.IsValidRoutingChecksum ? "cyan" : "rose" }
+                new OcrBoundingBox { Id = "payer", Label = "Drawer / Account", Value = payerName, LeftPercent = 4, TopPercent = 5, WidthPercent = 52, HeightPercent = 14, AccentColor = "blue" },
+                new OcrBoundingBox { Id = "chknum", Label = "Check #", Value = checkNumber, LeftPercent = 68, TopPercent = 5, WidthPercent = 28, HeightPercent = 6, AccentColor = "indigo" },
+                new OcrBoundingBox { Id = "date", Label = "Issue Date", Value = date, LeftPercent = 64, TopPercent = 11, WidthPercent = 32, HeightPercent = 6, AccentColor = "purple" },
+                new OcrBoundingBox { Id = "payee", Label = "Payee", Value = payee, LeftPercent = 4, TopPercent = 22, WidthPercent = 65, HeightPercent = 11, AccentColor = "emerald" },
+                new OcrBoundingBox { Id = "courtesy", Label = "Courtesy Amount", Value = $"${amount:N2}", LeftPercent = 71, TopPercent = 21, WidthPercent = 26, HeightPercent = 12, AccentColor = "amber" },
+                new OcrBoundingBox { Id = "legal", Label = "Legal Amount Words", Value = legalWords, LeftPercent = 4, TopPercent = 35, WidthPercent = 92, HeightPercent = 8, AccentColor = "emerald" },
+                new OcrBoundingBox { Id = "bank", Label = "Drawee Bank", Value = micrData.BankName, LeftPercent = 4, TopPercent = 45, WidthPercent = 60, HeightPercent = 7, AccentColor = "teal" },
+                new OcrBoundingBox { Id = "memo", Label = "Memo", Value = memo, LeftPercent = 4, TopPercent = 54, WidthPercent = 48, HeightPercent = 13, AccentColor = "slate" },
+                new OcrBoundingBox { Id = "sig", Label = "Signature", Value = "Verified Signer Ink", LeftPercent = 56, TopPercent = 53, WidthPercent = 40, HeightPercent = 15, AccentColor = "teal" },
+                new OcrBoundingBox { Id = "micr", Label = "MICR E-13B Clear Band", Value = rawMicr, LeftPercent = 1, TopPercent = 75, WidthPercent = 98, HeightPercent = 24, AccentColor = micrData.IsValidRoutingChecksum ? "cyan" : "rose" }
             }
         };
     }
@@ -514,6 +516,18 @@ public class OcrEngineService
 
         return presetId switch
         {
+            "check-nfcu-9412" => CreateCustomCheck(
+                routingNumber: "256074974", // Navy Federal Credit Union
+                accountNumber: "84729103-001", // NFCU 8-digit member number + 3-digit checking share suffix
+                checkNumber: "9412",
+                amount: 3250.00m,
+                payee: "USAA Auto Insurance Corp.",
+                payerName: "Chief Petty Officer Marcus Vance",
+                payerAddress: "820 Fentress Blvd, Norfolk, VA 23511",
+                memo: "NFCU Share Draft - Auto Policy Premium",
+                date: "October 29, 2026"
+            ),
+
             "check-vendor-8812" => CreateCustomCheck(
                 routingNumber: "021000021",
                 accountNumber: "9876543210",
@@ -631,13 +645,53 @@ public class OcrEngineService
                     check.OverallConfidence = ocrResult.Confidence / 100.0;
                     check.MicrData.RawTesseractOutput = ocrResult.Text;
 
-                    // Parse any 9-digit routing numbers detected by Tesseract OCR (with OCR char normalization)
-                    var routingMatch = Regex.Match(ocrResult.Text, @"[A⑆]?([0-9Oo]{9})[A⑆]?");
-                    if (routingMatch.Success)
+                    // Robust Check 21 RTN extraction from OCR text
+                    string? bestRtn = null;
+                    bool bestValid = false;
+
+                    // 1. Look for Transit Delimited format: A 026073150 A (or A026073150A)
+                    var delimMatches = Regex.Matches(ocrResult.Text, @"[A⑆T|]\s*([0-9OoIl]{9})\s*[A⑆T|]");
+                    foreach (Match m in delimMatches)
                     {
-                        string detectedRtn = routingMatch.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
-                        var (isValid, mod, expected, bankName, district, instType, fix) = ValidateAbaRouting(detectedRtn);
-                        check.MicrData.TransitRoutingNumber = detectedRtn;
+                        string candidate = m.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
+                        var (valid, _, _, _, _, _, _) = ValidateAbaRouting(candidate);
+                        if (valid)
+                        {
+                            bestRtn = candidate;
+                            bestValid = true;
+                            break;
+                        }
+                        bestRtn ??= candidate;
+                    }
+
+                    // 2. Standalone 9-digit word boundaries (\b[0-9OoIl]{9}\b) - avoids slicing 10+ digit account numbers!
+                    if (!bestValid)
+                    {
+                        var wordMatches = Regex.Matches(ocrResult.Text, @"\b([0-9OoIl]{9})\b");
+                        foreach (Match m in wordMatches)
+                        {
+                            string candidate = m.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
+                            var (valid, _, _, _, _, _, _) = ValidateAbaRouting(candidate);
+                            if (valid)
+                            {
+                                bestRtn = candidate;
+                                bestValid = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // 3. Fallback: if check already has a valid routing number, preserve it!
+                    if (!bestValid && !string.IsNullOrEmpty(check.MicrData.TransitRoutingNumber) && check.MicrData.IsValidRoutingChecksum)
+                    {
+                        bestRtn = check.MicrData.TransitRoutingNumber;
+                        bestValid = true;
+                    }
+
+                    if (!string.IsNullOrEmpty(bestRtn))
+                    {
+                        var (isValid, mod, expected, bankName, district, instType, fix) = ValidateAbaRouting(bestRtn);
+                        check.MicrData.TransitRoutingNumber = bestRtn;
                         check.MicrData.IsValidRoutingChecksum = isValid;
                         check.MicrData.Mod10ChecksumValue = mod;
                         check.MicrData.BankName = bankName;
@@ -664,7 +718,18 @@ public class OcrEngineService
     {
         var rng = new Random();
         var randomBank = NachaDirectory[rng.Next(NachaDirectory.Count)];
-        long randomAcct = rng.NextInt64(1000000000L, 9999999999L);
+        string randomAcctStr;
+        if (randomBank.InstitutionCategory.Contains("Credit Union") || randomBank.BankName.Contains("Federal") || rng.Next(3) == 0)
+        {
+            // Credit Union share draft (e.g. Navy Federal NFCU): 8-digit member number + 3-digit share suffix (001 Checking, 002 Savings)
+            long memberNum = rng.NextInt64(10000000L, 99999999L);
+            string shareSuffix = rng.Next(2) == 0 ? "001" : "002";
+            randomAcctStr = $"{memberNum}-{shareSuffix}";
+        }
+        else
+        {
+            randomAcctStr = rng.NextInt64(1000000000L, 9999999999L).ToString();
+        }
         int randomCheckNum = rng.Next(1000, 9999);
         decimal randomAmount = Math.Round((decimal)(rng.NextDouble() * 50000 + 100), 2);
 
@@ -683,7 +748,7 @@ public class OcrEngineService
 
         return CreateCustomCheck(
             routingNumber: randomBank.RoutingNumber,
-            accountNumber: randomAcct.ToString(),
+            accountNumber: randomAcctStr,
             checkNumber: randomCheckNum.ToString(),
             amount: randomAmount,
             payee: randomPayee,
@@ -711,13 +776,44 @@ public class OcrEngineService
         {
             check.MicrData.RawTesseractOutput = ocrResult.Text;
 
-            // Find 9-digit routing number (with OCR char normalization)
-            var match = Regex.Match(ocrResult.Text, @"[A⑆]?([0-9Oo]{9})[A⑆]?");
-            if (match.Success)
+            // Robust Check 21 RTN extraction from OCR text
+            string? detectedRtn = null;
+            bool isValidRtn = false;
+
+            var delimMatches = Regex.Matches(ocrResult.Text, @"[A⑆T|]\s*([0-9OoIl]{9})\s*[A⑆T|]");
+            foreach (Match m in delimMatches)
             {
-                string rtn = match.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
-                var (isValid, mod, expected, bankName, district, instType, fix) = ValidateAbaRouting(rtn);
-                check.MicrData.TransitRoutingNumber = rtn;
+                string candidate = m.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
+                var (valid, _, _, _, _, _, _) = ValidateAbaRouting(candidate);
+                if (valid)
+                {
+                    detectedRtn = candidate;
+                    isValidRtn = true;
+                    break;
+                }
+                detectedRtn ??= candidate;
+            }
+
+            if (!isValidRtn)
+            {
+                var wordMatches = Regex.Matches(ocrResult.Text, @"\b([0-9OoIl]{9})\b");
+                foreach (Match m in wordMatches)
+                {
+                    string candidate = m.Groups[1].Value.Replace('O', '0').Replace('o', '0').Replace('I', '1').Replace('l', '1');
+                    var (valid, _, _, _, _, _, _) = ValidateAbaRouting(candidate);
+                    if (valid)
+                    {
+                        detectedRtn = candidate;
+                        isValidRtn = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(detectedRtn))
+            {
+                var (isValid, mod, expected, bankName, district, instType, fix) = ValidateAbaRouting(detectedRtn);
+                check.MicrData.TransitRoutingNumber = detectedRtn;
                 check.MicrData.IsValidRoutingChecksum = isValid;
                 check.MicrData.Mod10ChecksumValue = mod;
                 check.MicrData.BankName = bankName;

@@ -56,6 +56,7 @@
                 <select @onchange="OnPresetChanged"
                         class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/30">
                     <option value="check-payroll-1042">Sample: Payroll Check #1042 ($14,850.00)</option>
+                    <option value="check-nfcu-9412">Sample: Navy Federal (NFCU) Share Draft #9412 ($3,250.00) [Dash Sub-Account]</option>
                     <option value="check-vendor-8812">Sample: Vendor Hardware Check #8812 ($8,420.50)</option>
                     <option value="check-draft-5021">Sample: Cashier's Trust Draft #5021 ($250,000.00)</option>
                     <option value="check-invalid-9901">Sample: Invalid Routing Test #9901 (Checksum Warning)</option>
@@ -456,11 +457,27 @@
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
                         <div>
                             <span class="font-bold text-slate-500 uppercase text-[10px] block">On-Us Customer Account Number</span>
-                            <span class="font-mono font-bold text-sm text-slate-900 dark:text-white">@(_check?.MicrData.AccountNumber)</span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono font-bold text-sm text-slate-900 dark:text-white">@(_check?.MicrData.AccountNumber)</span>
+                                @if (_check?.MicrData.HasSubAccountSuffix == true)
+                                {
+                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 font-bold" title="Credit Union Share / Sub-Account ID">
+                                        Share: @(_check?.MicrData.ShareOrSubAccount)
+                                    </span>
+                                }
+                            </div>
                         </div>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-bold">
-                            On-Us Symbol ⑈
-                        </span>
+                        <div class="flex items-center gap-1.5">
+                            @if (_check?.MicrData.HasSubAccountSuffix == true)
+                            {
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 font-semibold border border-indigo-200 dark:border-indigo-800" title="ANSI X9.27 Dash Symbol ⑉">
+                                    Dash ⑉
+                                </span>
+                            }
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-bold">
+                                On-Us Symbol ⑈
+                            </span>
+                        </div>
                     </div>
 
                     <!-- 3. Check Number Matching -->
