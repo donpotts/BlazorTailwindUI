@@ -2447,6 +2447,17 @@ public class ComponentCatalogService
         },
         new ComponentDocItem
         {
+            Name = "TwAspireHub",
+            Category = "Fullstack .NET 11",
+            Description = ".NET Aspire 11 cloud-native orchestration cockpit with live microservice topology inspector, real-time port health probing, environment variable explorer, structured logs stream, and instant 1-click downloads for executable Program.cs AppHost and docker-compose.yml specifications.",
+            RazorSnippet = "<TwAspireHub />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Optional CSS utility classes.")
+            }
+        },
+        new ComponentDocItem
+        {
             Name = "TwMaskInput",
             Category = "Forms & Controls",
             Description = "High-performance masked text input with slot validation, prompt guides, and Raw vs WithFormatting modes for Phone, SSN, Credit Card, and custom masks.",

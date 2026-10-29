@@ -24,7 +24,7 @@ This document outlines the strategic architecture, component specifications, and
 | **14. Native Zstandard Ultra-Fast Compression** | `TwZstandardService`, `ZstandardBenchmarkResult` | Shipped (v1.4.0) ✅ | High-Throughput Data & Transport |
 | **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwPostQuantumService` | Shipped (v1.4.0) ✅ | Zero-Trust & Post-Quantum Security |
 | **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Shipped (v1.5.0) ✅ | Observability & Performance HUD |
-| **17. .NET Aspire 11 Live App Host Orchestration** | `Aspire.Hosting.BlazorTailwindUI` | Planned (v1.5.0) 🌐 | Cloud-Native & Developer Velocity |
+| **17. .NET Aspire 11 Live App Host Orchestration** | `TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI` | Shipped (v1.5.1) ✅ | Cloud-Native & Developer Velocity |
 | **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSimdVectorService` | Shipped (v1.5.1) ✅ | Runtime Performance & Vector SIMD |
 | **19. Enterprise Form & Workspace Suite** | `TwMaskInput`, `TwRangeSlider`, `TwHighlight`, `TwTileManager`, `TwNavDrawer` | Shipped (v1.3.1) ✅ | Enterprise UX & Dashboards |
 
@@ -399,7 +399,7 @@ Integrate first-class **OpenTelemetry (OTel)** metrics, activity tracing (`Activ
 
 ---
 
-## 17. 🌐 .NET Aspire 11 Live App Host Orchestration (`Aspire.Hosting.BlazorTailwindUI`)
+## 17. 🌐 .NET Aspire 11 Live App Host Orchestration (`TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI`) — Shipped (v1.5.1) ✅
 
 ### Objective
 Integrate Blazor Tailwind UI natively into the **.NET Aspire 11** cloud-native ecosystem with seamless `dotnet watch` live hot-reload across distributed multi-project solutions.

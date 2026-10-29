@@ -3725,3 +3725,23 @@ Hardware-accelerated WebAssembly SIMD and .NET Runtime Intrinsics (`Vector128<fl
 ```
 
 ---
+
+### `TwAspireHub`
+
+**Location:** [`Components/UI/TwAspireHub.razor`](../Components/UI/TwAspireHub.razor)
+
+.NET Aspire 11 cloud-native orchestration cockpit providing a real-time topology dashboard, active port health probing (e.g. against WebAssembly local dev server :5128), microservice environment variable inspection, structured log streaming, and instant 1-click downloads for production-ready `Program.cs` Aspire AppHost and `docker-compose.yml` multi-container deployment stacks.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Optional CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwAspireHub />
+```
+
+---
