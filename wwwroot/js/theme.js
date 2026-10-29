@@ -1553,3 +1553,24 @@ window.clipboardHelper = {
         }
     }
 };
+
+
+window.svgExporter = {
+    exportSvgElement: function (svgEl, filename) {
+        if (!svgEl) return false;
+        try {
+            const clone = svgEl.cloneNode(true);
+            if (!clone.getAttribute('xmlns')) {
+                clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+            }
+            let svgString = clone.outerHTML;
+            if (!svgString.startsWith('<?xml')) {
+                svgString = '<?xml version="1.0" encoding="UTF-8"?>\n' + svgString;
+            }
+            return window.pdfHelper.downloadText(filename || 'word-balloon.svg', 'image/svg+xml', svgString);
+        } catch (e) {
+            console.error('Failed to export SVG element:', e);
+            return false;
+        }
+    }
+};
