@@ -68,6 +68,17 @@ public class MicrE13BData
     public bool HasSubAccountSuffix => !string.IsNullOrEmpty(ShareOrSubAccount);
 
     /// <summary>
+    /// Gets pure numeric digits-only account representation with any credit union dashes removed (for NACHA ACH / FedACH compatibility)
+    /// </summary>
+    public string CleanNumericAccountNumber => AccountNumber.Replace("-", "").Replace("⑉", "").Replace(" ", "").Trim();
+
+    /// <summary>
+    /// Formats account number according to banking clearing rule (either preserving dash format or stripping for ACH)
+    /// </summary>
+    public string GetFormattedAccountNumber(bool removeDash = false) =>
+        removeDash ? CleanNumericAccountNumber : AccountNumber;
+
+    /// <summary>
     /// Computes ABA 9-digit Routing Transit Number checksum:
     /// (3*(d1 + d4 + d7) + 7*(d2 + d5 + d8) + 1*(d3 + d6 + d9)) % 10 == 0
     /// </summary>
@@ -239,4 +250,85 @@ public class TesseractBoundingBox
 
     [JsonPropertyName("y1")]
     public double Y1 { get; set; }
+}
+/// <summary>
+/// Parsed Entry Detail (Record 6) from a NACHA ACH file.
+/// </summary>
+public class NachaEntryDetail
+{
+    public int LineNumber { get; set; }
+    public string TransactionCode { get; set; } = string.Empty;
+    public string TransactionType { get; set; } = "Credit";
+    public string ReceivingRoutingNumber { get; set; } = string.Empty;
+    public string ReceivingRouting8 { get; set; } = string.Empty;
+    public char CheckDigit { get; set; }
+    public string AccountNumber { get; set; } = string.Empty;
+    public decimal Amount { get; set; }
+    public long AmountCents { get; set; }
+    public string IndividualIdOrCheckNum { get; set; } = string.Empty;
+    public string ReceivingName { get; set; } = string.Empty;
+    public string TraceNumber { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Complete NACHA file reverse check and aggregates audit result.
+/// Cross-validates calculated line sums against Record 8 (Batch Control) and Record 9 (File Control).
+/// </summary>
+public class NachaAggregatesValidationResult
+{
+    public bool IsValid { get; set; }
+    public List<string> ValidationMessages { get; set; } = new();
+    public List<string> Errors { get; set; } = new();
+
+    // Record / Line counts
+    public int TotalLines { get; set; }
+    public int FileHeaderCount { get; set; }
+    public int BatchHeaderCount { get; set; }
+    public int EntryDetailCount { get; set; }
+    public int BatchControlCount { get; set; }
+    public int FileControlCount { get; set; }
+    public int BlockFillCount { get; set; }
+
+    // Aggregate Checks
+    // 1. Entry / Addenda Count
+    public long CalculatedEntryCount { get; set; }
+    public long BatchRecordedEntryCount { get; set; }
+    public long FileRecordedEntryCount { get; set; }
+    public bool EntryCountMatches => CalculatedEntryCount == BatchRecordedEntryCount && CalculatedEntryCount == FileRecordedEntryCount;
+
+    // 2. Entry Hash (sum of 8-digit DFIs mod 10^10)
+    public long CalculatedEntryHash { get; set; }
+    public long BatchRecordedEntryHash { get; set; }
+    public long FileRecordedEntryHash { get; set; }
+    public bool EntryHashMatches => CalculatedEntryHash == BatchRecordedEntryHash && CalculatedEntryHash == FileRecordedEntryHash;
+
+    // 3. Debit Aggregate
+    public decimal CalculatedDebitAmount { get; set; }
+    public decimal BatchRecordedDebitAmount { get; set; }
+    public decimal FileRecordedDebitAmount { get; set; }
+    public bool DebitAmountMatches => CalculatedDebitAmount == BatchRecordedDebitAmount && CalculatedDebitAmount == FileRecordedDebitAmount;
+
+    // 4. Credit Aggregate
+    public decimal CalculatedCreditAmount { get; set; }
+    public decimal BatchRecordedCreditAmount { get; set; }
+    public decimal FileRecordedCreditAmount { get; set; }
+    public bool CreditAmountMatches => CalculatedCreditAmount == BatchRecordedCreditAmount && CalculatedCreditAmount == FileRecordedCreditAmount;
+
+    // 5. Block Count (Blocking Factor = 10)
+    public int CalculatedBlockCount { get; set; }
+    public int FileRecordedBlockCount { get; set; }
+    public bool BlockCountMatches => CalculatedBlockCount == FileRecordedBlockCount;
+
+    // 6. Strict 94-Character Fixed Width Compliance
+    public bool Strict94CharCompliant { get; set; } = true;
+    public List<int> NonCompliantLineNumbers { get; set; } = new();
+
+    // Parsed Headers & Meta
+    public string ImmediateDestination { get; set; } = string.Empty;
+    public string ImmediateOrigin { get; set; } = string.Empty;
+    public string CompanyName { get; set; } = string.Empty;
+    public string CompanyId { get; set; } = string.Empty;
+    public string SecCode { get; set; } = string.Empty;
+    public string EntryDescription { get; set; } = string.Empty;
+    public List<NachaEntryDetail> Entries { get; set; } = new();
 }

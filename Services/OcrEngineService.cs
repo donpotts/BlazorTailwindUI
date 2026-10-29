@@ -868,7 +868,8 @@ public class OcrEngineService
         string receiverName,
         string checkNumber,
         string secCode = "PPD",
-        string entryDescription = "CHECK DEPOSIT")
+        string entryDescription = "CHECK DEPOSIT",
+        bool stripDashFromAccount = true)
     {
         var sb = new StringBuilder();
         var now = DateTime.Now;
@@ -956,7 +957,8 @@ public class OcrEngineService
         string recvPadded = receiverRouting.PadLeft(9, '0');
         string recvDfi8 = recvPadded[..8];
         char recvCheckDigit = recvPadded[8];
-        string recvAcctPadded = receiverAccount.PadRight(17)[..17];
+        string normalizedAcct = stripDashFromAccount ? receiverAccount.Replace("-", "").Replace("⑉", "").Trim() : receiverAccount.Trim();
+        string recvAcctPadded = normalizedAcct.PadRight(17)[..17];
         long amountCents = (long)Math.Round(amount * 100);
         string amount10 = amountCents.ToString().PadLeft(10, '0');
         string checkNum15 = checkNumber.PadRight(15)[..15];
@@ -1024,9 +1026,237 @@ public class OcrEngineService
           .Append(entryHash10)
           .Append(debit12)
           .Append(credit12)
-          .Append(new string(' ', 39));
+          .Append(new string(' ', 39))
+          .AppendLine();
+
+        // Standard NACHA Blocking Factor = 10 records per block.
+        // Records 1, 5, 6, 8, 9 make 5 records. Append 5 records of 94 '9's to complete 10-record block.
+        for (int i = 0; i < 5; i++)
+        {
+            sb.AppendLine(new string('9', 94));
+        }
 
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Performs a reverse audit and cross-validation of a NACHA ACH file.
+    /// Parses Record 1 (File Header), Record 5 (Batch Header), Record 6 (Entry Details),
+    /// Record 8 (Batch Control), and Record 9 (File Control & Block Fillers).
+    /// Recomputes from raw entries:
+    /// 1. Entry / Addenda Count
+    /// 2. Entry Hash (sum of 8-digit DFIs mod 10^10)
+    /// 3. Total Debit Amount
+    /// 4. Total Credit Amount
+    /// 5. Block Count (ceil(totalRecords / 10))
+    /// Validates all 5 aggregates against Record 8 and Record 9.
+    /// </summary>
+    public NachaAggregatesValidationResult ReverseCheckNachaFile(string nachaContent)
+    {
+        var result = new NachaAggregatesValidationResult();
+        if (string.IsNullOrWhiteSpace(nachaContent))
+        {
+            result.Errors.Add("NACHA file content is empty.");
+            return result;
+        }
+
+        var lines = nachaContent
+            .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+            .Where(l => !string.IsNullOrEmpty(l))
+            .ToArray();
+
+        result.TotalLines = lines.Length;
+
+        // 1. Validate fixed-width 94 character length per line
+        for (int i = 0; i < lines.Length; i++)
+        {
+            if (lines[i].Length != 94)
+            {
+                result.Strict94CharCompliant = false;
+                result.NonCompliantLineNumbers.Add(i + 1);
+            }
+        }
+
+        if (!result.Strict94CharCompliant)
+        {
+            result.Errors.Add($"Fixed-width validation failed: {result.NonCompliantLineNumbers.Count} line(s) deviate from standard 94-char width (lines: {string.Join(", ", result.NonCompliantLineNumbers.Take(5))}).");
+        }
+
+        // 2. Parse records in order
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string line = lines[i];
+            if (line.Length < 1) continue;
+
+            char recType = line[0];
+
+            switch (recType)
+            {
+                case '1': // File Header Record
+                    result.FileHeaderCount++;
+                    if (line.Length >= 40)
+                    {
+                        result.ImmediateDestination = line.Substring(3, 10).Trim();
+                        result.ImmediateOrigin = line.Substring(13, 10).Trim();
+                    }
+                    break;
+
+                case '5': // Batch Header Record
+                    result.BatchHeaderCount++;
+                    if (line.Length >= 63)
+                    {
+                        result.CompanyName = line.Substring(4, 16).Trim();
+                        result.CompanyId = line.Substring(40, 10).Trim();
+                        result.SecCode = line.Substring(50, 3).Trim();
+                        result.EntryDescription = line.Substring(53, 10).Trim();
+                    }
+                    break;
+
+                case '6': // Entry Detail Record
+                    result.EntryDetailCount++;
+                    result.CalculatedEntryCount++;
+
+                    if (line.Length >= 94)
+                    {
+                        string txCode = line.Substring(1, 2);
+                        string dfi8 = line.Substring(3, 8);
+                        char chkDigit = line[11];
+                        string acct = line.Substring(12, 17).Trim();
+                        string amtStr = line.Substring(29, 10);
+                        string indId = line.Substring(39, 15).Trim();
+                        string recvName = line.Substring(54, 22).Trim();
+                        string trace = line.Substring(79, 15).Trim();
+
+                        long cents = 0;
+                        if (long.TryParse(amtStr, out cents))
+                        {
+                            decimal amt = cents / 100m;
+                            bool isDebit = txCode is "27" or "28" or "37" or "38";
+                            if (isDebit)
+                            {
+                                result.CalculatedDebitAmount += amt;
+                            }
+                            else
+                            {
+                                result.CalculatedCreditAmount += amt;
+                            }
+
+                            if (long.TryParse(dfi8, out long dfiNum))
+                            {
+                                result.CalculatedEntryHash = (result.CalculatedEntryHash + dfiNum) % 10_000_000_000L;
+                            }
+
+                            result.Entries.Add(new NachaEntryDetail
+                            {
+                                LineNumber = i + 1,
+                                TransactionCode = txCode,
+                                TransactionType = isDebit ? "Debit" : "Credit",
+                                ReceivingRouting8 = dfi8,
+                                CheckDigit = chkDigit,
+                                ReceivingRoutingNumber = dfi8 + chkDigit,
+                                AccountNumber = acct,
+                                AmountCents = cents,
+                                Amount = amt,
+                                IndividualIdOrCheckNum = indId,
+                                ReceivingName = recvName,
+                                TraceNumber = trace
+                            });
+                        }
+                    }
+                    break;
+
+                case '8': // Batch Control Record
+                    result.BatchControlCount++;
+                    if (line.Length >= 44)
+                    {
+                        if (long.TryParse(line.Substring(4, 6), out long bCount))
+                            result.BatchRecordedEntryCount = bCount;
+                        if (long.TryParse(line.Substring(10, 10), out long bHash))
+                            result.BatchRecordedEntryHash = bHash;
+                        if (long.TryParse(line.Substring(20, 12), out long bDebitCents))
+                            result.BatchRecordedDebitAmount = bDebitCents / 100m;
+                        if (long.TryParse(line.Substring(32, 12), out long bCreditCents))
+                            result.BatchRecordedCreditAmount = bCreditCents / 100m;
+                    }
+                    break;
+
+                case '9': // File Control or Block-Fill Line
+                    if (line.All(c => c == '9'))
+                    {
+                        result.BlockFillCount++;
+                    }
+                    else
+                    {
+                        result.FileControlCount++;
+                        if (line.Length >= 55)
+                        {
+                            if (int.TryParse(line.Substring(7, 6), out int fBlockCount))
+                                result.FileRecordedBlockCount = fBlockCount;
+                            if (long.TryParse(line.Substring(13, 8), out long fEntryCount))
+                                result.FileRecordedEntryCount = fEntryCount;
+                            if (long.TryParse(line.Substring(21, 10), out long fHash))
+                                result.FileRecordedEntryHash = fHash;
+                            if (long.TryParse(line.Substring(31, 12), out long fDebitCents))
+                                result.FileRecordedDebitAmount = fDebitCents / 100m;
+                            if (long.TryParse(line.Substring(43, 12), out long fCreditCents))
+                                result.FileRecordedCreditAmount = fCreditCents / 100m;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        // 3. Blocking Factor Calculation (10 records per block)
+        result.CalculatedBlockCount = (int)Math.Ceiling(lines.Length / 10.0);
+
+        // 4. Cross-Verification of all 5 Aggregates
+        if (result.FileHeaderCount != 1)
+            result.Errors.Add($"Expected exactly 1 File Header Record (Record 1), found {result.FileHeaderCount}.");
+
+        if (result.BatchHeaderCount < 1)
+            result.Errors.Add("No Batch Header Record (Record 5) found.");
+
+        if (result.FileControlCount != 1)
+            result.Errors.Add($"Expected exactly 1 File Control Record (Record 9), found {result.FileControlCount}.");
+
+        // Aggregates matching
+        if (!result.EntryCountMatches)
+            result.Errors.Add($"Entry Count Mismatch: Calculated {result.CalculatedEntryCount}, Batch Record 8 has {result.BatchRecordedEntryCount}, File Record 9 has {result.FileRecordedEntryCount}.");
+        else
+            result.ValidationMessages.Add($"✓ Entry Count Balanced: {result.CalculatedEntryCount} entry detail record(s).");
+
+        if (!result.EntryHashMatches)
+            result.Errors.Add($"Entry Hash Mismatch: Calculated {result.CalculatedEntryHash:D10}, Batch Record 8 has {result.BatchRecordedEntryHash:D10}, File Record 9 has {result.FileRecordedEntryHash:D10}.");
+        else
+            result.ValidationMessages.Add($"✓ Entry Hash Balanced: {result.CalculatedEntryHash:D10} (modulo 10^10).");
+
+        if (!result.DebitAmountMatches)
+            result.Errors.Add($"Debit Total Mismatch: Calculated {result.CalculatedDebitAmount:C2}, Batch Record 8 has {result.BatchRecordedDebitAmount:C2}, File Record 9 has {result.FileRecordedDebitAmount:C2}.");
+        else
+            result.ValidationMessages.Add($"✓ Debit Aggregate Balanced: {result.CalculatedDebitAmount:C2}.");
+
+        if (!result.CreditAmountMatches)
+            result.Errors.Add($"Credit Total Mismatch: Calculated {result.CalculatedCreditAmount:C2}, Batch Record 8 has {result.BatchRecordedCreditAmount:C2}, File Record 9 has {result.FileRecordedCreditAmount:C2}.");
+        else
+            result.ValidationMessages.Add($"✓ Credit Aggregate Balanced: {result.CalculatedCreditAmount:C2}.");
+
+        if (!result.BlockCountMatches)
+            result.Errors.Add($"Block Count Mismatch: Calculated {result.CalculatedBlockCount} block(s) from {result.TotalLines} line(s), File Record 9 recorded {result.FileRecordedBlockCount}.");
+        else
+            result.ValidationMessages.Add($"✓ Block Count Balanced: {result.CalculatedBlockCount} block(s) ({result.TotalLines} lines, 10 records/block).");
+
+        if (result.Strict94CharCompliant)
+            result.ValidationMessages.Add("✓ Strict 94-Character Fixed Width Compliance: 100% valid.");
+
+        result.IsValid = result.Errors.Count == 0 &&
+                         result.EntryCountMatches &&
+                         result.EntryHashMatches &&
+                         result.DebitAmountMatches &&
+                         result.CreditAmountMatches &&
+                         result.BlockCountMatches &&
+                         result.Strict94CharCompliant;
+
+        return result;
     }
 
     #endregion
