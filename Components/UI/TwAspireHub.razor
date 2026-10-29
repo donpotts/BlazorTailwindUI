@@ -202,7 +202,7 @@
     private async Task CopyAppHostCodeAsync()
     {
         var code = AspireService.GenerateAppHostCode(_resources);
-        await JS.InvokeVoidAsync("navigator.clipboard.writeText", code);
+        try { await JS.InvokeAsync<bool>("clipboardHelper.copyText", code); } catch {}
         Toast.Show("AppHost Manifest Copied", "Ready to paste into Aspire AppHost Program.cs", SemanticVariant.Success);
     }
 }
