@@ -124,7 +124,7 @@
         <button type="button" 
                 @onclick='() => _activeTab = "docs"'
                 class="hidden xl:inline-flex px-2.5 py-1.5 rounded-xl border border-indigo-500/30 bg-indigo-50/60 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-xs font-bold transition items-center gap-1.5 focus:outline-none shadow-xs"
-                title="Browse Component Documentation & Settings (184 Components)">
+                title="@($"Browse Component Documentation & Settings ({ComponentCatalogService.TotalCount} Components)")">
             <span>📖</span>
             <span>Docs & Help</span>
         </button>
@@ -779,12 +779,32 @@
                             </div>
 
                             <!-- Interactive Image Compare Slider -->
-                            <TwCard Title="Interactive Visual Diff Slider (TwImageCompare)" Subtitle="Drag the handle or use Left/Right arrows to compare Light & Dark themes smoothly">
+                            <TwCard Title="Interactive Visual Diff Slider (TwImageCompare)" Subtitle="@CompareSubtitle">
                                 <div class="max-w-4xl mx-auto space-y-4">
-                                    <TwImageCompare BeforeSrc="images/compare-before.jpg"
-                                                    AfterSrc="images/compare-after.jpg"
-                                                    BeforeLabel="Default Light"
-                                                    AfterLabel="Pro Dark Slate"
+                                    <!-- Sample Mode Selector Pills -->
+                                    <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 w-fit">
+                                        <button type="button" @onclick='() => _compareMode = "theme"'
+                                                class="px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 @(_compareMode == "theme" ? "bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                            <span>🎨</span> Theme Diff
+                                        </button>
+                                        <button type="button" @onclick='() => _compareMode = "bgremove"'
+                                                class="px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 @(_compareMode == "bgremove" ? "bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                            <span>✂️</span> Background Removal
+                                        </button>
+                                        <button type="button" @onclick='() => _compareMode = "upscale"'
+                                                class="px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 @(_compareMode == "upscale" ? "bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                            <span>🔍</span> 4x Image Upscale
+                                        </button>
+                                        <button type="button" @onclick='() => _compareMode = "vector"'
+                                                class="px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 @(_compareMode == "vector" ? "bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-sm" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                            <span>📐</span> Raster to Vector
+                                        </button>
+                                    </div>
+
+                                    <TwImageCompare BeforeSrc="@CompareBeforeSrc"
+                                                    AfterSrc="@CompareAfterSrc"
+                                                    BeforeLabel="@CompareBeforeLabel"
+                                                    AfterLabel="@CompareAfterLabel"
                                                     @bind-Position="_comparePos"
                                                     Class="aspect-video max-h-[440px]" />
                                     <div class="flex flex-wrap items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-2 px-1">
@@ -3746,7 +3766,7 @@
                                                 <span class="text-xs text-slate-400 font-mono">04:05</span>
                                             </div>
                                             <h4 class="font-bold text-slate-900 dark:text-white text-base">Full Ecosystem Masterclass 1080p</h4>
-                                            <p class="text-xs text-slate-600 dark:text-slate-400">Comprehensive overview of all 184 components, pure IL WebAssembly, architecture, and developer coaching.</p>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400">Comprehensive overview of all @ComponentCatalogService.TotalCount components, pure IL WebAssembly, architecture, and developer coaching.</p>
                                             <div class="text-xs font-semibold text-brand-600 dark:text-brand-400 flex items-center gap-1">▶ Watch Demo</div>
                                         </div>
 
@@ -5806,7 +5826,7 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "C# 15 Union Boundary Studio", Subtitle = "UiState<T> closed algebraic UI state hierarchies & error boundaries", Category = "Studios", ShortcutKey = "U", Action = () => { _activeTab = "union-studio"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Core Components", Subtitle = "Buttons, Badges, Inputs, Switches, Alerts", Category = "Navigation", ShortcutKey = "C", Action = () => { _activeTab = "components"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Enterprise Suite", Subtitle = "Native SVG Charts, Gauges, Timeline, File Upload, Tree", Category = "Navigation", ShortcutKey = "E", Action = () => { _activeTab = "enterprise"; StateHasChanged(); } });
-        _commandPaletteItems.Add(new CommandPaletteItem { Title = "Component Docs, Settings & Coach", Subtitle = "Search & inspect all 184 components, parameter tables, recipes, rules", Category = "Navigation", ShortcutKey = "D", Action = () => { _activeTab = "docs"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "Component Docs, Settings & Coach", Subtitle = $"Search & inspect all {ComponentCatalogService.TotalCount} components, parameter tables, recipes, rules", Category = "Navigation", ShortcutKey = "D", Action = () => { _activeTab = "docs"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Responsive DataGrid", Subtitle = "Column sorting, filters, batch actions, row actions", Category = "Navigation", ShortcutKey = "G", Action = () => { _activeTab = "datatable"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "AI Chatbot & Reasoning Progress", Subtitle = "Interactive assistant with step-by-step thinking", Category = "Navigation", ShortcutKey = "A", Action = () => { _activeTab = "aichat"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Coaching & Video Masterclass", Subtitle = "1080p demo video, curriculum, interactive playground", Category = "Navigation", ShortcutKey = "T", Action = () => { _activeTab = "training"; StateHasChanged(); } });
@@ -6081,6 +6101,47 @@
     private bool _videoTourModalOpen;
     private TwConfetti? _confettiRef;
     private double _comparePos = 50.0;
+    private string _compareMode = "theme";
+
+    private string CompareBeforeSrc => _compareMode switch
+    {
+        "bgremove" => "images/compare-bg-before.svg",
+        "upscale" => "images/compare-upscale-before.svg",
+        "vector" => "images/compare-vector-before.svg",
+        _ => "images/compare-before.jpg"
+    };
+
+    private string CompareAfterSrc => _compareMode switch
+    {
+        "bgremove" => "images/compare-bg-after.svg",
+        "upscale" => "images/compare-upscale-after.svg",
+        "vector" => "images/compare-vector-after.svg",
+        _ => "images/compare-after.jpg"
+    };
+
+    private string CompareBeforeLabel => _compareMode switch
+    {
+        "bgremove" => "RAW STUDIO PHOTO",
+        "upscale" => "1X STANDARD (72 DPI)",
+        "vector" => "RASTER BITMAP (32x32)",
+        _ => "DEFAULT LIGHT"
+    };
+
+    private string CompareAfterLabel => _compareMode switch
+    {
+        "bgremove" => "ISOLATED ALPHA CUTOUT",
+        "upscale" => "4X AI SUPER-RES (4K)",
+        "vector" => "SCALABLE SVG BEZIER",
+        _ => "PRO DARK SLATE"
+    };
+
+    private string CompareSubtitle => _compareMode switch
+    {
+        "bgremove" => "AI background segmentation isolating product subjects with crisp transparent alpha edges",
+        "upscale" => "Deep neural super-resolution reconstructing nanometer traces and fine details from 72 DPI",
+        "vector" => "Mathematical vectorization converting staircase bitmap aliasing into infinite scalable curves",
+        _ => "Drag the handle or use Left/Right arrows to compare Light & Dark themes smoothly"
+    };
 
     private async Task ScrollToTopPreview()
     {
@@ -6369,7 +6430,7 @@
         {
             new("innovations", "Innovations & Wins", "🎁", "6 WINS", "Culture quick wins, Easter eggs & sound FX"),
             new("training", "Coaching & Video", "🎓", "1080p", "Interactive coaching tour & chaptered masterclass"),
-            new("docs", "Docs & Settings", "📖", "184 ITEMS", "Interactive component documentation & live props")
+            new("docs", "Docs & Settings", "📖", $"{ComponentCatalogService.TotalCount} ITEMS", "Interactive component documentation & live props")
         })
     };
 
@@ -6470,7 +6531,7 @@
         new("overlays", "Overlays & Drawers", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2'/></svg>"),
         new("training", "Coaching & Video", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 14l9-5-9-5-9 5 9 5z'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z'/></svg>", "Masterclass"),
         new("qrbarcode", "QR, Barcode & Sign", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z'/></svg>", "Studio"),
-        new("docs", "Docs & Coach", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'/></svg>", "184 Items"),
+        new("docs", "Docs & Coach", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'/></svg>", $"{ComponentCatalogService.TotalCount} Items"),
         new("more", "More UI", "<svg class='w-4 h-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'/></svg>")
     };
 

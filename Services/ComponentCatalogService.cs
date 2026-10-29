@@ -2875,6 +2875,8 @@ public class ComponentCatalogService
         },
     };
 
+    public static int TotalCount => _items.Count;
+    public int TotalComponentCount => _items.Count;
     public IReadOnlyList<ComponentDocItem> GetAll() => _items;
     public IReadOnlyList<string> GetCategories() => _items.Select(i => i.Category).Distinct().ToList();
     public ComponentDocItem? GetByName(string name) => _items.FirstOrDefault(i => i.Name.Equals(name, System.StringComparison.OrdinalIgnoreCase));

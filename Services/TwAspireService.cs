@@ -87,7 +87,7 @@ public class TwAspireService
                 },
                 RecentLogs = new()
                 {
-                    "[WASM] Client hydrated with 184 native UI components",
+                    $"[WASM] Client hydrated with {ComponentCatalogService.TotalCount} native UI components",
                     "[WASM] SIMD128 hardware vector acceleration active",
                     "[WASM] Offline ServiceWorker cache synchronized"
                 }
