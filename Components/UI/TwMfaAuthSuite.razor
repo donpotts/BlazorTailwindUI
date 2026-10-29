@@ -182,6 +182,9 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
+                <TwButton Variant="ButtonVariant.Primary" Size="ComponentSize.Sm" OnClick="DownloadRecoveryCodes">
+                    Download Backup File (.txt)
+                </TwButton>
                 <TwButton Variant="ButtonVariant.Outline" Size="ComponentSize.Sm" OnClick="CopyRecoveryCodes">
                     Copy All Codes
                 </TwButton>
@@ -262,6 +265,27 @@
         var newKey = new PasskeyItem("YubiKey 5 NFC (Hardware)", DateTime.UtcNow.ToString("MMM dd, yyyy"));
         _registeredPasskeys.Add(newKey);
         Toast.Show("Passkey Enrolled", "FIDO2 credential registered successfully.", SemanticVariant.Success);
+    }
+
+    private async Task DownloadRecoveryCodes()
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("=================================================");
+        sb.AppendLine(" NEXUS ENTERPRISE — MFA BACKUP RECOVERY CODES");
+        sb.AppendLine($" Generated: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC");
+        sb.AppendLine(" Each code can be used exactly once if you lose");
+        sb.AppendLine(" access to your primary authenticator device.");
+        sb.AppendLine("=================================================");
+        sb.AppendLine();
+        for (int i = 0; i < _recoveryCodes.Count; i++)
+        {
+            sb.AppendLine($" [{i + 1}]  {_recoveryCodes[i]}");
+        }
+        sb.AppendLine();
+        sb.AppendLine("Keep this file in an encrypted, secure location.");
+        
+        await JS.InvokeVoidAsync("pdfHelper.downloadText", $"mfa_recovery_codes_{DateTime.UtcNow:yyyyMMdd}.txt", "text/plain", sb.ToString());
+        Toast.Show("Backup Codes Downloaded", "Saved recovery codes text file locally", SemanticVariant.Success);
     }
 
     private async Task CopyRecoveryCodes()

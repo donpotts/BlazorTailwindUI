@@ -20,12 +20,12 @@ This document outlines the strategic architecture, component specifications, and
 | **10. Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | Shipped (v1.2.0) ✅ | Developer Tooling & Agentic AI |
 | **11. .NET 11 Full-Stack Universal Suite** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | Shipped (v1.3.0) ✅ | Full-Stack Blazor & Telemetry |
 | **12. C# 15 Discriminated Unions & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState`, `TwUnionStudio` | Shipped (v1.4.5) ✅ | Language Modernization & State Safety |
-| **13. Donut Caching & ShortCircuit Edge Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Planned (v1.4.0) 🚀 | SSR Performance & Edge Caching |
-| **14. Native Zstandard Ultra-Fast Compression** | `TwZstdStreamService`, `TwZstdPayloadBridge` | Planned (v1.4.0) 🚀 | High-Throughput Data & Transport |
-| **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwHpkeEnclave` | Planned (v1.4.0) 🚀 | Zero-Trust & Post-Quantum Security |
-| **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Planned (v1.4.0) 🚀 | Observability & Performance HUD |
+| **13. Donut Caching & ShortCircuit Edge Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Shipped (v1.4.0) ✅ | SSR Performance & Edge Caching |
+| **14. Native Zstandard Ultra-Fast Compression** | `TwZstandardService`, `ZstandardBenchmarkResult` | Shipped (v1.4.0) ✅ | High-Throughput Data & Transport |
+| **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwPostQuantumService` | Shipped (v1.4.0) ✅ | Zero-Trust & Post-Quantum Security |
+| **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Shipped (v1.5.0) ✅ | Observability & Performance HUD |
 | **17. .NET Aspire 11 Live App Host Orchestration** | `Aspire.Hosting.BlazorTailwindUI` | Planned (v1.5.0) 🌐 | Cloud-Native & Developer Velocity |
-| **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSIMDEngine` | Planned (v1.5.0) 🌐 | Runtime Performance & Vector SIMD |
+| **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSimdVectorService` | Shipped (v1.5.1) ✅ | Runtime Performance & Vector SIMD |
 | **19. Enterprise Form & Workspace Suite** | `TwMaskInput`, `TwRangeSlider`, `TwHighlight`, `TwTileManager`, `TwNavDrawer` | Shipped (v1.3.1) ✅ | Enterprise UX & Dashboards |
 
 ---

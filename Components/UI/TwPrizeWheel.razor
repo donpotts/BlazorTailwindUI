@@ -168,6 +168,32 @@
                         </div>
                     }
                 </div>
+
+                @if (_claimedPrizes.Count > 0)
+                {
+                    <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                                <span>🏆</span> Claimed Prizes (@_claimedPrizes.Count)
+                            </span>
+                            <button type="button" @onclick="ExportClaimedPrizesCsv" class="text-[11px] font-semibold text-brand-600 dark:text-brand-400 hover:underline">
+                                Export CSV
+                            </button>
+                        </div>
+                        <div class="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+                            @foreach (var claim in _claimedPrizes)
+                            {
+                                <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/80 text-[11px]">
+                                    <div class="flex items-center gap-1.5 truncate">
+                                        <span>@claim.Emoji</span>
+                                        <span class="font-bold text-slate-900 dark:text-white truncate">@claim.Title</span>
+                                    </div>
+                                    <span class="font-mono text-[10px] text-emerald-700 dark:text-emerald-300 font-bold">@claim.ClaimVoucher</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -177,8 +203,12 @@
     [Parameter] public string? Class { get; set; }
     [Parameter] public string Title { get; set; } = "Spin to Win!";
     [Parameter] public EventCallback<PrizeItem> OnPrizeWon { get; set; }
+    [Parameter] public EventCallback<ClaimedPrizeRecord> OnPrizeClaimed { get; set; }
 
     public record PrizeItem(string Title, string Emoji, string Color, string Description);
+    public record ClaimedPrizeRecord(string ClaimVoucher, string Emoji, string Title, DateTime ClaimedAt);
+
+    private readonly List<ClaimedPrizeRecord> _claimedPrizes = new();
 
     [Parameter]
     public List<PrizeItem> Prizes { get; set; } = new()
@@ -359,10 +389,37 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    private void ClaimPrizeFromModal()
+    private async Task ClaimPrizeFromModal()
     {
         _showCelebrationModal = false;
-        Toast.Show("Prize Claimed!", $"Enjoy your {_winningPrize?.Emoji} {_winningPrize?.Title}!", SemanticVariant.Success);
+        if (_winningPrize != null)
+        {
+            var claim = new ClaimedPrizeRecord(
+                $"PRIZE-{Guid.NewGuid().ToString("N")[..6].ToUpperInvariant()}",
+                _winningPrize.Emoji,
+                _winningPrize.Title,
+                DateTime.UtcNow
+            );
+            _claimedPrizes.Insert(0, claim);
+            if (OnPrizeClaimed.HasDelegate)
+            {
+                await OnPrizeClaimed.InvokeAsync(claim);
+            }
+        }
+        Toast.Show("Prize Recorded!", $"Added {_winningPrize?.Emoji} {_winningPrize?.Title} to team giveaway ledger.", SemanticVariant.Success);
+    }
+
+    private async Task ExportClaimedPrizesCsv()
+    {
+        if (_claimedPrizes.Count == 0) return;
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("VoucherCode,Emoji,PrizeTitle,ClaimedAtUtc");
+        foreach (var c in _claimedPrizes)
+        {
+            sb.AppendLine($"\"{c.ClaimVoucher}\",\"{c.Emoji}\",\"{c.Title}\",\"{c.ClaimedAt:yyyy-MM-dd HH:mm:ss}\"");
+        }
+        await JS.InvokeVoidAsync("pdfHelper.downloadText", $"giveaway_winners_{DateTime.UtcNow:yyyyMMddHHmmss}.csv", "text/csv", sb.ToString());
+        Toast.Show("Ledger Exported", $"Downloaded CSV audit of {_claimedPrizes.Count} claimed prizes.", SemanticVariant.Success);
     }
 
     private async Task SpinAgainFromModal()

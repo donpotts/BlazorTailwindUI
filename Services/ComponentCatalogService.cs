@@ -2436,6 +2436,17 @@ public class ComponentCatalogService
         },
         new ComponentDocItem
         {
+            Name = "TwVectorMath",
+            Category = "Fullstack .NET 11",
+            Description = "WebAssembly SIMD hardware acceleration and vector math engine evaluating high-throughput financial dot products, vector sums, and euclidean distance norms with comparative scalar telemetry.",
+            RazorSnippet = "<TwVectorMath />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Optional CSS utility classes.")
+            }
+        },
+        new ComponentDocItem
+        {
             Name = "TwMaskInput",
             Category = "Forms & Controls",
             Description = "High-performance masked text input with slot validation, prompt guides, and Raw vs WithFormatting modes for Phone, SSN, Credit Card, and custom masks.",

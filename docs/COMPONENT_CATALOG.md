@@ -3705,3 +3705,23 @@ Tactile generative fluid gradient shader with organic motion and real-time psych
 ```
 
 ---
+
+### `TwVectorMath`
+
+**Location:** [`Components/UI/TwVectorMath.razor`](../Components/UI/TwVectorMath.razor)
+
+Hardware-accelerated WebAssembly SIMD and .NET Runtime Intrinsics (`Vector128<float>` / `Vector<float>`) vector math engine. Benchmarks real-time floating point operations (Vector Dot Product, Vector Sum & Mean, Euclidean Norm) on datasets up to 5,000,000 elements (20 MB), comparing standard scalar execution against hardware vector instructions with mathematical equivalence assertion and telemetry JSON export.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Optional CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwVectorMath />
+```
+
+---
