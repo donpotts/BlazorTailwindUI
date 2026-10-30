@@ -47,6 +47,22 @@
         </button>
     </div>
 
+    @if (ShowContrastToggle)
+    {
+        <button type="button"
+                @onclick="Theme.ToggleHighContrastAsync"
+                data-testid="contrast-toggle"
+                title="High contrast"
+                aria-label="High contrast"
+                aria-pressed="@Theme.IsHighContrastEffective.ToString().ToLowerInvariant()"
+                class="inline-flex items-center justify-center w-9 h-9 rounded-xl border text-xs font-bold transition-colors @(Theme.IsHighContrastEffective ? "bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white" : "bg-slate-100 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 border-slate-200/80 dark:border-slate-700/80 hover:text-slate-900 dark:hover:text-white")">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 3a9 9 0 010 18z" fill="currentColor" />
+            </svg>
+        </button>
+    }
+
     @if (ShowAccentPicker)
     {
         <div class="hidden xs:inline-flex items-center gap-1 rounded-xl bg-slate-100 dark:bg-slate-800/90 px-2 py-1.5 border border-slate-200/80 dark:border-slate-700/80" role="group" aria-label="Accent Color">
@@ -65,6 +81,7 @@
 @code {
     [Parameter] public bool Compact { get; set; }
     [Parameter] public bool ShowAccentPicker { get; set; } = true;
+    [Parameter] public bool ShowContrastToggle { get; set; } = true;
     [Parameter] public string? Class { get; set; }
 
     protected override void OnInitialized()

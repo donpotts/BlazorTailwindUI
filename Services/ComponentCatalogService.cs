@@ -11,6 +11,94 @@ public class ComponentCatalogService
     {
         new ComponentDocItem
         {
+            Name = "TwAgentConsole",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Complete human-in-the-loop agent workspace: roster, streaming conversation with tool-call cards, an approval gate that genuinely blocks high-risk calls, takeover and hand-back controls, an editable shared-state inspector and an exportable audit trail. Drives any IAgentTransport; ships with an offline simulated refund-desk agent.",
+            RazorSnippet = "<TwAgentConsole />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes."),
+                new ComponentParameterDoc("Agents", "IReadOnlyList<AgentProfile>?", "one demo agent", "Agents shown in the roster."),
+                new ComponentParameterDoc("Session", "AgentRunSession", "n/a (read-only property)", "The live session, for host pages that read status or drive it.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwApprovalGate",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Blocking approval card for pending high-risk tool calls. The agent does not execute the call until a human approves, optionally with edited JSON arguments (validated), or rejects with a reason. Announces itself to screen readers via an assertive live region.",
+            RazorSnippet = "<TwApprovalGate Session=\"_session\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Session", "AgentRunSession", "required", "Session whose pending approvals are rendered."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwToolCallCard",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Collapsible card for one agent tool call showing streamed arguments, result, duration, risk level and a text status (never colour alone). Pending-approval calls are visually emphasised.",
+            RazorSnippet = "<TwToolCallCard Call=\"toolCall\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Call", "ToolCallRecord", "required", "The tool call to render."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTakeoverBar",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Run status strip with Take over, Hand back and Stop controls. Takeover pauses the agent before its next step so a human can inspect and edit shared state; hand-back resumes it.",
+            RazorSnippet = "<TwTakeoverBar Session=\"_session\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Session", "AgentRunSession", "required", "Session to display and control."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwAgentStateInspector",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Live view of the state the agent shares with the UI. Changed keys are highlighted; values become editable while the human is in control, and every edit is audited and visible to the agent's next action.",
+            RazorSnippet = "<TwAgentStateInspector Session=\"_session\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Session", "AgentRunSession", "required", "Session whose shared state is shown."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwAuditTrail",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Append-only, filterable log of who did what (human, agent, system) with a one-click JSON export for compliance review.",
+            RazorSnippet = "<TwAuditTrail Session=\"_session\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Session", "AgentRunSession", "required", "Session whose audit events are shown."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwAgentRoster",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Accessible list of available agents (nav with aria-current) showing role, description and the selected agent's run status.",
+            RazorSnippet = "<TwAgentRoster Agents=\"_agents\" SelectedId=\"@_selected\" OnSelect=\"a => _selected = a.Id\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Agents", "IReadOnlyList<AgentProfile>", "required", "Agents to list."),
+                new ComponentParameterDoc("SelectedId", "string?", "null", "Id of the selected agent."),
+                new ComponentParameterDoc("StatusText", "string", "\"Idle\"", "Run status shown on the selected agent."),
+                new ComponentParameterDoc("OnSelect", "EventCallback<AgentProfile>", "null", "Fired when an agent is chosen."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
             Name = "TwMfaAuthSuite",
             Category = "Security & Compliance",
             Description = "Enterprise-grade multi-factor authentication suite supporting TOTP authenticator app QR setup, SMS/Email 6-digit OTP with auto-advancing segmented inputs, FIDO2 / WebAuthn biometric passkeys, and single-use emergency recovery codes.",

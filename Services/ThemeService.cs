@@ -13,6 +13,8 @@ public sealed class ThemeService : IAsyncDisposable
     public AccentTheme CurrentAccent { get; private set; } = AccentTheme.Indigo;
     public string? CustomHex { get; private set; }
     public bool IsDarkEffective { get; private set; }
+    public ContrastMode CurrentContrast { get; private set; } = ContrastMode.System;
+    public bool IsHighContrastEffective { get; private set; }
     public bool IsCustomAccent => !string.IsNullOrEmpty(CustomHex);
 
     public event Action? OnChange;
@@ -64,6 +66,13 @@ public sealed class ThemeService : IAsyncDisposable
             }
 
             IsDarkEffective = state.IsDark;
+            CurrentContrast = state.Contrast?.ToLowerInvariant() switch
+            {
+                "high" => ContrastMode.High,
+                "standard" => ContrastMode.Standard,
+                _ => ContrastMode.System
+            };
+            IsHighContrastEffective = state.IsHighContrast;
         }
         catch (Exception)
         {
@@ -134,6 +143,34 @@ public sealed class ThemeService : IAsyncDisposable
         NotifyStateChanged();
     }
 
+    public async Task SetContrastAsync(ContrastMode mode)
+    {
+        CurrentContrast = mode;
+        try
+        {
+            IsHighContrastEffective = await _jsRuntime.InvokeAsync<bool>("blazorTheme.setContrast", mode.ToString().ToLowerInvariant());
+        }
+        catch (Exception)
+        {
+            IsHighContrastEffective = mode == ContrastMode.High;
+        }
+        NotifyStateChanged();
+    }
+
+    /// <summary>Toggles between forced high contrast and forced standard contrast.</summary>
+    public Task ToggleHighContrastAsync() =>
+        SetContrastAsync(IsHighContrastEffective ? ContrastMode.Standard : ContrastMode.High);
+
+    [JSInvokable]
+    public void OnSystemContrastChanged(bool isHigh)
+    {
+        if (CurrentContrast == ContrastMode.System)
+        {
+            IsHighContrastEffective = isHigh;
+            NotifyStateChanged();
+        }
+    }
+
     [JSInvokable]
     public void OnSystemThemeChanged(bool isDark)
     {
@@ -165,5 +202,7 @@ public sealed class ThemeService : IAsyncDisposable
         public string? Accent { get; set; }
         public string? CustomHex { get; set; }
         public bool IsDark { get; set; }
+        public string? Contrast { get; set; }
+        public bool IsHighContrast { get; set; }
     }
 }

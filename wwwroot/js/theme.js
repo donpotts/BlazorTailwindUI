@@ -2,6 +2,9 @@ window.blazorTheme = {
     storageKey: 'btui-theme-mode',
     accentKey: 'btui-theme-accent',
     customHexKey: 'btui-theme-custom-hex',
+    contrastKey: 'btui-theme-contrast',
+    contrastQuery: null,
+    contrastListener: null,
     dotNetHelper: null,
     mediaQuery: null,
     mediaListener: null,
@@ -77,6 +80,22 @@ window.blazorTheme = {
         const customHex = localStorage.getItem(this.customHexKey);
 
         this.applyTheme(mode);
+        const contrast = localStorage.getItem(this.contrastKey) || 'system';
+        this.applyContrast(contrast);
+
+        if (!this.contrastQuery) {
+            this.contrastQuery = window.matchMedia('(prefers-contrast: more)');
+            this.contrastListener = () => {
+                const current = localStorage.getItem(this.contrastKey) || 'system';
+                if (current === 'system') {
+                    const high = this.applyContrast('system');
+                    if (this.dotNetHelper) {
+                        this.dotNetHelper.invokeMethodAsync('OnSystemContrastChanged', high);
+                    }
+                }
+            };
+            this.contrastQuery.addEventListener('change', this.contrastListener);
+        }
 
         if (accent === 'custom' && customHex) {
             this.applyCustomShades(customHex);
@@ -103,8 +122,28 @@ window.blazorTheme = {
             mode: mode,
             accent: accent,
             customHex: accent === 'custom' ? customHex : null,
-            isDark: document.documentElement.classList.contains('dark')
+            isDark: document.documentElement.classList.contains('dark'),
+            contrast: contrast,
+            isHighContrast: document.documentElement.getAttribute('data-contrast') === 'high'
         };
+    },
+
+    setContrast: function (contrast) {
+        localStorage.setItem(this.contrastKey, contrast);
+        return this.applyContrast(contrast);
+    },
+
+    // 'high' forces it on, 'standard' forces it off, 'system' follows prefers-contrast. Returns the effective state.
+    applyContrast: function (contrast) {
+        const high = contrast === 'high' ||
+            (contrast !== 'standard' && window.matchMedia('(prefers-contrast: more)').matches);
+        const root = document.documentElement;
+        if (high) {
+            root.setAttribute('data-contrast', 'high');
+        } else {
+            root.removeAttribute('data-contrast');
+        }
+        return high;
     },
 
     setMode: function (mode) {
@@ -153,6 +192,10 @@ window.blazorTheme = {
     },
 
     dispose: function () {
+        if (this.contrastQuery && this.contrastListener) {
+            this.contrastQuery.removeEventListener('change', this.contrastListener);
+            this.contrastQuery = null;
+        }
         if (this.mediaQuery && this.mediaListener) {
             this.mediaQuery.removeEventListener('change', this.mediaListener);
         }

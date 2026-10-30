@@ -6,6 +6,7 @@ Comprehensive guide to all **86 components** in **BlazorTailwindUI** (.NET 11 RC
 
 ## Table of Contents
 
+- [Agent Ops & Human-in-the-Loop](#agent-ops--human-in-the-loop) (7 components)
 - [Financial & Analytical Intelligence](#financial-analytical-intelligence) (3 components)
 - [Developer Studio & Content Creation](#developer-studio-content-creation) (7 components)
 - [Task-Purpose Enterprise Forms](#task-purpose-enterprise-forms) (8 components)
@@ -23,6 +24,163 @@ Comprehensive guide to all **86 components** in **BlazorTailwindUI** (.NET 11 RC
 - [Overlays & Popovers](#overlays-popovers) (7 components)
 - [AI Chatbot & Reasoning](#ai-chatbot-reasoning) (3 components)
 - [Showcase & Micro-Interactions](#showcase-micro-interactions) (7 components)
+
+---
+
+## Agent Ops & Human-in-the-Loop
+
+Agent-native components built around a transport-agnostic `AgentRunSession`: high-risk tool calls block until a human decides, takeover pauses the agent, and every action is audited. Plug your own agent in by implementing `IAgentTransport` (an `IAsyncEnumerable<AgUiEvent>`) and registering it before `AddBlazorTailwindUI()`.
+
+---
+
+### `TwAgentConsole`
+
+**Location:** [`Components/UI/TwAgentConsole.razor`](../Components/UI/TwAgentConsole.razor)
+
+Complete human-in-the-loop agent workspace: roster, streaming conversation with tool-call cards, an approval gate that genuinely blocks high-risk calls, takeover and hand-back controls, an editable shared-state inspector and an exportable audit trail. Drives any IAgentTransport; ships with an offline simulated refund-desk agent.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+| `Agents` | `IReadOnlyList<AgentProfile>?` | `one demo agent` | Agents shown in the roster. |
+| `Session` | `AgentRunSession` | `n/a (read-only property)` | The live session, for host pages that read status or drive it. |
+
+#### Razor Usage Example
+
+```razor
+<TwAgentConsole />
+```
+
+---
+
+### `TwApprovalGate`
+
+**Location:** [`Components/UI/TwApprovalGate.razor`](../Components/UI/TwApprovalGate.razor)
+
+Blocking approval card for pending high-risk tool calls. The agent does not execute the call until a human approves, optionally with edited JSON arguments (validated), or rejects with a reason. Announces itself to screen readers via an assertive live region.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Session` | `AgentRunSession` | `required` | Session whose pending approvals are rendered. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwApprovalGate Session="_session" />
+```
+
+---
+
+### `TwToolCallCard`
+
+**Location:** [`Components/UI/TwToolCallCard.razor`](../Components/UI/TwToolCallCard.razor)
+
+Collapsible card for one agent tool call showing streamed arguments, result, duration, risk level and a text status (never colour alone). Pending-approval calls are visually emphasised.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Call` | `ToolCallRecord` | `required` | The tool call to render. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwToolCallCard Call="toolCall" />
+```
+
+---
+
+### `TwTakeoverBar`
+
+**Location:** [`Components/UI/TwTakeoverBar.razor`](../Components/UI/TwTakeoverBar.razor)
+
+Run status strip with Take over, Hand back and Stop controls. Takeover pauses the agent before its next step so a human can inspect and edit shared state; hand-back resumes it.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Session` | `AgentRunSession` | `required` | Session to display and control. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwTakeoverBar Session="_session" />
+```
+
+---
+
+### `TwAgentStateInspector`
+
+**Location:** [`Components/UI/TwAgentStateInspector.razor`](../Components/UI/TwAgentStateInspector.razor)
+
+Live view of the state the agent shares with the UI. Changed keys are highlighted; values become editable while the human is in control, and every edit is audited and visible to the agent's next action.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Session` | `AgentRunSession` | `required` | Session whose shared state is shown. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwAgentStateInspector Session="_session" />
+```
+
+---
+
+### `TwAuditTrail`
+
+**Location:** [`Components/UI/TwAuditTrail.razor`](../Components/UI/TwAuditTrail.razor)
+
+Append-only, filterable log of who did what (human, agent, system) with a one-click JSON export for compliance review.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Session` | `AgentRunSession` | `required` | Session whose audit events are shown. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwAuditTrail Session="_session" />
+```
+
+---
+
+### `TwAgentRoster`
+
+**Location:** [`Components/UI/TwAgentRoster.razor`](../Components/UI/TwAgentRoster.razor)
+
+Accessible list of available agents (nav with aria-current) showing role, description and the selected agent's run status.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Agents` | `IReadOnlyList<AgentProfile>` | `required` | Agents to list. |
+| `SelectedId` | `string?` | `null` | Id of the selected agent. |
+| `StatusText` | `string` | `"Idle"` | Run status shown on the selected agent. |
+| `OnSelect` | `EventCallback<AgentProfile>` | `null` | Fired when an agent is chosen. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwAgentRoster Agents="_agents" SelectedId="@_selected" OnSelect="a => _selected = a.Id" />
+```
 
 ---
 

@@ -3397,11 +3397,20 @@
                                 <span>💬</span>
                                 <span>Interactive Conversational Chatbot</span>
                             </button>
+                            <button type="button" @onclick='() => _aiSubTab = "agentops"' data-testid="subtab-agentops"
+                                    class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "agentops" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                <span>🛡️</span>
+                                <span>Agent Ops: Approvals, Takeover &amp; Audit</span>
+                            </button>
                         </div>
 
                         @if (_aiSubTab == "agui")
                         {
                             <TwAguiStudio />
+                        }
+                        else if (_aiSubTab == "agentops")
+                        {
+                            <TwAgentConsole />
                         }
                         else
                         {

@@ -255,3 +255,102 @@ html.dark,
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
     z-index: 25;
 }
+
+/* ---------------------------------------------------------------------------
+   Accessibility layer: reduced motion, high contrast, forced colors.
+   Pattern borrowed from the Syncfusion blazor-toolkit SfThemeRoot (dark /
+   high-contrast / forced-colors rules), expressed against Tailwind utilities.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast: opt in with the header toggle, or follow the OS prefers-contrast setting. */
+html[data-contrast="high"] {
+  --hc-fg: #000000;
+  --hc-bg: #ffffff;
+  --hc-focus: #0000ee;
+}
+
+html[data-contrast="high"].dark {
+  --hc-fg: #ffffff;
+  --hc-bg: #000000;
+  --hc-focus: #ffff00;
+}
+
+[data-contrast="high"] body {
+  background-color: var(--hc-bg);
+  color: var(--hc-fg);
+}
+
+/* Every border becomes a solid, fully-opaque line. */
+[data-contrast="high"] *,
+[data-contrast="high"] *::before,
+[data-contrast="high"] *::after {
+  border-color: var(--hc-fg) !important;
+}
+
+/* De-emphasised text is the first casualty of low contrast: pull it to full strength. */
+[data-contrast="high"] [class*="text-slate-300"],
+[data-contrast="high"] [class*="text-slate-400"],
+[data-contrast="high"] [class*="text-slate-500"],
+[data-contrast="high"] [class*="text-slate-600"],
+[data-contrast="high"] [class*="text-gray-"] {
+  color: var(--hc-fg) !important;
+}
+
+/* Wide, unmissable focus indicator. */
+[data-contrast="high"] :focus-visible {
+  outline: 3px solid var(--hc-focus) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+/* Shadows and blurred translucency hurt legibility; drop them. */
+[data-contrast="high"] * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Windows High Contrast / forced colors: let the system palette win, keep focus and state visible. */
+@media (forced-colors: active) {
+  :root {
+    color-scheme: light dark;
+  }
+
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    border: 1px solid ButtonText;
+  }
+
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  [aria-pressed="true"],
+  [aria-current="true"],
+  [aria-selected="true"] {
+    forced-color-adjust: none;
+    background-color: Highlight !important;
+    color: HighlightText !important;
+  }
+
+  [disabled],
+  [aria-disabled="true"] {
+    color: GrayText;
+    border-color: GrayText;
+  }
+}

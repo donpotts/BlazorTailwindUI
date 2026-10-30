@@ -1,6 +1,8 @@
 namespace Microsoft.Extensions.DependencyInjection;
 
+using BlazorTailwindUI.Models;
 using BlazorTailwindUI.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 public static class BlazorTailwindUIServiceExtensions
 {
@@ -26,6 +28,8 @@ public static class BlazorTailwindUIServiceExtensions
         services.AddSingleton<TwSimdVectorService>();
         services.AddScoped<TwAspireService>();
         services.AddScoped<ServerPortBridgeService>();
+        // Default offline agent; register your own IAgentTransport before this call to drive a live agent.
+        services.TryAddScoped<IAgentTransport, SimulatedAgentTransport>();
 
         return services;
     }

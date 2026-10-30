@@ -7,6 +7,14 @@ public enum ThemeMode
     System
 }
 
+public enum ContrastMode
+{
+    /// <summary>Follow the operating system's prefers-contrast setting</summary>
+    System,
+    Standard,
+    High
+}
+
 public enum AccentTheme
 {
     Indigo,

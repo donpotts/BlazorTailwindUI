@@ -47,13 +47,8 @@ export function init(containerSelector, dotNetHelper, layoutData, isLocked, cell
         };
     }
 
-    // Destroy existing instance if any
-    if (gridInstances.has(containerSelector)) {
-        try {
-            gridInstances.get(containerSelector).destroy(false);
-        } catch (e) { }
-        gridInstances.delete(containerSelector);
-    }
+    // Destroy existing instance if any (re-init after a re-render must not leak the old grid or its listener)
+    teardown(containerSelector);
 
     // Check screen width for mobile-first defaults
     const isMobile = window.innerWidth < 768;
@@ -77,7 +72,16 @@ export function init(containerSelector, dotNetHelper, layoutData, isLocked, cell
     };
 
     const grid = GridStack.init(options, gridEl);
-    gridInstances.set(containerSelector, { grid, dotNetHelper });
+
+    // Mobile resize listener to adapt cell height if orientation changes. Kept on the instance so destroy()
+    // can remove it; a stale listener firing on a destroyed grid throws inside GridStack.
+    const onResize = () => {
+        if (grid && !grid.destroyed) {
+            grid.cellHeight(window.innerWidth < 768 ? 65 : cellHeight);
+        }
+    };
+    window.addEventListener('resize', onResize);
+    gridInstances.set(containerSelector, { grid, dotNetHelper, onResize });
 
     // Load initial layout
     if (layoutData && layoutData.length > 0) {
@@ -102,13 +106,6 @@ export function init(containerSelector, dotNetHelper, layoutData, isLocked, cell
             h: item.h
         }));
         dotNetHelper.invokeMethodAsync('OnLayoutUpdatedFromJS', newLayout);
-    });
-
-    // Mobile resize listener to adapt cell height if orientation changes
-    window.addEventListener('resize', () => {
-        if (grid && !grid.destroyed) {
-            grid.cellHeight(window.innerWidth < 768 ? 65 : cellHeight);
-        }
     });
 
     return true;
@@ -214,10 +211,16 @@ export function setupDashboardDelegation(gridEl, dotNetHelper) {
 }
 
 export function destroy(containerSelector) {
-    if (gridInstances.has(containerSelector)) {
-        try {
-            gridInstances.get(containerSelector).grid.destroy(false);
-        } catch (e) { }
-        gridInstances.delete(containerSelector);
-    }
+    teardown(containerSelector);
+}
+
+function teardown(containerSelector) {
+    const instance = gridInstances.get(containerSelector);
+    if (!instance) return;
+    window.removeEventListener('resize', instance.onResize);
+    try {
+        instance.grid.destroyed = true;
+        instance.grid.destroy(false);
+    } catch (e) { }
+    gridInstances.delete(containerSelector);
 }

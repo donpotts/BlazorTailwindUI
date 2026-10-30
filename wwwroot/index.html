@@ -17,6 +17,10 @@
             const accent = queryAccent || localStorage.getItem('btui-theme-accent') || 'indigo';
             const customHex = localStorage.getItem('btui-theme-custom-hex');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const contrast = localStorage.getItem('btui-theme-contrast') || 'system';
+            if (contrast === 'high' || (contrast === 'system' && window.matchMedia('(prefers-contrast: more)').matches)) {
+                document.documentElement.setAttribute('data-contrast', 'high');
+            }
             if (mode === 'dark' || (mode === 'system' && prefersDark)) {
                 document.documentElement.classList.add('dark');
             } else {
