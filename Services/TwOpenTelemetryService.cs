@@ -14,7 +14,7 @@ using BlazorTailwindUI.Models;
 /// </summary>
 public class TwOpenTelemetryService : IDisposable
 {
-    private static readonly ActivitySource Tracer = new("BlazorTailwindUI.Components", "0.6.0");
+    private static readonly ActivitySource Tracer = new("BlazorTailwindUI.Components", "0.7.0");
     private readonly ConcurrentQueue<ComponentTraceSpan> _spans = new();
     private readonly ConcurrentDictionary<string, List<double>> _componentTimings = new();
     private readonly ConcurrentDictionary<string, int> _componentRenderCounts = new();
@@ -219,7 +219,7 @@ public class TwOpenTelemetryService : IDisposable
                         attributes = new[]
                         {
                             new { key = "service.name", value = new { stringValue = "BlazorTailwindUI" } },
-                            new { key = "service.version", value = new { stringValue = "0.6.0" } },
+                            new { key = "service.version", value = new { stringValue = "0.7.0" } },
                             new { key = "telemetry.sdk.language", value = new { stringValue = "dotnet" } },
                             new { key = "host.runtime", value = new { stringValue = ".NET 10+ WebAssembly" } }
                         }
@@ -228,7 +228,7 @@ public class TwOpenTelemetryService : IDisposable
                     {
                         new
                         {
-                            scope = new { name = "BlazorTailwindUI.Components", version = "0.6.0" },
+                            scope = new { name = "BlazorTailwindUI.Components", version = "0.7.0" },
                             spans = spansList.Select(s => new
                             {
                                 traceId = s.TraceId,

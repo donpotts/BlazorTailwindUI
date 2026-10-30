@@ -2,9 +2,17 @@
 
 All notable changes to BlazorTailwindUI are documented here. Version 1.0 has not been released: earlier internal labels of the form 1.x were renumbered to 0.x (for example 1.5.0 is now 0.5.0), so the library is in its 0.n.n line. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.7.0]
 
 ### Added
+- **Data grid** (`TwDataGrid`, `TwDataGridColumn`) rebuilt on the same parameters, with new opt-in features:
+  - sortable headers are real buttons with `aria-sort`; Shift adds a second sort with priority numbers
+  - grouping with counts and per-group summaries; footer totals (Count, Sum, Average, Min, Max) over all filtered rows
+  - master-detail rows, inline row editing with validation (Enter saves, Escape cancels, errors announced), column chooser
+  - CSV export of every filtered row and the visible columns, with spreadsheet-formula neutralisation
+  - saved layout (`StateKey`: sort, search, filters, grouping, page size, visible columns), frozen column, sticky header with `MaxHeight`, conditional row and cell formatting
+  - accessible by default: table caption, labelled checkboxes, `aria-current` paging, no clickable-only headers
+- `GridAggregate` and `GridCsv` helpers; demo tab *Data Grid*; browser suite `tests/e2e/grid_e2e.py` (keyboard sorting, real CSV download, reload persistence, sticky column, mobile cards, axe-core).
 - **Planning & Enterprise suite**, 15 new components (219 to 234): `TwScheduler`, `TwGantt`, `TwTreeList`, `TwToolbar`, `TwWindow`, `TwLoadingPanel`, `TwStackLayout`, `TwFormLayout`, `TwFormGroup`, `TwFormItem`, `TwListBox`, `TwDropDownBox`, `TwHtmlEditor`, `TwRangeSelector`, `TwBarGauge`. All are our own Tailwind implementations.
 - `TwHtmlEditor` sanitizes in the browser with an allowlist (no scripts, handlers, styles, images or frames; only http, https and mailto links; pasted content becomes plain text).
 - Demo tab *Planning & Enterprise* and the browser suite `tests/e2e/enterprise_e2e.py` (drag-and-drop, real mouse window drag, hostile-input sanitizer checks, axe-core).
@@ -66,4 +74,5 @@ Agent-native release: human-in-the-loop agent components, a live AG-UI transport
 - The README runtime badge now reads .NET 10+ to match the project target.
 - Roadmap items renumbered so they are unique.
 
+[0.7.0]: https://github.com/donpotts/BlazorTailwindUI/releases/tag/v0.7.0
 [0.6.0]: https://github.com/donpotts/BlazorTailwindUI/releases/tag/v0.6.0

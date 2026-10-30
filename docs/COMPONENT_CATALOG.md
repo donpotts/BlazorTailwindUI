@@ -2475,36 +2475,53 @@ Interactive workflow Kanban board with customizable columns, WIP limit threshold
 
 **Location:** [`Components/UI/TwDataGrid.razor`](../Components/UI/TwDataGrid.razor)
 
-High-performance enterprise data grid with column sorting, per-column text filters, column width constraints, pagination, and row-level record actions.
+Enterprise data grid: sortable headers (keyboard accessible, Shift adds a second sort), search and per-column filters, grouping with counts and summaries, footer totals, master-detail rows, inline editing with validation, column chooser, CSV export, saved layout, frozen column, conditional formatting, selection, paging and mobile cards.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Items` | `IEnumerable<TItem>` | `Enumerable.Empty<TItem>()` | Configures component behavior or styling. |
-| `Columns` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `ActionsTemplate` | `RenderFragment<TItem>?` | `null` | Configures component behavior or styling. |
-| `MobileCardTemplate` | `RenderFragment<TItem>?` | `null` | Configures component behavior or styling. |
-| `BatchActionsTemplate` | `RenderFragment<IReadOnlyList<TItem>>?` | `null` | Configures component behavior or styling. |
-| `ActionsTitle` | `string` | `"Actions"` | Header title or accessible label. |
-| `EmptyText` | `string` | `"No records found matching your criteria."` | Configures component behavior or styling. |
-| `Selectable` | `bool` | `null` | Configures component behavior or styling. |
-| `ShowGlobalSearch` | `bool` | `true` | Configures component behavior or styling. |
-| `SearchPlaceholder` | `string` | `"Search all records..."` | Input placeholder hint. |
-| `SearchPredicate` | `Func<TItem, string, bool>?` | `null` | Configures component behavior or styling. |
-| `AllowColumnFiltering` | `bool` | `true` | Configures component behavior or styling. |
-| `ShowPagination` | `bool` | `true` | Configures component behavior or styling. |
-| `PageSize` | `int` | `5` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `ShowPageSizeSelector` | `bool` | `true` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `CurrentPage` | `int` | `1` | Configures component behavior or styling. |
-| `CurrentPageChanged` | `EventCallback<int>` | `null` | Callback invoked when state changes or item is selected. |
-| `SelectionChanged` | `EventCallback<IReadOnlyList<TItem>>` | `null` | Callback invoked when state changes or item is selected. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Items` | `IEnumerable<TItem>` | `empty` | Records to show. |
+| `Columns` | `RenderFragment?` | `null` | TwDataGridColumn definitions. |
+| `Label` | `string` | `"Data grid"` | Accessible table caption. |
+| `Selectable` | `bool` | `false` | Row checkboxes and a select-all for the page. |
+| `ShowGlobalSearch` | `bool` | `true` | Search box over all columns. |
+| `SearchPredicate` | `Func<TItem,string,bool>?` | `null` | Custom search logic. |
+| `AllowColumnFiltering` | `bool` | `true` | Per-column filter row. |
+| `AllowGrouping` | `bool` | `false` | Group by list; group headers show a count and summaries. |
+| `GroupBy` | `string?` | `null` | Title of the column to group by initially. |
+| `AllowColumnChooser` | `bool` | `false` | Columns menu to show and hide columns. |
+| `AllowExport` | `bool` | `false` | Export CSV of all filtered rows and visible columns (formula-safe). |
+| `ExportFileName` | `string` | `"export.csv"` | Download name. |
+| `DetailTemplate` | `RenderFragment<TItem>?` | `null` | Expandable detail row under each record. |
+| `RowClassSelector` | `Func<TItem,string?>?` | `null` | Conditional formatting for a row. |
+| `StickyHeader` | `bool` | `false` | Keep the header in view. |
+| `MaxHeight` | `string?` | `null` | CSS max-height; the body scrolls, the header stays. |
+| `StateKey` | `string?` | `null` | Remember sort, search, filters, grouping, page size and visible columns in localStorage. |
+| `RowSaved` | `EventCallback<TItem>` | `null` | An edited row passed validation and was applied. |
+| `ActionsTemplate` | `RenderFragment<TItem>?` | `null` | Per-row action buttons. |
+| `ActionsTitle` | `string` | `"Actions"` | Actions column header. |
+| `MobileCardTemplate` | `RenderFragment<TItem>?` | `null` | Card layout on phones. |
+| `BatchActionsTemplate` | `RenderFragment<IReadOnlyList<TItem>>?` | `null` | Buttons shown while rows are selected. |
+| `EmptyText` | `string` | `"No records found matching your criteria."` | Shown when nothing matches. |
+| `ShowPagination` | `bool` | `true` | Page controls. |
+| `PageSize` | `int` | `5` | Rows per page. |
+| `PageSizeOptions` | `int[]` | `5,10,20,50` | Choices in the page-size list. |
+| `ShowPageSizeSelector` | `bool` | `true` | Page-size list. |
+| `CurrentPage` | `int` | `1` | Current page (two-way with CurrentPageChanged). |
+| `CurrentPageChanged` | `EventCallback<int>` | `null` | Page changed. |
+| `SelectionChanged` | `EventCallback<IReadOnlyList<TItem>>` | `null` | Selection changed. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwDataGrid Items="Enumerable.Empty<TItem>()" ActionsTitle="Actions" EmptyText="No records found matching your criteria." />
+<TwDataGrid TItem="Order" Items="_orders" Label="Orders" Selectable="true" AllowGrouping="true" AllowColumnChooser="true" AllowExport="true" StateKey="orders">
+    <Columns>
+        <TwDataGridColumn TItem="Order" Title="Customer" Property="o => o.Customer" Editable="true" EditValue="SetCustomer" />
+        <TwDataGridColumn TItem="Order" Title="Amount" Property="o => o.Amount" Summary="GridSummary.Sum" SummaryFormat="C0" />
+    </Columns>
+</TwDataGrid>
 ```
 
 ---
@@ -2513,32 +2530,43 @@ High-performance enterprise data grid with column sorting, per-column text filte
 
 **Location:** [`Components/UI/TwDataGridColumn.razor`](../Components/UI/TwDataGridColumn.razor)
 
-Declarative column definition for TwDataGrid specifying field binding, title, sortable flag, and custom cell templates.
+Column definition for TwDataGrid: binding, sorting, filtering, width, alignment, templates, footer and group summary, grouping and chooser options, frozen column, inline editing with validation, and conditional cell formatting.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `""` | Header title or accessible label. |
-| `Property` | `Func<TItem, object?>?` | `null` | Configures component behavior or styling. |
-| `SortBy` | `Func<TItem, object?>?` | `null` | Configures component behavior or styling. |
-| `Sortable` | `bool` | `true` | Configures component behavior or styling. |
-| `Filterable` | `bool` | `true` | Configures component behavior or styling. |
-| `FilterPlaceholder` | `string?` | `null` | Input placeholder hint. |
-| `Width` | `string?` | `null` | Configures component behavior or styling. |
-| `MinWidth` | `string?` | `null` | Configures component behavior or styling. |
-| `MaxWidth` | `string?` | `null` | Configures component behavior or styling. |
-| `Align` | `string` | `"left"` | Configures component behavior or styling. |
-| `CellTemplate` | `RenderFragment<TItem>?` | `null` | Configures component behavior or styling. |
-| `HeaderTemplate` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `FilterTemplate` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `HeaderClass` | `string?` | `null` | Configures component behavior or styling. |
-| `CellClass` | `string?` | `null` | Configures component behavior or styling. |
+| `Title` | `string` | `""` | Header text; also the column key for saved state. |
+| `Property` | `Func<TItem,object?>?` | `null` | Display value (also used for sort, filter, group, summary, export). |
+| `SortBy` | `Func<TItem,object?>?` | `null` | Sort value when it differs from the display value. |
+| `Sortable` | `bool` | `true` | Header is a sort button. |
+| `Filterable` | `bool` | `true` | Shows a filter box. |
+| `Summary` | `GridSummary` | `None` | Count, Sum, Average, Min or Max in the footer and group headers. |
+| `SummaryFormat` | `string?` | `null` | .NET numeric format, for example C0 or N1. |
+| `Groupable` | `bool` | `true` | Offered in Group by. |
+| `Hideable` | `bool` | `true` | Can be hidden in the chooser (the last visible column never can). |
+| `Frozen` | `bool` | `false` | Pinned at the start edge while scrolling sideways (use on the first column). |
+| `Editable` | `bool` | `false` | Shows an input while its row is edited. |
+| `EditValue` | `Action<TItem,string>?` | `null` | Applies the edited text to the item on save. |
+| `EditText` | `Func<TItem,string>?` | `display value` | Initial edit text. |
+| `Validate` | `Func<string,string?>?` | `null` | Returns an error message to block the save. |
+| `InputType` | `string` | `"text"` | text, number, date or email. |
+| `CellClassSelector` | `Func<TItem,string?>?` | `null` | Conditional formatting for a cell. |
+| `Width` | `string?` | `null` | CSS width. |
+| `MinWidth` | `string?` | `null` | CSS min-width. |
+| `MaxWidth` | `string?` | `null` | CSS max-width. |
+| `Align` | `string` | `"left"` | left, center or right. |
+| `CellTemplate` | `RenderFragment<TItem>?` | `null` | Custom cell. |
+| `HeaderTemplate` | `RenderFragment?` | `null` | Custom header. |
+| `FilterTemplate` | `RenderFragment?` | `null` | Custom filter control. |
+| `FilterPlaceholder` | `string?` | `null` | Filter box hint. |
+| `HeaderClass` | `string?` | `null` | Extra header classes. |
+| `CellClass` | `string?` | `null` | Extra cell classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwDataGridColumn Title="" Sortable="true" Filterable="true" />
+<TwDataGridColumn TItem="Order" Title="Amount" Property="o => o.Amount" Align="right" Summary="GridSummary.Sum" SummaryFormat="C0" Editable="true" InputType="number" EditValue="SetAmount" Validate="Positive" />
 ```
 
 ---

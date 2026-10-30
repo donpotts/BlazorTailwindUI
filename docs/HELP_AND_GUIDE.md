@@ -369,7 +369,7 @@ Every component follows the same familiar C# conventions:
     }
 }
 ```
-*Capabilities*: Sub-millisecond Blazor component lifecycle tracing via `ActivitySource("BlazorTailwindUI.Components", "0.6.0")`, pure SVG latency waterfalls with microsecond precision, component performance leaderboard with slow frame warnings (>33ms), real-time WASM heap & GC Generational counters (Gen 0/1/2), and 1-click W3C OTLP JSON export formatted for Jaeger, Grafana Tempo, and Dynatrace.
+*Capabilities*: Sub-millisecond Blazor component lifecycle tracing via `ActivitySource("BlazorTailwindUI.Components", "0.7.0")`, pure SVG latency waterfalls with microsecond precision, component performance leaderboard with slow frame warnings (>33ms), real-time WASM heap & GC Generational counters (Gen 0/1/2), and 1-click W3C OTLP JSON export formatted for Jaeger, Grafana Tempo, and Dynatrace.
 
 ---
 
@@ -379,11 +379,11 @@ BlazorTailwindUI includes official desktop installers built using Tauri v2, prov
 
 | Installer | Description | Location |
 |---|---|---|
-| **`BlazorTailwindUI-0.6.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-0.6.0-x64-Setup.exe` |
-| **`BlazorTailwindUI-0.6.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-0.6.0-x64-en-US.msi` |
-| **`BlazorTailwindUI-WebDemo-v0.6.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v0.6.0.zip` |
+| **`BlazorTailwindUI-0.7.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-0.7.0-x64-Setup.exe` |
+| **`BlazorTailwindUI-0.7.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-0.7.0-x64-en-US.msi` |
+| **`BlazorTailwindUI-WebDemo-v0.7.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v0.7.0.zip` |
 
-Each release also ships `SHA256SUMS.txt`; verify a download with `sha256sum -c SHA256SUMS.txt` (or `Get-FileHash` on Windows). The v0.6.0 installers were smoke-tested: the desktop app launches, and the WebDemo bundle passes the full browser E2E suite.
+Each release also ships `SHA256SUMS.txt`; verify a download with `sha256sum -c SHA256SUMS.txt` (or `Get-FileHash` on Windows). The v0.7.0 installers were smoke-tested: the desktop app launches, and the WebDemo bundle passes the full browser E2E suite.
 
 ### Building Installers from Source:
 ```bash

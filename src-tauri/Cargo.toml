@@ -1,6 +1,6 @@
 [package]
 name = "blazor-tailwind-ui"
-version = "0.6.0"
+version = "0.7.0"
 description = "Blazor Tailwind UI Enterprise Studio Desktop Application"
 authors = ["Don Potts"]
 license = "MIT"

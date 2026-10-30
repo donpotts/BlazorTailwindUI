@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-10%2B_WASM-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 10+" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Release-v0.6.0-10B981?style=flat-square" alt="Release v0.6.0" /></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Release-v0.7.0-10B981?style=flat-square" alt="Release v0.7.0" /></a>
   <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-234_Ready-3B82F6?style=flat-square" alt="234 Components" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="MIT License" /></a>
 </p>
@@ -255,6 +255,41 @@ See them in the **AI** area of the demo under *Planning & Enterprise*.
 
 ---
 
+## 🧮 Data Grid
+
+`TwDataGrid` keeps its familiar parameters and adds opt-in enterprise features, all keyboard accessible and tested in a real browser.
+
+```razor
+<TwDataGrid TItem="Order" Items="_orders" Label="Orders" Selectable="true"
+            AllowGrouping="true" AllowColumnChooser="true" AllowExport="true" StateKey="orders" MaxHeight="30rem">
+    <Columns>
+        <TwDataGridColumn TItem="Order" Title="Order" Frozen="true" Hideable="false" Property="o => o.Id" />
+        <TwDataGridColumn TItem="Order" Title="Customer" Property="o => o.Customer" Editable="true"
+                          EditValue="SetCustomer" Validate="RequireText" />
+        <TwDataGridColumn TItem="Order" Title="Amount" Align="right" Property="o => o.Amount"
+                          Summary="GridSummary.Sum" SummaryFormat="C0" />
+    </Columns>
+    <DetailTemplate Context="o"><p>@o.Notes</p></DetailTemplate>
+</TwDataGrid>
+```
+
+| Feature | How it works |
+| --- | --- |
+| **Sorting** | Headers are buttons with `aria-sort`. Shift-click adds a second sort; priority numbers show. |
+| **Grouping and totals** | Group by any column: headers show a count and each column's summary. Footer totals cover every filtered row, not just the page. |
+| **Master-detail** | `DetailTemplate` adds an expandable row (`aria-expanded` / `aria-controls`). |
+| **Inline editing** | `Editable` columns become inputs; `Validate` blocks the save and announces the error; Enter saves, Escape cancels; one row at a time. |
+| **Column chooser, frozen column, sticky header** | Show and hide columns (never the last one), pin the first column, keep the header in view. |
+| **CSV export** | All filtered rows and visible columns. Cells that start with `=`, `+`, `-` or `@` are neutralised so a spreadsheet cannot run them. |
+| **Saved layout** | `StateKey` restores sort, search, filters, grouping, page size and visible columns after a reload. |
+| **Conditional formatting** | `RowClassSelector` and `CellClassSelector`. |
+
+| Default | Grouped | Inline edit |
+| :---: | :---: | :---: |
+| ![Grid](docs/images/grid-1-default.png) | ![Grouped](docs/images/grid-2-grouped.png) | ![Edit](docs/images/grid-4-edit-errors.png) |
+
+---
+
 ## ♿ Accessibility
 
 - **High contrast:** toggle it in the theme menu, or let it follow the OS `prefers-contrast` setting. It sets `data-contrast="high"` on `<html>` before first paint (no flash), turns borders solid, strengthens muted text and focus rings, and drops shadows and blur.
@@ -284,6 +319,8 @@ python tests/e2e/agent_ops_e2e.py http://127.0.0.1:5199
 python tests/e2e/agent_kit_e2e.py
 # Planning & Enterprise tab: scheduler, Gantt, tree list, window, rich-text sanitizer, with axe-core
 python tests/e2e/enterprise_e2e.py
+# Data grid: keyboard sorting, grouping, editing, CSV download, saved state, mobile, axe-core
+python tests/e2e/grid_e2e.py
 ```
 
 The E2E run drives the real UI (approve with edited arguments, reject, takeover and state edit, audit export, contrast, RTL, forced colors), asserts the outcomes, fails on any console error, and writes screenshots to `docs/images/`.

@@ -26,6 +26,8 @@ This document outlines the strategic architecture, component specifications, and
 | **33. Agent Ops: Approvals, Takeover & Audit** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster`, `AgentRunSession` | Shipped (v0.6.0) ✅ | Agentic AI & Human-in-the-Loop |
 | **34. Accessibility Layer** | High-contrast mode, `forced-colors`, reduced motion, RTL-safe components, axe-core E2E | Shipped (v0.6.0) ✅ | Accessibility & Theming |
 | **35. Agent Kit & Live AG-UI** | `SseAgentTransport`, `AgentThreadStore`, `TwThreadList`, `TwA2uiSurface`, `TwMcpAppFrame`, `TwVoiceInput`, `TwHandoffPanel`, `TwLiveScreen`, `TwGrantList` and 17 more; `TwCalendar`, `TwTimePicker`, `TwRadioGroup`, `TwTextArea` | Shipped ✅ | Agent-native UI |
+| **36. Planning & Enterprise Suite** | `TwScheduler`, `TwGantt`, `TwTreeList`, `TwToolbar`, `TwWindow`, `TwHtmlEditor`, `TwFormLayout` and 8 more | Shipped (v0.7.0) ✅ | Planning & Enterprise |
+| **37. Enterprise Data Grid** | `TwDataGrid` grouping, summaries, master-detail, inline editing, export, saved layout | Shipped (v0.7.0) ✅ | Enterprise Data |
 | **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Shipped (v0.5.0) ✅ | Observability & Performance HUD |
 | **17. .NET Aspire 11 Live App Host Orchestration** | `TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI` | Shipped (v0.5.1) ✅ | Cloud-Native & Developer Velocity |
 | **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSimdVectorService` | Shipped (v0.5.1) ✅ | Runtime Performance & Vector SIMD |
@@ -677,7 +679,7 @@ Comprehensive interactive training and onboarding system:
 
 Production-grade observability and application performance monitoring (APM) embedded into `BlazorTailwindUI`:
 
-- **Sub-Millisecond Component Lifecycle Tracing**: `ActivitySource("BlazorTailwindUI.Components", "0.6.0")` tracking render durations, memory deltas, and lifecycle events.
+- **Sub-Millisecond Component Lifecycle Tracing**: `ActivitySource("BlazorTailwindUI.Components", "0.7.0")` tracking render durations, memory deltas, and lifecycle events.
 - **Real-Time SVG Waterfall & Flame Graph**: Visual latency bars color-coded by performance thresholds (Optimal < 16.6ms, Warning 16-33ms, Critical > 33ms).
 - **Component Performance Leaderboard**: Aggregated table tracking render counts, average/maximum latencies, and slow frame drop counts.
 - **WASM & GC Vitals**: Real-time managed heap tracking, Gen 0/1/2 collection counts, and workstation GC profiling.
@@ -698,6 +700,7 @@ flowchart LR
     F --> G["v0.4.6 (Shipped ✅)<br/>Grouped Category Hubs<br/>12-Step Coaching Tour<br/>15-Module Video Masterclass"]
     G --> H["v0.5.0 (Shipped ✅)<br/>OpenTelemetry APM Cockpit<br/>W3C OTLP JSON Export<br/>WASM Heap & GC Profiler<br/>Native Desktop & Web Installers"]
     H --> I["v0.6.0 (Release ✅)<br/>Agent Ops: Approvals, Takeover & Audit<br/>Live AG-UI over SSE & Thread List<br/>A2UI, MCP Apps, Voice, Handoff<br/>Accessibility: High Contrast & Forced Colors<br/>219 Components"]
+    I --> J["v0.7.0 (Release ✅)<br/>Planning & Enterprise Suite<br/>Data Grid: Grouping, Summaries, Editing, Export<br/>234 Components"]
 ```
 
 Contributions and discussions are welcomed in the [GitHub Discussions](https://github.com/donpotts/BlazorTailwindUI/discussions) and [Issue Tracker](https://github.com/donpotts/BlazorTailwindUI/issues).

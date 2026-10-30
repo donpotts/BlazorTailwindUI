@@ -3418,6 +3418,11 @@
                                 <span>📅</span>
                                 <span>Planning &amp; Enterprise: Scheduler, Gantt &amp; Tree List</span>
                             </button>
+                            <button type="button" @onclick='() => _aiSubTab = "grid"' data-testid="subtab-grid"
+                                    class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "grid" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                <span>🧮</span>
+                                <span>Data Grid: Grouping, Summaries &amp; Editing</span>
+                            </button>
                         </div>
 
                         @if (_aiSubTab == "agui")
@@ -3439,6 +3444,10 @@
                         else if (_aiSubTab == "enterprise")
                         {
                             <EnterpriseDemo />
+                        }
+                        else if (_aiSubTab == "grid")
+                        {
+                            <GridDemo />
                         }
                         else
                         {
