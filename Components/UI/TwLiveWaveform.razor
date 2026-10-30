@@ -1,4 +1,4 @@
-@* Level meter for live audio (OpenBot live-waveform). Pass 0..1 levels; it draws one bar per value. Static, so reduced motion needs no special case. *@
+@* Level meter for live audio (modelled on OpenBot (CopilotKit/OpenBot, MIT) ui/live-waveform; own implementation). Pass 0..1 levels; it draws one bar per value. Static, so reduced motion needs no special case. *@
 <div class="inline-flex items-center gap-[3px] h-10 @Class" role="img" aria-label="@AriaLabel" data-testid="waveform" data-active="@Active.ToString().ToLowerInvariant()">
     @for (var i = 0; i < Bars; i++)
     {

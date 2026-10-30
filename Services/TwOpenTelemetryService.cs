@@ -14,7 +14,7 @@ using BlazorTailwindUI.Models;
 /// </summary>
 public class TwOpenTelemetryService : IDisposable
 {
-    private static readonly ActivitySource Tracer = new("BlazorTailwindUI.Components", "1.5.0");
+    private static readonly ActivitySource Tracer = new("BlazorTailwindUI.Components", "0.6.0");
     private readonly ConcurrentQueue<ComponentTraceSpan> _spans = new();
     private readonly ConcurrentDictionary<string, List<double>> _componentTimings = new();
     private readonly ConcurrentDictionary<string, int> _componentRenderCounts = new();
@@ -197,7 +197,7 @@ public class TwOpenTelemetryService : IDisposable
                 ["render.mode"] = "InteractiveAuto",
                 ["otel.status"] = "OK",
                 ["w3c.sampled"] = "01",
-                ["net11.async_v2"] = "true"
+                ["dotnet.async_v2"] = "true"
             });
         }
     }
@@ -219,16 +219,16 @@ public class TwOpenTelemetryService : IDisposable
                         attributes = new[]
                         {
                             new { key = "service.name", value = new { stringValue = "BlazorTailwindUI" } },
-                            new { key = "service.version", value = new { stringValue = "1.5.0" } },
+                            new { key = "service.version", value = new { stringValue = "0.6.0" } },
                             new { key = "telemetry.sdk.language", value = new { stringValue = "dotnet" } },
-                            new { key = "host.runtime", value = new { stringValue = ".NET 11 RC WebAssembly" } }
+                            new { key = "host.runtime", value = new { stringValue = ".NET 10+ WebAssembly" } }
                         }
                     },
                     scopeSpans = new[]
                     {
                         new
                         {
-                            scope = new { name = "BlazorTailwindUI.Components", version = "1.5.0" },
+                            scope = new { name = "BlazorTailwindUI.Components", version = "0.6.0" },
                             spans = spansList.Select(s => new
                             {
                                 traceId = s.TraceId,

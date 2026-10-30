@@ -1,6 +1,6 @@
 @implements IDisposable
 @using BlazorTailwindUI.Services
-@* Renders an agent-described UI (CopilotKit A2UI v0.9): components stream in as JSON and bind to a data model. Button presses come back as actions. *@
+@* Renders an agent-described UI (A2UI v0.9; own C# implementation, CopilotKit's a2ui-renderer is the React counterpart): components stream in as JSON and bind to a data model. Button presses come back as actions. *@
 <section aria-label="@Label" class="@Class" data-testid="a2ui-surface" data-surface="@Surface.SurfaceId">
     @if (Surface.HasRoot)
     {

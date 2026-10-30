@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 
 /// <summary>
-/// Masks credentials before agent data is shown, logged or exported. Same rules as CopilotKit's learning collector:
+/// Masks credentials before agent data is shown, logged or exported. Credential-key rules adapted from the redaction in CopilotKit's learning package (CopilotKit/CopilotKit, MIT; see THIRD_PARTY_NOTICES.md):
 /// keys are split into lowercase words so <c>accessToken</c>, <c>access_token</c> and <c>Access-Token</c> all match.
 /// </summary>
 public static partial class RedactionService

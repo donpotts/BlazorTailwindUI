@@ -1874,7 +1874,7 @@ public class FormCatalogService
                     Label = "Top Achievements & Milestones Delivered",
                     Type = FormFieldType.Textarea,
                     Required = true,
-                    DefaultValue = "Led the migration to .NET 11 WASM resulting in 40% memory reduction.",
+                    DefaultValue = "Led the migration to .NET 10+ WASM resulting in 40% memory reduction.",
                     Options = null
                 },
                 new()
@@ -2237,8 +2237,8 @@ public class FormCatalogService
                     Label = "Webinar Session",
                     Type = FormFieldType.Select,
                     Required = true,
-                    DefaultValue = ".NET 11 WASM & High-Performance Tailwind Mastery",
-                    Options = new List<string> { ".NET 11 WASM & High-Performance Tailwind Mastery", "Zero-CDN Security Architectures", "High-Frequency SVG Financial Charting" }
+                    DefaultValue = ".NET 10+ WASM & High-Performance Tailwind Mastery",
+                    Options = new List<string> { ".NET 10+ WASM & High-Performance Tailwind Mastery", "Zero-CDN Security Architectures", "High-Frequency SVG Financial Charting" }
                 },
                 new()
                 {
@@ -2810,7 +2810,7 @@ public class FormCatalogService
                     Label = "Business Need Justification",
                     Type = FormFieldType.Textarea,
                     Required = true,
-                    DefaultValue = "Required for .NET 11 WebAssembly native profiling.",
+                    DefaultValue = "Required for .NET 10+ WebAssembly native profiling.",
                     Options = null
                 },
             }
@@ -3572,8 +3572,8 @@ public class FormCatalogService
                     Label = "Primary Web UI Paradigm",
                     Type = FormFieldType.Select,
                     Required = true,
-                    DefaultValue = "Blazor WebAssembly (.NET 11)",
-                    Options = new List<string> { "Blazor WebAssembly (.NET 11)", "React / Next.js", "Vue / Nuxt", "Angular", "Svelte" }
+                    DefaultValue = "Blazor WebAssembly (.NET 10+)",
+                    Options = new List<string> { "Blazor WebAssembly (.NET 10+)", "React / Next.js", "Vue / Nuxt", "Angular", "Svelte" }
                 },
                 new()
                 {

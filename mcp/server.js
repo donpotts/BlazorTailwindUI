@@ -276,7 +276,7 @@ rl.on('line', (line) => {
           },
           serverInfo: {
             name: 'blazor-tailwind-mcp',
-            version: '1.3.0'
+            version: '0.3.0'
           }
         });
         break;

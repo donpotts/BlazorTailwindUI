@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: 'Release Tag (e.g. v1.0.0)'
+        description: 'Release Tag (e.g. v0.6.0)'
         required: false
-        default: 'v1.0.0'
+        default: 'v0.6.0'
 
 permissions:
   contents: write
@@ -74,12 +74,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ github.ref_name || inputs.release_tag || 'v1.0.0' }}
+          tagName: ${{ github.ref_name || inputs.release_tag || 'v0.6.0' }}
           releaseName: 'Blazor Tailwind UI Desktop v__VERSION__'
           releaseBody: |
             ## 🚀 Blazor Tailwind UI Desktop (TAUI) Enterprise Release
             
-            Cross-platform native desktop release powered by TAUI (Tauri v2) and .NET 11 WebAssembly.
+            Cross-platform native desktop release powered by TAUI (Tauri v2) and .NET 10+ WebAssembly.
             
             ### Included Packages:
             - **Windows**: `.msi` (WiX installer) & `.exe` (NSIS setup)

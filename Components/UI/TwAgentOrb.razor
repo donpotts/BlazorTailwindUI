@@ -1,5 +1,5 @@
 @using BlazorTailwindUI.Models
-@* Animated agent avatar whose look carries run state (OpenBot orb). Motion stops under prefers-reduced-motion; status is also text for AT. *@
+@* Animated agent avatar whose look carries run state (modelled on the orb in OpenBot (CopilotKit/OpenBot, MIT); own implementation). Motion stops under prefers-reduced-motion; status is also text for AT. *@
 <span class="relative inline-flex items-center justify-center @SizeClass @Class" role="img" aria-label="@($"{Name}: {StatusText}")" data-testid="agent-orb" data-status="@Status">
     @if (Active)
     {

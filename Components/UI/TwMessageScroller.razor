@@ -1,6 +1,6 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
-@* Chat transcript container that follows new content, and shows "Jump to latest" once you scroll up (OpenBot message-scroller). *@
+@* Chat transcript container that follows new content, and shows "Jump to latest" once you scroll up (modelled on OpenBot (CopilotKit/OpenBot, MIT) ui/message-scroller; own implementation). *@
 <div class="relative @Class" data-testid="message-scroller">
     <div @ref="_el" role="log" aria-live="polite" aria-label="@Label" tabindex="0" data-testid="scroller-body"
          class="overflow-y-auto @BodyClass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-xl" style="@(Height is null ? null : $"max-height:{Height}")">

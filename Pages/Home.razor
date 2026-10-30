@@ -240,7 +240,7 @@
         <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between">
             <div class="text-xs">
                 <p class="font-semibold text-slate-800 dark:text-slate-200">System Ready</p>
-                <p class="text-slate-500 dark:text-slate-400">.NET 11 RC • Blazor WASM</p>
+                <p class="text-slate-500 dark:text-slate-400">.NET 10+ • Blazor WASM</p>
             </div>
             <TwBadge Variant="SemanticVariant.Success" ShowDot="true">Live</TwBadge>
         </div>
@@ -381,7 +381,7 @@
                 <button type="button" @onclick='() => _activeTab = "fullstack"'
                         class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 dark:hover:bg-brand-950/50 text-slate-700 dark:text-slate-300 hover:text-brand-600 shrink-0 transition flex items-center gap-1.5">
                     <span>⚡</span>
-                    <span>.NET 11 Hub</span>
+                    <span>.NET 10+ Hub</span>
                 </button>
                 <button type="button" @onclick='() => _activeTab = "aichat"'
                         class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-brand-50 dark:hover:bg-brand-950/50 text-slate-700 dark:text-slate-300 hover:text-brand-600 shrink-0 transition flex items-center gap-1.5">
@@ -447,7 +447,7 @@
                             <TwMarquee DurationSeconds="26" PauseOnHover="true" FadeEdges="true" Class="py-1">
                                 <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-xs">
                                     <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
-                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200">.NET 11 RC WebAssembly</span>
+                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200">.NET 10+ WebAssembly</span>
                                 </div>
                                 <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-xs">
                                     <span class="text-cyan-500 font-bold">⚡</span>
@@ -1546,7 +1546,7 @@
                                     </p>
                                     <div class="max-w-2xl mx-auto">
                                         <TwChatStudio Title="Copilot Workspace"
-                                                      ModelBadge=".NET 11 WASM"
+                                                      ModelBadge=".NET 10+ WASM"
                                                       StatusSubtitle="Zero-Latency Native • Ready"
                                                       Messages="_demoChatMessages"
                                                       Suggestions="_demoChatSuggestions"
@@ -2591,7 +2591,7 @@
                                              AuthorName="Alex Morgan"
                                              AuthorInitials="AM"
                                              DateText="Oct 2026 • 5 min read"
-                                             Tags="@(new[] { "Blazor", "TailwindCSS", "DotNet11RC" })"
+                                             Tags="@(new[] { "Blazor", "TailwindCSS", "DotNet10" })"
                                              OnClick='() => OpenArticleDrawer("Building Modern Blazor WASM with Tailwind CSS", "Step-by-step walk-through of creating headless and styled reusable components with zero JavaScript overhead.")' />
 
                                 <TwMediaCard Title="Mastering Touch Targets & Safe Area Insets on iOS"
@@ -2870,7 +2870,7 @@
                                             <span class="text-xs uppercase tracking-wider font-bold bg-white/20 w-fit px-2.5 py-1 rounded-full">Slide 1 of 3</span>
                                             <div>
                                                 <h3 class="text-xl sm:text-2xl font-black mb-2">Native Blazor WASM</h3>
-                                                <p class="text-xs sm:text-sm text-brand-100">Compiled to WebAssembly under .NET 11 RC with ahead-of-time optimization.</p>
+                                                <p class="text-xs sm:text-sm text-brand-100">Compiled to WebAssembly under .NET 10+ with ahead-of-time optimization.</p>
                                             </div>
                                             <div class="flex items-center gap-2">
                                                 <TwButton Variant="ButtonVariant.Secondary" Size="ComponentSize.Xs">Explore Architecture</TwButton>
@@ -2986,7 +2986,7 @@
                             <!-- Timeline -->
                             <TwCard Title="Enterprise Audit & Release Timeline" Subtitle="Chronological event progress with pulsing active nodes">
                                 <TwTimeline>
-                                    <TwTimelineItem Title=".NET 11 RC Upgrade Completed"
+                                    <TwTimelineItem Title=".NET 10+ Upgrade Completed"
                                                     Subtitle="Build verification 100% green"
                                                     Timestamp="Just now"
                                                     Variant="SemanticVariant.Primary"
@@ -3034,7 +3034,7 @@
                                             <TwChipGroup>
                                                 <TwChip Text="Blazor WASM" Selectable="true" @bind-Selected="_chip1" />
                                                 <TwChip Text="Tailwind CSS" Selectable="true" @bind-Selected="_chip2" />
-                                                <TwChip Text=".NET 11 RC" Selectable="true" @bind-Selected="_chip3" />
+                                                <TwChip Text=".NET 10+" Selectable="true" @bind-Selected="_chip3" />
                                                 @if (_showRemovableTag)
 
                                                 {
@@ -3391,7 +3391,7 @@
                             <button type="button" @onclick='() => _aiSubTab = "agui"'
                                     class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "agui" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
                                 <span>✨</span>
-                                <span>AGUI & Agentic Tool Calling Studio (.NET 11)</span>
+                                <span>AGUI & Agentic Tool Calling Studio (.NET 10+)</span>
                             </button>
                             <button type="button" @onclick='() => _aiSubTab = "chat"'
                                     class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "chat" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
@@ -3408,10 +3408,10 @@
                                 <span>🧰</span>
                                 <span>Agent Kit: A2UI, MCP Apps, Voice &amp; Threads</span>
                             </button>
-                            <button type="button" @onclick='() => _aiSubTab = "toolkit"' data-testid="subtab-toolkit"
-                                    class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "toolkit" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                            <button type="button" @onclick='() => _aiSubTab = "inputs"' data-testid="subtab-inputs"
+                                    class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "inputs" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
                                 <span>🗓️</span>
-                                <span>Toolkit Inputs: Calendar, Time &amp; Radio</span>
+                                <span>Inputs &amp; Pickers: Calendar, Time &amp; Radio</span>
                             </button>
                         </div>
 
@@ -3427,9 +3427,9 @@
                         {
                             <AgentKitDemo />
                         }
-                        else if (_aiSubTab == "toolkit")
+                        else if (_aiSubTab == "inputs")
                         {
-                            <ToolkitDemo />
+                            <InputsDemo />
                         }
                         else
                         {
@@ -4081,7 +4081,7 @@
                                         {
                                             <div class="w-full max-w-md py-2">
                                                 <TwMarquee DurationSeconds="15" FadeEdges="true">
-                                                    <span class="px-3 py-1 rounded-lg bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 font-bold text-xs">.NET 11</span>
+                                                    <span class="px-3 py-1 rounded-lg bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 font-bold text-xs">.NET 10+</span>
                                                     <span class="px-3 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 font-bold text-xs">Tailwind CSS</span>
                                                     <span class="px-3 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-bold text-xs">WebAssembly</span>
                                                 </TwMarquee>
@@ -4452,7 +4452,7 @@
                                     <!-- Pillar 10: Developer MCP Server -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2 hover:border-brand-500/50 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.2.0 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.2.0 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Dev Tooling & AI</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4467,14 +4467,14 @@
                                         </div>
                                     </div>
 
-                                    <!-- Pillar 11: .NET 11 Full-Stack Universal Architecture -->
+                                    <!-- Pillar 11: .NET 10+ Full-Stack Universal Architecture -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2 hover:border-brand-500/50 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.3.0 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.3.0 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Full-Stack Blazor</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                                            <span>⚡</span> .NET 11 Full-Stack Universal Suite
+                                            <span>⚡</span> .NET 10+ Full-Stack Universal Suite
                                         </h4>
                                         <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                                             Zero-flicker SSR hydration cache, high-throughput IAsyncEnumerable streaming DataGrid with 1M row capacity, dual-mode enhanced forms, and <code class="font-bold text-brand-600 dark:text-brand-400">dotnet new blazortw</code> CLI template.
@@ -4488,7 +4488,7 @@
                                     <!-- Pillar 12: C# 15 Discriminated Unions & Closed Hierarchies -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2 hover:border-brand-500/50 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.4.5 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.4.5 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">C# 15 Language</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4506,7 +4506,7 @@
                                     <!-- Pillar 12B: Flagship Studios & Grouped Navigation -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 space-y-2 hover:border-brand-500/50 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.4.6 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.4.6 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Studios &amp; Nav Hubs</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4524,7 +4524,7 @@
                                     <!-- Pillar 13: Donut Caching & ShortCircuit Endpoints -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-brand-500/30 dark:border-brand-500/20 space-y-2 hover:border-brand-500 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.4.0 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.4.0 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">SSR &amp; Edge Caching</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4542,7 +4542,7 @@
                                     <!-- Pillar 14: Native Zstandard Compression Pipeline -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-brand-500/30 dark:border-brand-500/20 space-y-2 hover:border-brand-500 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.4.0 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.4.0 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">High Throughput</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4560,7 +4560,7 @@
                                     <!-- Pillar 15: Post-Quantum Cryptography & ML-KEM Vault -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-brand-500/30 dark:border-brand-500/20 space-y-2 hover:border-brand-500 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.4.0 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.4.0 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Zero-Trust &amp; PQC</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4578,7 +4578,7 @@
                                     <!-- Pillar 16: Native OpenTelemetry Component Tracing -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-brand-500/30 dark:border-brand-500/20 space-y-2 hover:border-brand-500 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.5.0 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.5.0 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Observability</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4596,7 +4596,7 @@
                                     <!-- Pillar 17: .NET Aspire 11 Live App Host Orchestration -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-purple-500/30 dark:border-purple-500/20 space-y-2 hover:border-purple-500 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.5.1 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.5.1 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Cloud-Native</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -4615,7 +4615,7 @@
                                     <!-- Pillar 18: Runtime-Native Async V2 & Hardware SIMD -->
                                     <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-brand-500/30 dark:border-brand-500/20 space-y-2 hover:border-brand-500 transition">
                                         <div class="flex items-center justify-between">
-                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v1.5.0 ✅</span>
+                                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">Shipped v0.5.0 ✅</span>
                                             <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">Hardware SIMD</span>
                                         </div>
                                         <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -5560,7 +5560,7 @@
       ""spec"": {
         ""containers"": [{
           ""name"": ""webassembly-host"",
-          ""image"": ""ghcr.io/blazortailwind:v1.3.0"",
+          ""image"": ""ghcr.io/blazortailwind:v0.3.0"",
           ""resources"": { ""limits"": { ""cpu"": ""2000m"", ""memory"": ""2Gi"" } }
         }]
       }
@@ -5630,7 +5630,7 @@
     private readonly List<TwWordCloud.WordCloudItem> _demoWordCloudItems = new()
     {
         new("Blazor WASM", 98),
-        new(".NET 11", 94),
+        new(".NET 10+", 94),
         new("Tailwind CSS", 88),
         new("WebAssembly", 84),
         new("NativeAOT", 78),
@@ -5701,7 +5701,7 @@
         new ChatMessage
         {
             Role = ChatRole.Assistant,
-            Content = "Hello! I am your Blazor enterprise copilot powered by .NET 11 WASM. How can I assist you with your architecture, streaming grids, or data contracts today?",
+            Content = "Hello! I am your Blazor enterprise copilot powered by .NET 10+ WASM. How can I assist you with your architecture, streaming grids, or data contracts today?",
             Timestamp = DateTime.Now.AddMinutes(-5),
             FeedbackThumb = true
         }
@@ -5710,7 +5710,7 @@
     private List<string> _demoChatSuggestions = new()
     {
         "Analyze cluster throughput",
-        "Generate .NET 11 entity schema",
+        "Generate .NET 10+ entity schema",
         "Summarize recent audit alerts"
     };
 
@@ -5724,7 +5724,7 @@
 
         _demoChatIsTyping = false;
         var responseContent = msg.Content.ToLower().Contains("cluster")
-            ? "Edge cluster telemetry indicates 24 nodes healthy with 1.2ms average roundtrip latency and zero memory leaks under the .NET 11 Runtime Native Async V2 pipeline."
+            ? "Edge cluster telemetry indicates 24 nodes healthy with 1.2ms average roundtrip latency and zero memory leaks under the .NET 11+ Runtime Native Async V2 pipeline."
             : msg.Content.ToLower().Contains("schema")
             ? "Generated C# 15 record with closed hierarchy: public union ApiResponse(Success, Failure); public record Success(string Payload); public record Failure(int ErrorCode, string Message);"
             : $"Analyzed prompt: '{msg.Content}'. All downstream data validations passed with zero runtime allocations and sub-millisecond execution.";
@@ -5847,7 +5847,7 @@
         _commandPaletteItems.Clear();
 
         // Navigation
-        _commandPaletteItems.Add(new CommandPaletteItem { Title = ".NET 11 Full-Stack Hub", Subtitle = "Zero-Flicker Hydration, IAsyncEnumerable Streaming, Interactive Auto", Category = "Navigation", ShortcutKey = "U", Action = () => { _activeTab = "fullstack"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = ".NET 10+ Full-Stack Hub", Subtitle = "Zero-Flicker Hydration, IAsyncEnumerable Streaming, Interactive Auto", Category = "Navigation", ShortcutKey = "U", Action = () => { _activeTab = "fullstack"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "Tailwind Showcase", Subtitle = "Asymmetrical Bento Grid, Pricing Matrix, Avatar Stacks", Category = "Navigation", ShortcutKey = "S", Action = () => { _activeTab = "showcase"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "CRM Draggable Dashboard Studio", Subtitle = "Touch drag handles, resize, customizable card properties & persistent LocalStorage", Category = "Studios", ShortcutKey = "B", Action = () => { _activeTab = "dashboard-studio"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "PDF Form Maker & Contract Signer", Subtitle = "PDF form filler, spatial signature anchors, text flattening & sealing", Category = "Studios", ShortcutKey = "P", Action = () => { _activeTab = "pdf-studio"; StateHasChanged(); } });
@@ -5922,7 +5922,7 @@
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSpreadsheet", Subtitle = "Reactive formula calculation grid with live recalculation", Category = "Components", Action = () => { _activeTab = "studio"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwOrgChart", Subtitle = "Hierarchical vector company organization chart", Category = "Components", Action = () => { _activeTab = "studio"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwIconPicker & TwEmoji", Subtitle = "Zero-dependency vector icons and interactive emoji picker", Category = "Components", Action = () => { _activeTab = "studio"; StateHasChanged(); } });
-        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwAguiStudio", Subtitle = ".NET 11 Adaptive Generative UI & Frontend/Backend Tool Calling Studio", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
+        _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwAguiStudio", Subtitle = ".NET 10+ Adaptive Generative UI & Frontend/Backend Tool Calling Studio", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwAguiCanvas", Subtitle = "Dynamic runtime widget compiler for generative UI schemas", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwAguiFormCanvas", Subtitle = "Runtime adaptive form engine with conditional fields, confidence badges & HITL gates", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
         _commandPaletteItems.Add(new CommandPaletteItem { Title = "TwSmartSearch", Subtitle = "AI-enhanced semantic vector search with intent detection", Category = "Components", Action = () => { _activeTab = "aichat"; _aiSubTab = "agui"; StateHasChanged(); } });
@@ -6021,8 +6021,8 @@
     {
         _tourSteps.Clear();
         _tourSteps.Add(new(
-            "Welcome to BlazorTailwindUI v1.4.6!",
-            "This enterprise library gives you full-stack component superpower in Blazor WebAssembly (.NET 11 RC), styled exclusively with utility-first Tailwind CSS with 0 external chart bundles or tracking beacons.",
+            "Welcome to BlazorTailwindUI v0.4.6!",
+            "This enterprise library gives you full-stack component superpower in Blazor WebAssembly (.NET 10+), styled exclusively with utility-first Tailwind CSS with 0 external chart bundles or tracking beacons.",
             "🚀",
             "Architecture",
             "Every component is mobile-first: minimum 44px tap targets, bottom-sheet transitions, and stacked card transformations.",
@@ -6435,7 +6435,7 @@
         }),
         new NavGroup("Architecture & AI", "⚡", "4 Modules", new List<NavItem>
         {
-            new("fullstack", ".NET 11 Full-Stack", "⚡", "RC", "WASM + Hybrid, AOT, SIMD & Native CLI"),
+            new("fullstack", ".NET 10+ Full-Stack", "⚡", "GA", "WASM + Hybrid, AOT, SIMD & Native CLI"),
             new("telemetry", "OTel APM Cockpit", "🔭", "APM", "Flame graphs, W3C OTLP JSON & WASM heap tracing"),
             new("aichat", "Smart & AGUI Chat", "🤖", "AI", "AI streaming chat with tool invocations & steppers"),
             new("qrbarcode", "QR, Barcode & OCR", "🏦", "VECTOR", "Vector QR codes, Code 128, MICR check processing")
@@ -6780,7 +6780,7 @@
 
     private readonly List<TwCombobox.ComboboxItem> _comboboxOptions = new()
     {
-        new TwCombobox.ComboboxItem("blazor", "Blazor WebAssembly (.NET 11 RC)", "WebAssembly", "⚡"),
+        new TwCombobox.ComboboxItem("blazor", "Blazor WebAssembly (.NET 10+)", "WebAssembly", "⚡"),
         new TwCombobox.ComboboxItem("tailwind", "Tailwind CSS v3.4+ Standalone", "Styling", "🎨"),
         new TwCombobox.ComboboxItem("enterprise_patterns", "Enterprise UX Architecture Patterns", "Architecture", "🏆"),
         new TwCombobox.ComboboxItem("playwright", "Playwright Automated Testing", "QA Testing", "🎭"),

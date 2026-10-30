@@ -87,7 +87,7 @@ class BlazorWasmRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "uptimeSeconds": round(time.time() - START_TIME, 2),
                 "port": self.server.server_address[1],
                 "engine": "BlazorTailwindUI-ServerPortBridge",
-                "version": "1.3.5"
+                "version": "0.3.5"
             }).encode("utf-8")
             self.send_header("Content-Length", str(len(payload)))
             self.end_headers()

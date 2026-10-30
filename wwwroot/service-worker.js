@@ -1,5 +1,5 @@
-// BlazorTailwindUI PWA Service Worker (v1.1.0)
-const CACHE_NAME = 'btui-pwa-v1.1.0';
+// BlazorTailwindUI PWA Service Worker (v0.1.0)
+const CACHE_NAME = 'btui-pwa-v0.1.0';
 
 const PRECACHE_ASSETS = [
     './',

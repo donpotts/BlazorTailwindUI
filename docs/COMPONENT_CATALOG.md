@@ -1,6 +1,6 @@
 # Blazor Tailwind UI — Component Catalog & Settings Reference
 
-Comprehensive guide to all **86 components** in **BlazorTailwindUI** (.NET 11 RC WebAssembly, Tailwind CSS v3.4+, zero third-party commercial UI libraries).
+Comprehensive guide to all **86 components** in **BlazorTailwindUI** (.NET 10+ WebAssembly, Tailwind CSS v3.4+, zero third-party commercial UI libraries).
 
 ---
 
@@ -608,14 +608,14 @@ Reusable Blazor WebAssembly component styled with Tailwind CSS.
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `MissionHeading` | `string` | `"Empowering Modern Enterprises with Zero-Latency Blazor UI"` | Configures component behavior or styling. |
-| `MissionStatement` | `string` | `"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 11 WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry."` | Configures component behavior or styling. |
+| `MissionStatement` | `string` | `"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry."` | Configures component behavior or styling. |
 | `CustomClass` | `string` | `""` | Configures component behavior or styling. |
 | `OnInquirySubmitted` | `EventCallback<ContactInquiryModel>` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwAboutMissionForm MissionHeading="Empowering Modern Enterprises with Zero-Latency Blazor UI" MissionStatement="Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 11 WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry." CustomClass="" />
+<TwAboutMissionForm MissionHeading="Empowering Modern Enterprises with Zero-Latency Blazor UI" MissionStatement="Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry." CustomClass="" />
 ```
 
 ---
@@ -3359,7 +3359,7 @@ Fixed container managing reactive floating toast alert notifications.
 
 ---
 
-## 🚀 Roadmap Innovations & Morale Suite (v1.1.0 Quick Wins)
+## 🚀 Roadmap Innovations & Morale Suite (v0.1.0 Quick Wins)
 
 ### `TwPrizeWheel`
 
@@ -3584,7 +3584,7 @@ Full-featured modern conversational AI chat studio featuring auto-growing multil
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `Title` | `string` | `"AI Enterprise Studio"` | Chat studio header title. |
-| `ModelBadge` | `string` | `".NET 11 WASM"` | Model identification badge text. |
+| `ModelBadge` | `string` | `".NET 10+ WASM"` | Model identification badge text. |
 | `StatusSubtitle` | `string` | `"Active • Ready for enterprise workloads"` | Subtitle status text. |
 | `Messages` | `List<ChatMessage>` | `new()` | Chronological chat message stream. |
 | `Suggestions` | `List<string>` | `new()` | Quick reply suggestion chips above composer. |
@@ -3597,7 +3597,7 @@ Full-featured modern conversational AI chat studio featuring auto-growing multil
 
 ```razor
 <TwChatStudio Title="Copilot Workspace"
-              ModelBadge=".NET 11 WASM"
+              ModelBadge=".NET 10+ WASM"
               Messages="_messages"
               Suggestions="_prompts"
               IsTyping="_isThinking"

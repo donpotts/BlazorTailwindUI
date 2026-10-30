@@ -19,7 +19,7 @@ async def run():
 
         # Verify Step 1
         tour_title = page.locator("#tour-card-title")
-        assert "Welcome to BlazorTailwindUI v1.4.6!" in await tour_title.text_content()
+        assert "Welcome to BlazorTailwindUI v0.4.6!" in await tour_title.text_content()
         step_counter = page.locator("text=Step 1 of 12").first
         assert await step_counter.is_visible(), "Step 1 of 12 should be visible"
         print("PASS: Tour Step 1 rendered correctly (Step 1 of 12)!")
@@ -151,11 +151,11 @@ async def run():
         print("PASS: All quiz questions tested and verified with instant green feedback!")
 
         # 6. Verify Roadmap cards
-        shipped_145 = page.locator("text=Shipped v1.4.5 ✅").first
-        shipped_146 = page.locator("text=Shipped v1.4.6 ✅").first
-        assert await shipped_145.is_visible(), "Shipped v1.4.5 badge should be visible"
-        assert await shipped_146.is_visible(), "Shipped v1.4.6 badge should be visible"
-        print("PASS: Roadmap cards reflect Shipped v1.4.5 and v1.4.6!")
+        shipped_145 = page.locator("text=Shipped v0.4.5 ✅").first
+        shipped_146 = page.locator("text=Shipped v0.4.6 ✅").first
+        assert await shipped_145.is_visible(), "Shipped v0.4.5 badge should be visible"
+        assert await shipped_146.is_visible(), "Shipped v0.4.6 badge should be visible"
+        print("PASS: Roadmap cards reflect Shipped v0.4.5 and v0.4.6!")
 
         # Capture desktop training hub screenshot
         training_screenshot = r"C:\Users\donpo\.gemini\antigravity\scratch\BlazorTailwindUI\docs\images\suite-training-coaching.png"

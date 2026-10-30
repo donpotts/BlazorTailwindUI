@@ -5122,7 +5122,7 @@
   },
   {
     "name": "TwStreamingGrid",
-    "category": "Fullstack .NET 11",
+    "category": "Fullstack .NET 10+",
     "description": "High-throughput streaming DataGrid consuming IAsyncEnumerable server streams with real-time row pulse animations and 1M row virtualization.",
     "snippet": "<TwStreamingGrid Title=\"Real-time Telemetry\" MaxBufferCapacity=\"5000\" />",
     "parameters": [
@@ -5154,7 +5154,7 @@
   },
   {
     "name": "TwHydratedView",
-    "category": "Fullstack .NET 11",
+    "category": "Fullstack .NET 10+",
     "description": "Universal zero-flicker SSR hydration container eliminating duplicate database queries and visual layout shift between prerender and client hydration.",
     "snippet": "<TwHydratedView IsRestored=\"@_isRestored\" IsLoading=\"@_loading\"><p>Hydrated Content</p></TwHydratedView>",
     "parameters": [
@@ -5198,7 +5198,7 @@
   },
   {
     "name": "TwFullstackForm",
-    "category": "Fullstack .NET 11",
+    "category": "Fullstack .NET 10+",
     "description": "Dual-mode enterprise form engine supporting Static SSR Enhanced Form POST (zero JS) and Interactive Auto Client RPC seamlessly.",
     "snippet": "<TwFullstackForm Title=\"Universal Fullstack Form\" />",
     "parameters": [
@@ -5224,14 +5224,14 @@
   },
   {
     "name": "TwFullstackHub",
-    "category": "Fullstack .NET 11",
-    "description": "Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 11 Web Apps.",
+    "category": "Fullstack .NET 10+",
+    "description": "Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 10+ Web Apps.",
     "snippet": "<TwFullstackHub />",
     "parameters": []
   },
   {
     "name": "TwUnionBoundary",
-    "category": "Fullstack .NET 11",
+    "category": "Fullstack .NET 10+",
     "description": "C# 15 Discriminated Union boundary rendering exhaustive states (Loading, Success, Empty, Failure) with compile-time branch safety.",
     "snippet": "<TwUnionBoundary TItem=\"string\" State=\"@state\"><Success Context=\"d\">@d</Success></TwUnionBoundary>",
     "parameters": [
@@ -5269,7 +5269,7 @@
   },
   {
     "name": "TwDonutCache",
-    "category": "Fullstack .NET 11",
+    "category": "Fullstack .NET 10+",
     "description": "Blazor Donut Caching container that edge-caches 95%+ of static SSR page markup while dynamically perforating personalized donut holes.",
     "snippet": "<TwDonutCache CacheKey=\"catalog\" Tags=\"@([\"catalog\"])\"><DynamicHole>...</DynamicHole></TwDonutCache>",
     "parameters": [
@@ -5307,14 +5307,14 @@
   },
   {
     "name": "TwPostQuantumVault",
-    "category": "Fullstack .NET 11",
+    "category": "Fullstack .NET 10+",
     "description": "Post-Quantum Cryptography secure enclave implementing NIST FIPS 203 ML-KEM-768 key encapsulation and zero-trust authenticated encryption.",
     "snippet": "<TwPostQuantumVault />",
     "parameters": []
   },
   {
     "name": "TwTelemetryDashboard",
-    "category": "Fullstack .NET 11",
+    "category": "Fullstack .NET 10+",
     "description": "Native OpenTelemetry (OTel) developer cockpit rendering real-time ActivitySource lifecycle spans, render latency waterfalls, and heap telemetry.",
     "snippet": "<TwTelemetryDashboard />",
     "parameters": []
@@ -5636,7 +5636,7 @@
       {
         "name": "ModelBadge",
         "type": "string",
-        "default": "\".NET 11 WASM\"",
+        "default": "\".NET 10+ WASM\"",
         "description": "Model identification badge."
       },
       {

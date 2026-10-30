@@ -1,4 +1,4 @@
-@* Thumbs up/down on an agent message (CopilotKit feedback). Selecting the same rating again clears it. *@
+@* Thumbs up/down on an agent message (modelled on the feedback buttons in CopilotKit (CopilotKit/CopilotKit, MIT) react-ui; own implementation). Selecting the same rating again clears it. *@
 <div class="inline-flex items-center gap-1 @Class" role="group" aria-label="@Label" data-testid="feedback">
     <button type="button" @onclick="() => SetAsync(FeedbackRating.Up)" aria-pressed="@(Value == FeedbackRating.Up ? "true" : "false")" aria-label="Good response" data-testid="feedback-up"
             class="@ButtonClass(Value == FeedbackRating.Up, "text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-500/20")">

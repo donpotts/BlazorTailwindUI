@@ -18,7 +18,7 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
 Write-Host "=================================================================" -ForegroundColor Cyan
 Write-Host "   Blazor Tailwind UI -- Enterprise Demo Suite Installer        " -ForegroundColor White
-Write-Host "   Version: 1.3.5 | Client-Server Port-Guaranteed Distribution  " -ForegroundColor Yellow
+Write-Host "   Version: 0.3.5 | Client-Server Port-Guaranteed Distribution  " -ForegroundColor Yellow
 Write-Host "=================================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -88,7 +88,7 @@ if (-not $NoShortcuts) {
     $shortcutDesktop = $wshShell.CreateShortcut($desktopLnk)
     $shortcutDesktop.TargetPath = $targetCmd
     $shortcutDesktop.WorkingDirectory = $InstallPath
-    $shortcutDesktop.Description = "Blazor Tailwind UI Enterprise Demo Suite (v1.3.5) with Port Coordinator"
+    $shortcutDesktop.Description = "Blazor Tailwind UI Enterprise Demo Suite (v0.3.5) with Port Coordinator"
     if (Test-Path $iconPath) {
         $shortcutDesktop.IconLocation = "$iconPath,0"
     }

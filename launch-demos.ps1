@@ -22,7 +22,7 @@ $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
 Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "   Blazor Tailwind UI -- Enterprise Demo Suite (v1.3.5)          " -ForegroundColor White
+Write-Host "   Blazor Tailwind UI -- Enterprise Demo Suite (v0.3.5)          " -ForegroundColor White
 Write-Host "   Client-Server Port Coordinator & Pre-Flight Health Launcher   " -ForegroundColor Yellow
 Write-Host "=================================================================" -ForegroundColor Cyan
 Write-Host ""

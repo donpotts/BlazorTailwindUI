@@ -4,7 +4,7 @@ cd /d "%~dp0"
 title Blazor Tailwind UI -- Demo Suite Installer
 
 echo =================================================================
-echo    Blazor Tailwind UI -- Enterprise Demo Suite (v1.3.5)
+echo    Blazor Tailwind UI -- Enterprise Demo Suite (v0.3.5)
 echo    Windows Installer with Pre-Flight Port Coordinator Setup
 echo =================================================================
 echo.

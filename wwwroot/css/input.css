@@ -258,7 +258,7 @@ html.dark,
 
 /* ---------------------------------------------------------------------------
    Accessibility layer: reduced motion, high contrast, forced colors.
-   Pattern borrowed from the Syncfusion blazor-toolkit SfThemeRoot (dark /
+   Pattern: a theme root that scopes (dark /
    high-contrast / forced-colors rules), expressed against Tailwind utilities.
    --------------------------------------------------------------------------- */
 

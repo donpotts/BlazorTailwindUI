@@ -1,7 +1,7 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
 @using System.Text.RegularExpressions
-@* Hosts an MCP app / widget in a sandboxed iframe (CopilotKit mcp-apps-renderer). The frame gets an opaque origin: scripts and forms only,
+@* Hosts an MCP app / widget in a sandboxed iframe (own implementation of the MCP Apps sandbox model; the sandbox flags and CSP host-source pattern are adapted from the mcp-apps-renderer in CopilotKit (CopilotKit/CopilotKit, MIT), MIT). The frame gets an opaque origin: scripts and forms only,
    no cookies, storage or DOM access to this page. Messages flow through postMessage. *@
 <figure class="rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden bg-white dark:bg-slate-900 @Class" data-testid="mcp-app">
     <figcaption class="flex items-center justify-between gap-2 px-3 py-1.5 border-b border-slate-200 dark:border-slate-700 text-xs">

@@ -1,10 +1,10 @@
 # Changelog
 
-All notable changes to BlazorTailwindUI are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
+All notable changes to BlazorTailwindUI are documented here. Version 1.0 has not been released: earlier internal labels of the form 1.x were renumbered to 0.x (for example 1.5.0 is now 0.5.0), so the library is in its 0.n.n line. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [1.6.0]
+## [0.6.0]
 
-Agent-native release: human-in-the-loop agent components, a live AG-UI transport, and an accessibility layer. 193 to **219 components**. Targets .NET 10 (`net10.0`).
+Agent-native release: human-in-the-loop agent components, a live AG-UI transport, and an accessibility layer. 193 to **219 components**. Targets .NET 10+ (`net10.0`).
 
 ### Added
 
@@ -24,15 +24,15 @@ Agent-native release: human-in-the-loop agent components, a live AG-UI transport
 **Threads**
 - `AgentThreadStore` / `IAgentThreadStore` (persisted to `localStorage`) and `TwThreadList` (search, new, rename, pin, archive, delete). `TwAgentConsole` gains `ShowThreads`, `Transport` and `TransportLabel`.
 
-**From CopilotKit**
+**Generative UI, voice and chat pieces**
 - `TwA2uiSurface` with `A2uiSurface`: agent-described UI (A2UI v0.9) with data binding and button actions.
 - `TwMcpAppFrame`: sandboxed MCP app host (opaque origin, locked-down CSP, `postMessage` bridge).
 - `TwVoiceInput`, `TwLiveWaveform`, `TwChatSuggestions`, `TwFeedbackButtons`, `TwAttachmentQueue`, `TwMessageScroller`.
 
-**From OpenBot**
+**Agent control plane**
 - `TwHandoffPanel`, `TwLiveScreen`, `TwDryRunChanges`, `TwActivityLog`, `TwCommandOutput`, `TwRedactedValue` (with `RedactionService`), `TwGrantList`, `TwMemoryList`, `TwRoutinesList`, `TwQuestionnaire`, `TwAgentOrb`.
 
-**From Blazor Toolkit**
+**Inputs and controls**
 - `TwCalendar` (ARIA date-grid keyboard model), `TwTimePicker`, `TwRadioGroup<TValue>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner`.
 
 **Accessibility**
@@ -43,7 +43,10 @@ Agent-native release: human-in-the-loop agent components, a live AG-UI transport
 - Playwright browser suites (`tests/e2e/agent_ops_e2e.py`, `tests/e2e/agent_kit_e2e.py`) with axe-core WCAG 2.x A/AA audits and screenshots.
 
 ### Release artifacts
-- `BlazorTailwindUI-1.6.0-x64-Setup.exe` (NSIS), `BlazorTailwindUI-1.6.0-x64-en-US.msi` (WiX) and `BlazorTailwindUI-WebDemo-v1.6.0.zip`,, with `SHA256SUMS.txt` (SHA-256 checksums).
+- `BlazorTailwindUI-0.6.0-x64-Setup.exe` (NSIS), `BlazorTailwindUI-0.6.0-x64-en-US.msi` (WiX) and `BlazorTailwindUI-WebDemo-v0.6.0.zip`,, with `SHA256SUMS.txt` (SHA-256 checksums).
+
+### Credits
+- Several components are modelled on patterns in [CopilotKit](https://github.com/CopilotKit/CopilotKit) and [OpenBot](https://github.com/CopilotKit/OpenBot) (both MIT). They are our own C# implementations. Only the credential-key redaction rules and the MCP sandbox CSP host-source pattern are adapted from CopilotKit source. `TwThreadList`, `SseAgentTransport` (including its approval-decision endpoint) and the form, input and time components are our own design. See `THIRD_PARTY_NOTICES.md`.
 
 ### Fixed
 - The CRM dashboard leaked a `window` resize listener and threw once it was torn down.
@@ -52,7 +55,7 @@ Agent-native release: human-in-the-loop agent components, a live AG-UI transport
 - Edited approval arguments carried over into the next run.
 
 ### Changed
-- The README runtime badge now reads .NET 10 to match the project target.
+- The README runtime badge now reads .NET 10+ to match the project target.
 - Roadmap items renumbered so they are unique.
 
-[1.6.0]: https://github.com/donpotts/BlazorTailwindUI/compare/v1.5.0...v1.6.0
+[0.6.0]: https://github.com/donpotts/BlazorTailwindUI/releases/tag/v0.6.0

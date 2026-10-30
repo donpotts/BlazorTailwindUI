@@ -798,11 +798,11 @@ public class ComponentCatalogService
             Name = "TwAboutMissionForm",
             Category = "Task-Purpose Enterprise Forms",
             Description = "Enterprise vision and architectural charter banner with live performance metrics, engineering pillars, leadership team cards, and an interactive executive consultation inquiry form.",
-            RazorSnippet = "<TwAboutMissionForm MissionHeading=\"Empowering Modern Enterprises with Zero-Latency Blazor UI\" MissionStatement=\"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 11 WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry.\" CustomClass=\"\" />",
+            RazorSnippet = "<TwAboutMissionForm MissionHeading=\"Empowering Modern Enterprises with Zero-Latency Blazor UI\" MissionStatement=\"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry.\" CustomClass=\"\" />",
             Parameters = new List<ComponentParameterDoc>
             {
                 new ComponentParameterDoc("MissionHeading", "string", "\"Empowering Modern Enterprises with Zero-Latency Blazor UI\"", "Configures component behavior or styling."),
-                new ComponentParameterDoc("MissionStatement", "string", "\"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 11 WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry.\"", "Configures component behavior or styling."),
+                new ComponentParameterDoc("MissionStatement", "string", "\"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry.\"", "Configures component behavior or styling."),
                 new ComponentParameterDoc("CustomClass", "string", "\"\"", "Configures component behavior or styling."),
                 new ComponentParameterDoc("OnInquirySubmitted", "EventCallback<ContactInquiryModel>", "null", "Configures component behavior or styling."),
             }
@@ -2814,7 +2814,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwStreamingGrid",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "High-throughput streaming DataGrid consuming IAsyncEnumerable<TItem> server streams with real-time row pulse animations and 1M row virtualization.",
             RazorSnippet = "<TwStreamingGrid Title=\"Real-time Telemetry\" MaxBufferCapacity=\"5000\" />",
             Parameters = new List<ComponentParameterDoc>
@@ -2828,7 +2828,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwHydratedView",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "Universal zero-flicker SSR hydration container eliminating duplicate database queries and visual layout shift between prerender and client hydration.",
             RazorSnippet = "<TwHydratedView IsRestored=\"@_isRestored\" IsLoading=\"@_loading\"><p>Hydrated Content</p></TwHydratedView>",
             Parameters = new List<ComponentParameterDoc>
@@ -2844,7 +2844,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwFullstackForm",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "Dual-mode enterprise form engine supporting Static SSR Enhanced Form POST (zero JS) and Interactive Auto Client RPC seamlessly.",
             RazorSnippet = "<TwFullstackForm Title=\"Universal Fullstack Form\" />",
             Parameters = new List<ComponentParameterDoc>
@@ -2857,15 +2857,15 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwFullstackHub",
-            Category = "Fullstack .NET 11",
-            Description = "Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 11 Web Apps.",
+            Category = "Fullstack .NET 10+",
+            Description = "Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 10+ Web Apps.",
             RazorSnippet = "<TwFullstackHub />",
             Parameters = new List<ComponentParameterDoc>()
         },
         new ComponentDocItem
         {
             Name = "TwUnionBoundary",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "C# 15 Discriminated Union boundary rendering exhaustive states (Loading, Success, Empty, Failure) with compile-time branch safety.",
             RazorSnippet = "<TwUnionBoundary TItem=\"string\" State=\"@state\"><Success Context=\"d\">@d</Success></TwUnionBoundary>",
             Parameters = new List<ComponentParameterDoc>
@@ -2880,7 +2880,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwDonutCache",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "Blazor Donut Caching container that edge-caches 95%+ of static SSR page markup while dynamically perforating personalized donut holes.",
             RazorSnippet = "<TwDonutCache CacheKey=\"catalog\" Tags=\"@([\"catalog\"])\"><DynamicHole>...</DynamicHole></TwDonutCache>",
             Parameters = new List<ComponentParameterDoc>
@@ -2895,7 +2895,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwPostQuantumVault",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "Post-Quantum Cryptography secure enclave implementing NIST FIPS 203 ML-KEM-768 key encapsulation and zero-trust authenticated encryption.",
             RazorSnippet = "<TwPostQuantumVault />",
             Parameters = new List<ComponentParameterDoc>()
@@ -2903,7 +2903,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwTelemetryDashboard",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "Native OpenTelemetry (OTel) developer cockpit rendering real-time ActivitySource lifecycle spans, render latency waterfalls, and heap telemetry.",
             RazorSnippet = "<TwTelemetryDashboard />",
             Parameters = new List<ComponentParameterDoc>()
@@ -2911,7 +2911,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwVectorMath",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = "WebAssembly SIMD hardware acceleration and vector math engine evaluating high-throughput financial dot products, vector sums, and euclidean distance norms with comparative scalar telemetry.",
             RazorSnippet = "<TwVectorMath />",
             Parameters = new List<ComponentParameterDoc>
@@ -2922,7 +2922,7 @@ public class ComponentCatalogService
         new ComponentDocItem
         {
             Name = "TwAspireHub",
-            Category = "Fullstack .NET 11",
+            Category = "Fullstack .NET 10+",
             Description = ".NET Aspire 11 cloud-native orchestration cockpit with live microservice topology inspector, real-time port health probing, environment variable explorer, structured logs stream, and instant 1-click downloads for executable Program.cs AppHost and docker-compose.yml specifications.",
             RazorSnippet = "<TwAspireHub />",
             Parameters = new List<ComponentParameterDoc>
@@ -3050,7 +3050,7 @@ public class ComponentCatalogService
             Parameters = new List<ComponentParameterDoc>
             {
                 new ComponentParameterDoc("Title", "string", "\"AI Enterprise Studio\"", "Chat studio title."),
-                new ComponentParameterDoc("ModelBadge", "string", "\".NET 11 WASM\"", "Model identification badge."),
+                new ComponentParameterDoc("ModelBadge", "string", "\".NET 10+ WASM\"", "Model identification badge."),
                 new ComponentParameterDoc("Messages", "List<ChatMessage>", "new()", "Chronological chat message stream."),
                 new ComponentParameterDoc("Suggestions", "List<string>", "new()", "Quick reply suggestion chips above composer."),
                 new ComponentParameterDoc("IsTyping", "bool", "false", "Show animated harmonic typing indicator."),

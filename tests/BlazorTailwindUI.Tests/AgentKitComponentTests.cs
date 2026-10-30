@@ -156,7 +156,7 @@ public class ChatPiecesTests : TestContext
     }
 }
 
-public class OpenBotPieceTests : TestContext
+public class AgentControlPlaneTests : TestContext
 {
     [Fact]
     public void DryRun_ShowsBeforeAndAfter_PerKind_AndTheEmptyState()
@@ -366,7 +366,7 @@ public class OpenBotPieceTests : TestContext
     }
 }
 
-public class ToolkitGapTests : TestContext
+public class InputControlTests : TestContext
 {
     [Fact]
     public void Spinner_AnnouncesItsLabel()

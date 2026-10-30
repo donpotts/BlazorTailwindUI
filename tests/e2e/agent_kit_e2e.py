@@ -1,5 +1,5 @@
 """
-End-to-end check of the thread list, the live AG-UI SSE transport, the Agent Kit and the Toolkit inputs,
+End-to-end check of the thread list, the live AG-UI SSE transport, the Agent Kit and the inputs and pickers,
 in a real browser with screenshots and an axe-core audit.
 
     python tests/e2e/agui_server.py 5300          # live test agent
@@ -257,10 +257,10 @@ with sync_playwright() as p:
 
     audit(page, kit, "the Agent Kit tab")
 
-    # ---------- 4. Toolkit inputs ----------
-    open_ai_tab(page, "toolkit")
-    page.locator("[data-testid=toolkit-demo]").wait_for(timeout=15000)
-    tk = "[data-testid=toolkit-demo]"
+    # ---------- 4. Inputs and pickers ----------
+    open_ai_tab(page, "inputs")
+    page.locator("[data-testid=inputs-demo]").wait_for(timeout=15000)
+    tk = "[data-testid=inputs-demo]"
 
     check(page.locator("[data-testid=cal-day][disabled]").count() >= 4, "calendar disables days before Min")
     first_enabled = page.locator("[data-testid=cal-day]:not([disabled])").first
@@ -297,8 +297,8 @@ with sync_playwright() as p:
     page.locator("[data-testid=button-group] button", has_text="Month").click()
     check(page.locator("[data-testid=range-out]").inner_text() == "Month", "button group selects a range")
 
-    shot(page, tk, "6-toolkit")
-    audit(page, tk, "the Toolkit tab")
+    shot(page, tk, "6-inputs")
+    audit(page, tk, "the Inputs tab")
 
     # ---------- 5. Reduced motion: spinner stops ----------
     page.emulate_media(reduced_motion="reduce")

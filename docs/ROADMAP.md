@@ -8,28 +8,28 @@ This document outlines the strategic architecture, component specifications, and
 
 | Pillar / Feature | Planned Component(s) | Status | Domain |
 |---|---|---|---|
-| **1. ScrollCraft Object Animation to Content** | `TwScrollCraft` | Shipped (v1.1.0) ✅ | UI & Micro-Interactions |
-| **2. Celebration Animations Editor** | `TwCelebrationEditor` | Shipped (v1.1.0) ✅ | Interactive Creative Tools |
-| **3. Celebration Randomizer for Morale Giveaways** | `TwPrizeWheel` | Shipped (v1.1.0) ✅ | Gamification & Morale |
-| **4. Rewards Center for Common Offerings** | `TwRewardsCenter` | Shipped (v1.1.0) ✅ | Enterprise HR & Operations |
-| **5. Native Media Recorder & Player** | `TwMediaRecorder` | Shipped (v1.1.0) ✅ | Hardware & Media Interop |
-| **6. Multi-Factor Auth (MFA) Methods Suite** | `TwMfaAuthSuite`, `TwOtpInput` | Shipped (v1.1.0) ✅ | Security, Auth & Compliance |
-| **7. AG-UI Form Engine & HITL Workbenches** | `TwAguiFormCanvas`, `AguiFormSchema` | Shipped (v1.1.0) ✅ | Agentic AI & Generative UI |
-| **8. PWA 1-Click App Installer** | `TwPwaInstallButton`, `TwPwaService` | Shipped (v1.1.0) ✅ | Client WebAssembly & Mobile |
-| **9. Form / PDF OCR & Check 21 MICR Engine** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | Shipped (v1.2.0) ✅ | Client WebAssembly & FinTech |
-| **10. Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | Shipped (v1.2.0) ✅ | Developer Tooling & Agentic AI |
-| **11. .NET 11 Full-Stack Universal Suite** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | Shipped (v1.3.0) ✅ | Full-Stack Blazor & Telemetry |
-| **12. C# 15 Discriminated Unions & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState`, `TwUnionStudio` | Shipped (v1.4.5) ✅ | Language Modernization & State Safety |
-| **13. Donut Caching & ShortCircuit Edge Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Shipped (v1.4.0) ✅ | SSR Performance & Edge Caching |
-| **14. Native Zstandard Ultra-Fast Compression** | `TwZstandardService`, `ZstandardBenchmarkResult` | Shipped (v1.4.0) ✅ | High-Throughput Data & Transport |
-| **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwPostQuantumService` | Shipped (v1.4.0) ✅ | Zero-Trust & Post-Quantum Security |
-| **33. Agent Ops: Approvals, Takeover & Audit** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster`, `AgentRunSession` | Shipped (v1.6.0) ✅ | Agentic AI & Human-in-the-Loop |
-| **34. Accessibility Layer** | High-contrast mode, `forced-colors`, reduced motion, RTL-safe components, axe-core E2E | Shipped (v1.6.0) ✅ | Accessibility & Theming |
+| **1. ScrollCraft Object Animation to Content** | `TwScrollCraft` | Shipped (v0.1.0) ✅ | UI & Micro-Interactions |
+| **2. Celebration Animations Editor** | `TwCelebrationEditor` | Shipped (v0.1.0) ✅ | Interactive Creative Tools |
+| **3. Celebration Randomizer for Morale Giveaways** | `TwPrizeWheel` | Shipped (v0.1.0) ✅ | Gamification & Morale |
+| **4. Rewards Center for Common Offerings** | `TwRewardsCenter` | Shipped (v0.1.0) ✅ | Enterprise HR & Operations |
+| **5. Native Media Recorder & Player** | `TwMediaRecorder` | Shipped (v0.1.0) ✅ | Hardware & Media Interop |
+| **6. Multi-Factor Auth (MFA) Methods Suite** | `TwMfaAuthSuite`, `TwOtpInput` | Shipped (v0.1.0) ✅ | Security, Auth & Compliance |
+| **7. AG-UI Form Engine & HITL Workbenches** | `TwAguiFormCanvas`, `AguiFormSchema` | Shipped (v0.1.0) ✅ | Agentic AI & Generative UI |
+| **8. PWA 1-Click App Installer** | `TwPwaInstallButton`, `TwPwaService` | Shipped (v0.1.0) ✅ | Client WebAssembly & Mobile |
+| **9. Form / PDF OCR & Check 21 MICR Engine** | `TwMicrCheckReader`, `TwDocumentOcrStudio`, `TwSmartOcrButton` | Shipped (v0.2.0) ✅ | Client WebAssembly & FinTech |
+| **10. Developer MCP Server** | `@donpo/blazor-tailwind-mcp` | Shipped (v0.2.0) ✅ | Developer Tooling & Agentic AI |
+| **11. .NET 10+ Full-Stack Universal Suite** | `TwStreamingGrid`, `TwHydratedView`, `TwFullstackForm`, `TwFullstackHub` | Shipped (v0.3.0) ✅ | Full-Stack Blazor & Telemetry |
+| **12. C# 15 Discriminated Unions & Closed Hierarchies** | `TwUnionBoundary`, `Result<T, E>`, `TwAsyncState`, `TwUnionStudio` | Shipped (v0.4.5) ✅ | Language Modernization & State Safety |
+| **13. Donut Caching & ShortCircuit Edge Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Shipped (v0.4.0) ✅ | SSR Performance & Edge Caching |
+| **14. Native Zstandard Ultra-Fast Compression** | `TwZstandardService`, `ZstandardBenchmarkResult` | Shipped (v0.4.0) ✅ | High-Throughput Data & Transport |
+| **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwPostQuantumService` | Shipped (v0.4.0) ✅ | Zero-Trust & Post-Quantum Security |
+| **33. Agent Ops: Approvals, Takeover & Audit** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster`, `AgentRunSession` | Shipped (v0.6.0) ✅ | Agentic AI & Human-in-the-Loop |
+| **34. Accessibility Layer** | High-contrast mode, `forced-colors`, reduced motion, RTL-safe components, axe-core E2E | Shipped (v0.6.0) ✅ | Accessibility & Theming |
 | **35. Agent Kit & Live AG-UI** | `SseAgentTransport`, `AgentThreadStore`, `TwThreadList`, `TwA2uiSurface`, `TwMcpAppFrame`, `TwVoiceInput`, `TwHandoffPanel`, `TwLiveScreen`, `TwGrantList` and 17 more; `TwCalendar`, `TwTimePicker`, `TwRadioGroup`, `TwTextArea` | Shipped ✅ | Agent-native UI |
-| **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Shipped (v1.5.0) ✅ | Observability & Performance HUD |
-| **17. .NET Aspire 11 Live App Host Orchestration** | `TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI` | Shipped (v1.5.1) ✅ | Cloud-Native & Developer Velocity |
-| **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSimdVectorService` | Shipped (v1.5.1) ✅ | Runtime Performance & Vector SIMD |
-| **19. Enterprise Form & Workspace Suite** | `TwMaskInput`, `TwRangeSlider`, `TwHighlight`, `TwTileManager`, `TwNavDrawer` | Shipped (v1.3.1) ✅ | Enterprise UX & Dashboards |
+| **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Shipped (v0.5.0) ✅ | Observability & Performance HUD |
+| **17. .NET Aspire 11 Live App Host Orchestration** | `TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI` | Shipped (v0.5.1) ✅ | Cloud-Native & Developer Velocity |
+| **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSimdVectorService` | Shipped (v0.5.1) ✅ | Runtime Performance & Vector SIMD |
+| **19. Enterprise Form & Workspace Suite** | `TwMaskInput`, `TwRangeSlider`, `TwHighlight`, `TwTileManager`, `TwNavDrawer` | Shipped (v0.3.1) ✅ | Enterprise UX & Dashboards |
 
 ---
 
@@ -223,7 +223,7 @@ Provide client-side WebAssembly optical character recognition (OCR) and financia
 
 ---
 
-## 10. 🔌 Developer Model Context Protocol (MCP) Server (`@donpo/blazor-tailwind-mcp`) — Shipped (v1.2.0) ✅
+## 10. 🔌 Developer Model Context Protocol (MCP) Server (`@donpo/blazor-tailwind-mcp`) — Shipped (v0.2.0) ✅
 
 ### Objective
 Provide an official, zero-friction **Model Context Protocol (MCP)** server for AI-assisted developer environments (Cursor, Claude Desktop, Antigravity, VS Code Copilot, and Windsurf). Enables developer coding assistants to query the 147+ component library, inspect typed parameter schemas, generate validated AG-UI form JSON, validate ANSI X9.27 MICR lines, and lint Razor markup in real time.
@@ -260,10 +260,10 @@ Provide an official, zero-friction **Model Context Protocol (MCP)** server for A
 
 ---
 
-## 11. ⚡ .NET 11 Full-Stack Blazor Enterprise Suite & Universal Render Modes — Shipped (v1.3.0) ✅
+## 11. ⚡ .NET 10+ Full-Stack Blazor Enterprise Suite & Universal Render Modes — Shipped (v0.3.0) ✅
 
 ### Objective
-Provide comprehensive, first-class full-stack development support for **.NET 11 GA (November 10)**, unifying Static Server Rendering (SSR), Streaming SSR, Interactive Server, and Interactive WebAssembly into a cohesive enterprise architecture with zero double-fetch hydration flicker and high-throughput streaming.
+Provide comprehensive, first-class full-stack development support for **.NET 11+ GA (November 10)**, unifying Static Server Rendering (SSR), Streaming SSR, Interactive Server, and Interactive WebAssembly into a cohesive enterprise architecture with zero double-fetch hydration flicker and high-throughput streaming.
 
 ### Key Architectural Specifications
 - **`TwHydrationService` & `TwHydratedView`**:
@@ -281,7 +281,7 @@ Provide comprehensive, first-class full-stack development support for **.NET 11 
 
 ---
 
-## 12. 🛡️ C# 15 Discriminated Union Types & Closed Hierarchies (`TwUnionBoundary`, `Result<T, E>`) — Shipped (v1.4.5) ✅
+## 12. 🛡️ C# 15 Discriminated Union Types & Closed Hierarchies (`TwUnionBoundary`, `Result<T, E>`) — Shipped (v0.4.5) ✅
 
 ### Objective
 Leverage modern C# 15 language innovations—specifically **first-class Union Types** and **Closed Class Hierarchies** (`closed`)—to eliminate untyped nullable models, runtime exceptions, and sentinel flags in asynchronous Blazor component state machines.
@@ -323,7 +323,7 @@ Leverage modern C# 15 language innovations—specifically **first-class Union Ty
 ## 13. 🍩 Blazor Donut Caching & High-Performance `[ShortCircuit]` Edge Endpoints
 
 ### Objective
-Harness the .NET 11 **CacheViewComponent** / Donut Caching engine for Static Server-Side Rendering (SSR) and streaming pipelines, enabling Blazor applications to edge-cache 95%+ of complex rendered markup while dynamically perforating and updating personalized "donut holes" (e.g. shopping cart badges, user greetings, live stock tickers) without rerendering static shells.
+Harness the .NET 11+ **CacheViewComponent** / Donut Caching engine for Static Server-Side Rendering (SSR) and streaming pipelines, enabling Blazor applications to edge-cache 95%+ of complex rendered markup while dynamically perforating and updating personalized "donut holes" (e.g. shopping cart badges, user greetings, live stock tickers) without rerendering static shells.
 
 ### Key Architectural Specifications
 - **`TwDonutCache` & `TwCacheHole`**:
@@ -349,7 +349,7 @@ Harness the .NET 11 **CacheViewComponent** / Donut Caching engine for Static Ser
 ## 14. 🗜️ Ultra-Fast Native Zstandard Compression Pipeline (`TwZstdStreamService`)
 
 ### Objective
-Incorporate native .NET 11 **ZstandardStream** support into Blazor Tailwind UI's transport layer, providing 2–7x faster compression and drastically faster decompression than traditional GZip or Brotli for high-density streaming DataGrids, SignalR state transfer, and offline IndexedDB snapshots.
+Incorporate native .NET 11+ **ZstandardStream** support into Blazor Tailwind UI's transport layer, providing 2–7x faster compression and drastically faster decompression than traditional GZip or Brotli for high-density streaming DataGrids, SignalR state transfer, and offline IndexedDB snapshots.
 
 ### Key Architectural Specifications
 - **`TwZstdStreamService`**:
@@ -366,7 +366,7 @@ Incorporate native .NET 11 **ZstandardStream** support into Blazor Tailwind UI's
 ## 15. 🔐 Post-Quantum Cryptography & ML-KEM Secure State Enclaves (`TwPostQuantumVault`, `TwHpkeEnclave`)
 
 ### Objective
-Equip enterprise Blazor applications with quantum-resistant data protection utilizing .NET 11's newly introduced **ML-KEM (Module-Lattice-Based Key-Encapsulation Mechanism)** and **HPKE (Hybrid Public Key Encryption)** APIs, securing sensitive enterprise inputs (payroll bonuses, medical notes, Check 21 MICR tokens) against future "harvest now, decrypt later" attack vectors.
+Equip enterprise Blazor applications with quantum-resistant data protection utilizing .NET 11+'s newly introduced **ML-KEM (Module-Lattice-Based Key-Encapsulation Mechanism)** and **HPKE (Hybrid Public Key Encryption)** APIs, securing sensitive enterprise inputs (payroll bonuses, medical notes, Check 21 MICR tokens) against future "harvest now, decrypt later" attack vectors.
 
 ### Key Architectural Specifications
 - **`TwPostQuantumVault`**:
@@ -402,7 +402,7 @@ Integrate first-class **OpenTelemetry (OTel)** metrics, activity tracing (`Activ
 
 ---
 
-## 17. 🌐 .NET Aspire 11 Live App Host Orchestration (`TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI`) — Shipped (v1.5.1) ✅
+## 17. 🌐 .NET Aspire 11 Live App Host Orchestration (`TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI`) — Shipped (v0.5.1) ✅
 
 ### Objective
 Integrate Blazor Tailwind UI natively into the **.NET Aspire 11** cloud-native ecosystem with seamless `dotnet watch` live hot-reload across distributed multi-project solutions.
@@ -431,7 +431,7 @@ Integrate Blazor Tailwind UI natively into the **.NET Aspire 11** cloud-native e
 ## 18. ⚡ Runtime-Native Async V2 & Hardware Acceleration Baselines
 
 ### Objective
-Harness .NET 11's **Runtime-Native Async V2** model and modern hardware baseline enhancements (x86-64-v3, Arm64 LSE, and SVE2 math instructions) to unlock maximum throughput with zero state-machine heap allocations.
+Harness .NET 11+'s **Runtime-Native Async V2** model and modern hardware baseline enhancements (x86-64-v3, Arm64 LSE, and SVE2 math instructions) to unlock maximum throughput with zero state-machine heap allocations.
 
 ### Key Architectural Specifications
 - **Runtime-Native Async V2 Integration**:
@@ -443,7 +443,7 @@ Harness .NET 11's **Runtime-Native Async V2** model and modern hardware baseline
 
 ---
 
-## 19. 🎛️ Enterprise Form & Workspace Suite — Shipped (v1.3.1) ✅
+## 19. 🎛️ Enterprise Form & Workspace Suite — Shipped (v0.3.1) ✅
 
 ### Objective
 Provide clean-room, zero-dependency Tailwind CSS + Blazor components addressing high-demand enterprise requirements: masked data entry, continuous interval bounds selection, document text search highlights, executive KPI tile management, and compact side navigation drawers.
@@ -469,7 +469,7 @@ Provide clean-room, zero-dependency Tailwind CSS + Blazor components addressing 
 
 ---
 
-### Pillar 20: Conversational AI & Floating Context Suite (Shipped v1.3.2 ✅)
+### Pillar 20: Conversational AI & Floating Context Suite (Shipped v0.3.2 ✅)
 
 ![Conversational AI & Floating Context Suite](images/suite-conversational-ai.png)
 
@@ -492,7 +492,7 @@ Clean-room engineered enterprise conversational AI studio, floating anchored pop
 
 ---
 
-### Pillar 21: PickList, Duration Stepper & Virtual Keypad Suite (Shipped v1.3.3 ✅)
+### Pillar 21: PickList, Duration Stepper & Virtual Keypad Suite (Shipped v0.3.3 ✅)
 
 ![PickList, Duration Stepper & Virtual Keypad Suite](images/suite-picklist-and-kiosk.png)
 
@@ -514,7 +514,7 @@ Clean-room engineered enterprise dual-list transfer picklists, precision duratio
 
 ---
 
-### Pillar 22: Storage Manager, Word Cloud & Sankey Flow Suite (Shipped v1.3.4 ✅)
+### Pillar 22: Storage Manager, Word Cloud & Sankey Flow Suite (Shipped v0.3.4 ✅)
 
 ![Storage Manager, Word Cloud & Sankey Flow Suite](images/suite-storage-and-flow.png)
 
@@ -533,7 +533,7 @@ Clean-room engineered enterprise cloud file asset managers, pure SVG keyword den
 
 ---
 
-### Pillar 23: 2027 Next-Gen Spatial & Anticipatory UI Laboratory (Shipped v1.3.5 ✅)
+### Pillar 23: 2027 Next-Gen Spatial & Anticipatory UI Laboratory (Shipped v0.3.5 ✅)
 
 ![2027 Next-Gen Spatial & Anticipatory UI Laboratory](images/suite-2027-spatial-laboratory.png)
 
@@ -562,7 +562,7 @@ A comprehensive paradigm shift translating the 2024-to-2027 modern UI transition
 
 ---
 
-### Pillar 24: Demo Suite Installers & Client-Server Port Coordinator (Shipped v1.3.5 ✅)
+### Pillar 24: Demo Suite Installers & Client-Server Port Coordinator (Shipped v0.3.5 ✅)
 
 A fail-safe runtime architecture guaranteeing that the backend API is online and synchronized *before* the UI client launches, while dynamically allocating free ports (5128–5228) to eliminate port collision failures:
 
@@ -584,7 +584,7 @@ A fail-safe runtime architecture guaranteeing that the backend API is online and
 
 ---
 
-### Pillar 25: PDF Form Filler, Contract Signer & Form Maker Studio (Shipped v1.3.6 ✅)
+### Pillar 25: PDF Form Filler, Contract Signer & Form Maker Studio (Shipped v0.3.6 ✅)
 
 ![PDF Form Filler, Contract Signer & Form Maker](images/suite-pdf-contract-signer.png)
 
@@ -606,7 +606,7 @@ A comprehensive spatial document signing and form creation engine designed for e
 
 ---
 
-### Pillar 26: Draggable & Resizable CRM Dashboard (Shipped v1.4.5 ✅)
+### Pillar 26: Draggable & Resizable CRM Dashboard (Shipped v0.4.5 ✅)
 
 ![CRM Draggable & Resizable Dashboard](images/suite-tw-dashboard.png)
 
@@ -620,7 +620,7 @@ A high-performance, mobile-first customizable dashboard system inspired by MudBl
 
 ---
 
-### Pillar 27: PDF Form Flattening, Irreversible Text Stamping & Download (Shipped v1.4.5 ✅)
+### Pillar 27: PDF Form Flattening, Irreversible Text Stamping & Download (Shipped v0.4.5 ✅)
 
 ![PDF Form Flattening & Stamping](images/suite-pdf-contract-signer.png)
 
@@ -632,7 +632,7 @@ Complete AcroForm flattening and irreversible vector stamping engine:
 
 ---
 
-### Pillar 28: C# 15 Discriminated Union Boundary & Closed Algebraic States (Shipped v1.4.5 ✅)
+### Pillar 28: C# 15 Discriminated Union Boundary & Closed Algebraic States (Shipped v0.4.5 ✅)
 
 ![C# 15 Discriminated Union Boundary](images/suite-tw-union-boundary.png)
 
@@ -644,7 +644,7 @@ Closed algebraic UI state hierarchy modeling using C# 15 union types:
 
 ---
 
-### Pillar 29: Categorized Navigation Hubs, Search Filter & Studio Workspaces (Shipped v1.4.6 ✅)
+### Pillar 29: Categorized Navigation Hubs, Search Filter & Studio Workspaces (Shipped v0.4.6 ✅)
 
 ![Categorized Navigation Hubs](images/suite-grouped-navigation.png)
 
@@ -657,7 +657,7 @@ Modern enterprise information architecture replacing flat button bars:
 
 ---
 
-### Pillar 30: Developer Coaching Tour, Chaptered Masterclass & Principles Curriculum (Shipped v1.4.6 ✅)
+### Pillar 30: Developer Coaching Tour, Chaptered Masterclass & Principles Curriculum (Shipped v0.4.6 ✅)
 
 ![Developer Coaching & Masterclass](images/suite-training-coaching.png)
 
@@ -671,13 +671,13 @@ Comprehensive interactive training and onboarding system:
 
 ---
 
-### Pillar 31: Native OpenTelemetry Component Tracing & APM Cockpit (Shipped v1.5.0 ✅)
+### Pillar 31: Native OpenTelemetry Component Tracing & APM Cockpit (Shipped v0.5.0 ✅)
 
 ![OpenTelemetry APM Cockpit](images/suite-telemetry-apm.png)
 
 Production-grade observability and application performance monitoring (APM) embedded into `BlazorTailwindUI`:
 
-- **Sub-Millisecond Component Lifecycle Tracing**: `ActivitySource("BlazorTailwindUI.Components", "1.5.0")` tracking render durations, memory deltas, and lifecycle events.
+- **Sub-Millisecond Component Lifecycle Tracing**: `ActivitySource("BlazorTailwindUI.Components", "0.6.0")` tracking render durations, memory deltas, and lifecycle events.
 - **Real-Time SVG Waterfall & Flame Graph**: Visual latency bars color-coded by performance thresholds (Optimal < 16.6ms, Warning 16-33ms, Critical > 33ms).
 - **Component Performance Leaderboard**: Aggregated table tracking render counts, average/maximum latencies, and slow frame drop counts.
 - **WASM & GC Vitals**: Real-time managed heap tracking, Gen 0/1/2 collection counts, and workstation GC profiling.
@@ -690,14 +690,14 @@ Production-grade observability and application performance monitoring (APM) embe
 
 ```mermaid
 flowchart LR
-    A["v1.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAURI Installers"] --> B["v1.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media<br/>AG-UI Form Engine + PWA"]
-    B --> C["v1.2.0 (Shipped ✅)<br/>Developer MCP Server<br/>Check 21 MICR & Form OCR"]
-    C --> D["v1.3.0 (Shipped ✅)<br/>.NET 11 Full-Stack Universal Suite<br/>Zero-Flicker Hydration + TwStreamingGrid<br/>150 Native Controls + dotnet new blazortw"]
-    D --> E["v1.4.0 (Shipped ✅)<br/>Donut Caching & ShortCircuit Edge<br/>Native Zstandard Compression<br/>Post-Quantum ML-KEM Vault"]
-    E --> F["v1.4.5 (Shipped ✅)<br/>Draggable CRM Dashboard<br/>PDF Text Flattening & Stamping<br/>C# 15 Union Boundary"]
-    F --> G["v1.4.6 (Shipped ✅)<br/>Grouped Category Hubs<br/>12-Step Coaching Tour<br/>15-Module Video Masterclass"]
-    G --> H["v1.5.0 (Shipped ✅ - Official Release)<br/>OpenTelemetry APM Cockpit<br/>W3C OTLP JSON Export<br/>WASM Heap & GC Profiler<br/>Native Desktop & Web Installers"]
-    H --> I["v1.6.0 (Release ✅)<br/>Agent Ops: Approvals, Takeover & Audit<br/>Live AG-UI over SSE & Thread List<br/>A2UI, MCP Apps, Voice, Handoff<br/>Accessibility: High Contrast & Forced Colors<br/>219 Components"]
+    A["v0.0.0<br/>137 Native Controls<br/>AGUI + 100 Forms<br/>TAURI Installers"] --> B["v0.1.0 (Shipped ✅)<br/>PrizeWheel + Celebrations<br/>Rewards + MFA + Media<br/>AG-UI Form Engine + PWA"]
+    B --> C["v0.2.0 (Shipped ✅)<br/>Developer MCP Server<br/>Check 21 MICR & Form OCR"]
+    C --> D["v0.3.0 (Shipped ✅)<br/>.NET 10+ Full-Stack Universal Suite<br/>Zero-Flicker Hydration + TwStreamingGrid<br/>150 Native Controls + dotnet new blazortw"]
+    D --> E["v0.4.0 (Shipped ✅)<br/>Donut Caching & ShortCircuit Edge<br/>Native Zstandard Compression<br/>Post-Quantum ML-KEM Vault"]
+    E --> F["v0.4.5 (Shipped ✅)<br/>Draggable CRM Dashboard<br/>PDF Text Flattening & Stamping<br/>C# 15 Union Boundary"]
+    F --> G["v0.4.6 (Shipped ✅)<br/>Grouped Category Hubs<br/>12-Step Coaching Tour<br/>15-Module Video Masterclass"]
+    G --> H["v0.5.0 (Shipped ✅)<br/>OpenTelemetry APM Cockpit<br/>W3C OTLP JSON Export<br/>WASM Heap & GC Profiler<br/>Native Desktop & Web Installers"]
+    H --> I["v0.6.0 (Release ✅)<br/>Agent Ops: Approvals, Takeover & Audit<br/>Live AG-UI over SSE & Thread List<br/>A2UI, MCP Apps, Voice, Handoff<br/>Accessibility: High Contrast & Forced Colors<br/>219 Components"]
 ```
 
 Contributions and discussions are welcomed in the [GitHub Discussions](https://github.com/donpotts/BlazorTailwindUI/discussions) and [Issue Tracker](https://github.com/donpotts/BlazorTailwindUI/issues).

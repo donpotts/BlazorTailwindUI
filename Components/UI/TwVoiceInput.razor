@@ -1,6 +1,6 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
-@* Push-to-talk microphone (CopilotKit voice). Records, shows a live level meter, optionally transcribes through a host-supplied function, and reports the clip. *@
+@* Push-to-talk microphone (own implementation; CopilotKit's voice package only provides server-side transcription). Records, shows a live level meter, optionally transcribes through a host-supplied function, and reports the clip. *@
 <div class="inline-flex items-center gap-3 @Class" data-testid="voice-input" data-state="@_state">
     <button type="button" @onclick="ToggleAsync" disabled="@(_state == "transcribing")" aria-pressed="@Recording.ToString().ToLowerInvariant()" data-testid="voice-toggle"
             aria-label="@(Recording ? "Stop recording" : "Start recording")"

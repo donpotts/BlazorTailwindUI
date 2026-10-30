@@ -3,7 +3,7 @@ namespace BlazorTailwindUI.Models;
 using System;
 
 /// <summary>
-/// Represents modern .NET 11 unified Blazor render modes.
+/// Represents modern .NET 10+ unified Blazor render modes.
 /// </summary>
 public enum RenderModeKind
 {

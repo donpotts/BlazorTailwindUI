@@ -1,6 +1,6 @@
 # Blazor Tailwind UI — Developer Coaching & Best Practices Guide
 
-This guide provides practical architectural principles, patterns, and code recipes for building maintainable, high-performance, mobile-first WebAssembly applications using **BlazorTailwindUI** (.NET 11 RC and Tailwind CSS v3.4+).
+This guide provides practical architectural principles, patterns, and code recipes for building maintainable, high-performance, mobile-first WebAssembly applications using **BlazorTailwindUI** (.NET 10+ and Tailwind CSS v3.4+).
 
 ---
 
@@ -98,7 +98,7 @@ The included interactive training video (`wwwroot/videos/demo-video.mp4`, 2m 52s
 
 | # | Start Time | Chapter Title | Badge | Key Architectural Concepts Covered |
 |---|------------|---------------|-------|-----------------------------------|
-| 0 | `0:00` (0.0s) | Intro & Architecture | `.NET 11 WASM` | Zero-CDN standalone architecture, 137 native controls, mobile-first design. |
+| 0 | `0:00` (0.0s) | Intro & Architecture | `.NET 10+ WASM` | Zero-CDN standalone architecture, 137 native controls, mobile-first design. |
 | 1 | `0:15` (15.5s) | Adaptive Generative UI (AGUI) | `AGUI Engine` | Dynamic widget synthesis, dual-plane tool dispatching, real-time latency monitoring. |
 | 2 | `0:33` (33.3s) | Smart Components Suite | `Smart Controls` | Smart Paste with entity extraction, ghost text autocomplete, semantic search & filters. |
 | 3 | `0:52` (52.1s) | 100 Web Dev Forms Library | `100 Forms` | Dynamic schema form engine, 10 functional domains, one-click C# code generation. |
@@ -201,7 +201,7 @@ Every form includes schema definition, validation rules, live preview, and one-c
 
 ---
 
-## 10. Engineering Guide: Roadmap Innovations & Morale Suite (v1.1.0)
+## 10. Engineering Guide: Roadmap Innovations & Morale Suite (v0.1.0)
 
 ### 10.1 Gamification & Team Morale: `TwPrizeWheel`
 - **Deceleration Physics**: Uses SVG CSS transform matrix `cubic-bezier(0.15, 0.9, 0.2, 1.0)` over 4500ms to mimic realistic momentum and rotational drag.

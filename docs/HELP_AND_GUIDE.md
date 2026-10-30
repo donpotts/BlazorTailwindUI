@@ -88,7 +88,7 @@ Every component follows the same familiar C# conventions:
 <TwMarquee DurationSeconds="20" PauseOnHover="true" FadeEdges="true">
     <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800">
         <span>⚡</span>
-        <span class="font-bold text-sm">Blazor WASM .NET 11</span>
+        <span class="font-bold text-sm">Blazor WASM .NET 10+</span>
     </div>
     <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800">
         <span>🎨</span>
@@ -369,7 +369,7 @@ Every component follows the same familiar C# conventions:
     }
 }
 ```
-*Capabilities*: Sub-millisecond Blazor component lifecycle tracing via `ActivitySource("BlazorTailwindUI.Components", "1.5.0")`, pure SVG latency waterfalls with microsecond precision, component performance leaderboard with slow frame warnings (>33ms), real-time WASM heap & GC Generational counters (Gen 0/1/2), and 1-click W3C OTLP JSON export formatted for Jaeger, Grafana Tempo, and Dynatrace.
+*Capabilities*: Sub-millisecond Blazor component lifecycle tracing via `ActivitySource("BlazorTailwindUI.Components", "0.6.0")`, pure SVG latency waterfalls with microsecond precision, component performance leaderboard with slow frame warnings (>33ms), real-time WASM heap & GC Generational counters (Gen 0/1/2), and 1-click W3C OTLP JSON export formatted for Jaeger, Grafana Tempo, and Dynatrace.
 
 ---
 
@@ -379,11 +379,11 @@ BlazorTailwindUI includes official desktop installers built using Tauri v2, prov
 
 | Installer | Description | Location |
 |---|---|---|
-| **`BlazorTailwindUI-1.6.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.6.0-x64-Setup.exe` |
-| **`BlazorTailwindUI-1.6.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.6.0-x64-en-US.msi` |
-| **`BlazorTailwindUI-WebDemo-v1.6.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.6.0.zip` |
+| **`BlazorTailwindUI-0.6.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-0.6.0-x64-Setup.exe` |
+| **`BlazorTailwindUI-0.6.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-0.6.0-x64-en-US.msi` |
+| **`BlazorTailwindUI-WebDemo-v0.6.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v0.6.0.zip` |
 
-Each release also ships `SHA256SUMS.txt`; verify a download with `sha256sum -c SHA256SUMS.txt` (or `Get-FileHash` on Windows). The v1.6.0 installers were smoke-tested: the desktop app launches, and the WebDemo bundle passes the full browser E2E suite.
+Each release also ships `SHA256SUMS.txt`; verify a download with `sha256sum -c SHA256SUMS.txt` (or `Get-FileHash` on Windows). The v0.6.0 installers were smoke-tested: the desktop app launches, and the WebDemo bundle passes the full browser E2E suite.
 
 ### Building Installers from Source:
 ```bash
@@ -418,5 +418,5 @@ This scans all `.razor` and `.cs` files and compiles minified CSS to `wwwroot/cs
 
 ## 5. Architectural Rules Summary
 1. **Zero Prohibited Commercial Brands**: Strictly vendor-neutral.
-2. **Strict .NET 11 RC WebAssembly**: No server-side rendering dependencies for components.
+2. **Strict .NET 10+ WebAssembly**: No server-side rendering dependencies for components.
 3. **Pure Mobile-First**: 44px min touch targets, adaptive card fallbacks, and safe-area padding.

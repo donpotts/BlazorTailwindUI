@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-10.0_WASM-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 10" /></a>
+  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-10%2B_WASM-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 10+" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Release-v1.6.0-10B981?style=flat-square" alt="Release v1.6.0" /></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Release-v0.6.0-10B981?style=flat-square" alt="Release v0.6.0" /></a>
   <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-219_Ready-3B82F6?style=flat-square" alt="219 Components" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="MIT License" /></a>
 </p>
@@ -32,7 +32,7 @@
 - **Mobile-First by Default** — 44px touch targets, bottom sheets, swipe gestures, and responsive DataGrid mobile cards.
 - **Adaptive Generative UI (AGUI)** — Runtime prompt-to-UI synthesis with dual-plane tool calling (Frontend WASM + Backend API).
 - **Agent Ops (human-in-the-loop)** — A transport-agnostic agent session with approval gates that genuinely block high-risk tool calls, takeover and hand-back, an editable shared-state inspector and an exportable audit trail. See [Agent Ops](#-agent-ops-approvals-takeover--audit).
-- **Live AG-UI over SSE + Agent Kit** — `SseAgentTransport` talks to a real AG-UI agent over server-sent events and reports approval decisions back so the server waits at the gate. Plus 26 new components from CopilotKit and OpenBot (thread list, A2UI generative UI, sandboxed MCP apps, voice, live screen, handoff, grants, memory, routines) and the Blazor Toolkit gaps (calendar, time picker, radio group, text area). See [Agent Kit](#-agent-kit-copilotkit--openbot-components).
+- **Live AG-UI over SSE + Agent Kit** — `SseAgentTransport` talks to a real AG-UI agent over server-sent events and reports approval decisions back so the server waits at the gate. Plus 26 new components, several modelled on patterns in CopilotKit and OpenBot (see the credits) (thread list, A2UI generative UI, sandboxed MCP apps, voice, live screen, handoff, grants, memory, routines) and new core inputs (calendar, time picker, radio group, text area). See [Agent Kit](#-agent-kit-copilotkit--openbot-components).
 - **Accessible by Default** — High-contrast mode (toggle or OS `prefers-contrast`), `forced-colors` support, reduced motion, RTL-safe layout, and axe-core WCAG 2.x A/AA checks in the browser tests.
 - **Zero-FOUC Theme Engine** — Instant dark mode and 12 curated color presets (Indigo, Emerald, Violet, Rose, Cyan, Amber, etc.) with custom hex palette generation.
 - **Enterprise Flagships** — CRM Draggable Dashboard (`GridStack`), Flattened PDF Contract Signer with SHA-256 sealing, C# 15 Discriminated Union boundary, 100% offline Tesseract WebAssembly OCR (`wwwroot/lib/tesseract/`), 150+ NACHA Bank Routing resolver, and ChoETL.NACHA 94-character fixed-width ACH exporter.
@@ -182,7 +182,7 @@ Compose the pieces yourself with `TwApprovalGate`, `TwToolCallCard`, `TwTakeover
 
 ---
 
-## 🧰 Agent Kit: CopilotKit & OpenBot components
+## 🧰 Agent Kit: generative UI, voice, threads and the agent control plane
 
 ### Live AG-UI over server-sent events
 
@@ -200,23 +200,39 @@ builder.Services.AddScoped<IAgentTransport>(sp => new SseAgentTransport(
 
 ### New components
 
-| From | Components | What they do |
+| Area | Components | What they do |
 | --- | --- | --- |
-| **CopilotKit** | `TwThreadList` | Conversation threads: search, new, rename, pin, archive, delete; persisted to `localStorage` and wired into `TwAgentConsole` (`ShowThreads`). |
-| | `TwA2uiSurface` | Renders an interface the agent describes as JSON (A2UI v0.9): Text, Column, Row, Card, Button, TextField, CheckBox, ChoicePicker, Slider, Tabs, Image, Icon, Divider; two-way data binding; button actions return their resolved context. |
+| **Threads** | `TwThreadList` | Conversation threads: search, new, rename, pin, archive, delete; persisted to `localStorage` and wired into `TwAgentConsole` (`ShowThreads`). |
+| **Generative UI** | `TwA2uiSurface` | Renders an interface the agent describes as JSON (A2UI v0.9): Text, Column, Row, Card, Button, TextField, CheckBox, ChoicePicker, Slider, Tabs, Image, Icon, Divider; two-way data binding; button actions return their resolved context. |
 | | `TwMcpAppFrame` | MCP app host in a sandboxed iframe with an opaque origin (never `allow-same-origin`), a locked-down CSP with validated extra domains, and a `postMessage` bridge. |
-| | `TwVoiceInput`, `TwLiveWaveform` | Push-to-talk microphone with a live level meter and optional speech-to-text hook. |
+| **Voice and chat** | `TwVoiceInput`, `TwLiveWaveform` | Push-to-talk microphone with a live level meter and optional speech-to-text hook. |
 | | `TwChatSuggestions`, `TwFeedbackButtons`, `TwAttachmentQueue`, `TwMessageScroller` | Suggested prompts, thumbs up/down with reason, validated file staging, and a transcript that follows new content with Jump to latest. |
-| **OpenBot** | `TwHandoffPanel`, `TwLiveScreen` | A stuck agent asks you to take the wheel; its screen with pointer and click reporting while you drive. |
+| **Agent control plane** | `TwHandoffPanel`, `TwLiveScreen` | A stuck agent asks you to take the wheel; its screen with pointer and click reporting while you drive. |
 | | `TwDryRunChanges`, `TwActivityLog`, `TwCommandOutput`, `TwRedactedValue` | What an action would change, what the agent did, terminal output, and credential masking (`RedactionService`, ported rules). |
 | | `TwGrantList`, `TwMemoryList`, `TwRoutinesList`, `TwQuestionnaire`, `TwAgentOrb` | Tool access levels with revoke, searchable memory, scheduled routines, structured agent questions, and a state-aware avatar. |
-| **Blazor Toolkit** | `TwCalendar`, `TwTimePicker`, `TwRadioGroup<T>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner` | Keyboard-first date grid (ARIA pattern), 12/24-hour picker, generic radios, counter and auto-grow, joined buttons, and a reduced-motion-aware spinner. |
+| **Core inputs** | `TwCalendar`, `TwTimePicker`, `TwRadioGroup<T>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner` | Keyboard-first date grid (ARIA pattern), 12/24-hour picker, generic radios, counter and auto-grow, joined buttons, and a reduced-motion-aware spinner. |
 
-See them working in the **AI** area of the demo: *Agent Ops*, *Agent Kit* and *Toolkit Inputs*.
+### Credits and references
 
-| A2UI generative form | Control plane | Toolkit inputs |
+These are our own C# implementations. Where an idea or a small piece of logic comes from an open-source project, it is credited here and in the source comments (both projects are MIT licensed; notices in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)).
+
+| Component or service | Relationship |
+| --- | --- |
+| `TwThreadList`, `AgentThreadStore` | Our own design. |
+| `SseAgentTransport`, `AgUiWireMapper`, `SseParser` | Our own implementation of the [AG-UI](https://github.com/ag-ui-protocol/ag-ui) event stream. The approval-decision endpoint is our own extension, not part of AG-UI. |
+| `TwA2uiSurface`, `A2uiSurface` | Our own implementation of the A2UI v0.9 message model. [CopilotKit's `a2ui-renderer`](https://github.com/CopilotKit/CopilotKit/tree/main/packages/a2ui-renderer) is the React counterpart. |
+| `TwMcpAppFrame` | Our own implementation of the MCP Apps sandbox model. The sandbox flags and the CSP host-source pattern are **adapted** from CopilotKit's `mcp-apps-renderer`. |
+| `RedactionService`, `TwRedactedValue` | Credential-key rules **adapted** from CopilotKit's `learning` package redaction. |
+| `TwChatSuggestions`, `TwFeedbackButtons`, `TwAttachmentQueue` | Modelled on the matching pieces of CopilotKit's `react-ui` chat components. |
+| `TwVoiceInput` | Our own. CopilotKit's `voice` package only provides server-side transcription. |
+| `TwHandoffPanel`, `TwLiveScreen`, `TwDryRunChanges`, `TwActivityLog`, `TwCommandOutput`, `TwGrantList`, `TwMemoryList`, `TwRoutinesList`, `TwQuestionnaire`, `TwAgentOrb`, `TwLiveWaveform`, `TwMessageScroller` | Modelled on UI concepts in [OpenBot](https://github.com/CopilotKit/OpenBot). No OpenBot code is copied. |
+| `TwCalendar`, `TwTimePicker`, `TwRadioGroup<T>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner` | Our own. |
+
+See them working in the **AI** area of the demo: *Agent Ops*, *Agent Kit* and *Inputs &amp; Pickers*.
+
+| A2UI generative form | Control plane | Inputs and pickers |
 | :---: | :---: | :---: |
-| ![A2UI](docs/images/agent-kit-3-a2ui.png) | ![Control](docs/images/agent-kit-5-control.png) | ![Toolkit](docs/images/agent-kit-6-toolkit.png) |
+| ![A2UI](docs/images/agent-kit-3-a2ui.png) | ![Control](docs/images/agent-kit-5-control.png) | ![Inputs](docs/images/agent-kit-6-inputs.png) |
 
 ---
 
@@ -245,7 +261,7 @@ npm install
 npm run build:css
 dotnet run --no-launch-profile --urls http://127.0.0.1:5199
 python tests/e2e/agent_ops_e2e.py http://127.0.0.1:5199
-# Threads, live AG-UI SSE (start tests/e2e/agui_server.py first), Agent Kit and Toolkit tabs, with axe-core
+# Threads, live AG-UI SSE (start tests/e2e/agui_server.py first), Agent Kit and Inputs tabs, with axe-core
 python tests/e2e/agent_kit_e2e.py
 ```
 
@@ -267,7 +283,7 @@ All components are documented with parameters and copy-paste snippets in the [Fu
 | **Navigation** | `TwNavbar`, `TwSidebar`, `TwTabs`, `TwBottomNav`, `TwBreadcrumb`, `TwPagination`, `TwScrollToTop` | Responsive multi-tier navigation bars and tabs. |
 | **Cards & Layout** | `TwCard`, `TwGrid`, `TwSplitter`, `TwAccordion`, `TwTimeline`, `TwStatCard` | Bento grids, collapsible panels, and responsive containers. |
 | **Agent Kit** | `TwThreadList`, `TwA2uiSurface`, `TwMcpAppFrame`, `TwVoiceInput`, `TwLiveScreen`, `TwHandoffPanel`, `TwGrantList`, `TwMemoryList`, `TwRoutinesList`, `TwQuestionnaire` and 16 more | CopilotKit and OpenBot patterns: generative UI, sandboxed MCP apps, voice, threads, handoff, access control. |
-| **Toolkit Inputs** | `TwCalendar`, `TwTimePicker`, `TwRadioGroup<T>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner` | Keyboard-first inputs with ARIA patterns. |
+| **Inputs & Pickers** | `TwCalendar`, `TwTimePicker`, `TwRadioGroup<T>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner` | Keyboard-first inputs with ARIA patterns. |
 | **Agent Ops** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster` | Blocking approvals, takeover/hand-back, shared state and audit trail for any AG-UI-style agent. |
 | **AI & AG-UI** | `TwAguiStudio`, `TwAguiCanvas`, `TwChatbot`, `TwVoiceRecorder`, `TwCopilot` | Generative UI prompt synthesis and dual-plane tool calling. |
 | **Enterprise Studios** | `TwDashboard`, `TwPdfFormFiller`, `TwUnionBoundary`, `TwFinancialChart`, `TwTreemap`, `TwPivotTable`, `TwMarkdownEditor` | Draggable CRM dashboards, sealed PDFs, and financial charts. |

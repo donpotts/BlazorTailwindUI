@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using BlazorTailwindUI.Models;
 
 /// <summary>
-/// Universal Zero-Flicker Hydration and State Persistence Service for Blazor .NET 11 Fullstack Web Apps.
+/// Universal Zero-Flicker Hydration and State Persistence Service for Blazor .NET 10+ Fullstack Web Apps.
 /// Bridges Server Prerendering (Static SSR) and Client Hydration (WASM/Server/Auto)
 /// without redundant database roundtrips.
 /// </summary>

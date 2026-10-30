@@ -7,7 +7,7 @@ using BlazorTailwindUI.Models;
 
 /// <summary>
 /// Bridges client-side AG-UI components with server-side AI execution hubs (Semantic Kernel / Ollama / OpenAI)
-/// over SignalR or streaming HTTP endpoints in .NET 11 Full-Stack Blazor apps.
+/// over SignalR or streaming HTTP endpoints in .NET 10+ Full-Stack Blazor apps.
 /// </summary>
 public class FullstackAgenticBridge
 {
