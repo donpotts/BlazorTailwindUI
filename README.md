@@ -12,14 +12,14 @@
   <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-10%2B_WASM-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 10+" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
   <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Release-v0.6.0-10B981?style=flat-square" alt="Release v0.6.0" /></a>
-  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-219_Ready-3B82F6?style=flat-square" alt="219 Components" /></a>
+  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-234_Ready-3B82F6?style=flat-square" alt="234 Components" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="MIT License" /></a>
 </p>
 
 <p align="center">
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-component-examples">Examples</a> •
-  <a href="#-component-catalog-219-components">Component Catalog</a> •
+  <a href="#-component-catalog-234-components">Component Catalog</a> •
   <a href="docs/COMPONENT_CATALOG.md">Full API Docs</a> •
   <a href="wwwroot/videos/hyperframes_masterclass.html">1080p Video Tour</a>
 </p>
@@ -28,7 +28,7 @@
 
 ## ⚡ Features
 
-- **219 Native Components** — Built with C# and Tailwind CSS v3.4+. Pure WebAssembly, zero third-party commercial UI dependencies.
+- **234 Native Components** — Built with C# and Tailwind CSS v3.4+. Pure WebAssembly, zero third-party commercial UI dependencies.
 - **Mobile-First by Default** — 44px touch targets, bottom sheets, swipe gestures, and responsive DataGrid mobile cards.
 - **Adaptive Generative UI (AGUI)** — Runtime prompt-to-UI synthesis with dual-plane tool calling (Frontend WASM + Backend API).
 - **Agent Ops (human-in-the-loop)** — A transport-agnostic agent session with approval gates that genuinely block high-risk tool calls, takeover and hand-back, an editable shared-state inspector and an exportable audit trail. See [Agent Ops](#-agent-ops-approvals-takeover--audit).
@@ -236,6 +236,25 @@ See them working in the **AI** area of the demo: *Agent Ops*, *Agent Kit* and *I
 
 ---
 
+## 📅 Planning & Enterprise Suite
+
+Fifteen components for scheduling, project planning, hierarchical data and forms, all keyboard accessible, Tailwind-native, and tested in a real browser (axe-core clean).
+
+| Area | Components | What they do |
+| --- | --- | --- |
+| **Scheduling** | `TwScheduler`, `TwGantt` | Day / Week / Month scheduler with overlap-aware columns, click-to-create and drag-and-drop (or Alt+arrows) moves. Gantt timeline with progress, finish-to-start dependency arrows, a today line and conflict detection. |
+| **Data** | `TwTreeList`, `TwRangeSelector`, `TwBarGauge` | Treegrid with per-level sorting and arrow-key expand/collapse; range window over a series; concentric bar gauge whose legend carries the exact numbers. |
+| **Shell** | `TwToolbar`, `TwWindow`, `TwLoadingPanel`, `TwStackLayout` | Roving-tab-stop toolbar with an overflow menu; floating window (drag, arrow-key move, resize, minimize, maximize, stacking); busy overlay that makes covered content inert; flex stack layout. |
+| **Forms** | `TwFormLayout`, `TwFormGroup`, `TwFormItem`, `TwListBox`, `TwDropDownBox`, `TwHtmlEditor` | Responsive form grid with collapsible groups and labelled items; searchable list box; drop-down hosting any content; rich-text editor whose output is rebuilt from an allowlist (no scripts, handlers or unsafe links; pasted content is plain text). |
+
+See them in the **AI** area of the demo under *Planning & Enterprise*.
+
+| Scheduler | Project timeline |
+| :---: | :---: |
+| ![Scheduler](docs/images/enterprise-1-scheduler.png) | ![Gantt](docs/images/enterprise-2-gantt.png) |
+
+---
+
 ## ♿ Accessibility
 
 - **High contrast:** toggle it in the theme menu, or let it follow the OS `prefers-contrast` setting. It sets `data-contrast="high"` on `<html>` before first paint (no flash), turns borders solid, strengthens muted text and focus rings, and drops shadows and blur.
@@ -263,13 +282,15 @@ dotnet run --no-launch-profile --urls http://127.0.0.1:5199
 python tests/e2e/agent_ops_e2e.py http://127.0.0.1:5199
 # Threads, live AG-UI SSE (start tests/e2e/agui_server.py first), Agent Kit and Inputs tabs, with axe-core
 python tests/e2e/agent_kit_e2e.py
+# Planning & Enterprise tab: scheduler, Gantt, tree list, window, rich-text sanitizer, with axe-core
+python tests/e2e/enterprise_e2e.py
 ```
 
 The E2E run drives the real UI (approve with edited arguments, reject, takeover and state edit, audit export, contrast, RTL, forced colors), asserts the outcomes, fails on any console error, and writes screenshots to `docs/images/`.
 
 ---
 
-## 📦 Component Catalog (219 Components)
+## 📦 Component Catalog (234 Components)
 
 All components are documented with parameters and copy-paste snippets in the [Full Component Catalog](docs/COMPONENT_CATALOG.md).
 
@@ -293,7 +314,7 @@ All components are documented with parameters and copy-paste snippets in the [Fu
 
 ## 📚 Documentation & Guides
 
-- 📖 **[Component Catalog (219 Components)](docs/COMPONENT_CATALOG.md)** — Complete parameter tables, variants, and API reference.
+- 📖 **[Component Catalog (234 Components)](docs/COMPONENT_CATALOG.md)** — Complete parameter tables, variants, and API reference.
 - 🎓 **[Developer Coaching & Architecture Principles](docs/DEVELOPER_COACHING.md)** — Mobile-first design patterns, zero-FOUC theming, and performance tips.
 - 🎬 **[HyperFrames 1080p Video Masterclass](wwwroot/videos/hyperframes_masterclass.html)** — Interactive 18-chapter video walkthrough.
 - 🗺️ **[Release Roadmap & Changelog](docs/ROADMAP.md)** — Feature milestones and version history.

@@ -2,6 +2,13 @@
 
 All notable changes to BlazorTailwindUI are documented here. Version 1.0 has not been released: earlier internal labels of the form 1.x were renumbered to 0.x (for example 1.5.0 is now 0.5.0), so the library is in its 0.n.n line. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Planning & Enterprise suite**, 15 new components (219 to 234): `TwScheduler`, `TwGantt`, `TwTreeList`, `TwToolbar`, `TwWindow`, `TwLoadingPanel`, `TwStackLayout`, `TwFormLayout`, `TwFormGroup`, `TwFormItem`, `TwListBox`, `TwDropDownBox`, `TwHtmlEditor`, `TwRangeSelector`, `TwBarGauge`. All are our own Tailwind implementations.
+- `TwHtmlEditor` sanitizes in the browser with an allowlist (no scripts, handlers, styles, images or frames; only http, https and mailto links; pasted content becomes plain text).
+- Demo tab *Planning & Enterprise* and the browser suite `tests/e2e/enterprise_e2e.py` (drag-and-drop, real mouse window drag, hostile-input sanitizer checks, axe-core).
+
 ## [0.6.0]
 
 Agent-native release: human-in-the-loop agent components, a live AG-UI transport, and an accessibility layer. 193 to **219 components**. Targets .NET 10+ (`net10.0`).

@@ -1,6 +1,6 @@
 # Blazor Tailwind UI — Component Catalog & Settings Reference
 
-Comprehensive guide to all **219 components** in **BlazorTailwindUI** (.NET 10+ WebAssembly, Tailwind CSS v3.4+, zero third-party commercial UI libraries).
+Comprehensive guide to all **234 components** in **BlazorTailwindUI** (.NET 10+ WebAssembly, Tailwind CSS v3.4+, zero third-party commercial UI libraries).
 
 > This file is generated from `Services/ComponentCatalogService.cs`. Do not edit it by hand; change the catalog and regenerate with `UPDATE_CATALOG_DOC=1 dotnet test --filter CatalogDocTests`. A test fails when this file is out of date.
 
@@ -8,7 +8,7 @@ Comprehensive guide to all **219 components** in **BlazorTailwindUI** (.NET 10+ 
 
 ## Table of Contents
 
-- [Advanced Forms & Inputs](#advanced-forms--inputs) (10 components)
+- [Advanced Forms & Inputs](#advanced-forms--inputs) (14 components)
 - [Agent Ops & Human-in-the-Loop](#agent-ops--human-in-the-loop) (18 components)
 - [AI & Agentic Workflows](#ai--agentic-workflows) (1 component)
 - [AI Chatbot & Reasoning](#ai-chatbot--reasoning) (3 components)
@@ -24,7 +24,7 @@ Comprehensive guide to all **219 components** in **BlazorTailwindUI** (.NET 10+ 
 - [Developer Studio & Content Creation](#developer-studio--content-creation) (7 components)
 - [Documents & Forms](#documents--forms) (1 component)
 - [Enterprise & Workplace Operations](#enterprise--workplace-operations) (1 component)
-- [Enterprise Data & Tables](#enterprise-data--tables) (7 components)
+- [Enterprise Data & Tables](#enterprise-data--tables) (8 components)
 - [Feedback & Alerts](#feedback--alerts) (1 component)
 - [Financial & Analytical Intelligence](#financial--analytical-intelligence) (3 components)
 - [Financial & OCR](#financial--ocr) (2 components)
@@ -33,7 +33,7 @@ Comprehensive guide to all **219 components** in **BlazorTailwindUI** (.NET 10+ 
 - [Fullstack .NET 10+](#fullstack-net-10) (10 components)
 - [Gamification & Celebrations](#gamification--celebrations) (4 components)
 - [Hardware & Media Interop](#hardware--media-interop) (1 component)
-- [Layout & Application Shell](#layout--application-shell) (5 components)
+- [Layout & Application Shell](#layout--application-shell) (12 components)
 - [Media, Scanner & Signature](#media-scanner--signature) (6 components)
 - [Modals & Overlays](#modals--overlays) (1 component)
 - [Navigation & Headers](#navigation--headers) (1 component)
@@ -43,6 +43,7 @@ Comprehensive guide to all **219 components** in **BlazorTailwindUI** (.NET 10+ 
 - [Overlays & Modals](#overlays--modals) (1 component)
 - [Overlays & Popovers](#overlays--popovers) (7 components)
 - [Progress & Steppers](#progress--steppers) (1 component)
+- [Scheduling & Planning](#scheduling--planning) (2 components)
 - [Security & Compliance](#security--compliance) (1 component)
 - [Showcase & Micro-Interactions](#showcase--micro-interactions) (7 components)
 - [Smart Components](#smart-components) (1 component)
@@ -50,7 +51,7 @@ Comprehensive guide to all **219 components** in **BlazorTailwindUI** (.NET 10+ 
 - [Theme & Palette Customization](#theme--palette-customization) (5 components)
 - [Typography & Utilities](#typography--utilities) (1 component)
 - [Typography, Badges & Keys](#typography-badges--keys) (9 components)
-- [Visualizations & Gauges](#visualizations--gauges) (11 components)
+- [Visualizations & Gauges](#visualizations--gauges) (12 components)
 
 ---
 
@@ -100,6 +101,103 @@ Accessible hour / minute / AM-PM picker built from native selects, 12 or 24 hour
 
 ```razor
 <TwTimePicker @bind-Value="_time" MinuteStep="15" />
+```
+
+---
+
+### `TwListBox`
+
+**Location:** [`Components/UI/TwListBox.razor`](../Components/UI/TwListBox.razor)
+
+Searchable list with checkboxes or radios, Select all (applies to the filtered view) and a live selection count.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `IReadOnlyList<TItem>` | `required` | Items to list. |
+| `TextSelector` | `Func<TItem,string>?` | `ToString` | Display text. |
+| `Selected` | `IReadOnlyList<TItem>` | `[]` | Selected items. |
+| `Multiple` | `bool` | `true` | Checkboxes (true) or radios (false). |
+| `Label` | `string` | `"Items"` | Region name. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwListBox TItem="string" Items="_names" @bind-Selected="_picked" Label="Teams" />
+```
+
+---
+
+### `TwDropDownBox`
+
+**Location:** [`Components/UI/TwDropDownBox.razor`](../Components/UI/TwDropDownBox.razor)
+
+A field that opens a panel hosting any content (a grid, tree or form); closes on Escape, outside click or from the content.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment<TwDropDownBox>` | `empty` | Panel content; the component is the context so it can call CloseAsync(). |
+| `Text` | `string?` | `null` | Shown in the field. |
+| `Placeholder` | `string` | `"Select…"` | Shown when Text is empty. |
+| `Open` | `bool` | `false` | Panel open. |
+| `Disabled` | `bool` | `false` | Disable the field. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwDropDownBox @bind-Open="_open" Text="@_choice">@context ...</TwDropDownBox>
+```
+
+---
+
+### `TwHtmlEditor`
+
+**Location:** [`Components/UI/TwHtmlEditor.razor`](../Components/UI/TwHtmlEditor.razor)
+
+Rich-text editor: bold, italic, underline, headings, lists, quotes and links. Output is rebuilt from an allowlist in the browser and pasted text is plain.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `string?` | `null` | Sanitized HTML. |
+| `Label` | `string` | `"Rich text"` | Accessible name. |
+| `MinHeight` | `string` | `"10rem"` | Editing area height. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwHtmlEditor @bind-Value="_html" Label="Message" />
+```
+
+---
+
+### `TwRangeSelector`
+
+**Location:** [`Components/UI/TwRangeSelector.razor`](../Components/UI/TwRangeSelector.razor)
+
+Pick a window over a series with an area preview and two range inputs that cannot cross; reports both indices.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Values` | `IReadOnlyList<double>` | `required` | Series for the preview. |
+| `Labels` | `IReadOnlyList<string>?` | `null` | Point labels. |
+| `Start` | `int` | `0` | First index. |
+| `End` | `int` | `last` | Last index. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwRangeSelector Values="_series" Labels="_months" @bind-Start="_from" @bind-End="_to" />
 ```
 
 ---
@@ -2324,6 +2422,32 @@ Employee perks and recognition rewards catalog with category filtering (Gift Car
 
 ## Enterprise Data & Tables
 
+### `TwTreeList`
+
+**Location:** [`Components/UI/TwTreeList.razor`](../Components/UI/TwTreeList.razor)
+
+Hierarchical table (treegrid): nests rows by parent key, expand/collapse with Left/Right arrows, per-level sorting, single selection.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `IReadOnlyList<TItem>` | `required` | Flat list with parent keys. |
+| `KeySelector` | `Func<TItem,string>` | `required` | Row key. |
+| `ParentSelector` | `Func<TItem,string?>` | `required` | Parent key (missing parents become roots). |
+| `Columns` | `IReadOnlyList<Column>` | `required` | Header, Value, Sortable. |
+| `SelectedKey` | `string?` | `null` | Selected row. |
+| `InitiallyExpanded` | `bool` | `false` | Start expanded. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwTreeList TItem="Dept" Items="_depts" KeySelector="d => d.Id" ParentSelector="d => d.ParentId" Columns="_cols" />
+```
+
+---
+
 ### `TwKanbanBoard`
 
 **Location:** [`Components/UI/TwKanbanBoard.razor`](../Components/UI/TwKanbanBoard.razor)
@@ -3087,6 +3211,180 @@ In-browser microphone and HD webcam media recorder with live SVG audio frequency
 ---
 
 ## Layout & Application Shell
+
+### `TwToolbar`
+
+**Location:** [`Components/UI/TwToolbar.razor`](../Components/UI/TwToolbar.razor)
+
+Command toolbar with a roving tab stop, toggle buttons, separators and an overflow menu for items past MaxVisible.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `IReadOnlyList<ToolbarItem>` | `required` | Button, Toggle or Separator items. |
+| `MaxVisible` | `int` | `0` | Items beyond this go into the More menu (0 = all). |
+| `OnItemClick` | `EventCallback<ToolbarItem>` | `null` | Item clicked. |
+| `Label` | `string` | `"Toolbar"` | Accessible name. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwToolbar Items="_items" MaxVisible="5" OnItemClick="Run" />
+```
+
+---
+
+### `TwWindow`
+
+**Location:** [`Components/UI/TwWindow.razor`](../Components/UI/TwWindow.razor)
+
+Floating non-modal window: drag by the title bar or use arrow keys (Shift farther, Ctrl resizes); minimize, maximize, close; last touched stays on top.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `required` | Title and accessible name. |
+| `Visible` | `bool` | `true` | Shown or closed. |
+| `X` | `int` | `80` | Left in px. |
+| `Y` | `int` | `80` | Top in px. |
+| `Width` | `int` | `420` | Width in px. |
+| `Height` | `int` | `300` | Height in px. |
+| `OnMoved` | `EventCallback<(int X,int Y)>` | `null` | Position after a move. |
+| `CloseOnEscape` | `bool` | `true` | Escape closes. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwWindow Title="Inspector" @bind-Visible="_show" X="120" Y="90">...</TwWindow>
+```
+
+---
+
+### `TwLoadingPanel`
+
+**Location:** [`Components/UI/TwLoadingPanel.razor`](../Components/UI/TwLoadingPanel.razor)
+
+Wraps a region and covers it with a busy overlay; the region is aria-busy and its content is inert while loading.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Visible` | `bool` | `false` | Show the overlay. |
+| `Message` | `string` | `"Loading…"` | Announced text. |
+| `Blur` | `bool` | `true` | Soften the covered content. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwLoadingPanel Visible="_busy" Message="Saving…">...</TwLoadingPanel>
+```
+
+---
+
+### `TwStackLayout`
+
+**Location:** [`Components/UI/TwStackLayout.razor`](../Components/UI/TwStackLayout.razor)
+
+One-dimensional flex layout with named gap, alignment, justification, wrapping and reverse order.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Horizontal` | `bool` | `false` | Row instead of column. |
+| `Gap` | `int` | `3` | Step 0-6. |
+| `Align` | `string` | `"stretch"` | start, center, end, stretch, baseline. |
+| `Justify` | `string` | `"start"` | start, center, end, between, around, evenly. |
+| `Wrap` | `bool` | `false` | Wrap items. |
+| `Reverse` | `bool` | `false` | Reverse order. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwStackLayout Horizontal="true" Gap="4" Justify="between">...</TwStackLayout>
+```
+
+---
+
+### `TwFormLayout`
+
+**Location:** [`Components/UI/TwFormLayout.razor`](../Components/UI/TwFormLayout.razor)
+
+Responsive form grid: one column on phones, up to four from the lg breakpoint. Holds TwFormGroup and TwFormItem.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Columns` | `int` | `2` | 1 to 4. |
+| `ChildContent` | `RenderFragment?` | `null` | Groups and items. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwFormLayout Columns="2">...</TwFormLayout>
+```
+
+---
+
+### `TwFormGroup`
+
+**Location:** [`Components/UI/TwFormGroup.razor`](../Components/UI/TwFormGroup.razor)
+
+Titled, optionally collapsible section of a form that spans the full layout width.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `required` | Group title. |
+| `Collapsible` | `bool` | `false` | Show a toggle. |
+| `InitiallyCollapsed` | `bool` | `false` | Start collapsed. |
+| `Columns` | `int` | `2` | Inner columns. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwFormGroup Title="Billing" Collapsible="true">...</TwFormGroup>
+```
+
+---
+
+### `TwFormItem`
+
+**Location:** [`Components/UI/TwFormItem.razor`](../Components/UI/TwFormItem.razor)
+
+A label, control, hint and error wired together: label points at the field, required is announced, errors use role=alert.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Label` | `string` | `required` | Label text. |
+| `FieldId` | `string` | `generated` | Id of the control inside. |
+| `Required` | `bool` | `false` | Mark required. |
+| `Hint` | `string?` | `null` | Help text. |
+| `Error` | `string?` | `null` | Validation message (replaces the hint). |
+| `LabelBeside` | `bool` | `false` | Label beside the field on wide screens. |
+| `ColSpan` | `int` | `1` | Columns spanned, 1-4. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwFormItem Label="Email" FieldId="email" Required="true" Hint="We never share it"><input id="email" /></TwFormItem>
+```
+
+---
 
 ### `TwAppShell`
 
@@ -4374,6 +4672,63 @@ Cool modern progress indicators: SVG glowing circular rings, dashboard speedomet
 
 ---
 
+## Scheduling & Planning
+
+### `TwScheduler`
+
+**Location:** [`Components/UI/TwScheduler.razor`](../Components/UI/TwScheduler.razor)
+
+Day, Week and Month scheduler with overlap-aware columns, click-to-create slots, drag-and-drop moves and an Alt+arrow keyboard alternative.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Appointments` | `IReadOnlyList<Appointment>` | `[]` | Id, Title, Start, End, Color. |
+| `Date` | `DateOnly` | `today` | Focused date. |
+| `View` | `SchedulerView` | `Week` | Day, Week or Month. |
+| `StartHour` | `int` | `8` | First visible hour. |
+| `EndHour` | `int` | `18` | Last visible hour. |
+| `SlotMinutes` | `int` | `30` | Slot length. |
+| `FirstDayOfWeek` | `DayOfWeek` | `Monday` | First column. |
+| `OnSlotClick` | `EventCallback<DateTime>` | `null` | An empty slot was clicked. |
+| `OnAppointmentClick` | `EventCallback<Appointment>` | `null` | An appointment was clicked. |
+| `OnAppointmentMoved` | `EventCallback<Appointment>` | `null` | After a drag or keyboard move; the appointment carries its new times. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwScheduler Appointments="_appts" @bind-Date="_date" @bind-View="_view" OnSlotClick="Create" OnAppointmentMoved="Save" />
+```
+
+---
+
+### `TwGantt`
+
+**Location:** [`Components/UI/TwGantt.razor`](../Components/UI/TwGantt.razor)
+
+Project timeline with a task table, day-scaled bars, progress fill, finish-to-start dependency arrows, a today line and conflict detection.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Tasks` | `IReadOnlyList<GanttTask>` | `required` | Id, Name, Start, End, Progress (0-1), DependsOn. |
+| `DayWidth` | `int` | `28` | Pixels per day. |
+| `SelectedId` | `string?` | `null` | Selected task. |
+| `OnTaskClick` | `EventCallback<GanttTask>` | `null` | A bar was clicked. |
+| `Label` | `string` | `"Project timeline"` | Region name. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwGantt Tasks="_tasks" DayWidth="24" OnTaskClick="Select" />
+```
+
+---
+
 ## Security & Compliance
 
 ### `TwMfaAuthSuite`
@@ -5174,6 +5529,30 @@ On-screen virtual keyboard for kiosks, touch displays, POS terminals, and anti-k
 ---
 
 ## Visualizations & Gauges
+
+### `TwBarGauge`
+
+**Location:** [`Components/UI/TwBarGauge.razor`](../Components/UI/TwBarGauge.razor)
+
+Concentric 270-degree bars, one per value, with a legend carrying the exact numbers.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `IReadOnlyList<GaugeItem>` | `required` | Label and Value. |
+| `Min` | `double` | `0` | Scale minimum. |
+| `Max` | `double` | `100` | Scale maximum. |
+| `Unit` | `string` | `""` | Suffix shown in the legend. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwBarGauge Items="_items" Unit="%" />
+```
+
+---
 
 ### `TwSparkline`
 

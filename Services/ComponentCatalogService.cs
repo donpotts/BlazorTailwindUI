@@ -485,6 +485,247 @@ public class ComponentCatalogService
         },
         new ComponentDocItem
         {
+            Name = "TwScheduler",
+            Category = "Scheduling & Planning",
+            Description = "Day, Week and Month scheduler with overlap-aware columns, click-to-create slots, drag-and-drop moves and an Alt+arrow keyboard alternative.",
+            RazorSnippet = "<TwScheduler Appointments=\"_appts\" @bind-Date=\"_date\" @bind-View=\"_view\" OnSlotClick=\"Create\" OnAppointmentMoved=\"Save\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Appointments", "IReadOnlyList<Appointment>", "[]", "Id, Title, Start, End, Color."),
+                new ComponentParameterDoc("Date", "DateOnly", "today", "Focused date."),
+                new ComponentParameterDoc("View", "SchedulerView", "Week", "Day, Week or Month."),
+                new ComponentParameterDoc("StartHour", "int", "8", "First visible hour."),
+                new ComponentParameterDoc("EndHour", "int", "18", "Last visible hour."),
+                new ComponentParameterDoc("SlotMinutes", "int", "30", "Slot length."),
+                new ComponentParameterDoc("FirstDayOfWeek", "DayOfWeek", "Monday", "First column."),
+                new ComponentParameterDoc("OnSlotClick", "EventCallback<DateTime>", "null", "An empty slot was clicked."),
+                new ComponentParameterDoc("OnAppointmentClick", "EventCallback<Appointment>", "null", "An appointment was clicked."),
+                new ComponentParameterDoc("OnAppointmentMoved", "EventCallback<Appointment>", "null", "After a drag or keyboard move; the appointment carries its new times."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwGantt",
+            Category = "Scheduling & Planning",
+            Description = "Project timeline with a task table, day-scaled bars, progress fill, finish-to-start dependency arrows, a today line and conflict detection.",
+            RazorSnippet = "<TwGantt Tasks=\"_tasks\" DayWidth=\"24\" OnTaskClick=\"Select\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Tasks", "IReadOnlyList<GanttTask>", "required", "Id, Name, Start, End, Progress (0-1), DependsOn."),
+                new ComponentParameterDoc("DayWidth", "int", "28", "Pixels per day."),
+                new ComponentParameterDoc("SelectedId", "string?", "null", "Selected task."),
+                new ComponentParameterDoc("OnTaskClick", "EventCallback<GanttTask>", "null", "A bar was clicked."),
+                new ComponentParameterDoc("Label", "string", "\"Project timeline\"", "Region name."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTreeList",
+            Category = "Enterprise Data & Tables",
+            Description = "Hierarchical table (treegrid): nests rows by parent key, expand/collapse with Left/Right arrows, per-level sorting, single selection.",
+            RazorSnippet = "<TwTreeList TItem=\"Dept\" Items=\"_depts\" KeySelector=\"d => d.Id\" ParentSelector=\"d => d.ParentId\" Columns=\"_cols\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "IReadOnlyList<TItem>", "required", "Flat list with parent keys."),
+                new ComponentParameterDoc("KeySelector", "Func<TItem,string>", "required", "Row key."),
+                new ComponentParameterDoc("ParentSelector", "Func<TItem,string?>", "required", "Parent key (missing parents become roots)."),
+                new ComponentParameterDoc("Columns", "IReadOnlyList<Column>", "required", "Header, Value, Sortable."),
+                new ComponentParameterDoc("SelectedKey", "string?", "null", "Selected row."),
+                new ComponentParameterDoc("InitiallyExpanded", "bool", "false", "Start expanded."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwToolbar",
+            Category = "Layout & Application Shell",
+            Description = "Command toolbar with a roving tab stop, toggle buttons, separators and an overflow menu for items past MaxVisible.",
+            RazorSnippet = "<TwToolbar Items=\"_items\" MaxVisible=\"5\" OnItemClick=\"Run\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "IReadOnlyList<ToolbarItem>", "required", "Button, Toggle or Separator items."),
+                new ComponentParameterDoc("MaxVisible", "int", "0", "Items beyond this go into the More menu (0 = all)."),
+                new ComponentParameterDoc("OnItemClick", "EventCallback<ToolbarItem>", "null", "Item clicked."),
+                new ComponentParameterDoc("Label", "string", "\"Toolbar\"", "Accessible name."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwWindow",
+            Category = "Layout & Application Shell",
+            Description = "Floating non-modal window: drag by the title bar or use arrow keys (Shift farther, Ctrl resizes); minimize, maximize, close; last touched stays on top.",
+            RazorSnippet = "<TwWindow Title=\"Inspector\" @bind-Visible=\"_show\" X=\"120\" Y=\"90\">...</TwWindow>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string", "required", "Title and accessible name."),
+                new ComponentParameterDoc("Visible", "bool", "true", "Shown or closed."),
+                new ComponentParameterDoc("X", "int", "80", "Left in px."),
+                new ComponentParameterDoc("Y", "int", "80", "Top in px."),
+                new ComponentParameterDoc("Width", "int", "420", "Width in px."),
+                new ComponentParameterDoc("Height", "int", "300", "Height in px."),
+                new ComponentParameterDoc("OnMoved", "EventCallback<(int X,int Y)>", "null", "Position after a move."),
+                new ComponentParameterDoc("CloseOnEscape", "bool", "true", "Escape closes."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwLoadingPanel",
+            Category = "Layout & Application Shell",
+            Description = "Wraps a region and covers it with a busy overlay; the region is aria-busy and its content is inert while loading.",
+            RazorSnippet = "<TwLoadingPanel Visible=\"_busy\" Message=\"Saving…\">...</TwLoadingPanel>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Visible", "bool", "false", "Show the overlay."),
+                new ComponentParameterDoc("Message", "string", "\"Loading…\"", "Announced text."),
+                new ComponentParameterDoc("Blur", "bool", "true", "Soften the covered content."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwStackLayout",
+            Category = "Layout & Application Shell",
+            Description = "One-dimensional flex layout with named gap, alignment, justification, wrapping and reverse order.",
+            RazorSnippet = "<TwStackLayout Horizontal=\"true\" Gap=\"4\" Justify=\"between\">...</TwStackLayout>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Horizontal", "bool", "false", "Row instead of column."),
+                new ComponentParameterDoc("Gap", "int", "3", "Step 0-6."),
+                new ComponentParameterDoc("Align", "string", "\"stretch\"", "start, center, end, stretch, baseline."),
+                new ComponentParameterDoc("Justify", "string", "\"start\"", "start, center, end, between, around, evenly."),
+                new ComponentParameterDoc("Wrap", "bool", "false", "Wrap items."),
+                new ComponentParameterDoc("Reverse", "bool", "false", "Reverse order."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFormLayout",
+            Category = "Layout & Application Shell",
+            Description = "Responsive form grid: one column on phones, up to four from the lg breakpoint. Holds TwFormGroup and TwFormItem.",
+            RazorSnippet = "<TwFormLayout Columns=\"2\">...</TwFormLayout>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Columns", "int", "2", "1 to 4."),
+                new ComponentParameterDoc("ChildContent", "RenderFragment?", "null", "Groups and items."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFormGroup",
+            Category = "Layout & Application Shell",
+            Description = "Titled, optionally collapsible section of a form that spans the full layout width.",
+            RazorSnippet = "<TwFormGroup Title=\"Billing\" Collapsible=\"true\">...</TwFormGroup>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Title", "string", "required", "Group title."),
+                new ComponentParameterDoc("Collapsible", "bool", "false", "Show a toggle."),
+                new ComponentParameterDoc("InitiallyCollapsed", "bool", "false", "Start collapsed."),
+                new ComponentParameterDoc("Columns", "int", "2", "Inner columns."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFormItem",
+            Category = "Layout & Application Shell",
+            Description = "A label, control, hint and error wired together: label points at the field, required is announced, errors use role=alert.",
+            RazorSnippet = "<TwFormItem Label=\"Email\" FieldId=\"email\" Required=\"true\" Hint=\"We never share it\"><input id=\"email\" /></TwFormItem>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Label", "string", "required", "Label text."),
+                new ComponentParameterDoc("FieldId", "string", "generated", "Id of the control inside."),
+                new ComponentParameterDoc("Required", "bool", "false", "Mark required."),
+                new ComponentParameterDoc("Hint", "string?", "null", "Help text."),
+                new ComponentParameterDoc("Error", "string?", "null", "Validation message (replaces the hint)."),
+                new ComponentParameterDoc("LabelBeside", "bool", "false", "Label beside the field on wide screens."),
+                new ComponentParameterDoc("ColSpan", "int", "1", "Columns spanned, 1-4."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwListBox",
+            Category = "Advanced Forms & Inputs",
+            Description = "Searchable list with checkboxes or radios, Select all (applies to the filtered view) and a live selection count.",
+            RazorSnippet = "<TwListBox TItem=\"string\" Items=\"_names\" @bind-Selected=\"_picked\" Label=\"Teams\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "IReadOnlyList<TItem>", "required", "Items to list."),
+                new ComponentParameterDoc("TextSelector", "Func<TItem,string>?", "ToString", "Display text."),
+                new ComponentParameterDoc("Selected", "IReadOnlyList<TItem>", "[]", "Selected items."),
+                new ComponentParameterDoc("Multiple", "bool", "true", "Checkboxes (true) or radios (false)."),
+                new ComponentParameterDoc("Label", "string", "\"Items\"", "Region name."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwDropDownBox",
+            Category = "Advanced Forms & Inputs",
+            Description = "A field that opens a panel hosting any content (a grid, tree or form); closes on Escape, outside click or from the content.",
+            RazorSnippet = "<TwDropDownBox @bind-Open=\"_open\" Text=\"@_choice\">@context ...</TwDropDownBox>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("ChildContent", "RenderFragment<TwDropDownBox>", "empty", "Panel content; the component is the context so it can call CloseAsync()."),
+                new ComponentParameterDoc("Text", "string?", "null", "Shown in the field."),
+                new ComponentParameterDoc("Placeholder", "string", "\"Select…\"", "Shown when Text is empty."),
+                new ComponentParameterDoc("Open", "bool", "false", "Panel open."),
+                new ComponentParameterDoc("Disabled", "bool", "false", "Disable the field."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwHtmlEditor",
+            Category = "Advanced Forms & Inputs",
+            Description = "Rich-text editor: bold, italic, underline, headings, lists, quotes and links. Output is rebuilt from an allowlist in the browser and pasted text is plain.",
+            RazorSnippet = "<TwHtmlEditor @bind-Value=\"_html\" Label=\"Message\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "string?", "null", "Sanitized HTML."),
+                new ComponentParameterDoc("Label", "string", "\"Rich text\"", "Accessible name."),
+                new ComponentParameterDoc("MinHeight", "string", "\"10rem\"", "Editing area height."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwRangeSelector",
+            Category = "Advanced Forms & Inputs",
+            Description = "Pick a window over a series with an area preview and two range inputs that cannot cross; reports both indices.",
+            RazorSnippet = "<TwRangeSelector Values=\"_series\" Labels=\"_months\" @bind-Start=\"_from\" @bind-End=\"_to\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Values", "IReadOnlyList<double>", "required", "Series for the preview."),
+                new ComponentParameterDoc("Labels", "IReadOnlyList<string>?", "null", "Point labels."),
+                new ComponentParameterDoc("Start", "int", "0", "First index."),
+                new ComponentParameterDoc("End", "int", "last", "Last index."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwBarGauge",
+            Category = "Visualizations & Gauges",
+            Description = "Concentric 270-degree bars, one per value, with a legend carrying the exact numbers.",
+            RazorSnippet = "<TwBarGauge Items=\"_items\" Unit=\"%\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "IReadOnlyList<GaugeItem>", "required", "Label and Value."),
+                new ComponentParameterDoc("Min", "double", "0", "Scale minimum."),
+                new ComponentParameterDoc("Max", "double", "100", "Scale maximum."),
+                new ComponentParameterDoc("Unit", "string", "\"\"", "Suffix shown in the legend."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
             Name = "TwMfaAuthSuite",
             Category = "Security & Compliance",
             Description = "Enterprise-grade multi-factor authentication suite supporting TOTP authenticator app QR setup, SMS/Email 6-digit OTP with auto-advancing segmented inputs, FIDO2 / WebAuthn biometric passkeys, and single-use emergency recovery codes.",
