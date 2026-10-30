@@ -119,7 +119,9 @@ with sync_playwright() as p:
 
     # --- 4. Takeover pauses the agent; a human state edit changes what it does next.
     page.locator("[data-testid=run]").click()
-    page.locator("[data-testid=state-row][data-key='refund.amount']").wait_for(timeout=15000)
+    # Wait for the NEW run (Run disabled) and its lookup step; the previous run's rows are still on screen until then.
+    expect(page.locator("[data-testid=run]")).to_be_disabled()
+    page.locator("[data-testid=tool-call][data-tool=lookup_order][data-status=Completed]").wait_for(timeout=15000)
     page.locator("[data-testid=takeover]").click()
     wait_status(page, "Paused: you have control")
     count_paused = page.locator("[data-testid=tool-call]").count()
