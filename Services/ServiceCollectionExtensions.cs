@@ -30,6 +30,9 @@ public static class BlazorTailwindUIServiceExtensions
         services.AddScoped<ServerPortBridgeService>();
         // Default offline agent; register your own IAgentTransport before this call to drive a live agent.
         services.TryAddScoped<IAgentTransport, SimulatedAgentTransport>();
+        // Conversation threads, mirrored to localStorage.
+        services.TryAddScoped<AgentThreadStore>();
+        services.TryAddScoped<IAgentThreadStore>(sp => sp.GetRequiredService<AgentThreadStore>());
 
         return services;
     }

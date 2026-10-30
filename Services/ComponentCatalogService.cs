@@ -99,6 +99,392 @@ public class ComponentCatalogService
         },
         new ComponentDocItem
         {
+            Name = "TwThreadList",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Conversation thread sidebar with search, new, rename, pin, archive and delete, backed by IAgentThreadStore (persisted to localStorage).",
+            RazorSnippet = "<TwThreadList Store=\"_threads\" SelectedId=\"@_threadId\" OnSelect=\"t => _threadId = t.Id\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Store", "IAgentThreadStore", "required", "Thread store to list and edit."),
+                new ComponentParameterDoc("SelectedId", "string?", "null", "Id of the open thread."),
+                new ComponentParameterDoc("OnSelect", "EventCallback<AgentThread>", "null", "Fired when a thread is opened."),
+                new ComponentParameterDoc("OnCreated", "EventCallback<AgentThread>", "null", "Fired after New."),
+                new ComponentParameterDoc("OnDeleted", "EventCallback<AgentThread>", "null", "Fired after a thread is deleted."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwDryRunChanges",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Before/after preview of what an action would change, shown before the human approves it.",
+            RazorSnippet = "<TwDryRunChanges Changes=\"_changes\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Changes", "IReadOnlyList<DryRunChange>", "required", "Add / Change / Remove rows with Target, Before and After."),
+                new ComponentParameterDoc("Title", "string", "\"If you approve, this will change:\"", "Heading."),
+                new ComponentParameterDoc("ChildContent", "RenderFragment?", "null", "Extra content below the list."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwActivityLog",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Timestamped log of what the agent did on its machine (navigate, click, type, command), announced politely to assistive tech.",
+            RazorSnippet = "<TwActivityLog Entries=\"_entries\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Entries", "IReadOnlyList<ActivityEntry>", "required", "Events: AtUtc, Kind, Text, Detail."),
+                new ComponentParameterDoc("Label", "string", "\"Agent activity\"", "Region heading."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwCommandOutput",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Terminal-style command result with exit code, tail truncation and automatic credential masking.",
+            RazorSnippet = "<TwCommandOutput Command=\"dotnet test\" Output=\"@_out\" ExitCode=\"0\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Command", "string", "required", "Command line that was run."),
+                new ComponentParameterDoc("Output", "string", "\"\"", "Captured output."),
+                new ComponentParameterDoc("ExitCode", "int", "0", "Process exit code."),
+                new ComponentParameterDoc("MaxLines", "int", "200", "Keep only the last N lines."),
+                new ComponentParameterDoc("Redact", "bool", "true", "Mask passwords, tokens and URL credentials."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwHandoffPanel",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Alert card where a stuck agent asks a human to take the wheel, then hand the task back.",
+            RazorSnippet = "<TwHandoffPanel AgentName=\"Refund Desk\" Reason=\"A CAPTCHA blocks the portal.\" OnTakeOver=\"Take\" OnHandBack=\"GiveBack\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("AgentName", "string", "\"The agent\"", "Who is asking."),
+                new ComponentParameterDoc("Reason", "string", "required", "Why the agent is stuck."),
+                new ComponentParameterDoc("Where", "string?", "null", "Page or step it is stuck at."),
+                new ComponentParameterDoc("Resolved", "bool", "false", "Show the resolved state."),
+                new ComponentParameterDoc("OnTakeOver", "EventCallback", "null", "Human took control."),
+                new ComponentParameterDoc("OnHandBack", "EventCallback", "null", "Human returned control."),
+                new ComponentParameterDoc("OnDecline", "EventCallback", "null", "Human stopped the task."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwRoutinesList",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Recurring agent jobs with schedule, next run, run-now and an accessible on/off switch.",
+            RazorSnippet = "<TwRoutinesList Items=\"_routines\" OnToggled=\"Save\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "List<Routine>", "required", "Routines to show."),
+                new ComponentParameterDoc("OnToggled", "EventCallback<Routine>", "null", "Enabled state changed."),
+                new ComponentParameterDoc("OnRunNow", "EventCallback<Routine>", "null", "Run now pressed."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwMemoryList",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "What the agent remembers, with source and date, searchable, each with a Forget action.",
+            RazorSnippet = "<TwMemoryList Items=\"_memories\" OnForget=\"Forget\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "List<Memory>", "required", "Remembered facts."),
+                new ComponentParameterDoc("OnForget", "EventCallback<Memory>", "null", "A memory was forgotten."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwGrantList",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Table of tools an agent may use, each with an access level (Ask / Read / Write) and Revoke.",
+            RazorSnippet = "<TwGrantList Items=\"_grants\" OnChanged=\"Save\" OnRevoked=\"Revoke\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "List<Grant>", "required", "Granted tools and levels."),
+                new ComponentParameterDoc("OnChanged", "EventCallback<Grant>", "null", "Access level changed."),
+                new ComponentParameterDoc("OnRevoked", "EventCallback<Grant>", "null", "Grant revoked."),
+                new ComponentParameterDoc("Caption", "string", "\"Tools the agent may use\"", "Table caption for assistive tech."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwLiveScreen",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "The agent's screen with its pointer, a working/in-control badge and Take control; reports normalised click coordinates while you drive.",
+            RazorSnippet = "<TwLiveScreen ImageUrl=\"@_frame\" Url=\"https://portal.test\" @bind-Controlling=\"_driving\" OnScreenClick=\"Click\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("ImageUrl", "string?", "null", "Latest captured frame."),
+                new ComponentParameterDoc("Url", "string?", "null", "Page the agent is on."),
+                new ComponentParameterDoc("CursorX", "double?", "null", "Agent pointer X, 0..1."),
+                new ComponentParameterDoc("CursorY", "double?", "null", "Agent pointer Y, 0..1."),
+                new ComponentParameterDoc("Controlling", "bool", "false", "Human is in control."),
+                new ComponentParameterDoc("OnScreenClick", "EventCallback<(double X,double Y)>", "null", "Click while controlling, as 0..1 fractions."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwAgentOrb",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Animated agent avatar whose colour, ring and status dot follow the run state, with the state also exposed as text.",
+            RazorSnippet = "<TwAgentOrb Name=\"Refund Desk\" Status=\"@_session.Status\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Name", "string", "\"Agent\"", "Agent name (initial and accessible name)."),
+                new ComponentParameterDoc("Status", "AgentRunStatus", "Idle", "Run state."),
+                new ComponentParameterDoc("Size", "string", "\"md\"", "sm, md or lg."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwRedactedValue",
+            Category = "Agent Ops & Human-in-the-Loop",
+            Description = "Shows agent arguments and results with credentials masked; a deliberate Reveal is needed to see the raw value.",
+            RazorSnippet = "<TwRedactedValue Value=\"@call.ArgsJson\" Label=\"Arguments\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "string", "required", "Raw JSON or text."),
+                new ComponentParameterDoc("Label", "string", "\"Value\"", "Heading."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwChatSuggestions",
+            Category = "Chat & Generative UI",
+            Description = "Suggested follow-up prompts as buttons, with a loading skeleton.",
+            RazorSnippet = "<TwChatSuggestions Items=\"_ideas\" OnPick=\"s => _prompt = s\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "IReadOnlyList<string>", "required", "Suggestion texts."),
+                new ComponentParameterDoc("OnPick", "EventCallback<string>", "null", "A suggestion was chosen."),
+                new ComponentParameterDoc("Loading", "bool", "false", "Show placeholders."),
+                new ComponentParameterDoc("Disabled", "bool", "false", "Disable while a run is active."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwFeedbackButtons",
+            Category = "Chat & Generative UI",
+            Description = "Thumbs up / down on a response, toggling off on a second press, with an optional reason box after thumbs-down.",
+            RazorSnippet = "<TwFeedbackButtons @bind-Value=\"_rating\" OnReason=\"SaveReason\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "FeedbackRating", "None", "None, Up or Down."),
+                new ComponentParameterDoc("AskReason", "bool", "true", "Ask what went wrong after Down."),
+                new ComponentParameterDoc("OnReason", "EventCallback<string>", "null", "Reason text committed."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwAttachmentQueue",
+            Category = "Chat & Generative UI",
+            Description = "Files staged on a message with count, size and duplicate validation and per-file removal.",
+            RazorSnippet = "<TwAttachmentQueue @bind-Items=\"_files\" MaxFiles=\"5\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "List<AttachmentInfo>", "[]", "Staged files."),
+                new ComponentParameterDoc("MaxFiles", "int", "5", "Maximum number of files."),
+                new ComponentParameterDoc("MaxBytes", "long", "5 MB", "Maximum size per file."),
+                new ComponentParameterDoc("Accept", "string?", "null", "Accepted types."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwMessageScroller",
+            Category = "Chat & Generative UI",
+            Description = "Chat transcript container that follows new content and offers Jump to latest after you scroll up.",
+            RazorSnippet = "<TwMessageScroller Height=\"24rem\">...messages...</TwMessageScroller>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("ChildContent", "RenderFragment?", "null", "Messages."),
+                new ComponentParameterDoc("Label", "string", "\"Conversation\"", "Log region name."),
+                new ComponentParameterDoc("Height", "string?", "null", "CSS max-height."),
+                new ComponentParameterDoc("BodyClass", "string?", "null", "Classes for the scrolling body."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwVoiceInput",
+            Category = "Chat & Generative UI",
+            Description = "Push-to-talk microphone with a live level meter; reports the clip and can transcribe it through your own speech-to-text function.",
+            RazorSnippet = "<TwVoiceInput Transcribe=\"SpeechToText\" OnTranscript=\"t => _prompt = t\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("OnRecorded", "EventCallback<VoiceClip>", "null", "Clip recorded."),
+                new ComponentParameterDoc("Transcribe", "Func<VoiceClip, Task<string>>?", "null", "Speech-to-text function."),
+                new ComponentParameterDoc("OnTranscript", "EventCallback<string>", "null", "Transcribed text."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwLiveWaveform",
+            Category = "Chat & Generative UI",
+            Description = "Bar level meter for live audio; maps any number of levels onto any number of bars.",
+            RazorSnippet = "<TwLiveWaveform Levels=\"_levels\" Active=\"_recording\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Levels", "IReadOnlyList<float>", "[]", "Levels from 0 to 1."),
+                new ComponentParameterDoc("Active", "bool", "false", "Live (true) or flat (false)."),
+                new ComponentParameterDoc("Bars", "int", "24", "Number of bars."),
+                new ComponentParameterDoc("AriaLabel", "string", "\"Audio level\"", "Accessible name."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwQuestionnaire",
+            Category = "Chat & Generative UI",
+            Description = "Structured questions an agent asks, one at a time with progress, single or multiple choice and optional free text.",
+            RazorSnippet = "<TwQuestionnaire Questions=\"_questions\" OnSubmit=\"Answer\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Questions", "IReadOnlyList<Question>", "required", "Questions with options."),
+                new ComponentParameterDoc("OnSubmit", "EventCallback<IReadOnlyDictionary<string, IReadOnlyList<string>>>", "null", "Answers by question id."),
+                new ComponentParameterDoc("Title", "string", "\"Questions from the agent\"", "Region name."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwA2uiSurface",
+            Category = "Chat & Generative UI",
+            Description = "Renders an agent-described interface (A2UI v0.9): streamed components bound to a data model, with button actions returned to the app.",
+            RazorSnippet = "<TwA2uiSurface Surface=\"_surface\" OnAction=\"HandleAction\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Surface", "A2uiSurface", "required", "Model fed with createSurface / updateComponents / updateDataModel messages."),
+                new ComponentParameterDoc("OnAction", "EventCallback<A2uiUserAction>", "null", "Button action with resolved context."),
+                new ComponentParameterDoc("Label", "string", "\"Agent-generated interface\"", "Region name."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwMcpAppFrame",
+            Category = "Chat & Generative UI",
+            Description = "Hosts an MCP app in a sandboxed iframe with an opaque origin, a locked-down CSP and a postMessage bridge.",
+            RazorSnippet = "<TwMcpAppFrame Html=\"@_html\" AllowedDomains=\"_cdns\" OnMessage=\"FromApp\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Html", "string", "required", "Widget HTML."),
+                new ComponentParameterDoc("Title", "string", "\"App\"", "Frame title."),
+                new ComponentParameterDoc("Height", "string", "\"16rem\"", "Frame height."),
+                new ComponentParameterDoc("AllowedDomains", "IReadOnlyList<string>?", "null", "Extra origins permitted by the CSP."),
+                new ComponentParameterDoc("OnMessage", "EventCallback<string>", "null", "JSON the app posted to the host."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwSpinner",
+            Category = "Buttons, Forms & Controls",
+            Description = "Busy indicator with an announced label; stops spinning under reduced motion.",
+            RazorSnippet = "<TwSpinner Label=\"Saving\" ShowLabel=\"true\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Size", "string", "\"md\"", "sm, md or lg."),
+                new ComponentParameterDoc("Label", "string", "\"Loading\"", "Announced label."),
+                new ComponentParameterDoc("ShowLabel", "bool", "false", "Show the label visibly."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwButtonGroup",
+            Category = "Buttons, Forms & Controls",
+            Description = "Joins buttons into one group with collapsed borders and rounded ends, horizontal or vertical.",
+            RazorSnippet = "<TwButtonGroup Label=\"View\"><button>Day</button><button>Week</button></TwButtonGroup>",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("ChildContent", "RenderFragment?", "null", "Buttons."),
+                new ComponentParameterDoc("Label", "string?", "null", "Group name."),
+                new ComponentParameterDoc("Vertical", "bool", "false", "Stack vertically."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwRadioGroup",
+            Category = "Buttons, Forms & Controls",
+            Description = "Generic native radio group with legend, option descriptions, disabled options and error text.",
+            RazorSnippet = "<TwRadioGroup TValue=\"string\" Legend=\"Plan\" Items=\"_plans\" @bind-Value=\"_plan\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Items", "IReadOnlyList<Option>", "required", "Value, Label, Description, Disabled."),
+                new ComponentParameterDoc("Value", "TValue?", "default", "Selected value."),
+                new ComponentParameterDoc("Legend", "string?", "null", "Group label."),
+                new ComponentParameterDoc("Error", "string?", "null", "Validation message."),
+                new ComponentParameterDoc("Horizontal", "bool", "false", "Lay out in a row."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTextArea",
+            Category = "Buttons, Forms & Controls",
+            Description = "Multi-line input with label, hint, error, character counter and auto-grow.",
+            RazorSnippet = "<TwTextArea Label=\"Notes\" MaxLength=\"280\" AutoGrow=\"true\" @bind-Value=\"_notes\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "string?", "null", "Text."),
+                new ComponentParameterDoc("Label", "string?", "null", "Label."),
+                new ComponentParameterDoc("MaxLength", "int", "0", "Max characters (0 = none)."),
+                new ComponentParameterDoc("AutoGrow", "bool", "false", "Grow between MinRows and MaxRows."),
+                new ComponentParameterDoc("Error", "string?", "null", "Validation message."),
+                new ComponentParameterDoc("Hint", "string?", "null", "Help text."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwCalendar",
+            Category = "Advanced Forms & Inputs",
+            Description = "Month calendar following the ARIA date-grid pattern: arrow / Home / End / PageUp / PageDown keys, min and max, culture-aware.",
+            RazorSnippet = "<TwCalendar @bind-Value=\"_date\" Min=\"_from\" Max=\"_to\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "DateOnly?", "null", "Selected date."),
+                new ComponentParameterDoc("Min", "DateOnly?", "null", "Earliest selectable date."),
+                new ComponentParameterDoc("Max", "DateOnly?", "null", "Latest selectable date."),
+                new ComponentParameterDoc("FirstDayOfWeek", "DayOfWeek", "Sunday", "First column."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
+            Name = "TwTimePicker",
+            Category = "Advanced Forms & Inputs",
+            Description = "Accessible hour / minute / AM-PM picker built from native selects, 12 or 24 hour, with a minute step.",
+            RazorSnippet = "<TwTimePicker @bind-Value=\"_time\" MinuteStep=\"15\" />",
+            Parameters = new List<ComponentParameterDoc>
+            {
+                new ComponentParameterDoc("Value", "TimeOnly?", "null", "Selected time."),
+                new ComponentParameterDoc("Use24Hour", "bool", "false", "24 hour clock."),
+                new ComponentParameterDoc("MinuteStep", "int", "5", "Minute granularity (1-30)."),
+                new ComponentParameterDoc("Label", "string?", "null", "Group label."),
+                new ComponentParameterDoc("Class", "string?", "null", "Custom Tailwind CSS classes.")
+            }
+        },
+        new ComponentDocItem
+        {
             Name = "TwMfaAuthSuite",
             Category = "Security & Compliance",
             Description = "Enterprise-grade multi-factor authentication suite supporting TOTP authenticator app QR setup, SMS/Email 6-digit OTP with auto-advancing segmented inputs, FIDO2 / WebAuthn biometric passkeys, and single-use emergency recovery codes.",

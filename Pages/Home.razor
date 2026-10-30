@@ -4,6 +4,7 @@
 @inject IJSRuntime JS
 @inject ServerPortBridgeService ServerBridge
 @inject NavigationManager Navigation
+@using BlazorTailwindUI.Components.Demo
 
 <PageTitle>Blazor Tailwind UI — Mobile-First Core Components</PageTitle>
 
@@ -3402,6 +3403,16 @@
                                 <span>🛡️</span>
                                 <span>Agent Ops: Approvals, Takeover &amp; Audit</span>
                             </button>
+                            <button type="button" @onclick='() => _aiSubTab = "agentkit"' data-testid="subtab-agentkit"
+                                    class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "agentkit" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                <span>🧰</span>
+                                <span>Agent Kit: A2UI, MCP Apps, Voice &amp; Threads</span>
+                            </button>
+                            <button type="button" @onclick='() => _aiSubTab = "toolkit"' data-testid="subtab-toolkit"
+                                    class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 whitespace-nowrap @(_aiSubTab == "toolkit" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm ring-1 ring-purple-500/30" : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white")">
+                                <span>🗓️</span>
+                                <span>Toolkit Inputs: Calendar, Time &amp; Radio</span>
+                            </button>
                         </div>
 
                         @if (_aiSubTab == "agui")
@@ -3410,7 +3421,15 @@
                         }
                         else if (_aiSubTab == "agentops")
                         {
-                            <TwAgentConsole />
+                            <AgentOpsWorkspace />
+                        }
+                        else if (_aiSubTab == "agentkit")
+                        {
+                            <AgentKitDemo />
+                        }
+                        else if (_aiSubTab == "toolkit")
+                        {
+                            <ToolkitDemo />
                         }
                         else
                         {

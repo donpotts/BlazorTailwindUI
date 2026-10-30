@@ -11,14 +11,14 @@
 <p align="center">
   <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-11.0_WASM-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 11" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
-  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-193_Ready-3B82F6?style=flat-square" alt="193 Components" /></a>
+  <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-219_Ready-3B82F6?style=flat-square" alt="219 Components" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="MIT License" /></a>
 </p>
 
 <p align="center">
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-component-examples">Examples</a> •
-  <a href="#-component-catalog-193-components">Component Catalog</a> •
+  <a href="#-component-catalog-219-components">Component Catalog</a> •
   <a href="docs/COMPONENT_CATALOG.md">Full API Docs</a> •
   <a href="wwwroot/videos/hyperframes_masterclass.html">1080p Video Tour</a>
 </p>
@@ -27,10 +27,11 @@
 
 ## ⚡ Features
 
-- **193 Native Components** — Built with C# and Tailwind CSS v3.4+. Pure WebAssembly, zero third-party commercial UI dependencies.
+- **219 Native Components** — Built with C# and Tailwind CSS v3.4+. Pure WebAssembly, zero third-party commercial UI dependencies.
 - **Mobile-First by Default** — 44px touch targets, bottom sheets, swipe gestures, and responsive DataGrid mobile cards.
 - **Adaptive Generative UI (AGUI)** — Runtime prompt-to-UI synthesis with dual-plane tool calling (Frontend WASM + Backend API).
 - **Agent Ops (human-in-the-loop)** — A transport-agnostic agent session with approval gates that genuinely block high-risk tool calls, takeover and hand-back, an editable shared-state inspector and an exportable audit trail. See [Agent Ops](#-agent-ops-approvals-takeover--audit).
+- **Live AG-UI over SSE + Agent Kit** — `SseAgentTransport` talks to a real AG-UI agent over server-sent events and reports approval decisions back so the server waits at the gate. Plus 26 new components from CopilotKit and OpenBot (thread list, A2UI generative UI, sandboxed MCP apps, voice, live screen, handoff, grants, memory, routines) and the Blazor Toolkit gaps (calendar, time picker, radio group, text area). See [Agent Kit](#-agent-kit-copilotkit--openbot-components).
 - **Accessible by Default** — High-contrast mode (toggle or OS `prefers-contrast`), `forced-colors` support, reduced motion, RTL-safe layout, and axe-core WCAG 2.x A/AA checks in the browser tests.
 - **Zero-FOUC Theme Engine** — Instant dark mode and 12 curated color presets (Indigo, Emerald, Violet, Rose, Cyan, Amber, etc.) with custom hex palette generation.
 - **Enterprise Flagships** — CRM Draggable Dashboard (`GridStack`), Flattened PDF Contract Signer with SHA-256 sealing, C# 15 Discriminated Union boundary, 100% offline Tesseract WebAssembly OCR (`wwwroot/lib/tesseract/`), 150+ NACHA Bank Routing resolver, and ChoETL.NACHA 94-character fixed-width ACH exporter.
@@ -180,6 +181,44 @@ Compose the pieces yourself with `TwApprovalGate`, `TwToolCallCard`, `TwTakeover
 
 ---
 
+## 🧰 Agent Kit: CopilotKit & OpenBot components
+
+### Live AG-UI over server-sent events
+
+```csharp
+builder.Services.AddScoped<IAgentTransport>(sp => new SseAgentTransport(
+    sp.GetRequiredService<HttpClient>(),
+    new SseAgentTransportOptions { RunUrl = "https://agent.example.com/agui/run", DecisionUrl = "https://agent.example.com/agui/decision" }));
+```
+
+`SseAgentTransport` POSTs the prompt and shared state, parses the `text/event-stream` (`RUN_STARTED`, `TEXT_MESSAGE_CONTENT`, `TOOL_CALL_START/ARGS/END/RESULT`, `STATE_SNAPSHOT`, `STATE_DELTA`, `RUN_FINISHED`, `RUN_ERROR`) and, when a tool call is gated, **posts the human's decision (with any edited arguments) to `DecisionUrl`**, so the server holds the run until you decide. A tool call can declare `"risk"` and `"requiresApproval"` to engage the gate. The Agent Ops tab has a *Live AG-UI endpoint* switch; `tests/e2e/agui_server.py` is a small reference agent you can run against it.
+
+| Threads, suggestions, feedback | Live agent held at the gate |
+| :---: | :---: |
+| ![Threads](docs/images/agent-kit-1-threads.png) | ![Live gate](docs/images/agent-kit-2-live-gate.png) |
+
+### New components
+
+| From | Components | What they do |
+| --- | --- | --- |
+| **CopilotKit** | `TwThreadList` | Conversation threads: search, new, rename, pin, archive, delete; persisted to `localStorage` and wired into `TwAgentConsole` (`ShowThreads`). |
+| | `TwA2uiSurface` | Renders an interface the agent describes as JSON (A2UI v0.9): Text, Column, Row, Card, Button, TextField, CheckBox, ChoicePicker, Slider, Tabs, Image, Icon, Divider; two-way data binding; button actions return their resolved context. |
+| | `TwMcpAppFrame` | MCP app host in a sandboxed iframe with an opaque origin (never `allow-same-origin`), a locked-down CSP with validated extra domains, and a `postMessage` bridge. |
+| | `TwVoiceInput`, `TwLiveWaveform` | Push-to-talk microphone with a live level meter and optional speech-to-text hook. |
+| | `TwChatSuggestions`, `TwFeedbackButtons`, `TwAttachmentQueue`, `TwMessageScroller` | Suggested prompts, thumbs up/down with reason, validated file staging, and a transcript that follows new content with Jump to latest. |
+| **OpenBot** | `TwHandoffPanel`, `TwLiveScreen` | A stuck agent asks you to take the wheel; its screen with pointer and click reporting while you drive. |
+| | `TwDryRunChanges`, `TwActivityLog`, `TwCommandOutput`, `TwRedactedValue` | What an action would change, what the agent did, terminal output, and credential masking (`RedactionService`, ported rules). |
+| | `TwGrantList`, `TwMemoryList`, `TwRoutinesList`, `TwQuestionnaire`, `TwAgentOrb` | Tool access levels with revoke, searchable memory, scheduled routines, structured agent questions, and a state-aware avatar. |
+| **Blazor Toolkit** | `TwCalendar`, `TwTimePicker`, `TwRadioGroup<T>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner` | Keyboard-first date grid (ARIA pattern), 12/24-hour picker, generic radios, counter and auto-grow, joined buttons, and a reduced-motion-aware spinner. |
+
+See them working in the **AI** area of the demo: *Agent Ops*, *Agent Kit* and *Toolkit Inputs*.
+
+| A2UI generative form | Control plane | Toolkit inputs |
+| :---: | :---: | :---: |
+| ![A2UI](docs/images/agent-kit-3-a2ui.png) | ![Control](docs/images/agent-kit-5-control.png) | ![Toolkit](docs/images/agent-kit-6-toolkit.png) |
+
+---
+
 ## ♿ Accessibility
 
 - **High contrast:** toggle it in the theme menu, or let it follow the OS `prefers-contrast` setting. It sets `data-contrast="high"` on `<html>` before first paint (no flash), turns borders solid, strengthens muted text and focus rings, and drops shadows and blur.
@@ -205,13 +244,15 @@ npm install
 npm run build:css
 dotnet run --no-launch-profile --urls http://127.0.0.1:5199
 python tests/e2e/agent_ops_e2e.py http://127.0.0.1:5199
+# Threads, live AG-UI SSE (start tests/e2e/agui_server.py first), Agent Kit and Toolkit tabs, with axe-core
+python tests/e2e/agent_kit_e2e.py
 ```
 
 The E2E run drives the real UI (approve with edited arguments, reject, takeover and state edit, audit export, contrast, RTL, forced colors), asserts the outcomes, fails on any console error, and writes screenshots to `docs/images/`.
 
 ---
 
-## 📦 Component Catalog (193 Components)
+## 📦 Component Catalog (219 Components)
 
 All components are documented with parameters and copy-paste snippets in the [Full Component Catalog](docs/COMPONENT_CATALOG.md).
 
@@ -224,6 +265,8 @@ All components are documented with parameters and copy-paste snippets in the [Fu
 | **Modals & Overlays** | `TwModal`, `TwBottomSheet`, `TwDrawer`, `TwPopover`, `TwTooltip`, `TwContextMenu` | Accessible dialogs with mobile bottom-sheet fallback. |
 | **Navigation** | `TwNavbar`, `TwSidebar`, `TwTabs`, `TwBottomNav`, `TwBreadcrumb`, `TwPagination`, `TwScrollToTop` | Responsive multi-tier navigation bars and tabs. |
 | **Cards & Layout** | `TwCard`, `TwGrid`, `TwSplitter`, `TwAccordion`, `TwTimeline`, `TwStatCard` | Bento grids, collapsible panels, and responsive containers. |
+| **Agent Kit** | `TwThreadList`, `TwA2uiSurface`, `TwMcpAppFrame`, `TwVoiceInput`, `TwLiveScreen`, `TwHandoffPanel`, `TwGrantList`, `TwMemoryList`, `TwRoutinesList`, `TwQuestionnaire` and 16 more | CopilotKit and OpenBot patterns: generative UI, sandboxed MCP apps, voice, threads, handoff, access control. |
+| **Toolkit Inputs** | `TwCalendar`, `TwTimePicker`, `TwRadioGroup<T>`, `TwTextArea`, `TwButtonGroup`, `TwSpinner` | Keyboard-first inputs with ARIA patterns. |
 | **Agent Ops** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster` | Blocking approvals, takeover/hand-back, shared state and audit trail for any AG-UI-style agent. |
 | **AI & AG-UI** | `TwAguiStudio`, `TwAguiCanvas`, `TwChatbot`, `TwVoiceRecorder`, `TwCopilot` | Generative UI prompt synthesis and dual-plane tool calling. |
 | **Enterprise Studios** | `TwDashboard`, `TwPdfFormFiller`, `TwUnionBoundary`, `TwFinancialChart`, `TwTreemap`, `TwPivotTable`, `TwMarkdownEditor` | Draggable CRM dashboards, sealed PDFs, and financial charts. |
@@ -233,7 +276,7 @@ All components are documented with parameters and copy-paste snippets in the [Fu
 
 ## 📚 Documentation & Guides
 
-- 📖 **[Component Catalog (193 Components)](docs/COMPONENT_CATALOG.md)** — Complete parameter tables, variants, and API reference.
+- 📖 **[Component Catalog (219 Components)](docs/COMPONENT_CATALOG.md)** — Complete parameter tables, variants, and API reference.
 - 🎓 **[Developer Coaching & Architecture Principles](docs/DEVELOPER_COACHING.md)** — Mobile-first design patterns, zero-FOUC theming, and performance tips.
 - 🎬 **[HyperFrames 1080p Video Masterclass](wwwroot/videos/hyperframes_masterclass.html)** — Interactive 18-chapter video walkthrough.
 - 🗺️ **[Release Roadmap & Changelog](docs/ROADMAP.md)** — Feature milestones and version history.

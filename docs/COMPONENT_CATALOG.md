@@ -6,7 +6,8 @@ Comprehensive guide to all **86 components** in **BlazorTailwindUI** (.NET 11 RC
 
 ## Table of Contents
 
-- [Agent Ops & Human-in-the-Loop](#agent-ops--human-in-the-loop) (7 components)
+- [Agent Ops & Human-in-the-Loop](#agent-ops--human-in-the-loop) (18 components)
+- [Chat & Generative UI](#chat--generative-ui) (9 components)
 - [Financial & Analytical Intelligence](#financial-analytical-intelligence) (3 components)
 - [Developer Studio & Content Creation](#developer-studio-content-creation) (7 components)
 - [Task-Purpose Enterprise Forms](#task-purpose-enterprise-forms) (8 components)
@@ -26,6 +27,31 @@ Comprehensive guide to all **86 components** in **BlazorTailwindUI** (.NET 11 RC
 - [Showcase & Micro-Interactions](#showcase-micro-interactions) (7 components)
 
 ---
+
+## Chat & Generative UI
+
+Generated from the live catalog (`ComponentCatalogService`); every entry below is a real component with tests.
+
+| Component | Purpose |
+| --- | --- |
+| `TwChatSuggestions` | Suggested follow-up prompts with a loading skeleton. |
+| `TwFeedbackButtons` | Thumbs up / down with an optional reason. |
+| `TwAttachmentQueue` | File staging with count, size and duplicate validation. |
+| `TwMessageScroller` | Follows new messages; Jump to latest after scrolling up. |
+| `TwVoiceInput` | Push-to-talk recording with level meter and optional transcription. |
+| `TwLiveWaveform` | Audio level bars. |
+| `TwQuestionnaire` | Structured questions from an agent, one at a time. |
+| `TwA2uiSurface` | Agent-described UI (A2UI v0.9) with data binding and actions. |
+| `TwMcpAppFrame` | Sandboxed MCP app host with CSP and postMessage bridge. |
+
+### Agent Ops additions
+
+`TwThreadList`, `TwDryRunChanges`, `TwActivityLog`, `TwCommandOutput`, `TwHandoffPanel`, `TwRoutinesList`, `TwMemoryList`, `TwGrantList`, `TwLiveScreen`, `TwAgentOrb`, `TwRedactedValue`.
+
+### Controls and inputs additions
+
+`TwSpinner`, `TwButtonGroup`, `TwRadioGroup<TValue>`, `TwTextArea` (Buttons, Forms & Controls); `TwCalendar`, `TwTimePicker` (Advanced Forms & Inputs).
+
 
 ## Agent Ops & Human-in-the-Loop
 

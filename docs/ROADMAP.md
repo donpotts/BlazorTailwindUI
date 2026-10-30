@@ -25,6 +25,7 @@ This document outlines the strategic architecture, component specifications, and
 | **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwPostQuantumService` | Shipped (v1.4.0) ✅ | Zero-Trust & Post-Quantum Security |
 | **16. Agent Ops: Approvals, Takeover & Audit** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster`, `AgentRunSession` | Shipped (v1.5.0) ✅ | Agentic AI & Human-in-the-Loop |
 | **17. Accessibility Layer** | High-contrast mode, `forced-colors`, reduced motion, RTL-safe components, axe-core E2E | Shipped (v1.5.0) ✅ | Accessibility & Theming |
+| **18. Agent Kit & Live AG-UI** | `SseAgentTransport`, `AgentThreadStore`, `TwThreadList`, `TwA2uiSurface`, `TwMcpAppFrame`, `TwVoiceInput`, `TwHandoffPanel`, `TwLiveScreen`, `TwGrantList` and 17 more; `TwCalendar`, `TwTimePicker`, `TwRadioGroup`, `TwTextArea` | Shipped ✅ | Agent-native UI |
 | **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Shipped (v1.5.0) ✅ | Observability & Performance HUD |
 | **17. .NET Aspire 11 Live App Host Orchestration** | `TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI` | Shipped (v1.5.1) ✅ | Cloud-Native & Developer Velocity |
 | **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSimdVectorService` | Shipped (v1.5.1) ✅ | Runtime Performance & Vector SIMD |
