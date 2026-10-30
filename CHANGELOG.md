@@ -55,6 +55,7 @@ Agent-native release: human-in-the-loop agent components, a live AG-UI transport
 - Edited approval arguments carried over into the next run.
 
 ### Changed
+- `docs/COMPONENT_CATALOG.md` is now generated from `ComponentCatalogService` (219 components, 43 categories, source links and parameter tables for all); a test fails when it is out of date.
 - The README runtime badge now reads .NET 10+ to match the project target.
 - Roadmap items renumbered so they are unique.
 

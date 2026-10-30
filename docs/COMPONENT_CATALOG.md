@@ -1,63 +1,328 @@
 # Blazor Tailwind UI — Component Catalog & Settings Reference
 
-Comprehensive guide to all **86 components** in **BlazorTailwindUI** (.NET 10+ WebAssembly, Tailwind CSS v3.4+, zero third-party commercial UI libraries).
+Comprehensive guide to all **219 components** in **BlazorTailwindUI** (.NET 10+ WebAssembly, Tailwind CSS v3.4+, zero third-party commercial UI libraries).
+
+> This file is generated from `Services/ComponentCatalogService.cs`. Do not edit it by hand; change the catalog and regenerate with `UPDATE_CATALOG_DOC=1 dotnet test --filter CatalogDocTests`. A test fails when this file is out of date.
 
 ---
 
 ## Table of Contents
 
+- [Advanced Forms & Inputs](#advanced-forms--inputs) (10 components)
 - [Agent Ops & Human-in-the-Loop](#agent-ops--human-in-the-loop) (18 components)
+- [AI & Agentic Workflows](#ai--agentic-workflows) (1 component)
+- [AI Chatbot & Reasoning](#ai-chatbot--reasoning) (3 components)
+- [Animation & Micro-Interactions](#animation--micro-interactions) (1 component)
+- [Architecture & State](#architecture--state) (2 components)
+- [Buttons, Forms & Controls](#buttons-forms--controls) (17 components)
+- [Cards & Bento](#cards--bento) (1 component)
+- [Cards, Grids & Bento Systems](#cards-grids--bento-systems) (13 components)
 - [Chat & Generative UI](#chat--generative-ui) (9 components)
-- [Financial & Analytical Intelligence](#financial-analytical-intelligence) (3 components)
-- [Developer Studio & Content Creation](#developer-studio-content-creation) (7 components)
+- [Code & Syntax Studio](#code--syntax-studio) (5 components)
+- [Dashboards & Layouts](#dashboards--layouts) (1 component)
+- [Data Visualization](#data-visualization) (1 component)
+- [Developer Studio & Content Creation](#developer-studio--content-creation) (7 components)
+- [Documents & Forms](#documents--forms) (1 component)
+- [Enterprise & Workplace Operations](#enterprise--workplace-operations) (1 component)
+- [Enterprise Data & Tables](#enterprise-data--tables) (7 components)
+- [Feedback & Alerts](#feedback--alerts) (1 component)
+- [Financial & Analytical Intelligence](#financial--analytical-intelligence) (3 components)
+- [Financial & OCR](#financial--ocr) (2 components)
+- [Forms & Controls](#forms--controls) (2 components)
+- [Forms & Inputs](#forms--inputs) (2 components)
+- [Fullstack .NET 10+](#fullstack-net-10) (10 components)
+- [Gamification & Celebrations](#gamification--celebrations) (4 components)
+- [Hardware & Media Interop](#hardware--media-interop) (1 component)
+- [Layout & Application Shell](#layout--application-shell) (5 components)
+- [Media, Scanner & Signature](#media-scanner--signature) (6 components)
+- [Modals & Overlays](#modals--overlays) (1 component)
+- [Navigation & Headers](#navigation--headers) (1 component)
+- [Navigation & Shell](#navigation--shell) (2 components)
+- [Navigation & Steppers](#navigation--steppers) (11 components)
+- [Other Components](#other-components) (18 components)
+- [Overlays & Modals](#overlays--modals) (1 component)
+- [Overlays & Popovers](#overlays--popovers) (7 components)
+- [Progress & Steppers](#progress--steppers) (1 component)
+- [Security & Compliance](#security--compliance) (1 component)
+- [Showcase & Micro-Interactions](#showcase--micro-interactions) (7 components)
+- [Smart Components](#smart-components) (1 component)
 - [Task-Purpose Enterprise Forms](#task-purpose-enterprise-forms) (8 components)
-- [Layout & Application Shell](#layout-application-shell) (5 components)
-- [Theme & Palette Customization](#theme-palette-customization) (5 components)
-- [Code & Syntax Studio](#code-syntax-studio) (5 components)
-- [Advanced Forms & Inputs](#advanced-forms-inputs) (7 components)
-- [Typography, Badges & Keys](#typography-badges-keys) (8 components)
-- [Buttons, Forms & Controls](#buttons-forms-controls) (12 components)
-- [Cards, Grids & Bento Systems](#cards-grids-bento-systems) (10 components)
-- [Enterprise Data & Tables](#enterprise-data-tables) (7 components)
-- [Visualizations & Gauges](#visualizations-gauges) (8 components)
-- [Media, Scanner & Signature](#media-scanner-signature) (6 components)
-- [Navigation & Steppers](#navigation-steppers) (11 components)
-- [Overlays & Popovers](#overlays-popovers) (7 components)
-- [AI Chatbot & Reasoning](#ai-chatbot-reasoning) (3 components)
-- [Showcase & Micro-Interactions](#showcase-micro-interactions) (7 components)
+- [Theme & Palette Customization](#theme--palette-customization) (5 components)
+- [Typography & Utilities](#typography--utilities) (1 component)
+- [Typography, Badges & Keys](#typography-badges--keys) (9 components)
+- [Visualizations & Gauges](#visualizations--gauges) (11 components)
 
 ---
 
-## Chat & Generative UI
+## Advanced Forms & Inputs
 
-Generated from the live catalog (`ComponentCatalogService`); every entry below is a real component with tests.
+### `TwCalendar`
 
-| Component | Purpose |
-| --- | --- |
-| `TwChatSuggestions` | Suggested follow-up prompts with a loading skeleton. |
-| `TwFeedbackButtons` | Thumbs up / down with an optional reason. |
-| `TwAttachmentQueue` | File staging with count, size and duplicate validation. |
-| `TwMessageScroller` | Follows new messages; Jump to latest after scrolling up. |
-| `TwVoiceInput` | Push-to-talk recording with level meter and optional transcription. |
-| `TwLiveWaveform` | Audio level bars. |
-| `TwQuestionnaire` | Structured questions from an agent, one at a time. |
-| `TwA2uiSurface` | Agent-described UI (A2UI v0.9) with data binding and actions. |
-| `TwMcpAppFrame` | Sandboxed MCP app host with CSP and postMessage bridge. |
+**Location:** [`Components/UI/TwCalendar.razor`](../Components/UI/TwCalendar.razor)
 
-### Agent Ops additions
+Month calendar following the ARIA date-grid pattern: arrow / Home / End / PageUp / PageDown keys, min and max, culture-aware.
 
-`TwThreadList`, `TwDryRunChanges`, `TwActivityLog`, `TwCommandOutput`, `TwHandoffPanel`, `TwRoutinesList`, `TwMemoryList`, `TwGrantList`, `TwLiveScreen`, `TwAgentOrb`, `TwRedactedValue`.
+#### Parameters & Settings
 
-### Controls and inputs additions
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `DateOnly?` | `null` | Selected date. |
+| `Min` | `DateOnly?` | `null` | Earliest selectable date. |
+| `Max` | `DateOnly?` | `null` | Latest selectable date. |
+| `FirstDayOfWeek` | `DayOfWeek` | `Sunday` | First column. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
-`TwSpinner`, `TwButtonGroup`, `TwRadioGroup<TValue>`, `TwTextArea` (Buttons, Forms & Controls); `TwCalendar`, `TwTimePicker` (Advanced Forms & Inputs).
+#### Razor Usage Example
 
+```razor
+<TwCalendar @bind-Value="_date" Min="_from" Max="_to" />
+```
+
+---
+
+### `TwTimePicker`
+
+**Location:** [`Components/UI/TwTimePicker.razor`](../Components/UI/TwTimePicker.razor)
+
+Accessible hour / minute / AM-PM picker built from native selects, 12 or 24 hour, with a minute step.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `TimeOnly?` | `null` | Selected time. |
+| `Use24Hour` | `bool` | `false` | 24 hour clock. |
+| `MinuteStep` | `int` | `5` | Minute granularity (1-30). |
+| `Label` | `string?` | `null` | Group label. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwTimePicker @bind-Value="_time" MinuteStep="15" />
+```
+
+---
+
+### `TwFilterBuilder`
+
+**Location:** [`Components/UI/TwFilterBuilder.razor`](../Components/UI/TwFilterBuilder.razor)
+
+Visual query and filter builder supporting nested boolean AND/OR criteria trees, comparison operators, typed values, and LINQ/SQL predicate generation.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Visual Query & Filter Builder"` | Header title or accessible label. |
+| `RootGroup` | `FilterGroup` | `new()` | Configures component behavior or styling. |
+| `AvailableFields` | `List<FieldDefinition>` | `new()` | Configures component behavior or styling. |
+| `ShowPreview` | `bool` | `true` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnFilterChanged` | `EventCallback<FilterGroup>` | `null` | Callback invoked when state changes or item is selected. |
+
+#### Razor Usage Example
+
+```razor
+<TwFilterBuilder Title="Visual Query & Filter Builder" RootGroup="new()" AvailableFields="new()" />
+```
+
+---
+
+### `TwDropzone`
+
+**Location:** [`Components/UI/TwDropzone.razor`](../Components/UI/TwDropzone.razor)
+
+Enterprise multi-file drag-and-drop ingestion zone with animated focus border, file extension badges, individual upload progress bars, and queue management.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `AllowMultiple` | `bool` | `true` | Configures component behavior or styling. |
+| `AcceptedExtensions` | `string` | `".png, .jpg, .pdf, .zip, .cs, .json"` | Configures component behavior or styling. |
+| `MaxFileSizeMb` | `int` | `25` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `Files` | `List<DropzoneFile>` | `new()` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `FilesChanged` | `EventCallback<List<DropzoneFile>>` | `null` | Callback invoked when state changes or item is selected. |
+
+#### Razor Usage Example
+
+```razor
+<TwDropzone AllowMultiple="true" AcceptedExtensions=".png, .jpg, .pdf, .zip, .cs, .json" MaxFileSizeMb="25" />
+```
+
+---
+
+### `TwOtpInput`
+
+**Location:** [`Components/UI/TwOtpInput.razor`](../Components/UI/TwOtpInput.razor)
+
+Segmented 6-digit one-time password / PIN verification input with auto-advance, backspace navigation, mobile numeric keypad, paste support, and dot masking.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Length` | `int` | `6` | Configures component behavior or styling. |
+| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
+| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
+| `OnCompleted` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `Masked` | `bool` | `null` | Configures component behavior or styling. |
+| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
+| `HasError` | `bool` | `null` | Configures component behavior or styling. |
+| `ErrorMessage` | `string?` | `null` | Configures component behavior or styling. |
+| `Label` | `string?` | `null` | Configures component behavior or styling. |
+| `HelperText` | `string?` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwOtpInput Length="6" Value="" />
+```
+
+---
+
+### `TwPasswordStrength`
+
+**Location:** [`Components/UI/TwPasswordStrength.razor`](../Components/UI/TwPasswordStrength.razor)
+
+Interactive password input with toggleable eye visibility, 4-stage color-coded entropy bar (Weak, Fair, Good, Strong), and real-time live requirements checklist.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
+| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
+| `Label` | `string` | `"Password"` | Configures component behavior or styling. |
+| `Placeholder` | `string` | `"Enter a secure password..."` | Input placeholder hint. |
+| `ShowChecklist` | `bool` | `true` | Configures component behavior or styling. |
+| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwPasswordStrength Value="" Label="Password" Placeholder="Enter a secure password..." />
+```
+
+---
+
+### `TwCombobox`
+
+**Location:** [`Components/UI/TwCombobox.razor`](../Components/UI/TwCombobox.razor)
+
+Searchable autocomplete dropdown with real-time filtering, keyboard arrow navigation, enter-to-select, clear button, and empty filter fallback.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
+| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
+| `Items` | `IReadOnlyList<ComboboxItem>` | `Array.Empty<ComboboxItem>()` | Configures component behavior or styling. |
+| `Label` | `string` | `""` | Configures component behavior or styling. |
+| `Placeholder` | `string` | `"Select or search option..."` | Input placeholder hint. |
+| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwCombobox Value="" Items="Array.Empty<ComboboxItem>()" Label="" />
+```
+
+---
+
+### `TwTagsInput`
+
+**Location:** [`Components/UI/TwTagsInput.razor`](../Components/UI/TwTagsInput.razor)
+
+Interactive token tag creator that adds chips on Enter/Comma, supports backspace removal, removable badge pills, and max tags limit.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Tags` | `List<string>` | `new()` | Configures component behavior or styling. |
+| `TagsChanged` | `EventCallback<List<string>>` | `null` | Callback invoked when state changes or item is selected. |
+| `Label` | `string` | `""` | Configures component behavior or styling. |
+| `Placeholder` | `string` | `"Type tag and press Enter..."` | Input placeholder hint. |
+| `HelperText` | `string?` | `null` | Configures component behavior or styling. |
+| `MaxTags` | `int?` | `null` | Configures component behavior or styling. |
+| `AllowDuplicates` | `bool` | `false` | Configures component behavior or styling. |
+| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwTagsInput Tags="new()" Label="" Placeholder="Type tag and press Enter..." />
+```
+
+---
+
+### `TwInputGroup`
+
+**Location:** [`Components/UI/TwInputGroup.razor`](../Components/UI/TwInputGroup.razor)
+
+Composite input field with seamless prepended and appended text, icon slots, and dropdown buttons (currency, protocol, domain).
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
+| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
+| `Label` | `string` | `""` | Configures component behavior or styling. |
+| `Type` | `string` | `"text"` | Configures component behavior or styling. |
+| `Placeholder` | `string` | `""` | Input placeholder hint. |
+| `PrependText` | `string?` | `null` | Configures component behavior or styling. |
+| `AppendText` | `string?` | `null` | Configures component behavior or styling. |
+| `PrependContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `AppendContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `HelperText` | `string?` | `null` | Configures component behavior or styling. |
+| `ErrorMessage` | `string?` | `null` | Configures component behavior or styling. |
+| `HasError` | `bool` | `null` | Configures component behavior or styling. |
+| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwInputGroup Value="" Label="" Type="text" />
+```
+
+---
+
+### `TwTimeSpanPicker`
+
+**Location:** [`Components/UI/TwTimeSpanPicker.razor`](../Components/UI/TwTimeSpanPicker.razor)
+
+Structured duration and timespan picker with Days, Hours, Minutes, Seconds input blocks, step increments, reset trigger, and quick preset duration pills.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `TimeSpan` | `TimeSpan.Zero` | Two-way bindable duration value. |
+| `Label` | `string?` | `null` | Optional form label. |
+| `AllowDays` | `bool` | `true` | Whether to show the Days stepper unit. |
+| `AllowSeconds` | `bool` | `true` | Whether to show the Seconds stepper unit. |
+| `ShowPresets` | `bool` | `true` | Show quick duration preset buttons (15m, 1h, 1d, etc.). |
+| `ShowReset` | `bool` | `true` | Show zero-reset button. |
+
+#### Razor Usage Example
+
+```razor
+<TwTimeSpanPicker Label="SLA Duration" @bind-Value="_sla" ShowPresets="true" />
+```
+
+---
 
 ## Agent Ops & Human-in-the-Loop
-
-Agent-native components built around a transport-agnostic `AgentRunSession`: high-risk tool calls block until a human decides, takeover pauses the agent, and every action is audited. Plug your own agent in by implementing `IAgentTransport` (an `IAsyncEnumerable<AgUiEvent>`) and registering it before `AddBlazorTailwindUI()`.
-
----
 
 ### `TwAgentConsole`
 
@@ -210,1235 +475,547 @@ Accessible list of available agents (nav with aria-current) showing role, descri
 
 ---
 
-## Financial & Analytical Intelligence
+### `TwThreadList`
 
-### `TwFinancialChart`
+**Location:** [`Components/UI/TwThreadList.razor`](../Components/UI/TwThreadList.razor)
 
-**Location:** [`Components/UI/TwFinancialChart.razor`](../Components/UI/TwFinancialChart.razor)
-
-High-frequency Candlestick and Area financial charting engine with real-time volume histogram, 20-period moving average line, crosshair hover HUD inspector, timeframe range presets (1W, 1M, 3M, YTD, 1Y, ALL), and zero-JS vector SVG rendering.
+Conversation thread sidebar with search, new, rename, pin, archive and delete, backed by IAgentThreadStore (persisted to localStorage).
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Ticker` | `string` | `"BLZR"` | Configures component behavior or styling. |
-| `CompanyName` | `string` | `"Blazor Technologies Inc."` | Configures component behavior or styling. |
-| `Exchange` | `string` | `"NASDAQ"` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `Data` | `List<FinancialCandle>?` | `null` | Configures component behavior or styling. |
+| `Store` | `IAgentThreadStore` | `required` | Thread store to list and edit. |
+| `SelectedId` | `string?` | `null` | Id of the open thread. |
+| `OnSelect` | `EventCallback<AgentThread>` | `null` | Fired when a thread is opened. |
+| `OnCreated` | `EventCallback<AgentThread>` | `null` | Fired after New. |
+| `OnDeleted` | `EventCallback<AgentThread>` | `null` | Fired after a thread is deleted. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwFinancialChart Ticker="BLZR" CompanyName="Blazor Technologies Inc." Exchange="NASDAQ" />
+<TwThreadList Store="_threads" SelectedId="@_threadId" OnSelect="t => _threadId = t.Id" />
 ```
 
 ---
 
-### `TwTreemap`
+### `TwDryRunChanges`
 
-**Location:** [`Components/UI/TwTreemap.razor`](../Components/UI/TwTreemap.razor)
+**Location:** [`Components/UI/TwDryRunChanges.razor`](../Components/UI/TwDryRunChanges.razor)
 
-Multi-dimensional area treemap and valuation heatmap visualizing hierarchical assets, portfolio market caps, and performance returns with squarified 2D tiling, dynamic drill-down breadcrumb, and color ramps.
+Before/after preview of what an action would change, shown before the human approves it.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Market Valuation Heatmap & Treemap"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Hierarchical squarified area map of enterprise assets and percentage price shifts"` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `Items` | `List<TreemapItem>?` | `null` | Configures component behavior or styling. |
-| `OnItemClick` | `EventCallback<TreemapItem>` | `null` | Configures component behavior or styling. |
+| `Changes` | `IReadOnlyList<DryRunChange>` | `required` | Add / Change / Remove rows with Target, Before and After. |
+| `Title` | `string` | `"If you approve, this will change:"` | Heading. |
+| `ChildContent` | `RenderFragment?` | `null` | Extra content below the list. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwTreemap Title="Market Valuation Heatmap & Treemap" Subtitle="Hierarchical squarified area map of enterprise assets and percentage price shifts" CustomClass="" />
+<TwDryRunChanges Changes="_changes" />
 ```
 
 ---
 
-### `TwPivotGrid`
+### `TwActivityLog`
 
-**Location:** [`Components/UI/TwPivotGrid.razor`](../Components/UI/TwPivotGrid.razor)
+**Location:** [`Components/UI/TwActivityLog.razor`](../Components/UI/TwActivityLog.razor)
 
-Enterprise OLAP cross-tabulation matrix supporting dynamic row/column field pivoting, value aggregations (Sum, Average, Count), interactive field drop drawer, and hierarchical subtotal and grand total calculations.
+Timestamped log of what the agent did on its machine (navigate, click, type, command), announced politely to assistive tech.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Enterprise Financial Pivot Grid"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Multi-dimensional cross-tabulation matrix with real-time grouping & aggregation"` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `Records` | `List<PivotRecord>?` | `null` | Configures component behavior or styling. |
+| `Entries` | `IReadOnlyList<ActivityEntry>` | `required` | Events: AtUtc, Kind, Text, Detail. |
+| `Label` | `string` | `"Agent activity"` | Region heading. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwPivotGrid Title="Enterprise Financial Pivot Grid" Subtitle="Multi-dimensional cross-tabulation matrix with real-time grouping & aggregation" CustomClass="" />
+<TwActivityLog Entries="_entries" />
 ```
 
 ---
 
-## Developer Studio & Content Creation
+### `TwCommandOutput`
 
-### `TwIconPicker`
+**Location:** [`Components/UI/TwCommandOutput.razor`](../Components/UI/TwCommandOutput.razor)
 
-**Location:** [`Components/UI/TwIconPicker.razor`](../Components/UI/TwIconPicker.razor)
-
-Interactive search-and-select icon & emoji explorer with live filtering, outline/solid toggles, size previews, and one-click Razor component snippet copying.
+Terminal-style command result with exit code, tail truncation and automatic credential masking.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Open Source Vector Icons & Emoji Studio"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Zero-dependency pure C# WASM vector icons and emojis for enterprise dashboards and forms"` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `Command` | `string` | `required` | Command line that was run. |
+| `Output` | `string` | `""` | Captured output. |
+| `ExitCode` | `int` | `0` | Process exit code. |
+| `MaxLines` | `int` | `200` | Keep only the last N lines. |
+| `Redact` | `bool` | `true` | Mask passwords, tokens and URL credentials. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwIconPicker Title="Open Source Vector Icons & Emoji Studio" Subtitle="Zero-dependency pure C# WASM vector icons and emojis for enterprise dashboards and forms" CustomClass="" />
+<TwCommandOutput Command="dotnet test" Output="@_out" ExitCode="0" />
 ```
 
 ---
 
-### `TwIcon`
+### `TwHandoffPanel`
 
-**Location:** [`Components/UI/TwIcon.razor`](../Components/UI/TwIcon.razor)
+**Location:** [`Components/UI/TwHandoffPanel.razor`](../Components/UI/TwHandoffPanel.razor)
 
-Zero-dependency pure C# WASM inline vector SVG icon engine supporting 100+ curated icons (Heroicons & Lucide paths), customizable sizes, stroke widths, outline/solid modes, and semantic color inheritance.
+Alert card where a stuck agent asks a human to take the wheel, then hand the task back.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Name` | `string` | `"sparkles"` | Configures component behavior or styling. |
-| `Size` | `ComponentSize` | `ComponentSize.Md` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `IsSolid` | `bool` | `false` | Configures component behavior or styling. |
-| `StrokeWidth` | `double` | `1.75` | Configures component behavior or styling. |
-| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
+| `AgentName` | `string` | `"The agent"` | Who is asking. |
+| `Reason` | `string` | `required` | Why the agent is stuck. |
+| `Where` | `string?` | `null` | Page or step it is stuck at. |
+| `Resolved` | `bool` | `false` | Show the resolved state. |
+| `OnTakeOver` | `EventCallback` | `null` | Human took control. |
+| `OnHandBack` | `EventCallback` | `null` | Human returned control. |
+| `OnDecline` | `EventCallback` | `null` | Human stopped the task. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwIcon Name="sparkles" Size="ComponentSize.Md" StrokeWidth="1.75" />
+<TwHandoffPanel AgentName="Refund Desk" Reason="A CAPTCHA blocks the portal." OnTakeOver="Take" OnHandBack="GiveBack" />
 ```
 
 ---
 
-### `TwEmoji`
+### `TwRoutinesList`
 
-**Location:** [`Components/UI/TwEmoji.razor`](../Components/UI/TwEmoji.razor)
+**Location:** [`Components/UI/TwRoutinesList.razor`](../Components/UI/TwRoutinesList.razor)
 
-Modern emoji component with shortcode mapping (:rocket:, :fire:, :sparkles:), Unicode glyph parsing, hover scale physics, and click-to-copy clipboard integration.
+Recurring agent jobs with schedule, next run, run-now and an accessible on/off switch.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Shortcode` | `string?` | `null` | Configures component behavior or styling. |
-| `Glyph` | `string?` | `null` | Configures component behavior or styling. |
-| `Size` | `ComponentSize` | `ComponentSize.Md` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `AnimateOnHover` | `bool` | `true` | Configures component behavior or styling. |
-| `CopyOnClick` | `bool` | `false` | Callback invoked when state changes or item is selected. |
-| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
+| `Items` | `List<Routine>` | `required` | Routines to show. |
+| `OnToggled` | `EventCallback<Routine>` | `null` | Enabled state changed. |
+| `OnRunNow` | `EventCallback<Routine>` | `null` | Run now pressed. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwEmoji Size="ComponentSize.Md" AnimateOnHover="true" Class="" />
+<TwRoutinesList Items="_routines" OnToggled="Save" />
 ```
 
 ---
 
-### `TwMarkdownEditor`
+### `TwMemoryList`
 
-**Location:** [`Components/UI/TwMarkdownEditor.razor`](../Components/UI/TwMarkdownEditor.razor)
+**Location:** [`Components/UI/TwMemoryList.razor`](../Components/UI/TwMemoryList.razor)
 
-Enterprise-grade dual Markdown and HTML editor featuring live pure C# WASM typography preview, split/edit/preview modes, toolbar actions (headings, lists, bold, italics, code, tables), fullscreen Zen focus, and media drawer supporting image, video, audio, and link embedding.
+What the agent remembers, with source and date, searchable, each with a Forget action.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string?` | `null` | Header title or accessible label. |
-| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
-| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `Items` | `List<Memory>` | `required` | Remembered facts. |
+| `OnForget` | `EventCallback<Memory>` | `null` | A memory was forgotten. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwMarkdownEditor Value="" CustomClass="" />
+<TwMemoryList Items="_memories" OnForget="Forget" />
 ```
 
 ---
 
-### `TwDockManager`
+### `TwGrantList`
 
-**Location:** [`Components/UI/TwDockManager.razor`](../Components/UI/TwDockManager.razor)
+**Location:** [`Components/UI/TwGrantList.razor`](../Components/UI/TwGrantList.razor)
 
-Desktop-grade multi-pane docking studio layout engine featuring Solution Explorer tree, multi-tab central document workspace, bottom diagnostic terminal output, and collapsible properties inspector.
+Table of tools an agent may use, each with an access level (Ask / Read / Write) and Revoke.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string?` | `null` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `Items` | `List<Grant>` | `required` | Granted tools and levels. |
+| `OnChanged` | `EventCallback<Grant>` | `null` | Access level changed. |
+| `OnRevoked` | `EventCallback<Grant>` | `null` | Grant revoked. |
+| `Caption` | `string` | `"Tools the agent may use"` | Table caption for assistive tech. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwDockManager CustomClass="" />
+<TwGrantList Items="_grants" OnChanged="Save" OnRevoked="Revoke" />
 ```
 
 ---
 
-### `TwSpreadsheet`
+### `TwLiveScreen`
 
-**Location:** [`Components/UI/TwSpreadsheet.razor`](../Components/UI/TwSpreadsheet.razor)
+**Location:** [`Components/UI/TwLiveScreen.razor`](../Components/UI/TwLiveScreen.razor)
 
-Spreadsheet calculation engine with alphanumeric grid coordinates (A1..E10), formula bar, formula evaluation (=SUM, =AVG, arithmetic), direct cell inline editing, and formatted total readouts.
+The agent's screen with its pointer, a working/in-control badge and Take control; reports normalised click coordinates while you drive.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Enterprise Spreadsheet Matrix"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Excel-compatible cell matrix with live arithmetic, range aggregations, and formula bar"` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `ImageUrl` | `string?` | `null` | Latest captured frame. |
+| `Url` | `string?` | `null` | Page the agent is on. |
+| `CursorX` | `double?` | `null` | Agent pointer X, 0..1. |
+| `CursorY` | `double?` | `null` | Agent pointer Y, 0..1. |
+| `Controlling` | `bool` | `false` | Human is in control. |
+| `OnScreenClick` | `EventCallback<(double X,double Y)>` | `null` | Click while controlling, as 0..1 fractions. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwSpreadsheet Title="Enterprise Spreadsheet Matrix" Subtitle="Excel-compatible cell matrix with live arithmetic, range aggregations, and formula bar" CustomClass="" />
+<TwLiveScreen ImageUrl="@_frame" Url="https://portal.test" @bind-Controlling="_driving" OnScreenClick="Click" />
 ```
 
 ---
 
-### `TwOrgChart`
+### `TwAgentOrb`
 
-**Location:** [`Components/UI/TwOrgChart.razor`](../Components/UI/TwOrgChart.razor)
+**Location:** [`Components/UI/TwAgentOrb.razor`](../Components/UI/TwAgentOrb.razor)
 
-Hierarchical organization tree visualizer with pure vector SVG orthogonal connector lines, search highlight filter, recursive branch expand/collapse toggles, and A-/A+ canvas zoom controls.
+Animated agent avatar whose colour, ring and status dot follow the run state, with the state also exposed as text.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Enterprise Organization Tree"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Executive leadership structure, reporting hierarchies, and departmental clusters"` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `Root` | `OrgNode?` | `null` | Configures component behavior or styling. |
+| `Name` | `string` | `"Agent"` | Agent name (initial and accessible name). |
+| `Status` | `AgentRunStatus` | `Idle` | Run state. |
+| `Size` | `string` | `"md"` | sm, md or lg. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwOrgChart Title="Enterprise Organization Tree" Subtitle="Executive leadership structure, reporting hierarchies, and departmental clusters" CustomClass="" />
+<TwAgentOrb Name="Refund Desk" Status="@_session.Status" />
 ```
 
 ---
 
-## Task-Purpose Enterprise Forms
+### `TwRedactedValue`
 
-### `TwUserRegistrationForm`
+**Location:** [`Components/UI/TwRedactedValue.razor`](../Components/UI/TwRedactedValue.razor)
 
-**Location:** [`Components/UI/TwUserRegistrationForm.razor`](../Components/UI/TwUserRegistrationForm.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Shows agent arguments and results with credentials masked; a deliberate Reveal is needed to see the raw value.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Create Your Account"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Deploy enterprise WebAssembly apps with instant Tailwind CSS parity"` | Header title or accessible label. |
-| `ShowSocialLogins` | `bool` | `true` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnRegistered` | `EventCallback<RegistrationModel>` | `null` | Configures component behavior or styling. |
-| `OnSsoRequested` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `Value` | `string` | `required` | Raw JSON or text. |
+| `Label` | `string` | `"Value"` | Heading. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwUserRegistrationForm Title="Create Your Account" Subtitle="Deploy enterprise WebAssembly apps with instant Tailwind CSS parity" ShowSocialLogins="true" />
+<TwRedactedValue Value="@call.ArgsJson" Label="Arguments" />
 ```
 
 ---
 
-### `TwUserEditForm`
+## AI & Agentic Workflows
 
-**Location:** [`Components/UI/TwUserEditForm.razor`](../Components/UI/TwUserEditForm.razor)
+### `TwChatStudio`
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+**Location:** [`Components/UI/TwChatStudio.razor`](../Components/UI/TwChatStudio.razor)
+
+Full-featured modern conversational AI chat studio with multiline growing composer, staged file attachment preview chips, quick reply suggestion pills, feedback reactions (thumbs up/down), copy to clipboard, and live harmonic typing indicator.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Model` | `UserProfileModel?` | `null` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnSaved` | `EventCallback<UserProfileModel>` | `null` | Configures component behavior or styling. |
-| `OnDeactivate` | `EventCallback` | `null` | Configures component behavior or styling. |
+| `Title` | `string` | `"AI Enterprise Studio"` | Chat studio title. |
+| `ModelBadge` | `string` | `".NET 10+ WASM"` | Model identification badge. |
+| `Messages` | `List<ChatMessage>` | `new()` | Chronological chat message stream. |
+| `Suggestions` | `List<string>` | `new()` | Quick reply suggestion chips above composer. |
+| `IsTyping` | `bool` | `false` | Show animated harmonic typing indicator. |
+| `TypingStatusText` | `string` | `"AI is thinking..."` | Typing indicator status message. |
+| `OnMessageSent` | `EventCallback<ChatMessage>` | `-` | Invoked when user sends prompt with staged attachments. |
 
 #### Razor Usage Example
 
 ```razor
-<TwUserEditForm CustomClass="" />
+<TwChatStudio Title="AI Enterprise Studio" Messages="_messages" Suggestions="_prompts" OnMessageSent="HandleSend" OnRegenerate="HandleRegen" />
 ```
 
 ---
 
-### `TwLoginForm`
+## AI Chatbot & Reasoning
 
-**Location:** [`Components/UI/TwLoginForm.razor`](../Components/UI/TwLoginForm.razor)
+### `TwChatBot`
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+**Location:** [`Components/UI/TwChatBot.razor`](../Components/UI/TwChatBot.razor)
+
+Intelligent conversational chatbot interface with streaming message bubbles, thinking progress checklists, and code snippet copying.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Sign in to Enterprise Hub"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Access mission-critical dashboards, design tokens, and components"` | Header title or accessible label. |
-| `ImageUrl` | `string` | `"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80"` | Configures component behavior or styling. |
-| `QuoteText` | `string` | `"Simplicity is prerequisite for reliability."` | Configures component behavior or styling. |
-| `QuoteAuthor` | `string` | `"Edsger W. Dijkstra"` | Configures component behavior or styling. |
-| `QuoteCitation` | `string` | `"Turing Award Laureate"` | Configures component behavior or styling. |
-| `ShowSocialLogins` | `bool` | `true` | Configures component behavior or styling. |
-| `AllowRememberMe` | `bool` | `true` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnLogin` | `EventCallback<LoginCredentials>` | `null` | Configures component behavior or styling. |
-| `OnSsoLogin` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
-| `OnForgotPassword` | `EventCallback` | `null` | Configures component behavior or styling. |
+| `BotName` | `string` | `"NexusAI"` | Configures component behavior or styling. |
+| `SelectedModel` | `string` | `"Gemini 2.0 Flash"` | Configures component behavior or styling. |
+| `ShowCloseButton` | `bool` | `null` | Configures component behavior or styling. |
+| `OnClose` | `EventCallback` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `StarterPrompts` | `IReadOnlyList<StarterPrompt>` | `new List<StarterPrompt>     {         new("Explain Architecture", "Explain how mobile-first Blazor WASM and TailwindCSS work together with zero FOUC."),         new("Generate Code", "Write a reusable C# Blazor component for animated radial progress with Tailwind classes."),         new("Deep Reasoning Demo", "Solve a complex algorithm step-by-step with multi-stage reasoning checklist progress."),         new("Compare Performance", "Compare Blazor WebAssembly AOT compilation vs JIT performance on mobile phones.")     }` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwLoginForm Title="Sign in to Enterprise Hub" Subtitle="Access mission-critical dashboards, design tokens, and components" ImageUrl="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80" />
+<TwChatBot BotName="NexusAI" SelectedModel="Gemini 2.0 Flash" StarterPrompts="new List<StarterPrompt>
+    {
+        new(Explain Architecture, Explain how mobile-first Blazor WASM and TailwindCSS work together with zero FOUC.),
+        new(Generate Code, Write a reusable C# Blazor component for animated radial progress with Tailwind classes.),
+        new(Deep Reasoning Demo, Solve a complex algorithm step-by-step with multi-stage reasoning checklist progress.),
+        new(Compare Performance, Compare Blazor WebAssembly AOT compilation vs JIT performance on mobile phones.)
+    }" />
 ```
 
 ---
 
-### `TwTermsOfUseForm`
+### `TwChatWidget`
 
-**Location:** [`Components/UI/TwTermsOfUseForm.razor`](../Components/UI/TwTermsOfUseForm.razor)
+**Location:** [`Components/UI/TwChatWidget.razor`](../Components/UI/TwChatWidget.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Floating launcher button that expands into an interactive AI assistant window (or bottom sheet on mobile).
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Enterprise Terms of Service"` | Header title or accessible label. |
-| `Version` | `string` | `"v3.2"` | Configures component behavior or styling. |
-| `LastUpdated` | `string` | `"October 2026"` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnAccepted` | `EventCallback<TermsAcceptanceModel>` | `null` | Configures component behavior or styling. |
-| `OnDeclined` | `EventCallback` | `null` | Configures component behavior or styling. |
+| `BotName` | `string` | `"NexusAI"` | Configures component behavior or styling. |
+| `SelectedModel` | `string` | `"Gemini 2.0 Flash"` | Configures component behavior or styling. |
+| `PositionClass` | `string` | `"bottom-20 sm:bottom-6 right-4 sm:right-6"` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwTermsOfUseForm Title="Enterprise Terms of Service" Version="v3.2" LastUpdated="October 2026" />
+<TwChatWidget BotName="NexusAI" SelectedModel="Gemini 2.0 Flash" PositionClass="bottom-20 sm:bottom-6 right-4 sm:right-6" />
 ```
 
 ---
 
-### `TwCookieConsent`
+### `TwAiReasoningProgress`
 
-**Location:** [`Components/UI/TwCookieConsent.razor`](../Components/UI/TwCookieConsent.razor)
+**Location:** [`Components/UI/TwAiReasoningProgress.razor`](../Components/UI/TwAiReasoningProgress.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Multi-phase thinking checklist component displaying animated progress indicators during AI reasoning tasks.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"Enterprise Cookie & Privacy Settings"` | Header title or accessible label. |
-| `Description` | `string` | `"We use minimal first-party cookies to secure user sessions, maintain UI state, and measure performance latency. We never sell your personal data."` | Secondary descriptive caption. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnSaved` | `EventCallback<CookiePreferencesModel>` | `null` | Configures component behavior or styling. |
-
-#### Razor Usage Example
-
-```razor
-<TwCookieConsent Title="Enterprise Cookie & Privacy Settings" Description="We use minimal first-party cookies to secure user sessions, maintain UI state, and measure performance latency. We never sell your personal data." CustomClass="" />
-```
-
----
-
-### `TwPrivacyPolicyForm`
-
-**Location:** [`Components/UI/TwPrivacyPolicyForm.razor`](../Components/UI/TwPrivacyPolicyForm.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Enterprise Privacy & Data Governance"` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnExportRequested` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
-| `OnErasureRequested` | `EventCallback` | `null` | Configures component behavior or styling. |
-
-#### Razor Usage Example
-
-```razor
-<TwPrivacyPolicyForm Title="Enterprise Privacy & Data Governance" CustomClass="" />
-```
-
----
-
-### `TwAboutMissionForm`
-
-**Location:** [`Components/UI/TwAboutMissionForm.razor`](../Components/UI/TwAboutMissionForm.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `MissionHeading` | `string` | `"Empowering Modern Enterprises with Zero-Latency Blazor UI"` | Configures component behavior or styling. |
-| `MissionStatement` | `string` | `"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry."` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnInquirySubmitted` | `EventCallback<ContactInquiryModel>` | `null` | Configures component behavior or styling. |
-
-#### Razor Usage Example
-
-```razor
-<TwAboutMissionForm MissionHeading="Empowering Modern Enterprises with Zero-Latency Blazor UI" MissionStatement="Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry." CustomClass="" />
-```
-
----
-
-### `TwPledgeForm`
-
-**Location:** [`Components/UI/TwPledgeForm.razor`](../Components/UI/TwPledgeForm.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Enterprise Engineering & Ethics Pledge"` | Header title or accessible label. |
-| `Subtitle` | `string` | `"Legally affirmed compliance with software supply chain integrity and responsible AI"` | Header title or accessible label. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnPledgeAffirmed` | `EventCallback<PledgeModel>` | `null` | Configures component behavior or styling. |
-
-#### Razor Usage Example
-
-```razor
-<TwPledgeForm Title="Enterprise Engineering & Ethics Pledge" Subtitle="Legally affirmed compliance with software supply chain integrity and responsible AI" CustomClass="" />
-```
-
----
-
-## Layout & Application Shell
-
-### `TwAppShell`
-
-**Location:** [`Components/Layout/TwAppShell.razor`](../Components/Layout/TwAppShell.razor)
-
-The root application shell supporting four dynamic layout variants: Sidebar (mobile drawer + desktop sidebar), TopNav (horizontal bar with mobile sheet), CompactRail (icon rail), and Stacked (single column).
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Layout` | `LayoutVariant` | `LayoutVariant.Sidebar` | Configures component behavior or styling. |
-| `BrandContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `HeaderActions` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `SidebarContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `SidebarFooter` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `TopNavContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `RailContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `BottomNavContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-
-#### Razor Usage Example
-
-```razor
-<TwAppShell Layout="LayoutVariant.Sidebar" />
-```
-
----
-
-### `TwContainer`
-
-**Location:** [`Components/Layout/TwContainer.razor`](../Components/Layout/TwContainer.razor)
-
-Responsive max-width container wrapper with automatic padding and breakpoint clamping (sm, md, lg, xl, 2xl, full).
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `MaxWidth` | `string` | `"7xl"` | Configures component behavior or styling. |
+| `IsThinking` | `bool` | `true` | Configures component behavior or styling. |
+| `DurationSeconds` | `double` | `2.4` | Configures component behavior or styling. |
+| `ThinkingLabel` | `string` | `"Reasoning step-by-step..."` | Configures component behavior or styling. |
+| `ReasoningText` | `string?` | `null` | Configures component behavior or styling. |
+| `Steps` | `IReadOnlyList<ReasoningStep>?` | `null` | Configures component behavior or styling. |
+| `DefaultExpanded` | `bool` | `null` | Configures component behavior or styling. |
 | `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwContainer MaxWidth="7xl" />
+<TwAiReasoningProgress IsThinking="true" DurationSeconds="2.4" ThinkingLabel="Reasoning step-by-step..." />
 ```
 
 ---
 
-### `TwGrid`
+## Animation & Micro-Interactions
 
-**Location:** [`Components/Layout/TwGrid.razor`](../Components/Layout/TwGrid.razor)
+### `TwScrollCraft`
 
-Mobile-first responsive grid system with configurable column distributions (1-2-3, 1-2-4, 2-3-4, etc.) and gap scales.
+**Location:** [`Components/UI/TwScrollCraft.razor`](../Components/UI/TwScrollCraft.razor)
+
+Scroll-driven object animation container with parallax depth layers, focal zone reading fades, and pinned illustration scrubbers linked to viewport progress.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Preset` | `string` | `"1-2-3"` | Configures component behavior or styling. |
-| `Gap` | `string` | `"md"` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Title` | `string` | `"Content Scroll Scrubbing"` | Stage title. |
+| `Steps` | `List<ScrollStep>` | `Default 4 steps` | List of steps with title, description, badge, and icon. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwGrid Preset="1-2-3" Gap="md" />
+<TwScrollCraft Title="Content Scroll Scrubbing" />
 ```
 
 ---
 
-### `TwSplitter`
+## Architecture & State
 
-**Location:** [`Components/UI/TwSplitter.razor`](../Components/UI/TwSplitter.razor)
+### `TwUnionStudio`
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+**Location:** [`Components/UI/TwUnionStudio.razor`](../Components/UI/TwUnionStudio.razor)
+
+C# 15 Discriminated Union boundary studio with exhaustive pattern matching, algebraic UI states (Idle, Loading, Success, Error), latency simulation, and retry triggers.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Orientation` | `SplitOrientation` | `SplitOrientation.Horizontal` | Configures component behavior or styling. |
-| `SplitPercentage` | `double` | `40` | Configures component behavior or styling. |
-| `MinPercentage` | `double` | `15` | Configures component behavior or styling. |
-| `MaxPercentage` | `double` | `85` | Configures component behavior or styling. |
-| `MinHeight` | `int` | `280` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `PaneOne` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `PaneTwo` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `SplitPercentageChanged` | `EventCallback<double>` | `null` | Callback invoked when state changes or item is selected. |
+| `CustomClass` | `string` | `""` | Optional CSS class modifiers. |
 
 #### Razor Usage Example
 
 ```razor
-<TwSplitter Orientation="SplitOrientation.Horizontal" SplitPercentage="40" MinPercentage="15" />
+<TwUnionStudio />
 ```
 
 ---
 
-### `TwBottomNav`
+### `TwAsyncState`
 
-**Location:** [`Components/Layout/TwBottomNav.razor`](../Components/Layout/TwBottomNav.razor)
+**Location:** [`Components/UI/TwAsyncState.razor`](../Components/UI/TwAsyncState.razor)
 
-Fixed application bottom navigation bar for touch devices with active state indicators, notification badges, and haptic tap styling.
+Declarative async boundary container for handling loading skeletons, error states with retry buttons, empty states, and success content.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Items` | `IReadOnlyList<NavItem>` | `Array.Empty<NavItem>()` | Configures component behavior or styling. |
-| `ActiveId` | `string?` | `null` | Configures component behavior or styling. |
-| `OnSelect` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `State` | `AsyncOperationState` | `-` | The active state enum. |
 
 #### Razor Usage Example
 
 ```razor
-<TwBottomNav Items="Array.Empty<NavItem>()" />
-```
-
----
-
-## Theme & Palette Customization
-
-### `ThemeProvider`
-
-**Location:** [`Components/Theme/ThemeProvider.razor`](../Components/Theme/ThemeProvider.razor)
-
-Cascading state provider managing light, dark, and system color mode preferences with localStorage synchronization and zero-FOUC initialization.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-
-#### Razor Usage Example
-
-```razor
-<ThemeProvider>
-    <span>Content</span>
-</ThemeProvider>
-```
-
----
-
-### `ThemeSwitcher`
-
-**Location:** [`Components/Theme/ThemeSwitcher.razor`](../Components/Theme/ThemeSwitcher.razor)
-
-Segmented mode selector with accent swatches for quick switching between Light, Dark, and OS System appearance.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Compact` | `bool` | `null` | Configures component behavior or styling. |
-| `ShowAccentPicker` | `bool` | `true` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<ThemeSwitcher ShowAccentPicker="true" />
-```
-
----
-
-### `TwThemeSelector`
-
-**Location:** [`Components/Theme/TwThemeSelector.razor`](../Components/Theme/TwThemeSelector.razor)
-
-Modern comprehensive color dropdown selector featuring preset palette swatches and 16M+ custom hex color picker integration.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Compact` | `bool` | `null` | Configures component behavior or styling. |
-| `Alignment` | `string` | `"right"` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwThemeSelector Alignment="right" />
-```
-
----
-
-### `TwThemeSwitcher`
-
-**Location:** [`Components/Theme/TwThemeSwitcher.razor`](../Components/Theme/TwThemeSwitcher.razor)
-
-Compact pill switcher for toggling between dark, light, and system themes.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Compact` | `bool` | `null` | Configures component behavior or styling. |
-| `ShowAccentPicker` | `bool` | `true` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwThemeSwitcher ShowAccentPicker="true" />
-```
-
----
-
-### `TwColorPicker`
-
-**Location:** [`Components/UI/TwColorPicker.razor`](../Components/UI/TwColorPicker.razor)
-
-Interactive 16M+ hex and RGB color picker with preview swatch, hex validation, and opacity support.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Value` | `string` | `"#6366f1"` | Primary data value or two-way bound model property. |
-| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
-| `Label` | `string?` | `"Pick Accent Color"` | Configures component behavior or styling. |
-| `ShowValueBadge` | `bool` | `true` | Primary data value or two-way bound model property. |
-| `AllowCustom` | `bool` | `true` | Configures component behavior or styling. |
-| `ShowCopy` | `bool` | `true` | Configures component behavior or styling. |
-| `Inline` | `bool` | `null` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwColorPicker Value="#6366f1" Label="Pick Accent Color" ShowValueBadge="true" />
-```
-
----
-
-## Code & Syntax Studio
-
-### `TwCodeFontModifier`
-
-**Location:** [`Components/UI/TwCodeFontModifier.razor`](../Components/UI/TwCodeFontModifier.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Code Editor & Font Toolbar"` | Header title or accessible label. |
-| `FontSize` | `int` | `13` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `FontSizeChanged` | `EventCallback<int>` | `null` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `FontFamily` | `string` | `"'JetBrains Mono', monospace"` | Configures component behavior or styling. |
-| `LineHeight` | `string` | `"leading-normal"` | Configures component behavior or styling. |
-| `EnableLigatures` | `bool` | `true` | Configures component behavior or styling. |
-| `WordWrap` | `bool` | `false` | Configures component behavior or styling. |
-| `ShowLineNumbers` | `bool` | `true` | Configures component behavior or styling. |
-| `ThemePreset` | `string` | `"emerald"` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `SampleCode` | `string?` | `@"// High-performance Blazor Tailwind Engine
-public sealed record ComponentSpec(string Name, string Category)
-{
-    public bool HasDarkModeSupport => true` | Configures component behavior or styling. |
-| `OnSettingsChanged` | `EventCallback<CodeFontSettings>` | `null` | Callback invoked when state changes or item is selected. |
-
-#### Razor Usage Example
-
-```razor
-<TwCodeFontModifier Title="Code Editor & Font Toolbar" FontSize="13" FontFamily="'JetBrains Mono', monospace" />
-```
-
----
-
-### `TwCodeTabs`
-
-**Location:** [`Components/UI/TwCodeTabs.razor`](../Components/UI/TwCodeTabs.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Tabs` | `IReadOnlyList<CodeTab>` | `Array.Empty<CodeTab>()` | Configures component behavior or styling. |
-| `ShowLineNumbers` | `bool` | `true` | Configures component behavior or styling. |
-| `AllowCopy` | `bool` | `true` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwCodeTabs Tabs="Array.Empty<CodeTab>()" ShowLineNumbers="true" AllowCopy="true" />
-```
-
----
-
-### `TwCodeDiff`
-
-**Location:** [`Components/UI/TwCodeDiff.razor`](../Components/UI/TwCodeDiff.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `FileName` | `string` | `"diff.razor"` | Configures component behavior or styling. |
-| `Lines` | `IReadOnlyList<DiffLine>` | `Array.Empty<DiffLine>()` | Configures component behavior or styling. |
-| `OldCode` | `string?` | `null` | Configures component behavior or styling. |
-| `NewCode` | `string?` | `null` | Configures component behavior or styling. |
-| `AllowCopy` | `bool` | `true` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwCodeDiff FileName="diff.razor" Lines="Array.Empty<DiffLine>()" AllowCopy="true" />
-```
-
----
-
-### `TwSnippet`
-
-**Location:** [`Components/UI/TwSnippet.razor`](../Components/UI/TwSnippet.razor)
-
-macOS terminal CLI command snippet container with prompt badges, window controls, and one-click copy transition.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Code` | `string` | `""` | Configures component behavior or styling. |
-| `Prefix` | `string` | `"$"` | Configures component behavior or styling. |
-| `Title` | `string?` | `null` | Header title or accessible label. |
-| `ShowHeader` | `bool` | `true` | Configures component behavior or styling. |
-| `ShowWindowControls` | `bool` | `true` | Configures component behavior or styling. |
-| `ShowCopyButton` | `bool` | `true` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwSnippet Code="" Prefix="$" ShowHeader="true" />
-```
-
----
-
-### `TwCodeBlock`
-
-**Location:** [`Components/UI/TwCodeBlock.razor`](../Components/UI/TwCodeBlock.razor)
-
-Syntax code viewer with language badges, line numbers, and copy-to-clipboard button.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Code` | `string` | `string.Empty` | Configures component behavior or styling. |
-| `Language` | `string?` | `"razor"` | Configures component behavior or styling. |
-| `FileName` | `string?` | `null` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwCodeBlock Code="string.Empty" Language="razor" />
-```
-
----
-
-## Advanced Forms & Inputs
-
-### `TwFilterBuilder`
-
-**Location:** [`Components/UI/TwFilterBuilder.razor`](../Components/UI/TwFilterBuilder.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Visual Query & Filter Builder"` | Header title or accessible label. |
-| `RootGroup` | `FilterGroup` | `new()` | Configures component behavior or styling. |
-| `AvailableFields` | `List<FieldDefinition>` | `new()` | Configures component behavior or styling. |
-| `ShowPreview` | `bool` | `true` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnFilterChanged` | `EventCallback<FilterGroup>` | `null` | Callback invoked when state changes or item is selected. |
-
-#### Razor Usage Example
-
-```razor
-<TwFilterBuilder Title="Visual Query & Filter Builder" RootGroup="new()" AvailableFields="new()" />
-```
-
----
-
-### `TwDropzone`
-
-**Location:** [`Components/UI/TwDropzone.razor`](../Components/UI/TwDropzone.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `AllowMultiple` | `bool` | `true` | Configures component behavior or styling. |
-| `AcceptedExtensions` | `string` | `".png, .jpg, .pdf, .zip, .cs, .json"` | Configures component behavior or styling. |
-| `MaxFileSizeMb` | `int` | `25` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `Files` | `List<DropzoneFile>` | `new()` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `FilesChanged` | `EventCallback<List<DropzoneFile>>` | `null` | Callback invoked when state changes or item is selected. |
-
-#### Razor Usage Example
-
-```razor
-<TwDropzone AllowMultiple="true" AcceptedExtensions=".png, .jpg, .pdf, .zip, .cs, .json" MaxFileSizeMb="25" />
-```
-
----
-
-### `TwOtpInput`
-
-**Location:** [`Components/UI/TwOtpInput.razor`](../Components/UI/TwOtpInput.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Length` | `int` | `6` | Configures component behavior or styling. |
-| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
-| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
-| `OnCompleted` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
-| `Masked` | `bool` | `null` | Configures component behavior or styling. |
-| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
-| `HasError` | `bool` | `null` | Configures component behavior or styling. |
-| `ErrorMessage` | `string?` | `null` | Configures component behavior or styling. |
-| `Label` | `string?` | `null` | Configures component behavior or styling. |
-| `HelperText` | `string?` | `null` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwOtpInput Length="6" Value="" />
-```
-
----
-
-### `TwPasswordStrength`
-
-**Location:** [`Components/UI/TwPasswordStrength.razor`](../Components/UI/TwPasswordStrength.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
-| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
-| `Label` | `string` | `"Password"` | Configures component behavior or styling. |
-| `Placeholder` | `string` | `"Enter a secure password..."` | Input placeholder hint. |
-| `ShowChecklist` | `bool` | `true` | Configures component behavior or styling. |
-| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwPasswordStrength Value="" Label="Password" Placeholder="Enter a secure password..." />
-```
-
----
-
-### `TwCombobox`
-
-**Location:** [`Components/UI/TwCombobox.razor`](../Components/UI/TwCombobox.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
-| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
-| `Items` | `IReadOnlyList<ComboboxItem>` | `Array.Empty<ComboboxItem>()` | Configures component behavior or styling. |
-| `Label` | `string` | `""` | Configures component behavior or styling. |
-| `Placeholder` | `string` | `"Select or search option..."` | Input placeholder hint. |
-| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwCombobox Value="" Items="Array.Empty<ComboboxItem>()" Label="" />
-```
-
----
-
-### `TwTagsInput`
-
-**Location:** [`Components/UI/TwTagsInput.razor`](../Components/UI/TwTagsInput.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Tags` | `List<string>` | `new()` | Configures component behavior or styling. |
-| `TagsChanged` | `EventCallback<List<string>>` | `null` | Callback invoked when state changes or item is selected. |
-| `Label` | `string` | `""` | Configures component behavior or styling. |
-| `Placeholder` | `string` | `"Type tag and press Enter..."` | Input placeholder hint. |
-| `HelperText` | `string?` | `null` | Configures component behavior or styling. |
-| `MaxTags` | `int?` | `null` | Configures component behavior or styling. |
-| `AllowDuplicates` | `bool` | `false` | Configures component behavior or styling. |
-| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwTagsInput Tags="new()" Label="" Placeholder="Type tag and press Enter..." />
-```
-
----
-
-### `TwInputGroup`
-
-**Location:** [`Components/UI/TwInputGroup.razor`](../Components/UI/TwInputGroup.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
-| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
-| `Label` | `string` | `""` | Configures component behavior or styling. |
-| `Type` | `string` | `"text"` | Configures component behavior or styling. |
-| `Placeholder` | `string` | `""` | Input placeholder hint. |
-| `PrependText` | `string?` | `null` | Configures component behavior or styling. |
-| `AppendText` | `string?` | `null` | Configures component behavior or styling. |
-| `PrependContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `AppendContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `HelperText` | `string?` | `null` | Configures component behavior or styling. |
-| `ErrorMessage` | `string?` | `null` | Configures component behavior or styling. |
-| `HasError` | `bool` | `null` | Configures component behavior or styling. |
-| `Disabled` | `bool` | `null` | Disables user interaction and applies muted opacity styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwInputGroup Value="" Label="" Type="text" />
-```
-
----
-
-## Typography, Badges & Keys
-
-### `TwPill`
-
-**Location:** [`Components/UI/TwPill.razor`](../Components/UI/TwPill.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Text` | `string?` | `null` | Configures component behavior or styling. |
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Variant` | `string` | `"Soft"` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
-| `Color` | `string` | `"Brand"` | Configures component behavior or styling. |
-| `Size` | `string` | `"md"` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `ShowDot` | `bool` | `false` | Configures component behavior or styling. |
-| `PulseDot` | `bool` | `false` | Configures component behavior or styling. |
-| `AvatarUrl` | `string?` | `null` | Configures component behavior or styling. |
-| `Icon` | `string?` | `null` | Configures component behavior or styling. |
-| `Count` | `int?` | `null` | Configures component behavior or styling. |
-| `Removable` | `bool` | `false` | Configures component behavior or styling. |
-| `Clickable` | `bool` | `false` | Configures component behavior or styling. |
-| `Selected` | `bool` | `false` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `OnClick` | `EventCallback` | `null` | Callback invoked when state changes or item is selected. |
-| `OnDismiss` | `EventCallback` | `null` | Configures component behavior or styling. |
-
-#### Razor Usage Example
-
-```razor
-<TwPill Variant="Soft" Color="Brand" Size="md" />
-```
-
----
-
-### `TwPillGroup`
-
-**Location:** [`Components/UI/TwPillGroup.razor`](../Components/UI/TwPillGroup.razor)
-
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Items` | `List<PillItem>` | `new()` | Configures component behavior or styling. |
-| `SelectedValues` | `List<string>` | `new()` | Primary data value or two-way bound model property. |
-| `SelectedValuesChanged` | `EventCallback<List<string>>` | `null` | Callback invoked when state changes or item is selected. |
-| `MultiSelect` | `bool` | `false` | Configures component behavior or styling. |
-| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-
-#### Razor Usage Example
-
-```razor
-<TwPillGroup Items="new()" SelectedValues="new()" CustomClass="" />
-```
-
----
-
-### `TwBadge`
-
-**Location:** [`Components/UI/TwBadge.razor`](../Components/UI/TwBadge.razor)
-
-Status and counter badge supporting semantic colors (Primary, Success, Warning, Danger, Info), rounded pill styling, and optional pulsing status dots.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Variant` | `SemanticVariant` | `SemanticVariant.Default` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
-| `ShowDot` | `bool` | `null` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwBadge Variant="SemanticVariant.Default" />
-```
-
----
-
-### `TwNotificationBadge`
-
-**Location:** [`Components/UI/TwNotificationBadge.razor`](../Components/UI/TwNotificationBadge.razor)
-
-Floating count badge designed to overlay icons or avatars for unread alerts and incoming message counters.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Visible` | `bool` | `true` | Configures component behavior or styling. |
-| `DotOnly` | `bool` | `null` | Configures component behavior or styling. |
-| `ShowPing` | `bool` | `null` | Configures component behavior or styling. |
-| `Count` | `int` | `null` | Configures component behavior or styling. |
-| `MaxCount` | `int` | `99` | Configures component behavior or styling. |
-| `Variant` | `SemanticVariant` | `SemanticVariant.Danger` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
-| `Placement` | `BadgePlacement` | `BadgePlacement.TopRight` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwNotificationBadge Visible="true" MaxCount="99" Variant="SemanticVariant.Danger" />
-```
-
----
-
-### `TwChip`
-
-**Location:** [`Components/UI/TwChip.razor`](../Components/UI/TwChip.razor)
-
-Interactive tag chip with optional leading icon, selectable toggle state, and dismissible close button.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Text` | `string?` | `null` | Configures component behavior or styling. |
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `LeadingIcon` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `AvatarContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `Variant` | `SemanticVariant` | `SemanticVariant.Default` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
-| `Size` | `ComponentSize` | `ComponentSize.Sm` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `Outlined` | `bool` | `null` | Configures component behavior or styling. |
-| `Selectable` | `bool` | `null` | Configures component behavior or styling. |
-| `Selected` | `bool` | `null` | Configures component behavior or styling. |
-| `SelectedChanged` | `EventCallback<bool>` | `null` | Callback invoked when state changes or item is selected. |
-| `Removable` | `bool` | `null` | Configures component behavior or styling. |
-| `OnRemove` | `EventCallback` | `null` | Configures component behavior or styling. |
-| `OnClick` | `EventCallback` | `null` | Callback invoked when state changes or item is selected. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwChip Variant="SemanticVariant.Default" Size="ComponentSize.Sm" />
-```
-
----
-
-### `TwChipGroup`
-
-**Location:** [`Components/UI/TwChipGroup.razor`](../Components/UI/TwChipGroup.razor)
-
-Container for managing groups of filter chips with single-select or multi-select modes.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwChipGroup>
-    <span>Content</span>
-</TwChipGroup>
-```
-
----
-
-### `TwKbd`
-
-**Location:** [`Components/UI/TwKbd.razor`](../Components/UI/TwKbd.razor)
-
-3D-embossed tactile keyboard shortcut badge with automatic modifier symbol mapping (⌘, ⌥, ⇧, ⌃, ↵, ⎋, ←, →).
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Key` | `string?` | `null` | Configures component behavior or styling. |
-| `Size` | `string` | `"md"` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `Variant` | `string` | `"default"` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
-| `Tooltip` | `string?` | `null` | Configures component behavior or styling. |
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwKbd Size="md" Variant="default" />
-```
-
----
-
-### `TwDivider`
-
-**Location:** [`Components/UI/TwDivider.razor`](../Components/UI/TwDivider.razor)
-
-Subtle horizontal or vertical divider with optional centered text or icon badge.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Text` | `string?` | `null` | Configures component behavior or styling. |
-| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwDivider>
-    <span>Content</span>
-</TwDivider>
+<TwAsyncState State="@state"><Success>Content</Success></TwAsyncState>
 ```
 
 ---
 
 ## Buttons, Forms & Controls
 
+### `TwSpinner`
+
+**Location:** [`Components/UI/TwSpinner.razor`](../Components/UI/TwSpinner.razor)
+
+Busy indicator with an announced label; stops spinning under reduced motion.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Size` | `string` | `"md"` | sm, md or lg. |
+| `Label` | `string` | `"Loading"` | Announced label. |
+| `ShowLabel` | `bool` | `false` | Show the label visibly. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwSpinner Label="Saving" ShowLabel="true" />
+```
+
+---
+
+### `TwButtonGroup`
+
+**Location:** [`Components/UI/TwButtonGroup.razor`](../Components/UI/TwButtonGroup.razor)
+
+Joins buttons into one group with collapsed borders and rounded ends, horizontal or vertical.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Buttons. |
+| `Label` | `string?` | `null` | Group name. |
+| `Vertical` | `bool` | `false` | Stack vertically. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwButtonGroup Label="View"><button>Day</button><button>Week</button></TwButtonGroup>
+```
+
+---
+
+### `TwRadioGroup`
+
+**Location:** [`Components/UI/TwRadioGroup.razor`](../Components/UI/TwRadioGroup.razor)
+
+Generic native radio group with legend, option descriptions, disabled options and error text.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `IReadOnlyList<Option>` | `required` | Value, Label, Description, Disabled. |
+| `Value` | `TValue?` | `default` | Selected value. |
+| `Legend` | `string?` | `null` | Group label. |
+| `Error` | `string?` | `null` | Validation message. |
+| `Horizontal` | `bool` | `false` | Lay out in a row. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwRadioGroup TValue="string" Legend="Plan" Items="_plans" @bind-Value="_plan" />
+```
+
+---
+
+### `TwTextArea`
+
+**Location:** [`Components/UI/TwTextArea.razor`](../Components/UI/TwTextArea.razor)
+
+Multi-line input with label, hint, error, character counter and auto-grow.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `string?` | `null` | Text. |
+| `Label` | `string?` | `null` | Label. |
+| `MaxLength` | `int` | `0` | Max characters (0 = none). |
+| `AutoGrow` | `bool` | `false` | Grow between MinRows and MaxRows. |
+| `Error` | `string?` | `null` | Validation message. |
+| `Hint` | `string?` | `null` | Help text. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwTextArea Label="Notes" MaxLength="280" AutoGrow="true" @bind-Value="_notes" />
+```
+
+---
+
 ### `TwDateRangePicker`
 
 **Location:** [`Components/UI/TwDateRangePicker.razor`](../Components/UI/TwDateRangePicker.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Dual-month calendar popover with quick range presets (Today, 7 Days, 30 Days, This Month, YTD), continuous selection range highlighting, and manual date input.
 
 #### Parameters & Settings
 
@@ -1760,6 +1337,55 @@ Interactive star rating component supporting full and half-star ratings with hov
 
 ---
 
+### `TwPickList`
+
+**Location:** [`Components/UI/TwPickList.razor`](../Components/UI/TwPickList.razor)
+
+Dual-listbox item transfer picker with instant dual-list search filtering, move selected/all transfer actions, target list reordering, and item badges.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Source` | `IEnumerable<TItem>?` | `null` | Source available items collection. |
+| `Target` | `IList<TItem>` | `new List<TItem>()` | Selected target items collection. |
+| `SourceTitle` | `string` | `"Available Items"` | Left panel header title. |
+| `TargetTitle` | `string` | `"Selected Items"` | Right panel header title. |
+| `AllowFiltering` | `bool` | `true` | Show real-time filter search input on both lists. |
+| `ShowMoveAll` | `bool` | `true` | Show transfer all (>> and <<) buttons. |
+| `ShowReorder` | `bool` | `true` | Show up/down reorder buttons in target list. |
+
+#### Razor Usage Example
+
+```razor
+<TwPickList TItem="string" Source="_available" @bind-Target="_selected" SourceTitle="Roles" TargetTitle="Assigned" />
+```
+
+---
+
+## Cards & Bento
+
+### `TwTile`
+
+**Location:** [`Components/UI/TwTile.razor`](../Components/UI/TwTile.razor)
+
+Compact KPI metric tile with inline trend badge, subtext, and zero-JS sparkline micro-chart.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `""` | Tile title text. |
+| `Value` | `string` | `""` | Primary metric value text. |
+
+#### Razor Usage Example
+
+```razor
+<TwTile Title="Active Users" Value="4,820" Change="+12%" />
+```
+
+---
+
 ## Cards, Grids & Bento Systems
 
 ### `TwCard`
@@ -2028,13 +1654,681 @@ Full billing cycle matrix comparing Free, Pro, and Enterprise tiers with monthly
 
 ---
 
+### `TwTileManager`
+
+**Location:** [`Components/UI/TwTileManager.razor`](../Components/UI/TwTileManager.razor)
+
+Executive dashboard tile manager with responsive multi-column layouts, 1-click tile focus maximization, minimize collapse, and refresh callbacks.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string?` | `"Executive Operations Command"` | Toolbar title. |
+| `ColumnCount` | `int` | `4` | Number of grid columns (Quad, Triple, Dual). |
+| `Gap` | `string` | `"gap-4"` | Tailwind gap utility. |
+| `ShowToolbar` | `bool` | `true` | Whether to show view switcher toolbar. |
+
+#### Razor Usage Example
+
+```razor
+<TwTileManager Title="Executive Command"><TwTile Title="ARR" ColSpan="2">...</TwTile></TwTileManager>
+```
+
+---
+
+### `TwFileManager`
+
+**Location:** [`Components/UI/TwFileManager.razor`](../Components/UI/TwFileManager.razor)
+
+Enterprise cloud and asset file manager with folder tree navigation, breadcrumbs, grid/table view modes, search, storage quota meter, and upload/delete actions.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `List<FileItem>` | `new()` | Files and folders collection. |
+| `CurrentPath` | `string` | `"/"` | Current active directory path. |
+| `OnFileSelected` | `EventCallback<FileItem>` | `-` | Fired when a file or folder is selected. |
+| `OnFileOpened` | `EventCallback<FileItem>` | `-` | Fired when a file or folder is double-clicked. |
+| `OnUpload` | `EventCallback` | `-` | Fired when user clicks Upload button. |
+
+#### Razor Usage Example
+
+```razor
+<TwFileManager Items="_files" CurrentPath="/" OnFileSelected="HandleFileSelected" />
+```
+
+---
+
+### `TwSpatialCard`
+
+**Location:** [`Components/UI/TwSpatialCard.razor`](../Components/UI/TwSpatialCard.razor)
+
+2027 volumetric 3D card featuring real-time gyroscopic mouse tilt, dynamic specular refraction glare, multi-layer Z-depth elevation, and tactile organic blur.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string?` | `null` | Card title header. |
+| `Subtitle` | `string?` | `null` | Card subtitle text. |
+| `BadgeText` | `string?` | `null` | Elevated 3D pill badge text. |
+| `MaxTiltDeg` | `double` | `12.0` | Maximum rotation angle degrees on tilt. |
+| `GlowGradient` | `string` | `"from-brand-500 to-indigo-600"` | Tailwind gradient classes for dynamic ambient aura. |
+
+#### Razor Usage Example
+
+```razor
+<TwSpatialCard Title="Quantum Enclave" MaxTiltDeg="14">...content...</TwSpatialCard>
+```
+
+---
+
+## Chat & Generative UI
+
+### `TwChatSuggestions`
+
+**Location:** [`Components/UI/TwChatSuggestions.razor`](../Components/UI/TwChatSuggestions.razor)
+
+Suggested follow-up prompts as buttons, with a loading skeleton.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `IReadOnlyList<string>` | `required` | Suggestion texts. |
+| `OnPick` | `EventCallback<string>` | `null` | A suggestion was chosen. |
+| `Loading` | `bool` | `false` | Show placeholders. |
+| `Disabled` | `bool` | `false` | Disable while a run is active. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwChatSuggestions Items="_ideas" OnPick="s => _prompt = s" />
+```
+
+---
+
+### `TwFeedbackButtons`
+
+**Location:** [`Components/UI/TwFeedbackButtons.razor`](../Components/UI/TwFeedbackButtons.razor)
+
+Thumbs up / down on a response, toggling off on a second press, with an optional reason box after thumbs-down.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `FeedbackRating` | `None` | None, Up or Down. |
+| `AskReason` | `bool` | `true` | Ask what went wrong after Down. |
+| `OnReason` | `EventCallback<string>` | `null` | Reason text committed. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwFeedbackButtons @bind-Value="_rating" OnReason="SaveReason" />
+```
+
+---
+
+### `TwAttachmentQueue`
+
+**Location:** [`Components/UI/TwAttachmentQueue.razor`](../Components/UI/TwAttachmentQueue.razor)
+
+Files staged on a message with count, size and duplicate validation and per-file removal.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `List<AttachmentInfo>` | `[]` | Staged files. |
+| `MaxFiles` | `int` | `5` | Maximum number of files. |
+| `MaxBytes` | `long` | `5 MB` | Maximum size per file. |
+| `Accept` | `string?` | `null` | Accepted types. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwAttachmentQueue @bind-Items="_files" MaxFiles="5" />
+```
+
+---
+
+### `TwMessageScroller`
+
+**Location:** [`Components/UI/TwMessageScroller.razor`](../Components/UI/TwMessageScroller.razor)
+
+Chat transcript container that follows new content and offers Jump to latest after you scroll up.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Messages. |
+| `Label` | `string` | `"Conversation"` | Log region name. |
+| `Height` | `string?` | `null` | CSS max-height. |
+| `BodyClass` | `string?` | `null` | Classes for the scrolling body. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwMessageScroller Height="24rem">...messages...</TwMessageScroller>
+```
+
+---
+
+### `TwVoiceInput`
+
+**Location:** [`Components/UI/TwVoiceInput.razor`](../Components/UI/TwVoiceInput.razor)
+
+Push-to-talk microphone with a live level meter; reports the clip and can transcribe it through your own speech-to-text function.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `OnRecorded` | `EventCallback<VoiceClip>` | `null` | Clip recorded. |
+| `Transcribe` | `Func<VoiceClip, Task<string>>?` | `null` | Speech-to-text function. |
+| `OnTranscript` | `EventCallback<string>` | `null` | Transcribed text. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwVoiceInput Transcribe="SpeechToText" OnTranscript="t => _prompt = t" />
+```
+
+---
+
+### `TwLiveWaveform`
+
+**Location:** [`Components/UI/TwLiveWaveform.razor`](../Components/UI/TwLiveWaveform.razor)
+
+Bar level meter for live audio; maps any number of levels onto any number of bars.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Levels` | `IReadOnlyList<float>` | `[]` | Levels from 0 to 1. |
+| `Active` | `bool` | `false` | Live (true) or flat (false). |
+| `Bars` | `int` | `24` | Number of bars. |
+| `AriaLabel` | `string` | `"Audio level"` | Accessible name. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwLiveWaveform Levels="_levels" Active="_recording" />
+```
+
+---
+
+### `TwQuestionnaire`
+
+**Location:** [`Components/UI/TwQuestionnaire.razor`](../Components/UI/TwQuestionnaire.razor)
+
+Structured questions an agent asks, one at a time with progress, single or multiple choice and optional free text.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Questions` | `IReadOnlyList<Question>` | `required` | Questions with options. |
+| `OnSubmit` | `EventCallback<IReadOnlyDictionary<string, IReadOnlyList<string>>>` | `null` | Answers by question id. |
+| `Title` | `string` | `"Questions from the agent"` | Region name. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwQuestionnaire Questions="_questions" OnSubmit="Answer" />
+```
+
+---
+
+### `TwA2uiSurface`
+
+**Location:** [`Components/UI/TwA2uiSurface.razor`](../Components/UI/TwA2uiSurface.razor)
+
+Renders an agent-described interface (A2UI v0.9): streamed components bound to a data model, with button actions returned to the app.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Surface` | `A2uiSurface` | `required` | Model fed with createSurface / updateComponents / updateDataModel messages. |
+| `OnAction` | `EventCallback<A2uiUserAction>` | `null` | Button action with resolved context. |
+| `Label` | `string` | `"Agent-generated interface"` | Region name. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwA2uiSurface Surface="_surface" OnAction="HandleAction" />
+```
+
+---
+
+### `TwMcpAppFrame`
+
+**Location:** [`Components/UI/TwMcpAppFrame.razor`](../Components/UI/TwMcpAppFrame.razor)
+
+Hosts an MCP app in a sandboxed iframe with an opaque origin, a locked-down CSP and a postMessage bridge.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Html` | `string` | `required` | Widget HTML. |
+| `Title` | `string` | `"App"` | Frame title. |
+| `Height` | `string` | `"16rem"` | Frame height. |
+| `AllowedDomains` | `IReadOnlyList<string>?` | `null` | Extra origins permitted by the CSP. |
+| `OnMessage` | `EventCallback<string>` | `null` | JSON the app posted to the host. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwMcpAppFrame Html="@_html" AllowedDomains="_cdns" OnMessage="FromApp" />
+```
+
+---
+
+## Code & Syntax Studio
+
+### `TwCodeFontModifier`
+
+**Location:** [`Components/UI/TwCodeFontModifier.razor`](../Components/UI/TwCodeFontModifier.razor)
+
+Enterprise code editor toolbar with interactive font sizer (A-/A+), monospace font switcher (JetBrains, Fira Code, Cascadia), ligatures toggle, line height stepper, word wrap, and syntax theme presets.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Code Editor & Font Toolbar"` | Header title or accessible label. |
+| `FontSize` | `int` | `13` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `FontSizeChanged` | `EventCallback<int>` | `null` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `FontFamily` | `string` | `"'JetBrains Mono', monospace"` | Configures component behavior or styling. |
+| `LineHeight` | `string` | `"leading-normal"` | Configures component behavior or styling. |
+| `EnableLigatures` | `bool` | `true` | Configures component behavior or styling. |
+| `WordWrap` | `bool` | `false` | Configures component behavior or styling. |
+| `ShowLineNumbers` | `bool` | `true` | Configures component behavior or styling. |
+| `ThemePreset` | `string` | `"emerald"` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `SampleCode` | `string?` | `@"// High-performance Blazor Tailwind Engine public sealed record ComponentSpec(string Name, string Category) {     public bool HasDarkModeSupport => true` | Configures component behavior or styling. |
+| `OnSettingsChanged` | `EventCallback<CodeFontSettings>` | `null` | Callback invoked when state changes or item is selected. |
+
+#### Razor Usage Example
+
+```razor
+<TwCodeFontModifier Title="Code Editor & Font Toolbar" FontSize="13" FontFamily="'JetBrains Mono', monospace" />
+```
+
+---
+
+### `TwCodeTabs`
+
+**Location:** [`Components/UI/TwCodeTabs.razor`](../Components/UI/TwCodeTabs.razor)
+
+Multi-file tabbed code viewer with window controls, active file tabs, language icons, line numbers, and one-click clipboard copy.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Tabs` | `IReadOnlyList<CodeTab>` | `Array.Empty<CodeTab>()` | Configures component behavior or styling. |
+| `ShowLineNumbers` | `bool` | `true` | Configures component behavior or styling. |
+| `AllowCopy` | `bool` | `true` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwCodeTabs Tabs="Array.Empty<CodeTab>()" ShowLineNumbers="true" AllowCopy="true" />
+```
+
+---
+
+### `TwCodeDiff`
+
+**Location:** [`Components/UI/TwCodeDiff.razor`](../Components/UI/TwCodeDiff.razor)
+
+Git-style visual code diff viewer highlighting additions and deletions with side-by-side line numbering, syntax color coding, and stats.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `FileName` | `string` | `"diff.razor"` | Configures component behavior or styling. |
+| `Lines` | `IReadOnlyList<DiffLine>` | `Array.Empty<DiffLine>()` | Configures component behavior or styling. |
+| `OldCode` | `string?` | `null` | Configures component behavior or styling. |
+| `NewCode` | `string?` | `null` | Configures component behavior or styling. |
+| `AllowCopy` | `bool` | `true` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwCodeDiff FileName="diff.razor" Lines="Array.Empty<DiffLine>()" AllowCopy="true" />
+```
+
+---
+
+### `TwSnippet`
+
+**Location:** [`Components/UI/TwSnippet.razor`](../Components/UI/TwSnippet.razor)
+
+macOS terminal CLI command snippet container with prompt badges, window controls, and one-click copy transition.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Code` | `string` | `""` | Configures component behavior or styling. |
+| `Prefix` | `string` | `"$"` | Configures component behavior or styling. |
+| `Title` | `string?` | `null` | Header title or accessible label. |
+| `ShowHeader` | `bool` | `true` | Configures component behavior or styling. |
+| `ShowWindowControls` | `bool` | `true` | Configures component behavior or styling. |
+| `ShowCopyButton` | `bool` | `true` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwSnippet Code="" Prefix="$" ShowHeader="true" />
+```
+
+---
+
+### `TwCodeBlock`
+
+**Location:** [`Components/UI/TwCodeBlock.razor`](../Components/UI/TwCodeBlock.razor)
+
+Syntax code viewer with language badges, line numbers, and copy-to-clipboard button.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Code` | `string` | `string.Empty` | Configures component behavior or styling. |
+| `Language` | `string?` | `"razor"` | Configures component behavior or styling. |
+| `FileName` | `string?` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwCodeBlock Code="string.Empty" Language="razor" />
+```
+
+---
+
+## Dashboards & Layouts
+
+### `TwDashboard`
+
+**Location:** [`Components/UI/TwDashboard.razor`](../Components/UI/TwDashboard.razor)
+
+Executive multi-widget draggable dashboard layout with GridStack.js integration and responsive card snapping.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `CustomClass` | `string` | `""` | Optional CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwDashboard />
+```
+
+---
+
+## Data Visualization
+
+### `TwActivityMeter`
+
+**Location:** [`Components/TwActivityMeter.razor`](../Components/TwActivityMeter.razor)
+
+High-density system activity meter with pulse rate indicators, status badge, and customizable threshold levels.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `double` | `0` | Current numeric activity level. |
+| `Max` | `double` | `100` | Maximum activity threshold scale. |
+
+#### Razor Usage Example
+
+```razor
+<TwActivityMeter Value="85" Max="100" />
+```
+
+---
+
+## Developer Studio & Content Creation
+
+### `TwIconPicker`
+
+**Location:** [`Components/UI/TwIconPicker.razor`](../Components/UI/TwIconPicker.razor)
+
+Interactive search-and-select icon & emoji explorer with live filtering, outline/solid toggles, size previews, and one-click Razor component snippet copying.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Open Source Vector Icons & Emoji Studio"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Zero-dependency pure C# WASM vector icons and emojis for enterprise dashboards and forms"` | Header title or accessible label. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwIconPicker Title="Open Source Vector Icons & Emoji Studio" Subtitle="Zero-dependency pure C# WASM vector icons and emojis for enterprise dashboards and forms" CustomClass="" />
+```
+
+---
+
+### `TwIcon`
+
+**Location:** [`Components/UI/TwIcon.razor`](../Components/UI/TwIcon.razor)
+
+Zero-dependency pure C# WASM inline vector SVG icon engine supporting 100+ curated icons (Heroicons & Lucide paths), customizable sizes, stroke widths, outline/solid modes, and semantic color inheritance.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Name` | `string` | `"sparkles"` | Configures component behavior or styling. |
+| `Size` | `ComponentSize` | `ComponentSize.Md` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `IsSolid` | `bool` | `false` | Configures component behavior or styling. |
+| `StrokeWidth` | `double` | `1.75` | Configures component behavior or styling. |
+| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwIcon Name="sparkles" Size="ComponentSize.Md" StrokeWidth="1.75" />
+```
+
+---
+
+### `TwEmoji`
+
+**Location:** [`Components/UI/TwEmoji.razor`](../Components/UI/TwEmoji.razor)
+
+Modern emoji component with shortcode mapping (:rocket:, :fire:, :sparkles:), Unicode glyph parsing, hover scale physics, and click-to-copy clipboard integration.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Shortcode` | `string?` | `null` | Configures component behavior or styling. |
+| `Glyph` | `string?` | `null` | Configures component behavior or styling. |
+| `Size` | `ComponentSize` | `ComponentSize.Md` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `AnimateOnHover` | `bool` | `true` | Configures component behavior or styling. |
+| `CopyOnClick` | `bool` | `false` | Callback invoked when state changes or item is selected. |
+| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwEmoji Size="ComponentSize.Md" AnimateOnHover="true" Class="" />
+```
+
+---
+
+### `TwMarkdownEditor`
+
+**Location:** [`Components/UI/TwMarkdownEditor.razor`](../Components/UI/TwMarkdownEditor.razor)
+
+Enterprise-grade dual Markdown and HTML editor featuring live pure C# WASM typography preview, split/edit/preview modes, toolbar actions (headings, lists, bold, italics, code, tables), fullscreen Zen focus, and media drawer supporting image, video, audio, and link embedding.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string?` | `null` | Header title or accessible label. |
+| `Value` | `string` | `""` | Primary data value or two-way bound model property. |
+| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwMarkdownEditor Value="" CustomClass="" />
+```
+
+---
+
+### `TwDockManager`
+
+**Location:** [`Components/UI/TwDockManager.razor`](../Components/UI/TwDockManager.razor)
+
+Desktop-grade multi-pane docking studio layout engine featuring Solution Explorer tree, multi-tab central document workspace, bottom diagnostic terminal output, and collapsible properties inspector.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string?` | `null` | Header title or accessible label. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwDockManager CustomClass="" />
+```
+
+---
+
+### `TwSpreadsheet`
+
+**Location:** [`Components/UI/TwSpreadsheet.razor`](../Components/UI/TwSpreadsheet.razor)
+
+Spreadsheet calculation engine with alphanumeric grid coordinates (A1..E10), formula bar, formula evaluation (=SUM, =AVG, arithmetic), direct cell inline editing, and formatted total readouts.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Enterprise Spreadsheet Matrix"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Excel-compatible cell matrix with live arithmetic, range aggregations, and formula bar"` | Header title or accessible label. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwSpreadsheet Title="Enterprise Spreadsheet Matrix" Subtitle="Excel-compatible cell matrix with live arithmetic, range aggregations, and formula bar" CustomClass="" />
+```
+
+---
+
+### `TwOrgChart`
+
+**Location:** [`Components/UI/TwOrgChart.razor`](../Components/UI/TwOrgChart.razor)
+
+Hierarchical organization tree visualizer with pure vector SVG orthogonal connector lines, search highlight filter, recursive branch expand/collapse toggles, and A-/A+ canvas zoom controls.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Enterprise Organization Tree"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Executive leadership structure, reporting hierarchies, and departmental clusters"` | Header title or accessible label. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `Root` | `OrgNode?` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwOrgChart Title="Enterprise Organization Tree" Subtitle="Executive leadership structure, reporting hierarchies, and departmental clusters" CustomClass="" />
+```
+
+---
+
+## Documents & Forms
+
+### `TwPdfFormFiller`
+
+**Location:** [`Components/UI/TwPdfFormFiller.razor`](../Components/UI/TwPdfFormFiller.razor)
+
+Interactive PDF form filler and attestation engine supporting initial stamping, legal full name signing, UTC timestamps, and corporate authority checkboxes.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `CustomClass` | `string` | `""` | Optional CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwPdfFormFiller />
+```
+
+---
+
+## Enterprise & Workplace Operations
+
+### `TwRewardsCenter`
+
+**Location:** [`Components/UI/TwRewardsCenter.razor`](../Components/UI/TwRewardsCenter.razor)
+
+Employee perks and recognition rewards catalog with category filtering (Gift Cards, Swag, Workplace Flexibility, Learning, Wellness), points wallet ledger, search bar, and digital voucher redemption modal.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwRewardsCenter />
+```
+
+---
+
 ## Enterprise Data & Tables
 
 ### `TwKanbanBoard`
 
 **Location:** [`Components/UI/TwKanbanBoard.razor`](../Components/UI/TwKanbanBoard.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Interactive workflow Kanban board with customizable columns, WIP limit thresholds, task cards, priority indicators, subtask checklists, and lane transition buttons.
 
 #### Parameters & Settings
 
@@ -2224,234 +2518,695 @@ Individual node item inside TwTree with custom icons and nested child rendering.
 
 ---
 
-## Visualizations & Gauges
+## Feedback & Alerts
 
-### `TwSparkline`
+### `TwSnackbar`
 
-**Location:** [`Components/UI/TwSparkline.razor`](../Components/UI/TwSparkline.razor)
+**Location:** [`Components/UI/TwSnackbar.razor`](../Components/UI/TwSnackbar.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Actionable bottom floating notification snackbar with action trigger callback, animated progress auto-dismiss countdown bar, pause on hover, and semantic color variants.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Type` | `SparklineType` | `SparklineType.Line` | Configures component behavior or styling. |
-| `Points` | `List<double>` | `new() { 12, 18, 14, 22, 19, 28, 25, 34, 30, 42 }` | Configures component behavior or styling. |
-| `Width` | `int` | `110` | Configures component behavior or styling. |
-| `Height` | `int` | `28` | Configures component behavior or styling. |
-| `StrokeWidth` | `double` | `2.0` | Configures component behavior or styling. |
-| `Color` | `string` | `"brand"` | Configures component behavior or styling. |
-| `ShowMinMaxDots` | `bool` | `true` | Configures component behavior or styling. |
-| `ShowValueBadge` | `bool` | `false` | Primary data value or two-way bound model property. |
+| `Message` | `string` | `""` | Notification message. |
+| `ActionText` | `string?` | `null` | Optional action button text (e.g. Undo, Retry). |
+| `DurationMs` | `int` | `4000` | Auto-dismiss duration in ms (0 for persistent). |
+| `ShowProgress` | `bool` | `true` | Render animated countdown progress bar. |
+| `Variant` | `SemanticVariant` | `SemanticVariant.Default` | Color scheme (Default, Info, Success, Warning, Danger). |
+| `Position` | `TwSnackbarPosition` | `TwSnackbarPosition.BottomCenter` | Viewport anchoring position. |
+
+#### Razor Usage Example
+
+```razor
+<TwSnackbar Message="Invoice archived" ActionText="Undo" Variant="SemanticVariant.Info" @bind-IsOpen="_showSnack" OnAction="HandleUndo" />
+```
+
+---
+
+## Financial & Analytical Intelligence
+
+### `TwFinancialChart`
+
+**Location:** [`Components/UI/TwFinancialChart.razor`](../Components/UI/TwFinancialChart.razor)
+
+High-frequency Candlestick and Area financial charting engine with real-time volume histogram, 20-period moving average line, crosshair hover HUD inspector, timeframe range presets (1W, 1M, 3M, YTD, 1Y, ALL), and zero-JS vector SVG rendering.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Ticker` | `string` | `"BLZR"` | Configures component behavior or styling. |
+| `CompanyName` | `string` | `"Blazor Technologies Inc."` | Configures component behavior or styling. |
+| `Exchange` | `string` | `"NASDAQ"` | Configures component behavior or styling. |
 | `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `Data` | `List<FinancialCandle>?` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwSparkline Type="SparklineType.Line" Points="new() { 12, 18, 14, 22, 19, 28, 25, 34, 30, 42 }" Width="110" />
+<TwFinancialChart Ticker="BLZR" CompanyName="Blazor Technologies Inc." Exchange="NASDAQ" />
 ```
 
 ---
 
-### `TwProgressAdvanced`
+### `TwTreemap`
 
-**Location:** [`Components/UI/TwProgressAdvanced.razor`](../Components/UI/TwProgressAdvanced.razor)
+**Location:** [`Components/UI/TwTreemap.razor`](../Components/UI/TwTreemap.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Multi-dimensional area treemap and valuation heatmap visualizing hierarchical assets, portfolio market caps, and performance returns with squarified 2D tiling, dynamic drill-down breadcrumb, and color ramps.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Type` | `ProgressType` | `ProgressType.Stacked` | Configures component behavior or styling. |
-| `Title` | `string?` | `null` | Header title or accessible label. |
-| `Label` | `string?` | `null` | Configures component behavior or styling. |
-| `Value` | `double` | `65` | Primary data value or two-way bound model property. |
-| `ShowHeader` | `bool` | `true` | Configures component behavior or styling. |
-| `ShowLegend` | `bool` | `true` | Configures component behavior or styling. |
-| `Color` | `string` | `"brand"` | Configures component behavior or styling. |
+| `Title` | `string` | `"Market Valuation Heatmap & Treemap"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Hierarchical squarified area map of enterprise assets and percentage price shifts"` | Header title or accessible label. |
 | `CustomClass` | `string` | `""` | Configures component behavior or styling. |
-| `Segments` | `List<ProgressSegment>` | `new()
-    {
-        new ProgressSegment { Label = "Code & Engine", Percentage = 42, ColorClass = "bg-brand-500" },
-        new ProgressSegment { Label = "Assets & Icons", Percentage = 28, ColorClass = "bg-emerald-500" },
-        new ProgressSegment { Label = "Cached Data", Percentage = 18, ColorClass = "bg-amber-500" },
-        new ProgressSegment { Label = "Free Memory", Percentage = 12, ColorClass = "bg-slate-300 dark:bg-slate-700" }
-    }` | Configures component behavior or styling. |
-| `RadialSize` | `int` | `100` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `RadialStrokeWidth` | `int` | `8` | Configures component behavior or styling. |
-| `RadialContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
-| `TotalSegments` | `int` | `15` | Configures component behavior or styling. |
-| `Steps` | `List<string>` | `new() { "Initialize", "Validate", "Compile", "Deploy" }` | Configures component behavior or styling. |
-| `CurrentStep` | `int` | `2` | Configures component behavior or styling. |
+| `Items` | `List<TreemapItem>?` | `null` | Configures component behavior or styling. |
+| `OnItemClick` | `EventCallback<TreemapItem>` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwProgressAdvanced Type="ProgressType.Stacked" Value="65" ShowHeader="true" />
+<TwTreemap Title="Market Valuation Heatmap & Treemap" Subtitle="Hierarchical squarified area map of enterprise assets and percentage price shifts" CustomClass="" />
 ```
 
 ---
 
-### `TwChart`
+### `TwPivotGrid`
 
-**Location:** [`Components/UI/TwChart.razor`](../Components/UI/TwChart.razor)
+**Location:** [`Components/UI/TwPivotGrid.razor`](../Components/UI/TwPivotGrid.razor)
 
-Native C# inline SVG visualization engine for donut charts, sparklines, and bar charts with zero external JS dependencies.
+Enterprise OLAP cross-tabulation matrix supporting dynamic row/column field pivoting, value aggregations (Sum, Average, Count), interactive field drop drawer, and hierarchical subtotal and grand total calculations.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Type` | `ChartType` | `ChartType.Donut` | Configures component behavior or styling. |
-| `Title` | `string?` | `null` | Header title or accessible label. |
-| `Subtitle` | `string?` | `null` | Header title or accessible label. |
-| `CenterValue` | `string` | `"100%"` | Primary data value or two-way bound model property. |
-| `CenterLabel` | `string` | `"Total"` | Configures component behavior or styling. |
-| `DataItems` | `IReadOnlyList<ChartDataItem>` | `Array.Empty<ChartDataItem>()` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Title` | `string` | `"Enterprise Financial Pivot Grid"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Multi-dimensional cross-tabulation matrix with real-time grouping & aggregation"` | Header title or accessible label. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `Records` | `List<PivotRecord>?` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwChart Type="ChartType.Donut" CenterValue="100%" CenterLabel="Total" />
+<TwPivotGrid Title="Enterprise Financial Pivot Grid" Subtitle="Multi-dimensional cross-tabulation matrix with real-time grouping & aggregation" CustomClass="" />
 ```
 
 ---
 
-### `TwGauge`
+## Financial & OCR
 
-**Location:** [`Components/UI/TwGauge.razor`](../Components/UI/TwGauge.razor)
+### `TwMicrCheckReader`
 
-Zero-JS radial speedometer gauge rendering pure inline SVG arcs with stroke-dasharray calculations and CSS transitions.
+**Location:** [`Components/UI/TwMicrCheckReader.razor`](../Components/UI/TwMicrCheckReader.razor)
+
+Check 21 paper check & draft reader powered by 100% local Tesseract WebAssembly, ANSI X9.27 E-13B MICR decoding, 150+ NACHA Bank Routing Directory resolver, Mod-10 Fed routing validation, and ChoETL.NACHA 94-char fixed-width ACH file generation.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Value` | `double` | `72` | Primary data value or two-way bound model property. |
-| `Min` | `double` | `0` | Configures component behavior or styling. |
-| `Max` | `double` | `100` | Configures component behavior or styling. |
-| `Unit` | `string` | `"%"` | Configures component behavior or styling. |
-| `Label` | `string?` | `"Efficiency"` | Configures component behavior or styling. |
-| `Sublabel` | `string?` | `null` | Configures component behavior or styling. |
-| `Color` | `string?` | `null` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Class` | `string` | `""` | Optional CSS classes. |
+| `OnCheckScanned` | `EventCallback<CheckDraftOcrResult>` | `null` | Callback fired when a check or draft is scanned. |
+| `OnInsertMarkdown` | `EventCallback<string>` | `null` | Callback fired when Markdown ledger table is exported. |
+| `OnDepositApproved` | `EventCallback<CheckDraftOcrResult>` | `null` | Callback fired when remote deposit capture (RDC) is approved. |
+| `OnNachaExported` | `EventCallback<string>` | `null` | Callback fired when 94-character fixed-width NACHA ACH batch file is exported. |
+| `OnJsonExported` | `EventCallback<string>` | `null` | Callback fired when Check 21 JSON payload is exported. |
 
 #### Razor Usage Example
 
 ```razor
-<TwGauge Value="72" Min="0" Max="100" />
+<TwMicrCheckReader OnCheckScanned="HandleCheck" OnDepositApproved="HandleApproved" OnNachaExported="HandleNacha" OnJsonExported="HandleJson" />
 ```
 
 ---
 
-### `TwProgressBar`
+### `TwDocumentOcrStudio`
 
-**Location:** [`Components/UI/TwProgressBar.razor`](../Components/UI/TwProgressBar.razor)
+**Location:** [`Components/UI/TwDocumentOcrStudio.razor`](../Components/UI/TwDocumentOcrStudio.razor)
 
-Semantic progress bar with animated stripes, smooth transitions, and percentage labels.
+Full Form & PDF OCR Studio supporting paper checks, official bank drafts, commercial invoices, and IRS Form W-9 with spatial bounding boxes and Markdown table generation.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Value` | `int` | `null` | Primary data value or two-way bound model property. |
-| `Label` | `string?` | `null` | Configures component behavior or styling. |
-| `ShowLabel` | `bool` | `true` | Configures component behavior or styling. |
-| `Animated` | `bool` | `null` | Configures component behavior or styling. |
-| `Variant` | `SemanticVariant` | `SemanticVariant.Primary` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
-| `Size` | `ComponentSize` | `ComponentSize.Md` | Component sizing scale (Xs, Sm, Md, Lg). |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Class` | `string` | `""` | Optional CSS classes. |
+| `OnMarkdownExtracted` | `EventCallback<string>` | `null` | Fired when extracted markdown report is copied or exported. |
 
 #### Razor Usage Example
 
 ```razor
-<TwProgressBar ShowLabel="true" Variant="SemanticVariant.Primary" Size="ComponentSize.Md" />
+<TwDocumentOcrStudio OnMarkdownExtracted="HandleMarkdown" />
 ```
 
 ---
 
-### `TwCountUp`
+## Forms & Controls
 
-**Location:** [`Components/UI/TwCountUp.razor`](../Components/UI/TwCountUp.razor)
+### `TwMaskInput`
 
-Smooth numeric counter animation with customizable duration, prefix/suffix, and easing.
+**Location:** [`Components/UI/TwMaskInput.razor`](../Components/UI/TwMaskInput.razor)
+
+High-performance masked text input with slot validation, prompt guides, and Raw vs WithFormatting modes for Phone, SSN, Credit Card, and custom masks.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `StartValue` | `double` | `0` | Primary data value or two-way bound model property. |
-| `EndValue` | `double` | `100` | Primary data value or two-way bound model property. |
-| `DurationMs` | `int` | `1200` | Configures component behavior or styling. |
-| `Decimals` | `int` | `0` | Configures component behavior or styling. |
-| `Prefix` | `string?` | `null` | Configures component behavior or styling. |
-| `Suffix` | `string?` | `null` | Configures component behavior or styling. |
-| `AutoStart` | `bool` | `true` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Value` | `string` | `""` | Two-way bound input value. |
+| `Mask` | `string` | `"(###) ###-####"` | Mask pattern (# digit, A letter, * alphanumeric). |
+| `Prompt` | `char` | `'_'` | Prompt symbol for unfilled slots. |
+| `ValueMode` | `MaskValueMode` | `Raw` | Raw unformatted string vs formatted string with mask literals. |
+| `Preset` | `MaskPreset` | `Custom` | Preconfigured mask presets (Phone, Ssn, CreditCard, Date, ZipCode). |
+| `Label` | `string?` | `null` | Input label. |
+| `PrefixIcon` | `string?` | `null` | Prefix icon symbol. |
 
 #### Razor Usage Example
 
 ```razor
-<TwCountUp StartValue="0" EndValue="100" DurationMs="1200" />
+<TwMaskInput Label="Phone" Mask="(###) ###-####" @bind-Value="@phone" />
 ```
 
 ---
 
-### `TwAnimate`
+### `TwRangeSlider`
 
-**Location:** [`Components/UI/TwAnimate.razor`](../Components/UI/TwAnimate.razor)
+**Location:** [`Components/UI/TwRangeSlider.razor`](../Components/UI/TwRangeSlider.razor)
 
-Declarative CSS animation wrapper providing fade, zoom, bounce, and slide keyframes.
+Dual-thumb interactive range slider with Lower/Upper thumb bounds, colored track highlights, ticks, and touch-friendly tap targets.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Type` | `AnimationType` | `AnimationType.FadeInUp` | Configures component behavior or styling. |
-| `DurationMs` | `int` | `400` | Configures component behavior or styling. |
-| `DelayMs` | `int` | `0` | Configures component behavior or styling. |
-| `Infinite` | `bool` | `null` | Configures component behavior or styling. |
-| `OnHover` | `bool` | `null` | Configures component behavior or styling. |
-| `Play` | `bool` | `true` | Configures component behavior or styling. |
+| `Lower` | `double` | `20` | Lower boundary thumb value (two-way bound). |
+| `Upper` | `double` | `80` | Upper boundary thumb value (two-way bound). |
+| `Min` | `double` | `0` | Minimum range limit. |
+| `Max` | `double` | `100` | Maximum range limit. |
+| `Step` | `double` | `1` | Granular increment step. |
+| `Prefix` | `string?` | `null` | Prefix symbol for values ($). |
+| `Suffix` | `string?` | `null` | Suffix symbol for values (%). |
+
+#### Razor Usage Example
+
+```razor
+<TwRangeSlider Label="Budget" Min="0" Max="1000" @bind-Lower="@minVal" @bind-Upper="@maxVal" Prefix="$" />
+```
+
+---
+
+## Forms & Inputs
+
+### `TwPredictiveIntent`
+
+**Location:** [`Components/UI/TwPredictiveIntent.razor`](../Components/UI/TwPredictiveIntent.razor)
+
+2027 anticipatory state machine demonstrating zero-click UX: gaze focal tracking, tactile biometric pulse sensor, and automated intent action synthesis.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string` | `""` | Optional CSS classes for outer container. |
+
+#### Razor Usage Example
+
+```razor
+<TwPredictiveIntent />
+```
+
+---
+
+### `TwAguiFormCanvas`
+
+**Location:** [`Components/UI/TwAguiFormCanvas.razor`](../Components/UI/TwAguiFormCanvas.razor)
+
+AG-UI Adaptive Generative UI form engine with AI confidence percentages, 2-way diff binding, dynamic field schema synthesis, and human-in-the-loop gating.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Schema` | `AguiFormSchema` | `null` | The synthesized adaptive form schema. |
+| `OnSubmit` | `EventCallback<Dictionary<string, object>>` | `null` | Callback on approved form submission. |
+
+#### Razor Usage Example
+
+```razor
+<TwAguiFormCanvas Schema="@schema" OnSubmit="HandleSubmit" />
+```
+
+---
+
+## Fullstack .NET 10+
+
+### `TwStreamingGrid`
+
+**Location:** [`Components/TwStreamingGrid.razor`](../Components/TwStreamingGrid.razor)
+
+High-throughput streaming DataGrid consuming IAsyncEnumerable<TItem> server streams with real-time row pulse animations and 1M row virtualization.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"High-Throughput Streaming Engine (IAsyncEnumerable)"` | Grid title in header toolbar. |
+| `Subtitle` | `string` | `"Real-time telemetry pipeline consuming asynchronous server streams..."` | Toolbar subtitle. |
+| `MaxBufferCapacity` | `int` | `5000` | Maximum items kept in memory before circular eviction. |
+| `Class` | `string` | `""` | Optional CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwStreamingGrid Title="Real-time Telemetry" MaxBufferCapacity="5000" />
+```
+
+---
+
+### `TwHydratedView`
+
+**Location:** [`Components/TwHydratedView.razor`](../Components/TwHydratedView.razor)
+
+Universal zero-flicker SSR hydration container eliminating duplicate database queries and visual layout shift between prerender and client hydration.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment` | `null` | The hydrated content to render. |
+| `SkeletonTemplate` | `RenderFragment` | `null` | Custom skeleton placeholder to show during initial async load. |
+| `IsLoading` | `bool` | `false` | Whether the component is actively fetching initial state. |
+| `IsRestored` | `bool` | `false` | Whether the component state was restored from SSR prerender cache. |
+| `ShowHydrationBadge` | `bool` | `true` | Displays subtle SSR/Hydrated badge indicator in top right. |
+| `Class` | `string` | `""` | Optional CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwHydratedView IsRestored="@_isRestored" IsLoading="@_loading"><p>Hydrated Content</p></TwHydratedView>
+```
+
+---
+
+### `TwFullstackForm`
+
+**Location:** [`Components/TwFullstackForm.razor`](../Components/TwFullstackForm.razor)
+
+Dual-mode enterprise form engine supporting Static SSR Enhanced Form POST (zero JS) and Interactive Auto Client RPC seamlessly.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Universal Fullstack Form Engine"` | Form card title. |
+| `Subtitle` | `string` | `"Dual-mode form handling supporting Static SSR and Interactive Auto..."` | Form card subtitle. |
+| `Class` | `string` | `""` | Optional CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwFullstackForm Title="Universal Fullstack Form" />
+```
+
+---
+
+### `TwFullstackHub`
+
+**Location:** [`Components/TwFullstackHub.razor`](../Components/TwFullstackHub.razor)
+
+Full-stack developer architecture explorer, zero-flicker hydration workbench, and streaming playground for .NET 10+ Web Apps.
+
+#### Parameters & Settings
+
+This component has no parameters.
+
+#### Razor Usage Example
+
+```razor
+<TwFullstackHub />
+```
+
+---
+
+### `TwUnionBoundary`
+
+**Location:** [`Components/UI/TwUnionBoundary.razor`](../Components/UI/TwUnionBoundary.razor)
+
+C# 15 Discriminated Union boundary rendering exhaustive states (Loading, Success, Empty, Failure) with compile-time branch safety.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `State` | `UiState<TItem>` | `required` | Active algebraic union UI state. |
+| `Loading` | `RenderFragment` | `null` | Template rendered during loading state. |
+| `Success` | `RenderFragment<TItem>` | `null` | Template rendered on successful state with typed item context. |
+| `Empty` | `RenderFragment` | `null` | Template rendered on empty collection or record set. |
+| `Failure` | `RenderFragment<UiState<TItem>.Failure>` | `null` | Template rendered on error with failure details context. |
+
+#### Razor Usage Example
+
+```razor
+<TwUnionBoundary TItem="string" State="@state"><Success Context="d">@d</Success></TwUnionBoundary>
+```
+
+---
+
+### `TwDonutCache`
+
+**Location:** [`Components/TwDonutCache.razor`](../Components/TwDonutCache.razor)
+
+Blazor Donut Caching container that edge-caches 95%+ of static SSR page markup while dynamically perforating personalized donut holes.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `CacheKey` | `string` | `"default_donut"` | Unique cache key for the static shell segment. |
+| `Duration` | `TimeSpan` | `5 minutes` | Cache expiration time-to-live. |
+| `Tags` | `List<string>` | `["catalog"]` | Cache invalidation tags for programmatic cache busting. |
+| `StaticContent` | `RenderFragment` | `null` | Static markup cached at the edge across users. |
+| `DynamicHole` | `RenderFragment` | `null` | Dynamic personalized slot evaluated per-request. |
+
+#### Razor Usage Example
+
+```razor
+<TwDonutCache CacheKey="catalog" Tags="@(["catalog"])"><DynamicHole>...</DynamicHole></TwDonutCache>
+```
+
+---
+
+### `TwPostQuantumVault`
+
+**Location:** [`Components/TwPostQuantumVault.razor`](../Components/TwPostQuantumVault.razor)
+
+Post-Quantum Cryptography secure enclave implementing NIST FIPS 203 ML-KEM-768 key encapsulation and zero-trust authenticated encryption.
+
+#### Parameters & Settings
+
+This component has no parameters.
+
+#### Razor Usage Example
+
+```razor
+<TwPostQuantumVault />
+```
+
+---
+
+### `TwTelemetryDashboard`
+
+**Location:** [`Components/TwTelemetryDashboard.razor`](../Components/TwTelemetryDashboard.razor)
+
+Native OpenTelemetry (OTel) developer cockpit rendering real-time ActivitySource lifecycle spans, render latency waterfalls, and heap telemetry.
+
+#### Parameters & Settings
+
+This component has no parameters.
+
+#### Razor Usage Example
+
+```razor
+<TwTelemetryDashboard />
+```
+
+---
+
+### `TwVectorMath`
+
+**Location:** [`Components/UI/TwVectorMath.razor`](../Components/UI/TwVectorMath.razor)
+
+WebAssembly SIMD hardware acceleration and vector math engine evaluating high-throughput financial dot products, vector sums, and euclidean distance norms with comparative scalar telemetry.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Optional CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwVectorMath />
+```
+
+---
+
+### `TwAspireHub`
+
+**Location:** [`Components/UI/TwAspireHub.razor`](../Components/UI/TwAspireHub.razor)
+
+.NET Aspire 11 cloud-native orchestration cockpit with live microservice topology inspector, real-time port health probing, environment variable explorer, structured logs stream, and instant 1-click downloads for executable Program.cs AppHost and docker-compose.yml specifications.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Optional CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwAspireHub />
+```
+
+---
+
+## Gamification & Celebrations
+
+### `TwPrizeWheel`
+
+**Location:** [`Components/UI/TwPrizeWheel.razor`](../Components/UI/TwPrizeWheel.razor)
+
+Interactive SVG spinning fortune prize wheel with realistic deceleration physics, top pointer tick indicator, customizable prize wedges, celebratory confetti burst, and winner announcement banner for team morale boosts and party giveaways.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+| `Title` | `string` | `"Spin to Win!"` | Component header title. |
+| `Prizes` | `List<PrizeItem>` | `Default 8 wedges` | List of prize wedges with titles, emojis, colors, and descriptions (inspired by MyWheel). |
+| `OnPrizeWon` | `EventCallback<PrizeItem>` | `null` | Fired upon completion of deceleration on the winning wedge. |
+
+#### Razor Usage Example
+
+```razor
+<TwPrizeWheel OnPrizeWon="(prize) => { /* Handle prize */ }" />
+```
+
+---
+
+### `TwCelebrationEditor`
+
+**Location:** [`Components/UI/TwCelebrationEditor.razor`](../Components/UI/TwCelebrationEditor.razor)
+
+Visual workbench for configuring canvas particle celebrations and confetti bursts. Sliders for particle count, velocity, spread angle, gravity, and origin height with instant live testing and copyable C#/Razor markup.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwCelebrationEditor />
+```
+
+---
+
+### `TwBirthdayBanner`
+
+**Location:** [`Components/UI/TwBirthdayBanner.razor`](../Components/UI/TwBirthdayBanner.razor)
+
+Company-wide birthday alert banner with quick emoji reaction buttons and celebration confetti trigger.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `EmployeeName` | `string` | `""` | Recipient employee name. |
+| `Department` | `string` | `""` | Employee department. |
+
+#### Razor Usage Example
+
+```razor
+<TwBirthdayBanner EmployeeName="Jane Doe" Department="Engineering" />
+```
+
+---
+
+### `TwBirthdayCard`
+
+**Location:** [`Components/UI/TwBirthdayCard.razor`](../Components/UI/TwBirthdayCard.razor)
+
+Role-tailored interactive 3D card with inside jokes, particle reveals, and peer signing wall.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `RecipientName` | `string` | `""` | Card recipient name. |
+
+#### Razor Usage Example
+
+```razor
+<TwBirthdayCard RecipientName="Jane Doe" Role="Architect" />
+```
+
+---
+
+## Hardware & Media Interop
+
+### `TwMediaRecorder`
+
+**Location:** [`Components/UI/TwMediaRecorder.razor`](../Components/UI/TwMediaRecorder.razor)
+
+In-browser microphone and HD webcam media recorder with live SVG audio frequency visualizer, recording status pulse, VU meters, playback preview via TwMediaPlayer, and local file download.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+| `OnRecordingCompleted` | `EventCallback<int>` | `null` | Fired when user completes a recording with the elapsed seconds. |
+
+#### Razor Usage Example
+
+```razor
+<TwMediaRecorder OnRecordingCompleted="(duration) => { /* Handle duration */ }" />
+```
+
+---
+
+## Layout & Application Shell
+
+### `TwAppShell`
+
+**Location:** [`Components/Layout/TwAppShell.razor`](../Components/Layout/TwAppShell.razor)
+
+The root application shell supporting four dynamic layout variants: Sidebar (mobile drawer + desktop sidebar), TopNav (horizontal bar with mobile sheet), CompactRail (icon rail), and Stacked (single column).
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Layout` | `LayoutVariant` | `LayoutVariant.Sidebar` | Configures component behavior or styling. |
+| `BrandContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `HeaderActions` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `SidebarContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `SidebarFooter` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `TopNavContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `RailContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `BottomNavContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
 | `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwAnimate Type="AnimationType.FadeInUp" DurationMs="400" DelayMs="0" />
+<TwAppShell Layout="LayoutVariant.Sidebar" />
 ```
 
 ---
 
-### `TwTransition`
+### `TwContainer`
 
-**Location:** [`Components/UI/TwTransition.razor`](../Components/UI/TwTransition.razor)
+**Location:** [`Components/Layout/TwContainer.razor`](../Components/Layout/TwContainer.razor)
 
-Smooth enter/leave transition container for mounting and unmounting Blazor components.
+Responsive max-width container wrapper with automatic padding and breakpoint clamping (sm, md, lg, xl, 2xl, full).
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Show` | `bool` | `true` | Configures component behavior or styling. |
 | `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
-| `Enter` | `string` | `"transition duration-300 ease-out"` | Configures component behavior or styling. |
-| `EnterFrom` | `string` | `"opacity-0 scale-95 -translate-y-2"` | Configures component behavior or styling. |
-| `EnterTo` | `string` | `"opacity-100 scale-100 translate-y-0"` | Configures component behavior or styling. |
-| `Leave` | `string` | `"transition duration-200 ease-in"` | Configures component behavior or styling. |
-| `LeaveFrom` | `string` | `"opacity-100 scale-100 translate-y-0"` | Configures component behavior or styling. |
-| `LeaveTo` | `string` | `"opacity-0 scale-95 -translate-y-2"` | Configures component behavior or styling. |
+| `MaxWidth` | `string` | `"7xl"` | Configures component behavior or styling. |
 | `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-| `Style` | `string?` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwTransition Show="true" Enter="transition duration-300 ease-out" EnterFrom="opacity-0 scale-95 -translate-y-2" />
+<TwContainer MaxWidth="7xl" />
+```
+
+---
+
+### `TwGrid`
+
+**Location:** [`Components/Layout/TwGrid.razor`](../Components/Layout/TwGrid.razor)
+
+Mobile-first responsive grid system with configurable column distributions (1-2-3, 1-2-4, 2-3-4, etc.) and gap scales.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Preset` | `string` | `"1-2-3"` | Configures component behavior or styling. |
+| `Gap` | `string` | `"md"` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwGrid Preset="1-2-3" Gap="md" />
+```
+
+---
+
+### `TwSplitter`
+
+**Location:** [`Components/UI/TwSplitter.razor`](../Components/UI/TwSplitter.razor)
+
+Enterprise resizable split layout container supporting horizontal and vertical orientations, draggable divider handle, and one-click collapse/reset buttons.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Orientation` | `SplitOrientation` | `SplitOrientation.Horizontal` | Configures component behavior or styling. |
+| `SplitPercentage` | `double` | `40` | Configures component behavior or styling. |
+| `MinPercentage` | `double` | `15` | Configures component behavior or styling. |
+| `MaxPercentage` | `double` | `85` | Configures component behavior or styling. |
+| `MinHeight` | `int` | `280` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `PaneOne` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `PaneTwo` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `SplitPercentageChanged` | `EventCallback<double>` | `null` | Callback invoked when state changes or item is selected. |
+
+#### Razor Usage Example
+
+```razor
+<TwSplitter Orientation="SplitOrientation.Horizontal" SplitPercentage="40" MinPercentage="15" />
+```
+
+---
+
+### `TwBottomNav`
+
+**Location:** [`Components/Layout/TwBottomNav.razor`](../Components/Layout/TwBottomNav.razor)
+
+Fixed application bottom navigation bar for touch devices with active state indicators, notification badges, and haptic tap styling.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `IReadOnlyList<NavItem>` | `Array.Empty<NavItem>()` | Configures component behavior or styling. |
+| `ActiveId` | `string?` | `null` | Configures component behavior or styling. |
+| `OnSelect` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwBottomNav Items="Array.Empty<NavItem>()" />
 ```
 
 ---
@@ -2621,13 +3376,105 @@ Interactive Before/After visual comparison slider with touch/pointer dragging, g
 
 ---
 
+## Modals & Overlays
+
+### `TwCelebrationModal`
+
+**Location:** [`Components/UI/TwCelebrationModal.razor`](../Components/UI/TwCelebrationModal.razor)
+
+Modal dialog with celebration confetti burst animation, congratulatory header, and reward claim buttons.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `IsOpen` | `bool` | `false` | Whether the modal is visible. |
+
+#### Razor Usage Example
+
+```razor
+<TwCelebrationModal @bind-IsOpen="isOpen" Title="Congratulations!" />
+```
+
+---
+
+## Navigation & Headers
+
+### `TwNavDrawer`
+
+**Location:** [`Components/UI/TwNavDrawer.razor`](../Components/UI/TwNavDrawer.razor)
+
+Enterprise side navigation drawer featuring Mini icon rail (64px) vs Expanded full sidebar (260px) transitions, item badges, and overlay mode.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `BrandTitle` | `string` | `"Enterprise Hub"` | Drawer header brand text. |
+| `IsMini` | `bool` | `false` | Mini collapsed icon-only rail mode. |
+| `IsOpen` | `bool` | `true` | Drawer open state. |
+| `IsOverlay` | `bool` | `false` | Modal overlay mode with backdrop. |
+| `AllowToggleMini` | `bool` | `true` | Show collapse/expand toggle button. |
+
+#### Razor Usage Example
+
+```razor
+<TwNavDrawer BrandTitle="Enterprise"><TwNavDrawerItem Text="Dashboard" Icon="📊" /></TwNavDrawer>
+```
+
+---
+
+## Navigation & Shell
+
+### `TwPwaInstallButton`
+
+**Location:** [`Components/UI/TwPwaInstallButton.razor`](../Components/UI/TwPwaInstallButton.razor)
+
+1-Click Progressive Web App (PWA) installation button with native beforeinstallprompt detection, standalone status badges, and cross-platform installation modal.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string?` | `null` | Optional CSS classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwPwaInstallButton />
+```
+
+---
+
+### `TwNavDrawerItem`
+
+**Location:** [`Components/UI/TwNavDrawerItem.razor`](../Components/UI/TwNavDrawerItem.razor)
+
+Navigation drawer menu item with icon, label, active state indicator, and optional counter badge.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Label` | `string` | `""` | Menu item label text. |
+| `Icon` | `string` | `""` | Menu item icon. |
+| `IsActive` | `bool` | `false` | Whether the item is currently active. |
+
+#### Razor Usage Example
+
+```razor
+<TwNavDrawerItem Icon="📊" Label="Analytics" IsActive="true" />
+```
+
+---
+
 ## Navigation & Steppers
 
 ### `TwRibbon`
 
 **Location:** [`Components/UI/TwRibbon.razor`](../Components/UI/TwRibbon.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Award-winning enterprise Ribbon navigation bar featuring tabbed strips, Quick Access Toolbar (QAT), grouped action clusters, large/small buttons, and collapsible drawer.
 
 #### Parameters & Settings
 
@@ -2652,7 +3499,7 @@ Reusable Blazor WebAssembly component styled with Tailwind CSS.
 
 **Location:** [`Components/UI/TwFloatingDock.razor`](../Components/UI/TwFloatingDock.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Modern floating glassmorphism dock navigation bar with hover magnification scale, active pill indicators, notification badges, and smooth tooltips.
 
 #### Parameters & Settings
 
@@ -2888,13 +3735,449 @@ Interactive guided walkthrough coaching tour with spotlight backdrop, step popov
 
 ---
 
+## Other Components
+
+### `TwAguiCanvas`
+
+**Location:** [`Components/UI/TwAguiCanvas.razor`](../Components/UI/TwAguiCanvas.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Schema` | `AguiWidgetSchema?` | `null` | Configures component behavior or styling. |
+| `OnActionTriggered` | `EventCallback<AguiActionItem>` | `null` | Configures component behavior or styling. |
+| `Class` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwAguiCanvas Class="" />
+```
+
+---
+
+### `TwAguiStudio`
+
+**Location:** [`Components/UI/TwAguiStudio.razor`](../Components/UI/TwAguiStudio.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Class` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwAguiStudio Class="" />
+```
+
+---
+
+### `TwAvatar`
+
+**Location:** [`Components/UI/TwAvatar.razor`](../Components/UI/TwAvatar.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ImageUrl` | `string?` | `null` | Configures component behavior or styling. |
+| `Initials` | `string` | `"UI"` | Configures component behavior or styling. |
+| `Alt` | `string` | `"Avatar"` | Configures component behavior or styling. |
+| `Size` | `ComponentSize` | `ComponentSize.Md` | Configures component behavior or styling. |
+| `StatusColor` | `string?` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwAvatar Initials="UI" Alt="Avatar" Size="ComponentSize.Md" />
+```
+
+---
+
+### `TwAvatarGroup`
+
+**Location:** [`Components/UI/TwAvatarGroup.razor`](../Components/UI/TwAvatarGroup.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Avatars` | `List<AvatarItem>` | `new()` | Configures component behavior or styling. |
+| `Max` | `int` | `4` | Configures component behavior or styling. |
+| `Size` | `ComponentSize` | `ComponentSize.Md` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwAvatarGroup Avatars="new()" Max="4" Size="ComponentSize.Md" />
+```
+
+---
+
+### `TwCarousel`
+
+**Location:** [`Components/UI/TwCarousel.razor`](../Components/UI/TwCarousel.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `ActiveIndex` | `int` | `null` | Configures component behavior or styling. |
+| `ActiveIndexChanged` | `EventCallback<int>` | `null` | Configures component behavior or styling. |
+| `AutoCycle` | `bool` | `true` | Configures component behavior or styling. |
+| `IntervalSeconds` | `int` | `4` | Configures component behavior or styling. |
+| `ShowArrows` | `bool` | `true` | Configures component behavior or styling. |
+| `ShowIndicators` | `bool` | `true` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwCarousel AutoCycle="true" IntervalSeconds="4" ShowArrows="true" />
+```
+
+---
+
+### `TwCarouselSlide`
+
+**Location:** [`Components/UI/TwCarouselSlide.razor`](../Components/UI/TwCarouselSlide.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwCarouselSlide>
+    <span>Content</span>
+</TwCarouselSlide>
+```
+
+---
+
+### `TwCommandPalette`
+
+**Location:** [`Components/UI/TwCommandPalette.razor`](../Components/UI/TwCommandPalette.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `IsOpen` | `bool` | `null` | Configures component behavior or styling. |
+| `IsOpenChanged` | `EventCallback<bool>` | `null` | Configures component behavior or styling. |
+| `Items` | `List<CommandPaletteItem>` | `new()` | Configures component behavior or styling. |
+| `OnItemSelected` | `EventCallback<CommandPaletteItem>` | `null` | Configures component behavior or styling. |
+| `Placeholder` | `string` | `"Type a command, component name, or search..."` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwCommandPalette Items="new()" Placeholder="Type a command, component name, or search..." />
+```
+
+---
+
+### `TwCompanyPartyForm`
+
+**Location:** [`Components/UI/TwCompanyPartyForm.razor`](../Components/UI/TwCompanyPartyForm.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Model` | `PartyModel` | `new()` | Configures component behavior or styling. |
+| `Rsvp` | `GuestRsvpModel` | `new()` | Configures component behavior or styling. |
+| `OnPartySaved` | `EventCallback<PartyModel>` | `null` | Configures component behavior or styling. |
+| `OnRsvpSubmitted` | `EventCallback<GuestRsvpModel>` | `null` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwCompanyPartyForm Model="new()" Rsvp="new()" CustomClass="" />
+```
+
+---
+
+### `TwCompanyPlanForm`
+
+**Location:** [`Components/UI/TwCompanyPlanForm.razor`](../Components/UI/TwCompanyPlanForm.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Model` | `CompanyPlanModel` | `new()` | Configures component behavior or styling. |
+| `OnPlanSubmitted` | `EventCallback<CompanyPlanModel>` | `null` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwCompanyPlanForm Model="new()" CustomClass="" />
+```
+
+---
+
+### `TwDocsExplorer`
+
+**Location:** [`Components/UI/TwDocsExplorer.razor`](../Components/UI/TwDocsExplorer.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+This component has no parameters.
+
+#### Razor Usage Example
+
+```razor
+<TwDocsExplorer />
+```
+
+---
+
+### `TwEmployeeAwardForm`
+
+**Location:** [`Components/UI/TwEmployeeAwardForm.razor`](../Components/UI/TwEmployeeAwardForm.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Model` | `EmployeeAwardModel` | `new()` | Configures component behavior or styling. |
+| `OnAwardNominated` | `EventCallback<EmployeeAwardModel>` | `null` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwEmployeeAwardForm Model="new()" CustomClass="" />
+```
+
+---
+
+### `TwFormEngine`
+
+**Location:** [`Components/UI/TwFormEngine.razor`](../Components/UI/TwFormEngine.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Schema` | `FormSchema?` | `null` | Configures component behavior or styling. |
+| `OnSubmit` | `EventCallback<FormSubmissionResult>` | `null` | Configures component behavior or styling. |
+| `OnChange` | `EventCallback<Dictionary<string, object?>>` | `null` | Configures component behavior or styling. |
+| `ShowHeader` | `bool` | `true` | Configures component behavior or styling. |
+| `ShowCardWrapper` | `bool` | `true` | Configures component behavior or styling. |
+| `ReadOnly` | `bool` | `false` | Configures component behavior or styling. |
+| `Class` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwFormEngine ShowHeader="true" ShowCardWrapper="true" Class="" />
+```
+
+---
+
+### `TwFormStudio`
+
+**Location:** [`Components/UI/TwFormStudio.razor`](../Components/UI/TwFormStudio.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+This component has no parameters.
+
+#### Razor Usage Example
+
+```razor
+<TwFormStudio />
+```
+
+---
+
+### `TwProfitLossForm`
+
+**Location:** [`Components/UI/TwProfitLossForm.razor`](../Components/UI/TwProfitLossForm.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Model` | `ProfitLossModel` | `new()` | Configures component behavior or styling. |
+| `OnStatementSaved` | `EventCallback<ProfitLossModel>` | `null` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwProfitLossForm Model="new()" CustomClass="" />
+```
+
+---
+
+### `TwSmartFilter`
+
+**Location:** [`Components/UI/TwSmartFilter.razor`](../Components/UI/TwSmartFilter.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `OnFilterChanged` | `EventCallback<Dictionary<string, string>>` | `null` | Configures component behavior or styling. |
+| `Class` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwSmartFilter Class="" />
+```
+
+---
+
+### `TwSmartPasteButton`
+
+**Location:** [`Components/UI/TwSmartPasteButton.razor`](../Components/UI/TwSmartPasteButton.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `OnApplied` | `EventCallback<Dictionary<string, string>>` | `null` | Configures component behavior or styling. |
+| `Class` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwSmartPasteButton Class="" />
+```
+
+---
+
+### `TwSmartSearch`
+
+**Location:** [`Components/UI/TwSmartSearch.razor`](../Components/UI/TwSmartSearch.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `SearchQuery` | `string` | `""` | Configures component behavior or styling. |
+| `SearchQueryChanged` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `OnSearchSubmitted` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `Placeholder` | `string` | `"Semantic natural language search (e.g. 'high salary engineers in cloud')..."` | Configures component behavior or styling. |
+| `Class` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwSmartSearch SearchQuery="" Placeholder="Semantic natural language search (e.g. 'high salary engineers in cloud')..." Class="" />
+```
+
+---
+
+### `TwSmartTextArea`
+
+**Location:** [`Components/UI/TwSmartTextArea.razor`](../Components/UI/TwSmartTextArea.razor)
+
+Reusable Blazor WebAssembly component styled with Tailwind CSS.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Label` | `string?` | `null` | Configures component behavior or styling. |
+| `Value` | `string` | `"We are thrilled to announce our next-generation WebAssembly architecture which reduces client latency by over 80 percent across all devices."` | Configures component behavior or styling. |
+| `ValueChanged` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `Placeholder` | `string` | `"Start typing and watch smart completions appear..."` | Configures component behavior or styling. |
+| `Rows` | `int` | `4` | Configures component behavior or styling. |
+| `Class` | `string` | `""` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwSmartTextArea Value="We are thrilled to announce our next-generation WebAssembly architecture which reduces client latency by over 80 percent across all devices." Placeholder="Start typing and watch smart completions appear..." Rows="4" />
+```
+
+---
+
+## Overlays & Modals
+
+### `TwPopover`
+
+**Location:** [`Components/UI/TwPopover.razor`](../Components/UI/TwPopover.razor)
+
+Anchored contextual floating popover with arrow pointer, 8-way placement, click or hover triggers, keyboard Escape dismiss, and optional header/footer slots.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string?` | `null` | Optional header title text. |
+| `Placement` | `TwPopoverPlacement` | `TwPopoverPlacement.Bottom` | Placement relative to anchor (Top, Bottom, Left, Right, etc.). |
+| `Trigger` | `TwPopoverTrigger` | `TwPopoverTrigger.Click` | Activation trigger mode (Click, Hover, Manual). |
+| `ShowArrow` | `bool` | `true` | Render pointer arrow pointing to anchor. |
+| `Width` | `string` | `"w-72"` | Flyout container width utility. |
+| `IsOpen` | `bool` | `false` | Two-way bindable open state. |
+
+#### Razor Usage Example
+
+```razor
+<TwPopover Title="Filter Settings" Placement="TwPopoverPlacement.Bottom"><AnchorContent><button class="btn">Filter</button></AnchorContent><ChildContent><p>Options...</p></ChildContent></TwPopover>
+```
+
+---
+
 ## Overlays & Popovers
 
 ### `TwContextMenu`
 
 **Location:** [`Components/UI/TwContextMenu.razor`](../Components/UI/TwContextMenu.razor)
 
-Reusable Blazor WebAssembly component styled with Tailwind CSS.
+Desktop-grade right-click context menu and anchored flyout callout featuring nested submenus, keyboard shortcut badges, icons, and click-outside dismissal.
 
 #### Parameters & Settings
 
@@ -3064,134 +4347,52 @@ Individual accordion panel with smooth height transition and animated chevron.
 
 ---
 
-## AI Chatbot & Reasoning
+## Progress & Steppers
 
-### `TwChatBot`
+### `TwModernProgress`
 
-**Location:** [`Components/UI/TwChatBot.razor`](../Components/UI/TwChatBot.razor)
+**Location:** [`Components/UI/TwModernProgress.razor`](../Components/UI/TwModernProgress.razor)
 
-Intelligent conversational chatbot interface with streaming message bubbles, thinking progress checklists, and code snippet copying.
+Cool modern progress indicators: SVG glowing circular rings, dashboard speedometer arcs, multi-segment capsule pill steppers, neon liquid shimmer, and Apple Fitness style triple concentric activity rings.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `BotName` | `string` | `"NexusAI"` | Configures component behavior or styling. |
-| `SelectedModel` | `string` | `"Gemini 2.0 Flash"` | Configures component behavior or styling. |
-| `ShowCloseButton` | `bool` | `null` | Configures component behavior or styling. |
-| `OnClose` | `EventCallback` | `null` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-| `StarterPrompts` | `IReadOnlyList<StarterPrompt>` | `new List<StarterPrompt>
-    {
-        new("Explain Architecture", "Explain how mobile-first Blazor WASM and TailwindCSS work together with zero FOUC."),
-        new("Generate Code", "Write a reusable C# Blazor component for animated radial progress with Tailwind classes."),
-        new("Deep Reasoning Demo", "Solve a complex algorithm step-by-step with multi-stage reasoning checklist progress."),
-        new("Compare Performance", "Compare Blazor WebAssembly AOT compilation vs JIT performance on mobile phones.")
-    }` | Configures component behavior or styling. |
+| `Type` | `ProgressType` | `ProgressType.RadialRing` | Visual variant: RadialRing, SpeedometerArc, SegmentedCapsule, NeonLiquidGlow, ConcentricMultiRing. |
+| `Value` | `int` | `75` | Primary progress percentage (0-100). |
+| `SecondaryValue` | `int` | `60` | Secondary ring percentage for concentric mode. |
+| `TertiaryValue` | `int` | `92` | Tertiary ring percentage for concentric mode. |
+| `Label` | `string?` | `null` | Text description or phase label. |
+| `PixelSize` | `int` | `110` | Diameter size in pixels for ring/arc modes. |
 
 #### Razor Usage Example
 
 ```razor
-<TwChatBot BotName="NexusAI" SelectedModel="Gemini 2.0 Flash" StarterPrompts="new List<StarterPrompt>
-    {
-        new(Explain Architecture, Explain how mobile-first Blazor WASM and TailwindCSS work together with zero FOUC.),
-        new(Generate Code, Write a reusable C# Blazor component for animated radial progress with Tailwind classes.),
-        new(Deep Reasoning Demo, Solve a complex algorithm step-by-step with multi-stage reasoning checklist progress.),
-        new(Compare Performance, Compare Blazor WebAssembly AOT compilation vs JIT performance on mobile phones.)
-    }" />
+<TwModernProgress Type="TwModernProgress.ProgressType.RadialRing" Value="75" Label="Done" />
 ```
 
 ---
 
-### `TwChatWidget`
+## Security & Compliance
 
-**Location:** [`Components/UI/TwChatWidget.razor`](../Components/UI/TwChatWidget.razor)
+### `TwMfaAuthSuite`
 
-Floating launcher button that expands into an interactive AI assistant window (or bottom sheet on mobile).
+**Location:** [`Components/UI/TwMfaAuthSuite.razor`](../Components/UI/TwMfaAuthSuite.razor)
 
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `BotName` | `string` | `"NexusAI"` | Configures component behavior or styling. |
-| `SelectedModel` | `string` | `"Gemini 2.0 Flash"` | Configures component behavior or styling. |
-| `PositionClass` | `string` | `"bottom-20 sm:bottom-6 right-4 sm:right-6"` | Configures component behavior or styling. |
-
-#### Razor Usage Example
-
-```razor
-<TwChatWidget BotName="NexusAI" SelectedModel="Gemini 2.0 Flash" PositionClass="bottom-20 sm:bottom-6 right-4 sm:right-6" />
-```
-
----
-
-### `TwAiReasoningProgress`
-
-**Location:** [`Components/UI/TwAiReasoningProgress.razor`](../Components/UI/TwAiReasoningProgress.razor)
-
-Multi-phase thinking checklist component displaying animated progress indicators during AI reasoning tasks.
+Enterprise-grade multi-factor authentication suite supporting TOTP authenticator app QR setup, SMS/Email 6-digit OTP with auto-advancing segmented inputs, FIDO2 / WebAuthn biometric passkeys, and single-use emergency recovery codes.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `IsThinking` | `bool` | `true` | Configures component behavior or styling. |
-| `DurationSeconds` | `double` | `2.4` | Configures component behavior or styling. |
-| `ThinkingLabel` | `string` | `"Reasoning step-by-step..."` | Configures component behavior or styling. |
-| `ReasoningText` | `string?` | `null` | Configures component behavior or styling. |
-| `Steps` | `IReadOnlyList<ReasoningStep>?` | `null` | Configures component behavior or styling. |
-| `DefaultExpanded` | `bool` | `null` | Configures component behavior or styling. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Class` | `string?` | `null` | Custom Tailwind CSS classes. |
+| `OnEnrollmentChanged` | `EventCallback<bool>` | `null` | Callback fired when user enrolls or updates 2FA status. |
 
 #### Razor Usage Example
 
 ```razor
-<TwAiReasoningProgress IsThinking="true" DurationSeconds="2.4" ThinkingLabel="Reasoning step-by-step..." />
-```
-
----
-
-### `TwAguiFormCanvas`
-
-**Location:** [`Components/UI/TwAguiFormCanvas.razor`](../Components/UI/TwAguiFormCanvas.razor)
-
-Adaptive Generative UI (AG-UI) form engine compiling dynamic fields (inputs, textareas, sliders, toggles, selects, radio groups, date pickers) from an `AguiFormSchema` with real-time conditional branching, AI confidence chips, two-way diff tracking, and Human-in-the-Loop (HITL) approval gates.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Schema` | `AguiFormSchema?` | `null` | The synthesized AG-UI form definition containing fields, initial values, risk tier, and agent attribution. |
-| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
-| `OnSubmit` | `EventCallback<AguiFormSubmission>` | `null` | Event callback triggered when the human reviewer approves the form; delivers type-safe parameter payload. |
-| `OnCancel` | `EventCallback<string>` | `null` | Event callback triggered when the form is dismissed or rejected. |
-
-#### Razor Usage Example
-
-```razor
-<TwAguiFormCanvas Schema="@formSchema" 
-                  OnSubmit="HandleApproval" 
-                  OnCancel="HandleRejection" />
-```
-
----
-
-### `TwPwaInstallButton`
-
-**Location:** [`Components/UI/TwPwaInstallButton.razor`](../Components/UI/TwPwaInstallButton.razor)
-
-Progressive Web App (PWA) 1-click install button and standalone status indicator. Automatically captures the browser's `beforeinstallprompt` event and opens an interactive cross-platform guide modal for browsers without native prompt support (like iOS Safari).
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string` | `""` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwPwaInstallButton />
+<TwMfaAuthSuite OnEnrollmentChanged="(isEnrolled) => { /* Handle state */ }" />
 ```
 
 ---
@@ -3351,6 +4552,10 @@ Dismissible inline feedback alert with semantic variants (Success, Warning, Dang
 
 Fixed container managing reactive floating toast alert notifications.
 
+#### Parameters & Settings
+
+This component has no parameters.
+
 #### Razor Usage Example
 
 ```razor
@@ -3359,361 +4564,586 @@ Fixed container managing reactive floating toast alert notifications.
 
 ---
 
-## 🚀 Roadmap Innovations & Morale Suite (v0.1.0 Quick Wins)
-
-### `TwPrizeWheel`
-
-**Location:** [`Components/UI/TwPrizeWheel.razor`](../Components/UI/TwPrizeWheel.razor)
-
-Interactive SVG spinning fortune wheel designed for agile team sprint retrospectives, all-hands town halls, and team morale prize giveaways. Features cubic-bezier deceleration physics, audio tick sound effects, confetti particle bursts, and customizable prize sectors.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Prizes` | `List<TwPrizeWheel.PrizeItem>?` | `Default 8 Prizes` | Sectors with titles, emojis, colors, and descriptions. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-| `OnPrizeWon` | `EventCallback<TwPrizeWheel.PrizeItem>` | `null` | Fired when the wheel finishes spinning and lands on a slice. |
-
-#### Razor Usage Example
-
-```razor
-<TwPrizeWheel OnPrizeWon="HandlePrizeWon" />
-
-@code {
-    private void HandlePrizeWon(TwPrizeWheel.PrizeItem prize)
-    {
-        Console.WriteLine($"Winner! {prize.Emoji} {prize.Title}");
-    }
-}
-```
-
----
-
-### `TwCelebrationEditor`
-
-**Location:** [`Components/UI/TwCelebrationEditor.razor`](../Components/UI/TwCelebrationEditor.razor)
-
-Visual particle physics calibration sandbox. Lets developers and designers adjust confetti count, blast velocity, spread angle, gravity decay, and particle shapes (ribbons, sparkles, stars, balloons, coins) live in HTML5 Canvas, with 1-click Razor markup and C# trigger code export.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwCelebrationEditor />
-```
-
----
-
-### `TwRewardsCenter`
-
-**Location:** [`Components/UI/TwRewardsCenter.razor`](../Components/UI/TwRewardsCenter.razor)
-
-Employee perks & recognition marketplace. Displays points wallet balance, multi-category filtering (All, Tech, Food, Wellness, Time Off, Learning), instant search, and a digital voucher modal with verification codes and barcode display upon redemption.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `InitialBalance` | `int` | `1250` | Initial employee points balance. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-| `OnVoucherRedeemed` | `EventCallback<TwRewardsCenter.RewardOffer>` | `null` | Event callback triggered when an employee claims an award. |
-
-#### Razor Usage Example
-
-```razor
-<TwRewardsCenter InitialBalance="1500" OnVoucherRedeemed="HandleRedeem" />
-```
-
----
-
-### `TwMfaAuthSuite`
-
-**Location:** [`Components/UI/TwMfaAuthSuite.razor`](../Components/UI/TwMfaAuthSuite.razor)
-
-Enterprise-grade Zero-Trust Multi-Factor Authentication enrollment and verification suite. Supports:
-1. **TOTP Authenticator Apps**: Dynamic vector QR code generation, secret key manual entry, and auto-focus 6-digit verification code.
-2. **SMS / Email OTP**: One-time passcode dispatch simulation with resend cooldown timer.
-3. **Passkeys / FIDO2**: Biometric WebAuthn (Touch ID, Windows Hello, YubiKey) enrollment flow.
-4. **Emergency Recovery Codes**: 8 single-use cryptographically strong backup codes with copy-to-clipboard and text download.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `UserEmail` | `string` | `"alex.chen@enterprise.io"` | Target user identity displayed in enrollment QR codes. |
-| `Issuer` | `string` | `"Enterprise Cloud"` | Service name displayed inside authenticator apps. |
-| `SecretKey` | `string` | `"JBSWY3DPEHPK3PXP"` | Base32 TOTP secret key seed. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwMfaAuthSuite UserEmail="dev@company.com" Issuer="Acme Platform" />
-```
-
----
-
-### `TwMediaRecorder`
-
-**Location:** [`Components/UI/TwMediaRecorder.razor`](../Components/UI/TwMediaRecorder.razor)
-
-Native browser media recording studio with real-time SVG frequency waveform visualizer and VU meters. Supports voice memo audio recording and camera video standups with live timer, pause/resume, playback review, and file download exporter.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwMediaRecorder />
-```
-
----
-
-### `TwScrollCraft`
-
-**Location:** [`Components/UI/TwScrollCraft.razor`](../Components/UI/TwScrollCraft.razor)
-
-Viewport-driven object animation scrubber with multi-layer ambient parallax depth, focal transformations, and kinetic scrub tracks. Links graphic state and scale smoothly to step progress without heavy external JavaScript animation libraries.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string` | `"Interactive Lifecycle Scrubber"` | Component header title. |
-| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwScrollCraft Title="Agentic AI Execution Lifecycle" />
-```
-
----
-
-## Form / PDF OCR & Check MICR Detection
-
-### `TwMicrCheckReader`
-
-**Location:** [`Components/UI/TwMicrCheckReader.razor`](../Components/UI/TwMicrCheckReader.razor)
-
-Production-ready Check 21 Remote Deposit Capture (RDC) paper check & bank draft reader powered by 100% local, offline Tesseract WebAssembly (`wwwroot/lib/tesseract/` — zero CDN dependencies). Features ANSI X9.27 / ISO 1004 E-13B magnetic ink clear band decoding, universal Federal Reserve Modulus-10 routing checksum validation with auto-correction, 150+ verified NACHA Bank Routing Directory lookup across all 12 Federal Reserve Districts, and ChoETL.NACHA-compliant 94-character fixed-width ACH batch file generation (`.ach`).
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string` | `""` | Additional Tailwind CSS classes. |
-| `OnCheckScanned` | `EventCallback<CheckDraftOcrResult>` | `null` | Fired when check OCR extraction completes. |
-| `OnInsertMarkdown` | `EventCallback<string>` | `null` | Fired when check ledger Markdown table is exported. |
-| `OnDepositApproved` | `EventCallback<CheckDraftOcrResult>` | `null` | Fired when remote deposit capture (RDC) is approved and cleared. |
-| `OnNachaExported` | `EventCallback<string>` | `null` | Fired when 94-character fixed-width NACHA ACH batch file (`.ach`) is exported. |
-| `OnJsonExported` | `EventCallback<string>` | `null` | Fired when Check 21 structured JSON payload is exported. |
-
-#### Razor Usage Example
-
-```razor
-<TwMicrCheckReader OnCheckScanned="HandleCheckScanned"
-                   OnDepositApproved="HandleDepositApproved"
-                   OnNachaExported="HandleNachaExported"
-                   OnJsonExported="HandleJsonExported" />
-```
-
----
-
-### `TwDocumentOcrStudio`
-
-**Location:** [`Components/UI/TwDocumentOcrStudio.razor`](../Components/UI/TwDocumentOcrStudio.razor)
-
-Full-featured Form & PDF OCR Studio supporting paper checks, official bank drafts, commercial invoices, and IRS Form W-9 with real-time spatial bounding boxes, confidence badges, structured key-value extraction, and 1-click Markdown table generation.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string` | `""` | Additional Tailwind CSS classes. |
-| `OnMarkdownExtracted` | `EventCallback<string>` | `null` | Fired when the extracted Markdown table is copied or exported. |
-
-#### Razor Usage Example
-
-```razor
-<TwDocumentOcrStudio OnMarkdownExtracted="HandleMarkdownExtracted" />
-```
-
----
+## Smart Components
 
 ### `TwSmartOcrButton`
 
 **Location:** [`Components/UI/TwSmartOcrButton.razor`](../Components/UI/TwSmartOcrButton.razor)
 
-Drop-in Smart Component button that triggers instant client-side OCR for paper checks (MICR E-13B), commercial invoices, and tax forms, returning typed entity mappings directly into forms or editors.
+Drop-in Smart Component button that triggers instant client-side OCR for paper checks, invoices, and PDF forms.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Class` | `string` | `""` | Additional Tailwind CSS classes. |
+| `Class` | `string` | `""` | Optional CSS classes. |
 | `OnDocumentScanned` | `EventCallback<DocumentOcrResult>` | `null` | Fired when a document is scanned and entities are extracted. |
 | `OnCheckScanned` | `EventCallback<CheckDraftOcrResult>` | `null` | Fired when a paper check or bank draft is scanned. |
 
 #### Razor Usage Example
 
 ```razor
-<TwSmartOcrButton OnDocumentScanned="HandleDocumentScanned" OnCheckScanned="HandleCheckScanned" />
+<TwSmartOcrButton OnDocumentScanned="HandleDoc" OnCheckScanned="HandleCheck" />
 ```
 
 ---
 
-### `TwChatStudio`
+## Task-Purpose Enterprise Forms
 
-**Location:** [`Components/UI/TwChatStudio.razor`](../Components/UI/TwChatStudio.razor)
+### `TwUserRegistrationForm`
 
-Full-featured modern conversational AI chat studio featuring auto-growing multiline composer, staged file attachment preview chips, quick reply suggestion pills, feedback reactions (thumbs up/down), copy to clipboard, and live harmonic typing status.
+**Location:** [`Components/UI/TwUserRegistrationForm.razor`](../Components/UI/TwUserRegistrationForm.razor)
+
+Turnkey enterprise user registration form featuring full name, username, corporate email, role selector, real-time password strength meter, terms consent, and federated SSO options.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string` | `"AI Enterprise Studio"` | Chat studio header title. |
-| `ModelBadge` | `string` | `".NET 10+ WASM"` | Model identification badge text. |
-| `StatusSubtitle` | `string` | `"Active • Ready for enterprise workloads"` | Subtitle status text. |
-| `Messages` | `List<ChatMessage>` | `new()` | Chronological chat message stream. |
-| `Suggestions` | `List<string>` | `new()` | Quick reply suggestion chips above composer. |
-| `IsTyping` | `bool` | `false` | Whether the harmonic typing indicator is active. |
-| `TypingStatusText` | `string` | `"AI is thinking..."` | Status message displayed next to typing dots. |
-| `OnMessageSent` | `EventCallback<ChatMessage>` | `-` | Fired when a prompt is sent with staged attachments. |
-| `OnRegenerate` | `EventCallback<ChatMessage>` | `-` | Fired when prompt regeneration is requested. |
+| `Title` | `string` | `"Create Your Account"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Deploy enterprise WebAssembly apps with instant Tailwind CSS parity"` | Header title or accessible label. |
+| `ShowSocialLogins` | `bool` | `true` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnRegistered` | `EventCallback<RegistrationModel>` | `null` | Configures component behavior or styling. |
+| `OnSsoRequested` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwChatStudio Title="Copilot Workspace"
-              ModelBadge=".NET 10+ WASM"
-              Messages="_messages"
-              Suggestions="_prompts"
-              IsTyping="_isThinking"
-              OnMessageSent="HandleSend"
-              OnRegenerate="HandleRegen" />
+<TwUserRegistrationForm Title="Create Your Account" Subtitle="Deploy enterprise WebAssembly apps with instant Tailwind CSS parity" ShowSocialLogins="true" />
 ```
 
 ---
 
-### `TwPopover`
+### `TwUserEditForm`
 
-**Location:** [`Components/UI/TwPopover.razor`](../Components/UI/TwPopover.razor)
+**Location:** [`Components/UI/TwUserEditForm.razor`](../Components/UI/TwUserEditForm.razor)
 
-Anchored contextual floating popover with directional pointer arrow, 8-way placement (`Top`, `Bottom`, `Left`, `Right`, `TopStart`, `TopEnd`, etc.), click or hover triggers, keyboard Escape dismiss, and optional header/footer slots.
+Comprehensive profile and security management form featuring interactive avatar selection, corporate role attributes, 2FA toggle, session management, and audited account deactivation.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Title` | `string?` | `null` | Optional header title text. |
-| `Placement` | `TwPopoverPlacement` | `TwPopoverPlacement.Bottom` | Placement relative to anchor. |
-| `Trigger` | `TwPopoverTrigger` | `TwPopoverTrigger.Click` | Activation trigger mode (Click, Hover, Manual). |
-| `ShowArrow` | `bool` | `true` | Render pointer arrow pointing to anchor. |
-| `Width` | `string` | `"w-72"` | Flyout container width utility. |
-| `IsOpen` | `bool` | `false` | Two-way bindable open state (`@bind-IsOpen`). |
+| `Model` | `UserProfileModel?` | `null` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnSaved` | `EventCallback<UserProfileModel>` | `null` | Configures component behavior or styling. |
+| `OnDeactivate` | `EventCallback` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwPopover Title="Display Filters" Placement="TwPopoverPlacement.Bottom" @bind-IsOpen="_isOpen">
-    <AnchorContent>
-        <button class="btn">Configure Metrics</button>
-    </AnchorContent>
-    <ChildContent>
-        <p>Telemetry settings...</p>
-    </ChildContent>
-</TwPopover>
+<TwUserEditForm CustomClass="" />
 ```
 
 ---
 
-### `TwSnackbar`
+### `TwLoginForm`
 
-**Location:** [`Components/UI/TwSnackbar.razor`](../Components/UI/TwSnackbar.razor)
+**Location:** [`Components/UI/TwLoginForm.razor`](../Components/UI/TwLoginForm.razor)
 
-Actionable bottom floating notification snackbar with action trigger callback, animated progress auto-dismiss countdown bar, pause on hover, and semantic color variants.
+Split-screen enterprise authentication form featuring curated Unsplash architectural imagery, inspiring technical quotes, federated SSO buttons, password visibility toggle, and remember-me persistence.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Message` | `string` | `""` | Notification message text. |
-| `ActionText` | `string?` | `null` | Optional action button label (e.g. Undo, Retry). |
-| `DurationMs` | `int` | `4000` | Auto-dismiss duration in ms (0 for persistent). |
-| `ShowProgress` | `bool` | `true` | Whether to render the animated countdown progress bar. |
-| `Variant` | `SemanticVariant` | `SemanticVariant.Default` | Color theme (Default, Success, Warning, Danger, Info). |
-| `Position` | `TwSnackbarPosition` | `TwSnackbarPosition.BottomCenter` | Viewport anchoring position. |
-| `OnAction` | `EventCallback` | `-` | Fired when the action button is clicked. |
+| `Title` | `string` | `"Sign in to Enterprise Hub"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Access mission-critical dashboards, design tokens, and components"` | Header title or accessible label. |
+| `ImageUrl` | `string` | `"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80"` | Configures component behavior or styling. |
+| `QuoteText` | `string` | `"Simplicity is prerequisite for reliability."` | Configures component behavior or styling. |
+| `QuoteAuthor` | `string` | `"Edsger W. Dijkstra"` | Configures component behavior or styling. |
+| `QuoteCitation` | `string` | `"Turing Award Laureate"` | Configures component behavior or styling. |
+| `ShowSocialLogins` | `bool` | `true` | Configures component behavior or styling. |
+| `AllowRememberMe` | `bool` | `true` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnLogin` | `EventCallback<LoginCredentials>` | `null` | Configures component behavior or styling. |
+| `OnSsoLogin` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `OnForgotPassword` | `EventCallback` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwSnackbar Message="File moved to trash" ActionText="Undo" Variant="SemanticVariant.Default" @bind-IsOpen="_showSnack" OnAction="HandleUndo" />
+<TwLoginForm Title="Sign in to Enterprise Hub" Subtitle="Access mission-critical dashboards, design tokens, and components" ImageUrl="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80" />
 ```
 
 ---
 
-### `TwPickList<TItem>`
+### `TwTermsOfUseForm`
 
-**Location:** [`Components/UI/TwPickList.razor`](../Components/UI/TwPickList.razor)
+**Location:** [`Components/UI/TwTermsOfUseForm.razor`](../Components/UI/TwTermsOfUseForm.razor)
 
-Dual-listbox item transfer picker with instant dual-list search filtering, move selected/all transfer actions, target list reordering, and item count badges.
+Executive legal terms agreement viewer with section jump pills, PDF export, review progress tracking, signatory name/company binding, and tamper-evident SHA-256 hash stamp.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Source` | `IEnumerable<TItem>?` | `null` | Source available items collection. |
-| `Target` | `IList<TItem>` | `new List<TItem>()` | Selected target items collection (`@bind-Target`). |
-| `SourceTitle` | `string` | `"Available Items"` | Left panel header title. |
-| `TargetTitle` | `string` | `"Selected Items"` | Right panel header title. |
-| `AllowFiltering` | `bool` | `true` | Show real-time filter search input on both lists. |
-| `ShowMoveAll` | `bool` | `true` | Show transfer all (`>>` and `<<`) buttons. |
-| `ShowReorder` | `bool` | `true` | Show up/down reorder buttons in target list. |
-| `Height` | `string` | `"h-72"` | Height utility for list scroll containers. |
-| `OnTransfer` | `EventCallback<List<TItem>>` | `-` | Fired when items are moved between lists. |
+| `Title` | `string` | `"Enterprise Terms of Service"` | Header title or accessible label. |
+| `Version` | `string` | `"v3.2"` | Configures component behavior or styling. |
+| `LastUpdated` | `string` | `"October 2026"` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnAccepted` | `EventCallback<TermsAcceptanceModel>` | `null` | Configures component behavior or styling. |
+| `OnDeclined` | `EventCallback` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwPickList TItem="string" Source="_roles" @bind-Target="_assigned" SourceTitle="Roles" TargetTitle="Assigned" />
+<TwTermsOfUseForm Title="Enterprise Terms of Service" Version="v3.2" LastUpdated="October 2026" />
 ```
 
 ---
 
-### `TwTimeSpanPicker`
+### `TwCookieConsent`
 
-**Location:** [`Components/UI/TwTimeSpanPicker.razor`](../Components/UI/TwTimeSpanPicker.razor)
+**Location:** [`Components/UI/TwCookieConsent.razor`](../Components/UI/TwCookieConsent.razor)
 
-Structured duration and timespan picker with Days, Hours, Minutes, Seconds input blocks, step increments, reset trigger, and quick preset duration pills.
+GDPR and CCPA compliant cookie preference manager featuring strictly necessary lock, customizable functional/telemetry/marketing toggles, and instant preferences persistence.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Value` | `TimeSpan` | `TimeSpan.Zero` | Two-way bindable duration value (`@bind-Value`). |
-| `Label` | `string?` | `null` | Optional form label. |
-| `AllowDays` | `bool` | `true` | Whether to show the Days stepper unit. |
-| `AllowSeconds` | `bool` | `true` | Whether to show the Seconds stepper unit. |
-| `ShowPresets` | `bool` | `true` | Show quick duration preset buttons (15m, 1h, 1d, etc.). |
-| `ShowReset` | `bool` | `true` | Show zero-reset button. |
+| `Title` | `string` | `"Enterprise Cookie & Privacy Settings"` | Header title or accessible label. |
+| `Description` | `string` | `"We use minimal first-party cookies to secure user sessions, maintain UI state, and measure performance latency. We never sell your personal data."` | Secondary descriptive caption. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnSaved` | `EventCallback<CookiePreferencesModel>` | `null` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwTimeSpanPicker Label="SLA Duration" @bind-Value="_sla" ShowPresets="true" />
+<TwCookieConsent Title="Enterprise Cookie & Privacy Settings" Description="We use minimal first-party cookies to secure user sessions, maintain UI state, and measure performance latency. We never sell your personal data." CustomClass="" />
+```
+
+---
+
+### `TwPrivacyPolicyForm`
+
+**Location:** [`Components/UI/TwPrivacyPolicyForm.razor`](../Components/UI/TwPrivacyPolicyForm.razor)
+
+Enterprise privacy charter featuring zero-CDN data guarantees and an automated self-service Data Subject Request (DSR) portal for machine-readable JSON/ZIP exports and audited account erasure.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Enterprise Privacy & Data Governance"` | Header title or accessible label. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnExportRequested` | `EventCallback<string>` | `null` | Configures component behavior or styling. |
+| `OnErasureRequested` | `EventCallback` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwPrivacyPolicyForm Title="Enterprise Privacy & Data Governance" CustomClass="" />
+```
+
+---
+
+### `TwAboutMissionForm`
+
+**Location:** [`Components/UI/TwAboutMissionForm.razor`](../Components/UI/TwAboutMissionForm.razor)
+
+Enterprise vision and architectural charter banner with live performance metrics, engineering pillars, leadership team cards, and an interactive executive consultation inquiry form.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `MissionHeading` | `string` | `"Empowering Modern Enterprises with Zero-Latency Blazor UI"` | Configures component behavior or styling. |
+| `MissionStatement` | `string` | `"Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry."` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnInquirySubmitted` | `EventCallback<ContactInquiryModel>` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwAboutMissionForm MissionHeading="Empowering Modern Enterprises with Zero-Latency Blazor UI" MissionStatement="Our mission is to build the world's most performant, secure, and developer-delightful component library for .NET 10+ WebAssembly, bridging modern Tailwind CSS agility with enterprise-grade reliability and zero third-party telemetry." CustomClass="" />
+```
+
+---
+
+### `TwPledgeForm`
+
+**Location:** [`Components/UI/TwPledgeForm.razor`](../Components/UI/TwPledgeForm.razor)
+
+Official Code of Conduct, security compliance, and supply chain integrity pledge form with three sworn adherence principles, signatory details, and digital signature capture.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Title` | `string` | `"Enterprise Engineering & Ethics Pledge"` | Header title or accessible label. |
+| `Subtitle` | `string` | `"Legally affirmed compliance with software supply chain integrity and responsible AI"` | Header title or accessible label. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnPledgeAffirmed` | `EventCallback<PledgeModel>` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwPledgeForm Title="Enterprise Engineering & Ethics Pledge" Subtitle="Legally affirmed compliance with software supply chain integrity and responsible AI" CustomClass="" />
+```
+
+---
+
+## Theme & Palette Customization
+
+### `ThemeProvider`
+
+**Location:** [`Components/Theme/ThemeProvider.razor`](../Components/Theme/ThemeProvider.razor)
+
+Cascading state provider managing light, dark, and system color mode preferences with localStorage synchronization and zero-FOUC initialization.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+
+#### Razor Usage Example
+
+```razor
+<ThemeProvider>
+    <span>Content</span>
+</ThemeProvider>
+```
+
+---
+
+### `ThemeSwitcher`
+
+**Location:** [`Components/Theme/ThemeSwitcher.razor`](../Components/Theme/ThemeSwitcher.razor)
+
+Segmented mode selector with accent swatches for quick switching between Light, Dark, and OS System appearance.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Compact` | `bool` | `null` | Configures component behavior or styling. |
+| `ShowAccentPicker` | `bool` | `true` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<ThemeSwitcher ShowAccentPicker="true" />
+```
+
+---
+
+### `TwThemeSelector`
+
+**Location:** [`Components/Theme/TwThemeSelector.razor`](../Components/Theme/TwThemeSelector.razor)
+
+Modern comprehensive color dropdown selector featuring preset palette swatches and 16M+ custom hex color picker integration.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Compact` | `bool` | `null` | Configures component behavior or styling. |
+| `Alignment` | `string` | `"right"` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwThemeSelector Alignment="right" />
+```
+
+---
+
+### `TwThemeSwitcher`
+
+**Location:** [`Components/Theme/TwThemeSwitcher.razor`](../Components/Theme/TwThemeSwitcher.razor)
+
+Compact pill switcher for toggling between dark, light, and system themes.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Compact` | `bool` | `null` | Configures component behavior or styling. |
+| `ShowAccentPicker` | `bool` | `true` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwThemeSwitcher ShowAccentPicker="true" />
+```
+
+---
+
+### `TwColorPicker`
+
+**Location:** [`Components/UI/TwColorPicker.razor`](../Components/UI/TwColorPicker.razor)
+
+Interactive 16M+ hex and RGB color picker with preview swatch, hex validation, and opacity support.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `string` | `"#6366f1"` | Primary data value or two-way bound model property. |
+| `ValueChanged` | `EventCallback<string>` | `null` | Callback invoked when state changes or item is selected. |
+| `Label` | `string?` | `"Pick Accent Color"` | Configures component behavior or styling. |
+| `ShowValueBadge` | `bool` | `true` | Primary data value or two-way bound model property. |
+| `AllowCustom` | `bool` | `true` | Configures component behavior or styling. |
+| `ShowCopy` | `bool` | `true` | Configures component behavior or styling. |
+| `Inline` | `bool` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwColorPicker Value="#6366f1" Label="Pick Accent Color" ShowValueBadge="true" />
+```
+
+---
+
+## Typography & Utilities
+
+### `TwHighlight`
+
+**Location:** [`Components/UI/TwHighlight.razor`](../Components/UI/TwHighlight.razor)
+
+Fast text search highlighter supporting case-sensitive matching, whole-word boundaries, match count badges, and Next/Prev navigation.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Text` | `string` | `""` | Full body text to search. |
+| `SearchText` | `string` | `""` | Query term to highlight. |
+| `CaseSensitive` | `bool` | `false` | Whether search matches exact case. |
+| `WholeWord` | `bool` | `false` | Match entire words only. |
+| `ActiveIndex` | `int` | `0` | Index of currently focused active match. |
+| `ShowNavigation` | `bool` | `true` | Displays Next/Prev navigation bar with match count. |
+
+#### Razor Usage Example
+
+```razor
+<TwHighlight Text="@body" SearchText="@query" ShowNavigation="true" />
+```
+
+---
+
+## Typography, Badges & Keys
+
+### `TwPill`
+
+**Location:** [`Components/UI/TwPill.razor`](../Components/UI/TwPill.razor)
+
+Modern pill badge supporting glowing pulse dots, mini avatars, counter badges, dismissible close buttons, and semantic variants (Soft, Solid, Outline, Glow).
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Text` | `string?` | `null` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Variant` | `string` | `"Soft"` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
+| `Color` | `string` | `"Brand"` | Configures component behavior or styling. |
+| `Size` | `string` | `"md"` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `ShowDot` | `bool` | `false` | Configures component behavior or styling. |
+| `PulseDot` | `bool` | `false` | Configures component behavior or styling. |
+| `AvatarUrl` | `string?` | `null` | Configures component behavior or styling. |
+| `Icon` | `string?` | `null` | Configures component behavior or styling. |
+| `Count` | `int?` | `null` | Configures component behavior or styling. |
+| `Removable` | `bool` | `false` | Configures component behavior or styling. |
+| `Clickable` | `bool` | `false` | Configures component behavior or styling. |
+| `Selected` | `bool` | `false` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `OnClick` | `EventCallback` | `null` | Callback invoked when state changes or item is selected. |
+| `OnDismiss` | `EventCallback` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwPill Variant="Soft" Color="Brand" Size="md" />
+```
+
+---
+
+### `TwPillGroup`
+
+**Location:** [`Components/UI/TwPillGroup.razor`](../Components/UI/TwPillGroup.razor)
+
+Segmented pill filter collection for single or multi-select filtering with smooth active transitions.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Items` | `List<PillItem>` | `new()` | Configures component behavior or styling. |
+| `SelectedValues` | `List<string>` | `new()` | Primary data value or two-way bound model property. |
+| `SelectedValuesChanged` | `EventCallback<List<string>>` | `null` | Callback invoked when state changes or item is selected. |
+| `MultiSelect` | `bool` | `false` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+
+#### Razor Usage Example
+
+```razor
+<TwPillGroup Items="new()" SelectedValues="new()" CustomClass="" />
+```
+
+---
+
+### `TwBadge`
+
+**Location:** [`Components/UI/TwBadge.razor`](../Components/UI/TwBadge.razor)
+
+Status and counter badge supporting semantic colors (Primary, Success, Warning, Danger, Info), rounded pill styling, and optional pulsing status dots.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Variant` | `SemanticVariant` | `SemanticVariant.Default` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
+| `ShowDot` | `bool` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwBadge Variant="SemanticVariant.Default" />
+```
+
+---
+
+### `TwNotificationBadge`
+
+**Location:** [`Components/UI/TwNotificationBadge.razor`](../Components/UI/TwNotificationBadge.razor)
+
+Floating count badge designed to overlay icons or avatars for unread alerts and incoming message counters.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Visible` | `bool` | `true` | Configures component behavior or styling. |
+| `DotOnly` | `bool` | `null` | Configures component behavior or styling. |
+| `ShowPing` | `bool` | `null` | Configures component behavior or styling. |
+| `Count` | `int` | `null` | Configures component behavior or styling. |
+| `MaxCount` | `int` | `99` | Configures component behavior or styling. |
+| `Variant` | `SemanticVariant` | `SemanticVariant.Danger` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
+| `Placement` | `BadgePlacement` | `BadgePlacement.TopRight` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwNotificationBadge Visible="true" MaxCount="99" Variant="SemanticVariant.Danger" />
+```
+
+---
+
+### `TwChip`
+
+**Location:** [`Components/UI/TwChip.razor`](../Components/UI/TwChip.razor)
+
+Interactive tag chip with optional leading icon, selectable toggle state, and dismissible close button.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Text` | `string?` | `null` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `LeadingIcon` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `AvatarContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `Variant` | `SemanticVariant` | `SemanticVariant.Default` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
+| `Size` | `ComponentSize` | `ComponentSize.Sm` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `Outlined` | `bool` | `null` | Configures component behavior or styling. |
+| `Selectable` | `bool` | `null` | Configures component behavior or styling. |
+| `Selected` | `bool` | `null` | Configures component behavior or styling. |
+| `SelectedChanged` | `EventCallback<bool>` | `null` | Callback invoked when state changes or item is selected. |
+| `Removable` | `bool` | `null` | Configures component behavior or styling. |
+| `OnRemove` | `EventCallback` | `null` | Configures component behavior or styling. |
+| `OnClick` | `EventCallback` | `null` | Callback invoked when state changes or item is selected. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwChip Variant="SemanticVariant.Default" Size="ComponentSize.Sm" />
+```
+
+---
+
+### `TwChipGroup`
+
+**Location:** [`Components/UI/TwChipGroup.razor`](../Components/UI/TwChipGroup.razor)
+
+Container for managing groups of filter chips with single-select or multi-select modes.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwChipGroup>
+    <span>Content</span>
+</TwChipGroup>
+```
+
+---
+
+### `TwKbd`
+
+**Location:** [`Components/UI/TwKbd.razor`](../Components/UI/TwKbd.razor)
+
+3D-embossed tactile keyboard shortcut badge with automatic modifier symbol mapping (⌘, ⌥, ⇧, ⌃, ↵, ⎋, ←, →).
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Key` | `string?` | `null` | Configures component behavior or styling. |
+| `Size` | `string` | `"md"` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `Variant` | `string` | `"default"` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
+| `Tooltip` | `string?` | `null` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwKbd Size="md" Variant="default" />
+```
+
+---
+
+### `TwDivider`
+
+**Location:** [`Components/UI/TwDivider.razor`](../Components/UI/TwDivider.razor)
+
+Subtle horizontal or vertical divider with optional centered text or icon badge.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Text` | `string?` | `null` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwDivider>
+    <span>Content</span>
+</TwDivider>
 ```
 
 ---
@@ -3728,42 +5158,243 @@ On-screen virtual keyboard for kiosks, touch displays, POS terminals, and anti-k
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Value` | `string` | `""` | Two-way bindable typed text/PIN value (`@bind-Value`). |
+| `Value` | `string` | `""` | Two-way bindable typed text/PIN value. |
 | `Mode` | `VirtualKeyboardMode` | `VirtualKeyboardMode.Qwerty` | Key layout mode (Qwerty, Numeric, Pin). |
 | `IsPassword` | `bool` | `false` | Mask display output with bullet points. |
 | `ShowDisplay` | `bool` | `true` | Show top value display bar with clear button. |
 | `AllowModeSwitch` | `bool` | `true` | Show mode switcher tabs. |
-| `MaxLength` | `int?` | `null` | Optional maximum character length. |
 | `OnSubmit` | `EventCallback` | `-` | Callback invoked when Enter / Submit key is pressed. |
 
 #### Razor Usage Example
 
 ```razor
-<TwVirtualKeyboard @bind-Value="_enteredPin" Mode="TwVirtualKeyboard.VirtualKeyboardMode.Pin" IsPassword="true" OnSubmit="HandlePinSubmit" />
+<TwVirtualKeyboard @bind-Value="_enteredPin" Mode="VirtualKeyboardMode.Pin" IsPassword="true" OnSubmit="HandlePinSubmit" />
 ```
 
 ---
 
-### `TwFileManager`
+## Visualizations & Gauges
 
-**Location:** [`Components/UI/TwFileManager.razor`](../Components/UI/TwFileManager.razor)
+### `TwSparkline`
 
-Enterprise cloud and asset file manager with folder tree navigation, breadcrumbs, grid/table view modes, search, storage quota meter, and upload/delete actions.
+**Location:** [`Components/UI/TwSparkline.razor`](../Components/UI/TwSparkline.razor)
+
+Zero-dependency pure C# inline SVG micro-chart engine supporting Line, Area, Bar, and Win/Loss modes for table cells and executive KPI widgets.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Items` | `List<FileItem>` | `new()` | Files and folders collection. |
-| `CurrentPath` | `string` | `"/"` | Current active directory path (`@bind-CurrentPath`). |
-| `OnFileSelected` | `EventCallback<FileItem>` | `-` | Fired when a file or folder is selected. |
-| `OnFileOpened` | `EventCallback<FileItem>` | `-` | Fired when a file or folder is double-clicked. |
-| `OnUpload` | `EventCallback` | `-` | Fired when the user triggers an upload action. |
+| `Type` | `SparklineType` | `SparklineType.Line` | Configures component behavior or styling. |
+| `Points` | `List<double>` | `new() { 12, 18, 14, 22, 19, 28, 25, 34, 30, 42 }` | Configures component behavior or styling. |
+| `Width` | `int` | `110` | Configures component behavior or styling. |
+| `Height` | `int` | `28` | Configures component behavior or styling. |
+| `StrokeWidth` | `double` | `2.0` | Configures component behavior or styling. |
+| `Color` | `string` | `"brand"` | Configures component behavior or styling. |
+| `ShowMinMaxDots` | `bool` | `true` | Configures component behavior or styling. |
+| `ShowValueBadge` | `bool` | `false` | Primary data value or two-way bound model property. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
 
 #### Razor Usage Example
 
 ```razor
-<TwFileManager Items="_files" CurrentPath="/" OnFileSelected="HandleFileSelected" />
+<TwSparkline Type="SparklineType.Line" Points="new() { 12, 18, 14, 22, 19, 28, 25, 34, 30, 42 }" Width="110" />
+```
+
+---
+
+### `TwProgressAdvanced`
+
+**Location:** [`Components/UI/TwProgressAdvanced.razor`](../Components/UI/TwProgressAdvanced.razor)
+
+Advanced enterprise progress visualization supporting 5 styles: Multi-segment stacked bar with tooltips, SVG circular radial ring, flowing striped animated bar, discrete LED audio-meter bar, and milestone step tracker.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Type` | `ProgressType` | `ProgressType.Stacked` | Configures component behavior or styling. |
+| `Title` | `string?` | `null` | Header title or accessible label. |
+| `Label` | `string?` | `null` | Configures component behavior or styling. |
+| `Value` | `double` | `65` | Primary data value or two-way bound model property. |
+| `ShowHeader` | `bool` | `true` | Configures component behavior or styling. |
+| `ShowLegend` | `bool` | `true` | Configures component behavior or styling. |
+| `Color` | `string` | `"brand"` | Configures component behavior or styling. |
+| `CustomClass` | `string` | `""` | Configures component behavior or styling. |
+| `Segments` | `List<ProgressSegment>` | `new()     {         new ProgressSegment { Label = "Code & Engine", Percentage = 42, ColorClass = "bg-brand-500" },         new ProgressSegment { Label = "Assets & Icons", Percentage = 28, ColorClass = "bg-emerald-500" },         new ProgressSegment { Label = "Cached Data", Percentage = 18, ColorClass = "bg-amber-500" },         new ProgressSegment { Label = "Free Memory", Percentage = 12, ColorClass = "bg-slate-300 dark:bg-slate-700" }     }` | Configures component behavior or styling. |
+| `RadialSize` | `int` | `100` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `RadialStrokeWidth` | `int` | `8` | Configures component behavior or styling. |
+| `RadialContent` | `RenderFragment?` | `null` | Configures component behavior or styling. |
+| `TotalSegments` | `int` | `15` | Configures component behavior or styling. |
+| `Steps` | `List<string>` | `new() { "Initialize", "Validate", "Compile", "Deploy" }` | Configures component behavior or styling. |
+| `CurrentStep` | `int` | `2` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwProgressAdvanced Type="ProgressType.Stacked" Value="65" ShowHeader="true" />
+```
+
+---
+
+### `TwChart`
+
+**Location:** [`Components/UI/TwChart.razor`](../Components/UI/TwChart.razor)
+
+Native C# inline SVG visualization engine for donut charts, sparklines, and bar charts with zero external JS dependencies.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Type` | `ChartType` | `ChartType.Donut` | Configures component behavior or styling. |
+| `Title` | `string?` | `null` | Header title or accessible label. |
+| `Subtitle` | `string?` | `null` | Header title or accessible label. |
+| `CenterValue` | `string` | `"100%"` | Primary data value or two-way bound model property. |
+| `CenterLabel` | `string` | `"Total"` | Configures component behavior or styling. |
+| `DataItems` | `IReadOnlyList<ChartDataItem>` | `Array.Empty<ChartDataItem>()` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwChart Type="ChartType.Donut" CenterValue="100%" CenterLabel="Total" />
+```
+
+---
+
+### `TwGauge`
+
+**Location:** [`Components/UI/TwGauge.razor`](../Components/UI/TwGauge.razor)
+
+Zero-JS radial speedometer gauge rendering pure inline SVG arcs with stroke-dasharray calculations and CSS transitions.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `double` | `72` | Primary data value or two-way bound model property. |
+| `Min` | `double` | `0` | Configures component behavior or styling. |
+| `Max` | `double` | `100` | Configures component behavior or styling. |
+| `Unit` | `string` | `"%"` | Configures component behavior or styling. |
+| `Label` | `string?` | `"Efficiency"` | Configures component behavior or styling. |
+| `Sublabel` | `string?` | `null` | Configures component behavior or styling. |
+| `Color` | `string?` | `null` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwGauge Value="72" Min="0" Max="100" />
+```
+
+---
+
+### `TwProgressBar`
+
+**Location:** [`Components/UI/TwProgressBar.razor`](../Components/UI/TwProgressBar.razor)
+
+Semantic progress bar with animated stripes, smooth transitions, and percentage labels.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Value` | `int` | `null` | Primary data value or two-way bound model property. |
+| `Label` | `string?` | `null` | Configures component behavior or styling. |
+| `ShowLabel` | `bool` | `true` | Configures component behavior or styling. |
+| `Animated` | `bool` | `null` | Configures component behavior or styling. |
+| `Variant` | `SemanticVariant` | `SemanticVariant.Primary` | Semantic visual variant (e.g. Primary, Secondary, Outline). |
+| `Size` | `ComponentSize` | `ComponentSize.Md` | Component sizing scale (Xs, Sm, Md, Lg). |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwProgressBar ShowLabel="true" Variant="SemanticVariant.Primary" Size="ComponentSize.Md" />
+```
+
+---
+
+### `TwCountUp`
+
+**Location:** [`Components/UI/TwCountUp.razor`](../Components/UI/TwCountUp.razor)
+
+Smooth numeric counter animation with customizable duration, prefix/suffix, and easing.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `StartValue` | `double` | `0` | Primary data value or two-way bound model property. |
+| `EndValue` | `double` | `100` | Primary data value or two-way bound model property. |
+| `DurationMs` | `int` | `1200` | Configures component behavior or styling. |
+| `Decimals` | `int` | `0` | Configures component behavior or styling. |
+| `Prefix` | `string?` | `null` | Configures component behavior or styling. |
+| `Suffix` | `string?` | `null` | Configures component behavior or styling. |
+| `AutoStart` | `bool` | `true` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwCountUp StartValue="0" EndValue="100" DurationMs="1200" />
+```
+
+---
+
+### `TwAnimate`
+
+**Location:** [`Components/UI/TwAnimate.razor`](../Components/UI/TwAnimate.razor)
+
+Declarative CSS animation wrapper providing fade, zoom, bounce, and slide keyframes.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Type` | `AnimationType` | `AnimationType.FadeInUp` | Configures component behavior or styling. |
+| `DurationMs` | `int` | `400` | Configures component behavior or styling. |
+| `DelayMs` | `int` | `0` | Configures component behavior or styling. |
+| `Infinite` | `bool` | `null` | Configures component behavior or styling. |
+| `OnHover` | `bool` | `null` | Configures component behavior or styling. |
+| `Play` | `bool` | `true` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+
+#### Razor Usage Example
+
+```razor
+<TwAnimate Type="AnimationType.FadeInUp" DurationMs="400" DelayMs="0" />
+```
+
+---
+
+### `TwTransition`
+
+**Location:** [`Components/UI/TwTransition.razor`](../Components/UI/TwTransition.razor)
+
+Smooth enter/leave transition container for mounting and unmounting Blazor components.
+
+#### Parameters & Settings
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `Show` | `bool` | `true` | Configures component behavior or styling. |
+| `ChildContent` | `RenderFragment?` | `null` | Child content or nested markup rendered inside the component slot. |
+| `Enter` | `string` | `"transition duration-300 ease-out"` | Configures component behavior or styling. |
+| `EnterFrom` | `string` | `"opacity-0 scale-95 -translate-y-2"` | Configures component behavior or styling. |
+| `EnterTo` | `string` | `"opacity-100 scale-100 translate-y-0"` | Configures component behavior or styling. |
+| `Leave` | `string` | `"transition duration-200 ease-in"` | Configures component behavior or styling. |
+| `LeaveFrom` | `string` | `"opacity-100 scale-100 translate-y-0"` | Configures component behavior or styling. |
+| `LeaveTo` | `string` | `"opacity-0 scale-95 -translate-y-2"` | Configures component behavior or styling. |
+| `Class` | `string?` | `null` | Additional custom Tailwind CSS utility classes. |
+| `Style` | `string?` | `null` | Configures component behavior or styling. |
+
+#### Razor Usage Example
+
+```razor
+<TwTransition Show="true" Enter="transition duration-300 ease-out" EnterFrom="opacity-0 scale-95 -translate-y-2" />
 ```
 
 ---
@@ -3778,18 +5409,18 @@ Pure SVG weighted term and keyword frequency cloud with Archimedean spiral posit
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Words` | `IReadOnlyList<WordCloudItem>` | `[]` | Weighted words collection with `Text` and `Weight`. |
-| `Title` | `string?` | `"Keyword Density & Term Frequency"` | Chart header title text. |
+| `Words` | `IReadOnlyList<WordCloudItem>` | `[]` | Weighted words collection with Text and Weight. |
+| `Title` | `string?` | `"Keyword Density & Term Frequency"` | Chart header title. |
 | `Width` | `int` | `640` | SVG viewBox width. |
 | `Height` | `int` | `320` | SVG viewBox height. |
 | `MinFontSize` | `double` | `12` | Smallest font size in points. |
 | `MaxFontSize` | `double` | `42` | Largest font size in points. |
-| `OnWordClick` | `EventCallback<WordCloudItem>` | `-` | Fired when the user clicks any keyword. |
+| `OnWordClick` | `EventCallback<WordCloudItem>` | `-` | Fired when user clicks any keyword. |
 
 #### Razor Usage Example
 
 ```razor
-<TwWordCloud Words="_keywords" Title="Keyword Density" OnWordClick="HandleWordClick" />
+<TwWordCloud Words="_keywords" Title="Sentiment Keywords" OnWordClick="HandleWordClick" />
 ```
 
 ---
@@ -3804,9 +5435,9 @@ Pure SVG flow and migration diagram rendering source/target nodes and cubic bezi
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `Nodes` | `IReadOnlyList<SankeyNode>` | `[]` | Nodes collection with `Id`, `Label`, and `Color`. |
-| `Links` | `IReadOnlyList<SankeyLink>` | `[]` | Ribbon links collection with `SourceId`, `TargetId`, and `Value`. |
-| `Title` | `string?` | `"Enterprise Pipeline & Resource Flow"` | Chart header title text. |
+| `Nodes` | `IReadOnlyList<SankeyNode>` | `[]` | Nodes collection with Id, Label, and Color. |
+| `Links` | `IReadOnlyList<SankeyLink>` | `[]` | Ribbon links collection with SourceId, TargetId, and Value. |
+| `Title` | `string?` | `"Enterprise Pipeline & Resource Flow"` | Chart header title. |
 | `Width` | `int` | `700` | SVG viewBox width. |
 | `Height` | `int` | `360` | SVG viewBox height. |
 | `OnNodeClick` | `EventCallback<SankeyNode>` | `-` | Callback invoked when a node is clicked. |
@@ -3814,36 +5445,7 @@ Pure SVG flow and migration diagram rendering source/target nodes and cubic bezi
 #### Razor Usage Example
 
 ```razor
-<TwSankeyChart Nodes="_nodes" Links="_links" Title="Workload Flow" OnNodeClick="HandleNodeClick" />
-```
-
----
-
-### `TwSpatialCard`
-
-**Location:** [`Components/UI/TwSpatialCard.razor`](../Components/UI/TwSpatialCard.razor)
-
-2027 volumetric 3D card featuring real-time gyroscopic mouse tilt, dynamic specular refraction glare, multi-layer Z-depth elevation, and tactile organic blur.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Title` | `string?` | `null` | Card title text. |
-| `Subtitle` | `string?` | `null` | Card subtitle description. |
-| `BadgeText` | `string?` | `null` | Elevated 3D pill badge text. |
-| `MaxTiltDeg` | `double` | `12.0` | Maximum 3D rotation angle in degrees. |
-| `CardBackgroundClass` | `string` | `"bg-white/80 dark:bg-slate-900/80"` | Backdrop blur surface class. |
-| `GlowGradient` | `string` | `"from-brand-500 to-indigo-600"` | Tailwind gradient classes for dynamic ambient aura. |
-| `ChildContent` | `RenderFragment?` | `null` | Elevated 3D body content. |
-| `HeaderExtra` | `RenderFragment?` | `null` | Optional header action controls. |
-
-#### Razor Usage Example
-
-```razor
-<TwSpatialCard Title="Quantum Enclave" Subtitle="HSM Tier 0" BadgeText="Volumetric 3D" MaxTiltDeg="14">
-    <p>Elevated foreground content with specular cursor glare.</p>
-</TwSpatialCard>
+<TwSankeyChart Nodes="_nodes" Links="_links" Title="Pipeline Throughput Flow" />
 ```
 
 ---
@@ -3852,80 +5454,19 @@ Pure SVG flow and migration diagram rendering source/target nodes and cubic bezi
 
 **Location:** [`Components/UI/TwFluidMesh.razor`](../Components/UI/TwFluidMesh.razor)
 
-Tactile generative fluid gradient shader with organic motion and real-time psychological emotional state resonance tuning (`DeepFocus`, `CreativeAurora`, `HighAlert`, `ZenCalm`).
+Tactile generative fluid gradient shader with organic motion and real-time psychological emotional state resonance tuning for operator cognitive optimization.
 
 #### Parameters & Settings
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `Mood` | `EmotionalState` | `EmotionalState.DeepFocus` | Active emotional and cognitive resonance frequency preset. |
-| `MoodChanged` | `EventCallback<EmotionalState>` | `-` | Callback invoked when operator changes sentiment mood. |
-| `ChildContent` | `RenderFragment?` | `null` | Optional content overlaid on the fluid mesh. |
+| `MoodChanged` | `EventCallback<EmotionalState>` | `-` | Fired when operator toggles sentiment mood. |
 
 #### Razor Usage Example
 
 ```razor
 <TwFluidMesh @bind-Mood="_operatorMood" />
-```
-
----
-
-### `TwPredictiveIntent`
-
-**Location:** [`Components/UI/TwPredictiveIntent.razor`](../Components/UI/TwPredictiveIntent.razor)
-
-2027 anticipatory state machine demonstrating "States over Pages" zero-click UX: gaze focal tracking, tactile biometric pulse sensor, and automated intent action synthesis.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string` | `""` | Optional CSS classes for outer container. |
-
-#### Razor Usage Example
-
-```razor
-<TwPredictiveIntent />
-```
-
----
-
-### `TwVectorMath`
-
-**Location:** [`Components/UI/TwVectorMath.razor`](../Components/UI/TwVectorMath.razor)
-
-Hardware-accelerated WebAssembly SIMD and .NET Runtime Intrinsics (`Vector128<float>` / `Vector<float>`) vector math engine. Benchmarks real-time floating point operations (Vector Dot Product, Vector Sum & Mean, Euclidean Norm) on datasets up to 5,000,000 elements (20 MB), comparing standard scalar execution against hardware vector instructions with mathematical equivalence assertion and telemetry JSON export.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string?` | `null` | Optional CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwVectorMath />
-```
-
----
-
-### `TwAspireHub`
-
-**Location:** [`Components/UI/TwAspireHub.razor`](../Components/UI/TwAspireHub.razor)
-
-.NET Aspire 11 cloud-native orchestration cockpit providing a real-time topology dashboard, active port health probing (e.g. against WebAssembly local dev server :5128), microservice environment variable inspection, structured log streaming, and instant 1-click downloads for production-ready `Program.cs` Aspire AppHost and `docker-compose.yml` multi-container deployment stacks.
-
-#### Parameters & Settings
-
-| Parameter | Type | Default | Description |
-|---|---|---|---|
-| `Class` | `string?` | `null` | Optional CSS utility classes. |
-
-#### Razor Usage Example
-
-```razor
-<TwAspireHub />
 ```
 
 ---
