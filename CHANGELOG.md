@@ -42,6 +42,9 @@ Agent-native release: human-in-the-loop agent components, a live AG-UI transport
 - bUnit/xUnit suite grown from 0 to 92 tests, including a catalog integrity test.
 - Playwright browser suites (`tests/e2e/agent_ops_e2e.py`, `tests/e2e/agent_kit_e2e.py`) with axe-core WCAG 2.x A/AA audits and screenshots.
 
+### Release artifacts
+- `BlazorTailwindUI-1.6.0-x64-Setup.exe` (NSIS), `BlazorTailwindUI-1.6.0-x64-en-US.msi` (WiX) and `BlazorTailwindUI-WebDemo-v1.6.0.zip`,, with `SHA256SUMS.txt` (SHA-256 checksums).
+
 ### Fixed
 - The CRM dashboard leaked a `window` resize listener and threw once it was torn down.
 - GridStack was referenced by `index.html` but never committed because `.gitignore` excludes `dist/`; version 12.3.3 is now vendored.

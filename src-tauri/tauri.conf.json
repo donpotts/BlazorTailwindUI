@@ -26,8 +26,8 @@
     "active": true,
     "targets": "all",
     "publisher": "Don Potts",
-    "shortDescription": "Mobile-first, high-performance UI ecosystem for modern .NET 11 WebAssembly",
-    "longDescription": "Blazor Tailwind UI delivers 171+ production-ready controls, 2027 Spatial & Anticipatory UI Laboratory, Adaptive Generative UI (AGUI), Smart Components, 100 enterprise forms, and developer studios with zero runtime CDN dependencies.",
+    "shortDescription": "Mobile-first, high-performance UI ecosystem for modern .NET WebAssembly",
+    "longDescription": "Blazor Tailwind UI delivers 219 production-ready controls, agent-native Agent Ops and live AG-UI, 2027 Spatial & Anticipatory UI Laboratory, Adaptive Generative UI (AGUI), Smart Components, 100 enterprise forms, and developer studios with zero runtime CDN dependencies.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

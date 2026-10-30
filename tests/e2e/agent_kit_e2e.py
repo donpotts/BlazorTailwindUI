@@ -60,6 +60,24 @@ def audit(page, scope, label):
     check(len(v) == 0, f"axe-core: no WCAG 2.x A/AA violations in {label} ({len(v)} found)")
 
 
+def require_200(url, what, attempts=60):
+    """The UI is only started once the API answers 200; otherwise every failure below would be noise."""
+    import time
+    for _ in range(attempts):
+        try:
+            if urllib.request.urlopen(url, timeout=3).status == 200:
+                print(f"PASS {what} answered 200")
+                return
+        except Exception:
+            pass
+        time.sleep(1)
+    print(f"FAIL {what} did not answer 200 at {url}; not starting the UI")
+    sys.exit(2)
+
+
+require_200(AGUI + "/agui/_log", "AG-UI API")
+require_200(BASE + "/", "app host")
+
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
     context = browser.new_context(viewport={"width": 1500, "height": 1100}, accept_downloads=True)

@@ -383,6 +383,8 @@ BlazorTailwindUI includes official desktop installers built using Tauri v2, prov
 | **`BlazorTailwindUI-1.6.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.6.0-x64-en-US.msi` |
 | **`BlazorTailwindUI-WebDemo-v1.6.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.6.0.zip` |
 
+Each release also ships `SHA256SUMS.txt`; verify a download with `sha256sum -c SHA256SUMS.txt` (or `Get-FileHash` on Windows). The v1.6.0 installers were smoke-tested: the desktop app launches, and the WebDemo bundle passes the full browser E2E suite.
+
 ### Building Installers from Source:
 ```bash
 # 1. Compile Tailwind CSS and WebAssembly dist bundle
