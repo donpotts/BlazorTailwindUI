@@ -23,9 +23,9 @@ This document outlines the strategic architecture, component specifications, and
 | **13. Donut Caching & ShortCircuit Edge Endpoints** | `TwDonutCache`, `TwCacheHole`, `TwShortCircuit` | Shipped (v1.4.0) ✅ | SSR Performance & Edge Caching |
 | **14. Native Zstandard Ultra-Fast Compression** | `TwZstandardService`, `ZstandardBenchmarkResult` | Shipped (v1.4.0) ✅ | High-Throughput Data & Transport |
 | **15. Post-Quantum Cryptography & ML-KEM Vault** | `TwPostQuantumVault`, `TwPostQuantumService` | Shipped (v1.4.0) ✅ | Zero-Trust & Post-Quantum Security |
-| **16. Agent Ops: Approvals, Takeover & Audit** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster`, `AgentRunSession` | Shipped (v1.5.0) ✅ | Agentic AI & Human-in-the-Loop |
-| **17. Accessibility Layer** | High-contrast mode, `forced-colors`, reduced motion, RTL-safe components, axe-core E2E | Shipped (v1.5.0) ✅ | Accessibility & Theming |
-| **18. Agent Kit & Live AG-UI** | `SseAgentTransport`, `AgentThreadStore`, `TwThreadList`, `TwA2uiSurface`, `TwMcpAppFrame`, `TwVoiceInput`, `TwHandoffPanel`, `TwLiveScreen`, `TwGrantList` and 17 more; `TwCalendar`, `TwTimePicker`, `TwRadioGroup`, `TwTextArea` | Shipped ✅ | Agent-native UI |
+| **33. Agent Ops: Approvals, Takeover & Audit** | `TwAgentConsole`, `TwApprovalGate`, `TwToolCallCard`, `TwTakeoverBar`, `TwAgentStateInspector`, `TwAuditTrail`, `TwAgentRoster`, `AgentRunSession` | Shipped (v1.6.0) ✅ | Agentic AI & Human-in-the-Loop |
+| **34. Accessibility Layer** | High-contrast mode, `forced-colors`, reduced motion, RTL-safe components, axe-core E2E | Shipped (v1.6.0) ✅ | Accessibility & Theming |
+| **35. Agent Kit & Live AG-UI** | `SseAgentTransport`, `AgentThreadStore`, `TwThreadList`, `TwA2uiSurface`, `TwMcpAppFrame`, `TwVoiceInput`, `TwHandoffPanel`, `TwLiveScreen`, `TwGrantList` and 17 more; `TwCalendar`, `TwTimePicker`, `TwRadioGroup`, `TwTextArea` | Shipped ✅ | Agent-native UI |
 | **16. Native OpenTelemetry Component Tracing** | `TwTelemetryDashboard`, `TwActivityMeter` | Shipped (v1.5.0) ✅ | Observability & Performance HUD |
 | **17. .NET Aspire 11 Live App Host Orchestration** | `TwAspireHub`, `Aspire.Hosting.BlazorTailwindUI` | Shipped (v1.5.1) ✅ | Cloud-Native & Developer Velocity |
 | **18. Runtime-Native Async V2 & Hardware Acceleration** | `TwVectorMath`, `TwSimdVectorService` | Shipped (v1.5.1) ✅ | Runtime Performance & Vector SIMD |
@@ -697,6 +697,7 @@ flowchart LR
     E --> F["v1.4.5 (Shipped ✅)<br/>Draggable CRM Dashboard<br/>PDF Text Flattening & Stamping<br/>C# 15 Union Boundary"]
     F --> G["v1.4.6 (Shipped ✅)<br/>Grouped Category Hubs<br/>12-Step Coaching Tour<br/>15-Module Video Masterclass"]
     G --> H["v1.5.0 (Shipped ✅ - Official Release)<br/>OpenTelemetry APM Cockpit<br/>W3C OTLP JSON Export<br/>WASM Heap & GC Profiler<br/>Native Desktop & Web Installers"]
+    H --> I["v1.6.0 (Release ✅)<br/>Agent Ops: Approvals, Takeover & Audit<br/>Live AG-UI over SSE & Thread List<br/>A2UI, MCP Apps, Voice, Handoff<br/>Accessibility: High Contrast & Forced Colors<br/>219 Components"]
 ```
 
 Contributions and discussions are welcomed in the [GitHub Discussions](https://github.com/donpotts/BlazorTailwindUI/discussions) and [Issue Tracker](https://github.com/donpotts/BlazorTailwindUI/issues).

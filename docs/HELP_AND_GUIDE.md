@@ -379,9 +379,9 @@ BlazorTailwindUI includes official desktop installers built using Tauri v2, prov
 
 | Installer | Description | Location |
 |---|---|---|
-| **`BlazorTailwindUI-1.5.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.5.0-x64-Setup.exe` |
-| **`BlazorTailwindUI-1.5.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.5.0-x64-en-US.msi` |
-| **`BlazorTailwindUI-WebDemo-v1.5.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.5.0.zip` |
+| **`BlazorTailwindUI-1.6.0-x64-Setup.exe`** | NSIS self-extracting installer with desktop shortcuts and silent flags. | `release-packages/BlazorTailwindUI-1.6.0-x64-Setup.exe` |
+| **`BlazorTailwindUI-1.6.0-x64-en-US.msi`** | WiX toolset enterprise MSI installer supporting Group Policy deployment. | `release-packages/BlazorTailwindUI-1.6.0-x64-en-US.msi` |
+| **`BlazorTailwindUI-WebDemo-v1.6.0.zip`** | Standalone production WebAssembly bundle for offline/on-premise hosting. | `release-packages/BlazorTailwindUI-WebDemo-v1.6.0.zip` |
 
 ### Building Installers from Source:
 ```bash

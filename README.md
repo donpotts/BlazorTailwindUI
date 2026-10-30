@@ -9,8 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-11.0_WASM-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 11" /></a>
+  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-10.0_WASM-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt=".NET 10" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v3.4+-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Release-v1.6.0-10B981?style=flat-square" alt="Release v1.6.0" /></a>
   <a href="docs/COMPONENT_CATALOG.md"><img src="https://img.shields.io/badge/Components-219_Ready-3B82F6?style=flat-square" alt="219 Components" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="MIT License" /></a>
 </p>
